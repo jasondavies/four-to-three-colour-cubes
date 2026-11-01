@@ -5,17 +5,29 @@ import shutil
 import subprocess
 import sys
 import tempfile
+
+generated_sources = {
+    Path('ThreeColour') / name
+    for name in ('Data.lean', 'LowerData.lean', 'PhysicalDefs.lean',
+                 'RawData.lean', 'ReflectionData.lean', 'RData.lean')
+}
 root = Path(__file__).resolve().parents[1]
 with tempfile.TemporaryDirectory(prefix='four-to-three-generated-') as directory:
     stage = Path(directory)
-    shutil.copytree(root / 'ThreeColour', stage / 'ThreeColour')
     (stage / 'scripts').mkdir()
     for name in ('generate_three_colour_lean.py', 'cube_geometry.py'):
         shutil.copy2(root / 'scripts' / name, stage / 'scripts' / name)
     subprocess.run([sys.executable, '-S', str(stage / 'scripts/generate_three_colour_lean.py')], check=True)
-    for path in (stage / 'ThreeColour').rglob('*.lean'):
-        relative = path.relative_to(stage)
-        if path.read_bytes() != (root / relative).read_bytes():
+    actual_sources = {
+        path.relative_to(stage)
+        for path in (stage / 'ThreeColour').rglob('*') if path.is_file()
+    }
+    if actual_sources != generated_sources:
+        missing = ', '.join(map(str, sorted(generated_sources - actual_sources))) or 'none'
+        unexpected = ', '.join(map(str, sorted(actual_sources - generated_sources))) or 'none'
+        raise SystemExit(f'Generated source set differs: missing {missing}; unexpected {unexpected}')
+    for relative in sorted(generated_sources):
+        if (stage / relative).read_bytes() != (root / relative).read_bytes():
             raise SystemExit(f'Generated source differs: {relative}')
     subprocess.run([sys.executable, '-S', str(root / 'scripts/generate_figure.py'), directory], check=True)
     for name in ('obstruction-figure.tex', 'obstruction-figure.svg'):
