@@ -76,9 +76,9 @@ copy of $w$ by $v$ preserves unsolvability. This is the reduction of
 \cite[Section 2]{BES}. For clarity, Table~\ref{tab:reduction} gives the
 entire reduction needed here. A face tuple is read in the order
 $+x,-x,+y,-y,+z,-z$. The rows represent the seven orbits under colour
-permutations, with rotations already identified. These seven orbits of all
-68 varieties differ from the seven minimal representatives in
-\cite[Figure 2]{BES}; four of our orbits are retained. The three non-retained
+permutations, with rotations already identified. They cover all 68 varieties, unlike
+the seven minimal representatives in \cite[Figure 2]{BES}; four of the
+orbits are retained. The three non-retained
 representatives all contain the corner types of $001123$. Colour
 permutations transport these containments to every member of their orbits.
 
@@ -114,7 +114,7 @@ seven mirror pairs treated as fourteen individual varieties.
   colour.
 \item The six checkerboards belong to no bucket. Their repeated colours
   occupy opposite face pairs; with repeated colours $a,b$, a checkerboard
-  supports both orientations on $\{a,b,c\}$ and $\{a,b,d\}$.
+  has both orientations on $\{a,b,c\}$ and $\{a,b,d\}$.
 \end{itemize}
 The classes and checkerboard terminology come from \cite[Section 2]{BES}.
 The 32 ordinary varieties ($T$ and $P$) split into two classes of 16,
@@ -122,11 +122,11 @@ corresponding to BES's $K_o$ and $K_m$ (up to interchanging the names).
 Every member of one class has the same four trichromatic corner types,
 one orientation for each three-element subset of the palette; every
 member of the other class has the four reversed orientations.
-For our corner convention the four trichromatic types of one class are
+In our convention the four trichromatic types of one class are
 \[
- \Omega=\{012,031,023,132\}.
+ \Omega=\{012,031,023,132\},
 \]
-These are one set of BES's \emph{universal corners}, in our convention.
+one set of BES's \emph{universal corners}.
 All three ordinary representatives in Table~\ref{tab:corners} belong
 to the class of $\Omega$. Even colour permutations preserve $\Omega$
 and odd ones reverse it, with triples read cyclically. Applying colour
@@ -165,7 +165,7 @@ Thus at most one type is missed by five or more cubes. Choose two types,
 $aab$ and $aac$, each missed by at most four cubes. Assign cubes missing
 $aac$ to $aab$ positions, and cubes missing $aab$ to $aac$ positions.
 These groups are disjoint and each has size at most four. Every remaining
-cube supports both types, so they fill the remaining positions of
+cube has both types, so they fill the remaining positions of
 $Q(a;b,c)$.
 \end{proof}
 
@@ -347,7 +347,10 @@ lemma, allowing repeated colours, equates cyclic corner matching with
 physical face matching by a proper rotation. Transport theorems extend
 the results to arbitrary indexed face colourings: each source uses all
 four colours, and the existentially chosen target uses exactly three.
-The sharp threshold also has this statement without source or target catalogues.
+The threshold and sharpness theorems are also stated without source or
+target catalogues, and the classification by counts of rotation classes.
+Nineteen results were restated independently of the proof library and
+replayed through the Lean, NanoDa and con-ron kernels.
 
 The Lean proof uses a related counting argument and finite Hall certificates for sufficient
 constructions. It treats checkerboards and the smaller ordinary class
@@ -358,8 +361,7 @@ collections. The axiom audit reports only Lean's standard
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. The Lean proof uses
 neither proof holes nor \texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/macmahon-four-to-three}}
 contains sources and reproduction commands. The cube-rotation and exposed-face
-definitions are reused from the Lean project accompanying
-\href{https://github.com/jasondavies/macmahon-min-universal-sets}{\emph{The ten minimum universal sets of MacMahon cubes}}.
+definitions are reused from the Lean project accompanying~\cite{MinUniversal}.
 
 A computational search found the 28-cube example and returned results
 consistent with the threshold and classification. A separate script
@@ -379,7 +381,8 @@ the author's direction. Claude Opus 5.5 (Anthropic), used through Claude
 Code in this repository, contributed the minority-cube argument, edge-count balance proof,
 degree remark, and shorter bucket and threshold proofs. Subsequent Codex
 revisions incorporated these contributions. Claude Code also drew
-Figure~\ref{fig:obstruction}. A separate AI reviewer checked
+Figure~\ref{fig:obstruction} and reviewed the manuscript and Lean
+formalisation. A separate AI reviewer checked
 an earlier version of the argument and physical model.
 The human author initiated and directed the research and accepts
 responsibility for the content of this paper and the accuracy of this
@@ -407,5 +410,9 @@ in Proceedings of the 9th ACM SIGPLAN International Conference on
 Certified Programs and Proofs (CPP~2020), ACM (2020), 367--381.
 \href{https://doi.org/10.1145/3372885.3373824}{doi:\nolinkurl{10.1145/3372885.3373824}}.
 \href{https://arxiv.org/abs/1910.09336}{arXiv:1910.09336}.
+\bibitem{MinUniversal} J.~Davies,
+\emph{The ten minimum universal sets of MacMahon cubes}, manuscript and
+Lean project (October 31, 2026).
+\href{https://github.com/jasondavies/macmahon-min-universal-sets}{Repository}.
 \end{thebibliography}
 \end{document}

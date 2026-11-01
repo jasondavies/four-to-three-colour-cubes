@@ -148,10 +148,23 @@ python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
   --hint data/lower-obstruction.json --output /tmp/four-to-three-search.json
 ```
 
-The checked-in fixture contains the 28-cube witness and Hall certificates
-for every target. The geometric checker validates them on each run and prints
-its report to stdout. Solver outputs can be regenerated with the command
-above; neither saved run reports nor solver claims are needed for the Lean proof.
+That command finds the size-28 optimum. These report no 29-cube obstruction
+and no other 28-cube obstruction among the 38 reduced varieties, up to colour
+permutation:
+
+```sh
+python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
+  --minimal --size 29 --seconds 60 --workers 8 \
+  --output /tmp/four-to-three-size29.json
+python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
+  --minimal --size 28 --exclude-colour-orbit data/lower-obstruction.json \
+  --seconds 60 --workers 8 --output /tmp/four-to-three-exclude-extrema.json
+```
+
+Both should report `INFEASIBLE`. The checked-in fixture contains the 28-cube
+witness and Hall certificates for every target. The geometric checker validates
+them on each run and prints its report to stdout. Neither saved run reports nor
+solver claims are needed for the Lean proof.
 
 AI contributions and review scope are recorded in [formalization.yaml](formalization.yaml)
 and the paper's disclosure. The original GPT-6-Astra review covered an earlier
