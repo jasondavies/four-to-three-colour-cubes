@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[a4paper,margin=25mm]{geometry}
-\usepackage{amsmath,amssymb,amsthm,booktabs,tikz}
+\usepackage{amsmath,amssymb,amsthm,booktabs,tikz,needspace}
 \usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref}
 \hypersetup{pdftitle={A sharp threshold for three-colour targets from four-colour cubes},
   pdfauthor={Jason Davies}}
@@ -60,8 +60,8 @@ A target is represented by its
 multiset of eight corner types: a collection builds it exactly when these
 eight occurrences can be matched to distinct cubes having the required types.
 
-Write $Q(a;b,c)$ for a target whose $b$ and $c$ faces are opposite and whose
-other four faces have colour $a$. Its corner multiset is
+For distinct colours $a,b,c$, write $Q(a;b,c)$ for a target whose $b$ and $c$
+faces are opposite and whose other four faces have colour $a$. Its corner multiset is
 $4aab+4aac$. Write $R(a;b,c)$ for the analogous target with $b$ and $c$
 adjacent; its corners are
 \[
@@ -108,8 +108,8 @@ at least two of the three corner types $aab$ with $b\ne a$.
 These are the buckets of \cite[Definition 3]{BES}, with each bucket's
 seven mirror pairs treated as fourteen individual varieties.
 \begin{itemize}
-\item The eight $T$ varieties have corners $aaa$ and $aab$ for every
-  $b\ne a$, and belong only to bucket $a$.
+\item There are eight $T$ varieties. Each has a repeated colour $a$, corners
+  $aaa$ and $aab$ for every $b\ne a$, and belongs only to bucket $a$.
 \item The 24 $P$ varieties belong to two buckets, one for each repeated
   colour.
 \item The six checkerboards belong to no bucket. Their repeated colours
@@ -154,6 +154,7 @@ triples written in lexicographically least form.}
 \label{tab:corners}
 \end{table}
 
+\Needspace{11\baselineskip}
 \begin{lemma}[Bucket bound]\label{lem:bucket}
 Eight reduced cubes in bucket $a$ can build a three-colour target.
 Consequently, a reduced collection with no such solution has at most seven
@@ -286,11 +287,6 @@ neighbours form a path containing both $a$ and $b$, again forcing a
 change. Both cases produce a trichromatic corner.
 \end{proof}
 
-\begin{theorem}\label{thm:sharp}
-The threshold 29 in Theorem~\ref{thm:upper} is best possible. For a fixed
-palette, exactly two 28-cube collections fail, and they are mirror images.
-Up to colour permutation, there is a single obstruction.
-\end{theorem}
 \begin{figure}[ht]
 \centering
 \input{obstruction-figure}
@@ -302,6 +298,12 @@ but only seven are available; $a,b,c$ are distinct. Reflection gives the
 other obstruction.}
 \label{fig:obstruction}
 \end{figure}
+\Needspace{16\baselineskip}
+\begin{theorem}\label{thm:sharp}
+The threshold 29 in Theorem~\ref{thm:upper} is best possible. For a fixed
+palette, exactly two 28-cube collections fail, and they are mirror images.
+Up to colour permutation, there is a single obstruction.
+\end{theorem}
 \begin{proof}
 Take seven copies of each of the following four face tuples
 (Figure~\ref{fig:obstruction}):
@@ -320,7 +322,7 @@ Every odd colour permutation exchanges the two orientation classes and
 hence these two collections.
 \end{proof}
 
-\begin{samepage}
+\Needspace{12\baselineskip}
 \begin{remark}
 For the palette $\{0,1,2,3\}$, write
 $\delta(xyz)=n(xyz)-n(xzy)$. Applying \eqref{eq:edge-balance} to the
@@ -336,7 +338,6 @@ corner types, so each occurs once; the two ordinary classes therefore
 have degrees $+1$ and $-1$. The checkerboard representative has neither
 $023$ nor $032$, so its degree, and that of every checkerboard, is zero.
 \end{remark}
-\end{samepage}
 
 \section{Formal verification and computation}
 The threshold and classification are formalised in Lean 4.35.0~\cite{Lean4}
@@ -349,8 +350,9 @@ lemma, allowing repeated colours, equates cyclic corner matching with
 physical face matching by a proper rotation. Transport theorems extend
 the results to arbitrary indexed face colourings: each source uses all
 four colours, and the existentially chosen target uses exactly three.
-The threshold and sharpness theorems are also stated without source or
-target catalogues, and the classification by counts of rotation classes.
+The threshold and sharpness theorems also have statements without source or
+target catalogues. The classification counts the source cubes in each
+rotation class.
 Nineteen results were restated independently of the proof library and
 replayed through the Lean, NanoDa and con-ron kernels.
 
@@ -376,6 +378,7 @@ does not establish priority. Rosenfeld's October 2026 article~\cite{Rosenfeld}
 \emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1} remains unread,
 and its relevance is undetermined.
 
+\Needspace{16\baselineskip}
 \section*{Declaration of AI-generated research and review}
 GPT-6-Astra (OpenAI), used through Codex, developed the original research
 argument, computational search, Lean formalisation and manuscript under
