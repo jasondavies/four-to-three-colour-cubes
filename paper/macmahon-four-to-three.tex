@@ -266,14 +266,16 @@ trichromatic corner occur equally often. If no trichromatic corner occurs,
 the cube is $Q(a;b,c)$ for some distinct $a,b,c$.
 \end{lemma}
 \begin{proof}
-Colour the vertices of the dual octahedron by their corresponding face
-colours and orient its triangular faces consistently. Map every directed
-edge between two distinct colours to the corresponding directed edge of
-an abstract triangle on $a,b,c$, and an equal-colour edge to zero.
-The sum of the triangular boundaries is zero, since each octahedron edge
-occurs twice with opposite orientations. A triangle with a repeated
-colour contributes zero; a trichromatic triangle contributes either
-$[a,b]+[b,c]+[c,a]$ or its negative. Their numbers are therefore equal.
+For any cube coloured from a palette $\{a,b,c,d\}$, let $n(xyz)$ count
+corners of cyclic type $xyz$. Read the three directed transitions around
+each corner in the chosen cyclic order. Each edge between an $a$ face
+and a $b$ face contributes $ab$ at one endpoint and $ba$ at the other,
+so the total counts of these transitions agree. Corners with repeated
+colours contribute equally to both counts. The remaining contributions give
+\begin{equation}\label{eq:edge-balance}
+ n(abc)-n(acb)+n(abd)-n(adb)=0.
+\end{equation}
+If only $a,b,c$ occur, the last two terms vanish, proving the balance.
 
 For the second assertion, if a colour $c$ occurs on only one face, its
 four neighbours must all have the same colour $a$: a change from $a$ to
@@ -284,6 +286,22 @@ both $a$ and $b$, forcing a change. If they are adjacent, the other three
 neighbours form a path containing both $a$ and $b$, again forcing a
 change. Both cases produce a trichromatic corner.
 \end{proof}
+
+\noindent\textbf{Remark.}
+For the palette $\{0,1,2,3\}$, write
+$\delta(xyz)=n(xyz)-n(xzy)$. Applying \eqref{eq:edge-balance} to the
+different colour pairs gives
+\[
+ \delta(012)=\delta(031)=\delta(023)=\delta(132).
+\]
+This common integer is the cube's \emph{degree}, relative to the
+orientation $\Omega$. Reflection reverses all cyclic orders and hence
+the degree. Each transposition of colour labels also reverses its sign;
+thus even colour permutations preserve the degree and odd ones reverse it.
+Table~\ref{tab:corners} shows that the two ordinary classes have degrees
+$+1$ and $-1$, while checkerboards have degree zero. Any cube missing a
+colour also has degree zero, recovering the balance in
+Lemma~\ref{lem:balance}.
 
 \begin{theorem}\label{thm:sharp}
 The threshold 29 in Theorem~\ref{thm:upper} is best possible. Exactly two
