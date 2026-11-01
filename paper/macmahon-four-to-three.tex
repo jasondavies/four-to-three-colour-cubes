@@ -15,12 +15,11 @@
 \begin{abstract}
 Any collection of 29 cubes, each displaying all four colours of a fixed
 palette, contains eight that form a $2\times2\times2$ cube with monochromatic
-faces using exactly three colours. There is a collection of 28 cubes with
-no such solution. This answers the threshold question in Problem 2 of Berkove, Eickemeyer and Schulman
-(2018). Moreover, there are exactly two
-labelled 28-cube obstructions, exchanged by reflection. The proof uses the
-corner-containment reduction of Berkove, Eickemeyer and Schulman and
-elementary counting. The threshold and classification are formalised in Lean.
+faces using exactly three colours. For this fixed palette, exactly two
+collections of 28 cubes fail, and reflection exchanges them. This answers
+the threshold question in Problem 2 of Berkove, Eickemeyer and Schulman
+(2018). The proof uses their corner-containment reduction and elementary
+counting. The threshold and classification are formalised in Lean.
 \end{abstract}
 
 \noindent\textbf{AI transparency statement.} The research argument, computer
@@ -30,26 +29,25 @@ and its review status.
 
 \section{Introduction}
 Berkove, Eickemeyer and Schulman~\cite[Problem 2]{BES} ask for the
-least number of four-colour cubes that guarantees a subset of eight
+least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
 exterior faces are monochromatic and use exactly three colours.
-Here every source cube uses all four colours of a fixed palette, and
-repeated varieties are allowed.
+Here every source cube uses all four colours of a fixed palette. A
+\emph{variety} is a class of face colourings identified under proper
+rotations. Collections are multisets of varieties, so repeated copies
+are allowed.
 
 We prove that the least number is 29 and classify all collections of
-28 cubes that fail. There are exactly two such collections when colour
-labels are fixed, and reflection exchanges them. Each consists of seven
+28 cubes that fail. There are exactly two such collections, exchanged by
+reflection. Each consists of seven
 copies of each of four varieties; explicit face tuples are given in
 Theorem~\ref{thm:sharp}. The proof first classifies the possible
 28-cube obstructions by corner containment and counting, then deduces
 the upper bound and verifies that both obstructions fail.
 
 \section{Model and geometric facts}
-Colours are fixed, varieties are identified by proper rotations, and
-reflections are not allowed as moves. Collections are multisets: repeated
-varieties are allowed. Thus ``labelled'' refers to the colour labels,
-not to labels on individual copies of a cube. Only exterior faces must
-match the target; internal faces are unrestricted.
+Reflections are not allowed as moves. Only exterior faces must match the
+target; internal faces are unrestricted.
 
 A corner is a cyclically ordered triple. Read its face colours
 counterclockwise as viewed from outside along the corner's body diagonal;
@@ -58,8 +56,7 @@ oriented basis. Thus $abc$ and $acb$ are distinct when the three colours
 differ. A source cube fits a target corner by a proper rotation if and
 only if it has the same cyclic corner type: the cyclic alignments of two
 corner frames are exactly those realised by proper rotations of the cube.
-A cube supplies one corner position, regardless of how many suitable
-corners it has. For matching purposes, a target is represented by its
+For matching purposes, a target is represented by its
 multiset of eight corner types: a collection builds it exactly when these
 eight occurrences can be matched to distinct cubes having the required types.
 
@@ -70,13 +67,12 @@ adjacent; its corners are
 \[
   2aaa+2aab+2aac+abc+acb.
 \]
-Finally, a target with opposite pairs $aa,bb,cc$ has four corners of each
-orientation on $\{a,b,c\}$. We need only these three families of
+Finally, write $D(a,b,c)$ for the target with opposite pairs $aa,bb,cc$;
+it has four corners of each orientation on $\{a,b,c\}$. We need only these three families of
 exactly-three-colour targets for the sufficient constructions.
 
 If every corner type of a variety $v$ occurs on a variety $w$, replacing a
-copy of $w$ by $v$ preserves unsolvability:
-each small cube is used at just one corner. This is the reduction of
+copy of $w$ by $v$ preserves unsolvability. This is the reduction of
 \cite[Section 2]{BES}. For clarity, Table~\ref{tab:reduction} gives the
 entire reduction needed here. A face tuple is read in the order
 $+x,-x,+y,-y,+z,-z$. The rows represent the seven orbits under colour
@@ -100,39 +96,36 @@ $001213$ & 12 & --- & $001123$\\
 $010123$ & 6  & --- & $001123$\\
 \bottomrule
 \end{tabular}
-\caption{The 68 varieties reduce to 38, with colour labels fixed.}
+\caption{The 68 varieties reduce to 38.}
 \label{tab:reduction}
 \end{table}
 
 The retained types are precisely the minimal varieties in
 \cite[Table 8]{BES}. A reduced variety belongs to bucket $a$ if it has
 at least two of the three corner types $aab$ with $b\ne a$.
-We use the following explicit description.
 \begin{itemize}
-\item The eight $T$ varieties have a monochromatic corner $aaa$, and also
-  $aab$ for each of the other three colours $b$. Each belongs to the
-  bucket of its repeated colour $a$.
+\item The eight $T$ varieties have a monochromatic corner $aaa$ and
+  belong only to bucket $a$.
 \item The 24 $P$ varieties belong to two buckets, one for each repeated
-  colour. In bucket $a$, such a cube has exactly two of the three types
-  $aab$ with $b\ne a$.
-\item The six checkerboard varieties have two repeated colours on
-  opposite pairs of faces and two singleton colours on the remaining
-  opposite pair. A checkerboard whose repeated colours are $a,b$ has both
-  orientations on the triples $\{a,b,c\}$ and $\{a,b,d\}$. It belongs to
-  no bucket.
+  colour.
+\item The six checkerboards belong to no bucket. Their repeated colours
+  occupy opposite face pairs; with repeated colours $a,b$, a checkerboard
+  supports both orientations on $\{a,b,c\}$ and $\{a,b,d\}$.
 \end{itemize}
 The 32 ordinary varieties ($T$ and $P$) split into two classes of 16.
 Every member of one class has the same four trichromatic corner types,
 one orientation for each three-element subset of the palette; every
 member of the other class has the four reversed orientations.
-Each class contains exactly one $T$ variety for each repeated colour.
-For our coordinate convention the four types in one class are
+For our coordinate convention the four trichromatic types of one class are
 \[
  \Omega=\{012,031,023,132\}.
 \]
-Table~\ref{tab:corners} lists the corner types of the four retained
-representatives. These sets and their colour permutations give the
-stated incidences and orientation classes. A separate geometric checker
+All three ordinary representatives in Table~\ref{tab:corners} belong
+to the class of $\Omega$. Even colour permutations preserve $\Omega$
+and odd ones reverse it, with triples read cyclically. These permutations
+give the stated incidences and orientation classes. Since even permutations
+act transitively on the four colours, each class contains exactly one
+$T$ variety for each repeated colour. A separate geometric checker
 verifies both tables and all the stated incidences using physical rotations.
 
 \begin{table}[ht]
@@ -147,15 +140,13 @@ $010213$ & $\{001,003,011,012,023,031,112,132\}$\\
 $010223$ & $\{002,003,012,022,023,031,122,132\}$\\
 \bottomrule
 \end{tabular}
-\caption{Corner types of the retained representatives, with cyclic triples
-written in lexicographically least form. Multiplicities are omitted:
-each source cube supplies only one target position.}
+\caption{Corner-type sets of the retained representatives, with cyclic
+triples written in lexicographically least form.}
 \label{tab:corners}
 \end{table}
 
-\begin{samepage}
 \begin{lemma}[Bucket bound]\label{lem:bucket}
-Eight reduced cubes in a single bucket can build a three-colour target.
+Eight reduced cubes in bucket $a$ can build a three-colour target.
 Consequently, a reduced collection with no such solution has at most seven
 cubes in each bucket.
 \end{lemma}
@@ -168,7 +159,6 @@ These groups are disjoint and each has size at most four. Every remaining
 cube supports both types, so they fill the remaining positions of
 $Q(a;b,c)$.
 \end{proof}
-\end{samepage}
 
 \section{The extremal collections}
 \begin{theorem}\label{thm:classification}
@@ -182,14 +172,14 @@ Let $A\ge B$ be the sizes of the two ordinary orientation classes, and
 let $C$ count checkerboards, so $A+B+C=28$. Call the class of size $A$
 the majority class. Call the remaining $M=B+C$ cubes \emph{minority cubes}.
 
-For a three-element colour set $E$, let $z_E$ count checkerboards supporting
+For a three-element colour set $E=\{a,b,c\}$, let $z_E$ count checkerboards supporting
 its two orientations. If $z_E\ge8$, those eight checkerboards build the
-target with three monochromatic opposite pairs. Thus $z_E\le7$ for each
+target $D(a,b,c)$. Thus $z_E\le7$ for each
 $E$, and, since each checkerboard supports two triples, $2C\le28$.
 It follows that $A+B\ge14$, so $A\ge7$. There are $m_E=B+z_E$
 minority cubes supporting the orientation on $E$ opposite to that of the
 majority class. If $m_E\ge4$, four such cubes and four majority cubes
-build the target with three monochromatic opposite pairs. Hence
+build $D(a,b,c)$. Hence
 $m_E\le3$ for every $E$. Summing gives
 \begin{equation}\label{eq:minority}
  4B+2C\le12,\qquad M\le6,\qquad A=28-M\ge22.
@@ -304,8 +294,8 @@ colour also has degree zero, recovering the balance in
 Lemma~\ref{lem:balance}.
 
 \begin{theorem}\label{thm:sharp}
-The threshold 29 in Theorem~\ref{thm:upper} is best possible. Exactly two
-labelled 28-cube collections fail, and they are mirror images.
+The threshold 29 in Theorem~\ref{thm:upper} is best possible. For a fixed
+palette, exactly two 28-cube collections fail, and they are mirror images.
 \end{theorem}
 \begin{proof}
 Take seven copies of each of the following four face tuples:
@@ -348,30 +338,14 @@ contains the source, dependency pin and reproduction commands. It reuses the pro
 and outward-face geometry from \href{https://github.com/jasondavies/macmahon-min-universal-sets}{the earlier MacMahon formalisation}. No classification
 result from that project is used.
 
-The proof does not depend on optimisation. A Hall-obstruction model first
-found the 28-cube example. After the
-bucket reduction, the compiled multicore CP-SAT backend also reported
-the maximum obstruction size as 28. That solver status is a computational check, not a separately
-verified optimality certificate.
+A computational search found the 28-cube example and returned results
+consistent with the threshold and classification. An independent script
+checks the finite geometric facts and lower obstructions; neither the
+written proof nor the Lean proof depends on the search or this script.
 
-Two further feasibility runs reported infeasibility for a 29-cube
-obstruction and for a 28-cube obstruction other than the two specified
-collections. Both use the reduced source family and the bucket bounds.
-
-The accompanying script \texttt{check\_three\_colour\_threshold.py}
-independently generates the 24 rotations from quarter-turns, verifies the
-38-type reduction and all corner incidences, and checks the lower example
-against all 120 three-colour targets on the four-colour palette by
-bipartite matching and explicit Hall deficiencies. It also checks all
-68 one-cube extensions of the lower example and 1,000 sampled collections
-of size 29. These samples do not establish the upper bound; the written
-proof does.
-
+\paragraph{Literature and priority.}
 An expanded, bounded literature search on November 1, 2026 found no
 earlier answer to this threshold question, but does not establish priority.
-A separate AI review
-found no mathematical errors in the argument or physical model. These
-automated checks are not independent human peer review.
 
 \section*{Declaration of AI-generated research and review}
 GPT-6-Astra (OpenAI), used through Codex, developed the research argument,
