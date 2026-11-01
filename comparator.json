@@ -1,0 +1,21 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "ThreeColour.physical_threshold29",
+    "ThreeColour.physical_classify28",
+    "ThreeColour.sharp_threshold29",
+    "ThreeColour.least_guaranteed_size",
+    "ThreeColour.source_catalogue_complete",
+    "ThreeColour.target_catalogue_complete",
+    "ThreeColour.source_catalogue_unique",
+    "ThreeColour.reflect_extremal",
+    "ThreeColour.extremal_distinct"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

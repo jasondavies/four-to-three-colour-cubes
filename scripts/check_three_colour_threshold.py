@@ -1,0 +1,216 @@
+#!/usr/bin/env python3
+"""Independent geometric audit of the 29-cube theorem and its lower witness.
+
+Uses physical quarter-turns, not the search program's rotation/corner helpers.
+No CP-SAT dependency. This is a finite audit, not a formal proof certificate
+for CP-SAT optimality; the upper bound has a separate written proof.
+"""
+from collections import Counter
+import itertools
+import json
+from pathlib import Path
+import random
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def rotations():
+    group = {tuple(range(6))}
+    todo = list(group)
+    while todo:
+        p = todo.pop()
+        for g in ((0, 1, 5, 4, 2, 3), (3, 2, 0, 1, 4, 5)):
+            q = tuple(p[i] for i in g)
+            if q not in group:
+                group.add(q)
+                todo.append(q)
+    require(len(group) == 24, 'Quarter turns did not generate 24 rotations')
+    return sorted(group)
+
+
+ROT = rotations()
+SLOTS = list(itertools.product((0, 1), repeat=3))
+FACES = [tuple(2 * a + s[a] for a in range(3)) for s in SLOTS]
+
+
+def canonical(c):
+    return min(tuple(c[i] for i in r) for r in ROT)
+
+
+def corner_types(c):
+    result = []
+    for signs, faces in zip(SLOTS, FACES):
+        k = tuple(c[f] for f in faces)
+        if sum(signs) % 2:
+            k = (k[0], k[2], k[1])
+        result.append(min(k, k[1:] + k[:1], k[2:] + k[:2]))
+    return result
+
+
+def fits(cubes, targets):
+    oriented = [[{tuple(c[r[f]] for f in faces) for r in ROT}
+                 for faces in FACES] for c in cubes]
+    return [[[i for i in range(len(cubes))
+              if tuple(t[f] for f in faces) in oriented[i][s]]
+             for s, faces in enumerate(FACES)] for t in targets]
+
+
+def match(slots, counts):
+    copies = [i for i, n in enumerate(counts) for _ in range(n)]
+    adj = [[j for j, i in enumerate(copies) if i in possible] for possible in slots]
+    owner = [-1] * len(copies)
+
+    def augment(s, seen):
+        for j in adj[s]:
+            if j in seen:
+                continue
+            seen.add(j)
+            if owner[j] < 0 or augment(owner[j], seen):
+                owner[j] = s
+                return True
+        return False
+    return all(augment(s, set()) for s in range(8))
+
+
+def main():
+    cubes = sorted({canonical(c) for c in itertools.product(range(4), repeat=6)
+                    if len(set(c)) == 4})
+    targets = sorted({canonical(c) for c in itertools.product(range(4), repeat=6)
+                      if len(set(c)) == 3})
+    require((len(cubes), len(targets)) == (68, 120), 'Wrong geometric variety counts')
+    slots = fits(cubes, targets)
+    cs = [set(corner_types(c)) for c in cubes]
+    for t, ss in zip(targets, slots):
+        for k, possible in zip(corner_types(t), ss):
+            require(possible == [i for i, c in enumerate(cs) if k in c],
+                    'Cyclic corners disagree with physical orientations')
+    minimal = [i for i, c in enumerate(cs) if not any(d < c for d in cs)]
+    require(len(minimal) == 38, 'Wrong minimal source count')
+    require(all(any(cs[j] <= c for j in minimal) for c in cs),
+            'Minimal replacement failed')
+    reduction_table = [('000123',12,False), ('001123',6,True),
+                       ('001213',12,False), ('010123',6,False),
+                       ('010203',8,True), ('010213',12,True),
+                       ('010223',12,True)]
+    covered = set()
+    for word, size, retained in reduction_table:
+        c = tuple(map(int, word))
+        orbit = {canonical(tuple(p[a] for a in c))
+                 for p in itertools.permutations(range(4))}
+        require(len(orbit) == size and not (orbit & covered), 'Reduction table orbit')
+        covered |= orbit
+        require((cubes.index(c) in minimal) == retained, 'Reduction table type')
+        if not retained:
+            require(set(corner_types((0,0,1,1,2,3))) <= set(corner_types(c)),
+                    'Printed replacement does not preserve corner containment')
+    require(covered == set(cubes), 'Reduction table is incomplete')
+    plus = {(0, 1, 2), (0, 3, 1), (0, 2, 3), (1, 3, 2)}
+    minus = {min((a,c,b), (c,b,a), (b,a,c)) for a,b,c in plus}
+    categories = Counter()
+    for i in minimal:
+        c = cubes[i]
+        triple = {k for k in cs[i] if len(set(k)) == 3}
+        same_edges = {a for a in range(4) if any(k.count(a) >= 2 for k in cs[i])}
+        if not same_edges:
+            categories['C'] += 1
+            require(all(c[2*j] == c[2*j+1] for j in range(3)
+                        if Counter(c)[c[2*j]] == 2), 'Checkerboard opposite pairs')
+            triples = {tuple(sorted(k)) for k in triple}
+            require(len(triples) == 2 and len(triple) == 4,
+                    'Checkerboard triple/orientation counts')
+            continue
+        require(triple in (plus, minus), 'Ordinary cube has wrong orientation class')
+        categories['plus' if triple == plus else 'minus'] += 1
+        if max(Counter(c).values()) == 3:
+            categories['T'] += 1
+            require(len(same_edges) == 1, 'T cube has wrong buckets')
+            a = next(iter(same_edges))
+            require((a,a,a) in cs[i], 'T cube lacks monochrome corner')
+            require(all(min((a,a,b),(a,b,a),(b,a,a)) in cs[i]
+                        for b in range(4) if b != a), 'T cube lacks aab')
+        else:
+            categories['P'] += 1
+            require(len(same_edges) == 2, 'P cube has wrong buckets')
+            for a in same_edges:
+                require(sum(min((a,a,b),(a,b,a),(b,a,a)) in cs[i]
+                            for b in range(4) if b != a) == 2,
+                        'P cube must have two third colours per bucket')
+    require(categories == {'T':8, 'P':24, 'C':6, 'plus':16, 'minus':16},
+            'Wrong structural class counts')
+
+    # Every target with a trichrome corner requires both orientations.
+    # A target without one has four a faces and two opposite minority faces.
+    no_trichrome = 0
+    for t in targets:
+        ct = Counter(corner_types(t))
+        for k, n in ct.items():
+            if len(set(k)) == 3:
+                a,b,c = k
+                require(ct[min((a,c,b),(c,b,a),(b,a,c))] == n,
+                        'Three-colour target chirality imbalance')
+        if not any(len(set(k)) == 3 for k in ct):
+            no_trichrome += 1
+            a = Counter(t).most_common(1)[0][0]
+            minority = [f for f in range(6) if t[f] != a]
+            require(len(minority) == 2 and minority[0] // 2 == minority[1] // 2,
+                    'Wrong form of target without trichrome corners')
+    require(no_trichrome == 12, 'Wrong number of no-trichrome targets')
+
+    path = (Path(__file__).resolve().parents[1] / 'results/q4-to-q3-initial.json')
+    data = json.loads(path.read_text())
+    counts = [0] * len(cubes)
+    for e in data['collection']:
+        counts[cubes.index(tuple(e['faces']))] += e['count']
+    require(sum(counts) == 28, 'Lower witness has wrong size')
+    require(all(not match(ss, counts) for ss in slots), '28-cube witness has a solution')
+    orbit = set()
+    for perm in itertools.permutations(range(4)):
+        x = [0] * len(cubes)
+        for c, n in zip(cubes, counts):
+            if n:
+                x[cubes.index(canonical(tuple(perm[a] for a in c)))] += n
+        orbit.add(tuple(x))
+    require(len(orbit) == 2, 'Expected two labelled lower obstructions')
+    for x in orbit:
+        require(all(not match(ss, x) for ss in slots), 'Colour-orbit example has a solution')
+    certificates = {tuple(e['target']): e for e in data['hall_certificates']}
+    require(set(certificates) == set(targets), 'Certificate target list is incomplete')
+    for t, ss in zip(targets, slots):
+        cert = certificates[t]
+        s = cert['slot_mask']
+        neighbours = set().union(*(set(ss[j]) for j in range(8) if s >> j & 1))
+        actual = sum(counts[i] for i in neighbours)
+        require(0 < s < 256 and actual < s.bit_count(), 'Invalid Hall deficiency')
+        require(actual == cert['neighbours'] and s.bit_count() == cert['demand'],
+                'Hall certificate counts disagree')
+
+    # A small independent sanity check of the upper bound, including all
+    # one-cube extensions of the tight example. The proof covers all multisets.
+    for i in range(len(cubes)):
+        counts[i] += 1
+        require(any(match(ss, counts) for ss in slots), 'Unsolved one-cube extension')
+        counts[i] -= 1
+    rng = random.Random(29)
+    for _ in range(1000):
+        support = rng.sample(range(68), rng.randint(1, 15))
+        x = [0] * 68
+        for _ in range(29):
+            x[rng.choice(support)] += 1
+        require(any(match(ss, x) for ss in slots), 'Unsolved random 29-cube inventory')
+    result = dict(varieties=68, targets=120, minimal_varieties=38,
+                  classes=dict(categories), lower_bound_size=28,
+                  exhibited_labelled_lower_obstructions=2,
+                  lower_bound_targets_checked=120, one_cube_extensions_checked=68,
+                  random_29_cube_collections_checked=1000,
+                  status='all checks passed',
+                  scope='Independent finite geometric audit; upper bound proved in the note')
+    print(json.dumps(result, indent=2))
+    (Path(__file__).resolve().parents[1] / 'results/three-colour-geometric-check.json').write_text(
+        json.dumps(result, indent=2) + '\n')
+
+
+if __name__ == '__main__':
+    main()

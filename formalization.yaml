@@ -1,0 +1,124 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+project:
+  name: "A sharp threshold for three-colour targets from four-colour cubes"
+  description: >-
+    Every multiset of 29 cubes using all four fixed face colours contains eight
+    that form an exactly-three-colour target with monochromatic exterior faces.
+    The bound is sharp, and the two labelled 28-cube obstruction multisets are
+    classified and proved to be mirror images. Internal faces are unrestricted.
+    The formalisation checks physical rotations, distinct copy use, catalogue
+    coverage and source uniqueness, and follows the counting proof with finite
+    kernel-checked Hall certificates for sufficient constructions.
+  authors: ["Jason Davies"]
+  responsible_maintainers: ["Jason Davies"]
+  license: "Apache-2.0"
+repository:
+  role: substantive-development
+classification:
+  arxiv: ["math.CO", "cs.LO"]
+  msc2020: ["05C70", "68V15", "00A08"]
+sources:
+  - title: "A sharp threshold for three-colour targets from four-colour cubes"
+    authors: ["Jason Davies"]
+    type: original-proof
+    relationship: other
+    location: "paper/macmahon-four-to-three.tex in this repository"
+    id: "https://github.com/jasondavies/macmahon-four-to-three"
+    note: "Accompanying manuscript; publication priority remains subject to the documented literature limits."
+  - title: "The 4-Color Cubes Puzzle"
+    authors: ["Ethan Berkove", "Andrew Eickemeyer", "Michael Schulman"]
+    type: article
+    relationship: background
+    id: "https://math.colgate.edu/~integers/s68/s68.pdf"
+    location: "Integers 18 (2018), A68; Problem 2 and the corner-containment reduction"
+    note: "Explicit source problem asking for the guaranteed four-to-three-colour threshold."
+    author_endorsement: not-contacted
+related_formalizations:
+  - id: "https://github.com/jasondavies/macmahon-min-universal-sets/tree/3f854795a77cd7c902e4c5a1a5da3322f9cd44fa"
+    relationship: builds-on
+    note: >-
+      Pinned source of proper cube rotations and outward-face definitions.
+      No six-colour classification theorem is imported.
+status:
+  scope: >-
+    Sharp threshold 29, all larger collections, full classification at size 28,
+    reflection of the two obstructions, source and target catalogue coverage,
+    and source orbit uniqueness. The main statements use multiplicities of
+    canonical representatives, with catalogue coverage proved separately.
+    No priority claim or general five-colour threshold is formalised.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+automation:
+  methods:
+    - method: agent
+      models: ["GPT-6-Astra (OpenAI)"]
+      framework: "Codex"
+      tool_setup: >-
+        Under the author's direction, investigated the open problem, developed
+        a multicore CP-SAT search and separate geometric checker, derived the
+        counting and classification argument, wrote the Lean proof and manuscript,
+        and prepared this package. A separate AI reviewer checked the argument,
+        finite geometry, formal theorem scope and axiom reports.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "local CPU; no GPU"
+      prompting_notes: "The author requested a publishable research direction, efficient computation, proof review, and Lean formalisation."
+  spend_usd: "not tracked"
+  notes: >-
+    GPT-6-Astra (OpenAI), used through Codex, developed the research and package
+    under the human author's direction. The human author initiated and directed
+    the research and accepts responsibility for the paper's content and the
+    accuracy of its disclosure. The nine intentional statement holes in
+    Challenge.lean are excluded from proof-development counts. No native_decide
+    is used. No Claude contribution to this project is asserted.
+fidelity:
+  divergences: >-
+    Cubes are represented by their six discrete coordinate-face colours, with
+    proper rotations represented by determinant-positive signed-axis permutations.
+    Collections allow arbitrary repeated varieties. Only exterior faces match.
+    The written counting proof is followed with finite Hall certificates for
+    the constructions. The lower bound is checked against every target rather
+    than formalising the written dual-octahedron balance argument. Geometry
+    checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
+review:
+  status: "AI-reviewed; not independently reviewed by a human expert"
+  reviewers:
+    - "GPT-6-Astra (OpenAI), used through Codex: separate AI proof and formalisation review"
+  notes: >-
+    The original review record is in research/independent-review.txt and predates
+    extraction into this package. Reproduce current checks with make check and
+    make comparator. CI and preflight logs identify the checked revision; no
+    stale machine-specific validation logs are committed. The literature check
+    found no prior answer, but Rosenfeld's October 2026 article remains unread.
+    No publication or Palomar acceptance is asserted.
+alignment:
+  namespace: ThreeColour
+  statements:
+    - source: "Paper, threshold theorem"
+      lean: ThreeColour.physical_threshold29
+      module: ThreeColour.Theorems
+      status: proved
+    - source: "Paper, classification and sharpness theorems"
+      lean: ThreeColour.physical_classify28
+      module: ThreeColour.Theorems
+      status: proved
+    - source: "Paper, sharp threshold"
+      lean: ThreeColour.least_guaranteed_size
+      module: ThreeColour.Theorems
+      status: proved
+    - source: "Paper, formal verification and geometric conventions"
+      lean: ThreeColour.source_catalogue_complete
+      module: ThreeColour.Catalogue
+      status: proved
+    - source: "Paper, formal verification and geometric conventions"
+      lean: ThreeColour.source_catalogue_unique
+      module: ThreeColour.Uniqueness
+      status: proved
+    - source: "Paper, reflection of the obstructions"
+      lean: ThreeColour.reflect_extremal
+      module: ThreeColour.Reflection
+      status: proved
+acknowledgements: "Lean 4, mathlib, the earlier MacMahon geometry formalisation, and the Palomar template authors."

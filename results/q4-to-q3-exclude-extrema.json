@@ -1,0 +1,18 @@
+{
+  "palette": 4,
+  "target_colours": 3,
+  "status": "INFEASIBLE",
+  "source_varieties": 38,
+  "target_varieties": 120,
+  "seed": 1,
+  "workers": 2,
+  "minimal_sources": true,
+  "requested_size": 28,
+  "excluded_collections": 2,
+  "limit_seconds": 60.0,
+  "search_seconds": 3.933392871,
+  "upper_bound": null,
+  "branches": 36784,
+  "conflicts": 5124,
+  "source_sha256": "5ad8593efa3e867727a8e306e28fe056fb9eb7e5ef2092c2bc6aa6a5e0038ed2"
+}

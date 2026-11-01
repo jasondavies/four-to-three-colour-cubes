@@ -1,0 +1,138 @@
+module
+
+public import ThreeColour.RawChecks.Block0
+public import ThreeColour.RawChecks.Block1
+public import ThreeColour.RawChecks.Block2
+public import ThreeColour.RawChecks.Block3
+public import ThreeColour.RawChecks.Block4
+public import ThreeColour.RawChecks.Block5
+public import ThreeColour.RawChecks.Block6
+public import ThreeColour.RawChecks.Block7
+public import ThreeColour.RawChecks.Block8
+public import ThreeColour.RawChecks.Block9
+public import ThreeColour.RawChecks.Block10
+public import ThreeColour.RawChecks.Block11
+public import ThreeColour.RawChecks.Block12
+public import ThreeColour.RawChecks.Block13
+public import ThreeColour.RawChecks.Block14
+public import ThreeColour.RawChecks.Block15
+public import ThreeColour.RawChecks.Block16
+public import ThreeColour.RawChecks.Block17
+public import ThreeColour.RawChecks.Block18
+public import ThreeColour.RawChecks.Block19
+public import ThreeColour.RawChecks.Block20
+public import ThreeColour.RawChecks.Block21
+public import ThreeColour.RawChecks.Block22
+public import ThreeColour.RawChecks.Block23
+public import ThreeColour.RawChecks.Block24
+public import ThreeColour.RawChecks.Block25
+public import ThreeColour.RawChecks.Block26
+public import ThreeColour.RawChecks.Block27
+public import ThreeColour.RawChecks.Block28
+public import ThreeColour.RawChecks.Block29
+public import ThreeColour.RawChecks.Block30
+public import ThreeColour.RawChecks.Block31
+public import ThreeColour.RawChecks.Block32
+public import ThreeColour.RawChecks.Block33
+public import ThreeColour.RawChecks.Block34
+public import ThreeColour.RawChecks.Block35
+public import ThreeColour.RawChecks.Block36
+public import ThreeColour.RawChecks.Block37
+public import ThreeColour.RawChecks.Block38
+public import ThreeColour.RawChecks.Block39
+public import ThreeColour.RawChecks.Block40
+public import ThreeColour.RawChecks.Block41
+public import ThreeColour.RawChecks.Block42
+public import ThreeColour.RawChecks.Block43
+public import ThreeColour.RawChecks.Block44
+public import ThreeColour.RawChecks.Block45
+public import ThreeColour.RawChecks.Block46
+public import ThreeColour.RawChecks.Block47
+public import ThreeColour.RawChecks.Block48
+public import ThreeColour.RawChecks.Block49
+public import ThreeColour.RawChecks.Block50
+public import ThreeColour.RawChecks.Block51
+public import ThreeColour.RawChecks.Block52
+public import ThreeColour.RawChecks.Block53
+public import ThreeColour.RawChecks.Block54
+public import ThreeColour.RawChecks.Block55
+public import ThreeColour.RawChecks.Block56
+public import ThreeColour.RawChecks.Block57
+public import ThreeColour.RawChecks.Block58
+public import ThreeColour.RawChecks.Block59
+public import ThreeColour.RawChecks.Block60
+public import ThreeColour.RawChecks.Block61
+public import ThreeColour.RawChecks.Block62
+public import ThreeColour.RawChecks.Block63
+
+@[expose] public section
+
+namespace ThreeColour
+lemma raw_checks : ∀ b : Fin 64, RawCheck b := by
+  intro b
+  fin_cases b
+  · exact raw_check_0
+  · exact raw_check_1
+  · exact raw_check_2
+  · exact raw_check_3
+  · exact raw_check_4
+  · exact raw_check_5
+  · exact raw_check_6
+  · exact raw_check_7
+  · exact raw_check_8
+  · exact raw_check_9
+  · exact raw_check_10
+  · exact raw_check_11
+  · exact raw_check_12
+  · exact raw_check_13
+  · exact raw_check_14
+  · exact raw_check_15
+  · exact raw_check_16
+  · exact raw_check_17
+  · exact raw_check_18
+  · exact raw_check_19
+  · exact raw_check_20
+  · exact raw_check_21
+  · exact raw_check_22
+  · exact raw_check_23
+  · exact raw_check_24
+  · exact raw_check_25
+  · exact raw_check_26
+  · exact raw_check_27
+  · exact raw_check_28
+  · exact raw_check_29
+  · exact raw_check_30
+  · exact raw_check_31
+  · exact raw_check_32
+  · exact raw_check_33
+  · exact raw_check_34
+  · exact raw_check_35
+  · exact raw_check_36
+  · exact raw_check_37
+  · exact raw_check_38
+  · exact raw_check_39
+  · exact raw_check_40
+  · exact raw_check_41
+  · exact raw_check_42
+  · exact raw_check_43
+  · exact raw_check_44
+  · exact raw_check_45
+  · exact raw_check_46
+  · exact raw_check_47
+  · exact raw_check_48
+  · exact raw_check_49
+  · exact raw_check_50
+  · exact raw_check_51
+  · exact raw_check_52
+  · exact raw_check_53
+  · exact raw_check_54
+  · exact raw_check_55
+  · exact raw_check_56
+  · exact raw_check_57
+  · exact raw_check_58
+  · exact raw_check_59
+  · exact raw_check_60
+  · exact raw_check_61
+  · exact raw_check_62
+  · exact raw_check_63
+end ThreeColour

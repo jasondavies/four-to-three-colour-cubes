@@ -1,0 +1,19 @@
+{
+  "varieties": 68,
+  "targets": 120,
+  "minimal_varieties": 38,
+  "classes": {
+    "C": 6,
+    "plus": 16,
+    "T": 8,
+    "P": 24,
+    "minus": 16
+  },
+  "lower_bound_size": 28,
+  "exhibited_labelled_lower_obstructions": 2,
+  "lower_bound_targets_checked": 120,
+  "one_cube_extensions_checked": 68,
+  "random_29_cube_collections_checked": 1000,
+  "status": "all checks passed",
+  "scope": "Independent finite geometric audit; upper bound proved in the note"
+}

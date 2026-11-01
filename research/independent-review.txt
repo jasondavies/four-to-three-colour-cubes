@@ -1,0 +1,167 @@
+Provenance: review of the original development in macmahon/ on 1 November 2026.
+This record predates extraction into this repository and the pinned dependency.
+Use make check and make comparator to verify the current package.
+
+Independent AI proof review — not human peer review
+Date: 2026-11-01
+
+Scope: three-colour-threshold.tex and check_three_colour_threshold.py.
+This review used a separate AI reviewer and a separately implemented finite
+geometry check. It is neither formal verification nor independent human
+peer review. No literature-priority claim was assessed.
+
+Conclusion
+I found no mathematical error or unresolved gap in the threshold-29 proof
+or the classification of the two labelled 28-cube obstructions. The
+argument appears valid under its stated model: a fixed four-colour palette,
+source cubes using every colour, proper rotations only, repeated varieties
+allowed, and unrestricted internal faces. The proof, rather than the
+reported optimisation or samples, establishes completeness.
+
+Reasoning audited
+* Corner containment has the correct direction: replacing a source by one
+  with fewer available corner types preserves the absence of a solution.
+  The seven colour-permutation orbits cover all 68 varieties, and each
+  discarded orbit admits the printed checkerboard replacement. Consequently
+  absence of checkerboards after reduction excludes discarded varieties
+  from the original extremal collection.
+* The bucket lemma's incidence estimate and its two-demand Hall conditions
+  suffice; each selected physical cube occupies only one position.
+* The checkerboard argument is sound. First z_E <= 7 gives A >= 7;
+  B+z_E >= 4 would already solve an opposite-pair target, so C+2B <= 6
+  and A >= 22. Bucket counting gives P <= C. A checkerboard then forces
+  every t_a <= 5, hence 4 <= C <= 6. The asserted checkerboard supporting
+  a triple through any prescribed pair exists: otherwise all checkerboards
+  have that pair as their singleton colours, forcing some z_E=C >= 4.
+  Both subsequent R constructions use distinct cubes, with an unused
+  larger-class cube available. Their strengthened bucket inequalities give
+  T+P <= 20, contradicting T+P >= 22.
+* With C=P=0, all four t_a equal seven. If both orientation classes occur,
+  choosing a repeated colour different from that of the selected minority
+  cube keeps the six supporting T cubes distinct from it. This constructs
+  R and proves the one-class conclusion. The deletion/insertion argument
+  then rules out 29-cube obstructions.
+* The dual-octahedron boundary argument correctly balances trichromatic
+  corner orientations. The accompanying classification of targets without
+  such corners covers both singleton-colour and 2+2+2 face distributions.
+  It proves that the displayed 28-cube examples fail for every target.
+
+Checks performed
+1. Ran the supplied checker successfully: 68 source varieties, 120 target
+   varieties, 38 retained types, all fixture Hall certificates, both members
+   of the witness's colour orbit, 68 one-cube extensions, and 1,000 samples.
+2. Independently generated the 24 rotations as determinant-positive signed
+   coordinate permutations, without importing the supplied checker or its
+   rotation/corner helpers. Independently confirmed all seven reduction
+   orbits, their sizes and replacements, and T/P/C counts 8/24/6.
+3. Independently confirmed the bucket incidences, checkerboard incidences,
+   and two ordinary orientation classes of size 16. Each class contains
+   exactly one T variety for each of the four possible repeated colours.
+   This also checks the step from one-class inventories to exactly two
+   labelled inventories, and direct reflection exchanges them.
+4. Checked all Q, R, and opposite-pair corner formulas for every ordered
+   triple of distinct palette colours. Enumerated all 120 targets, checked
+   trichromatic balance, and found exactly the 12 claimed Q targets without
+   trichromatic corners.
+5. For the four tuples printed in the proof and their direct reflections,
+   computed compatibility using physical rotations and checked every one
+   of the 255 nonempty position subsets in Hall's theorem for every target.
+   Both inventories fail all 120 targets. Every possible one-cube extension
+   of either inventory solves: 136 extensions checked independently.
+
+Minor exposition/checker clarifications, not proof defects
+The note could explicitly say that each ordinary orientation class contains
+one T variety per repeated colour; this is implicit in its geometric
+description and was independently checked above. The checker's output
+field "labelled_lower_obstructions": 2 counts the two exhibited inventories
+in a colour-permutation orbit. Its finite checks alone do not classify all
+28-cube inventories; that completeness comes from the written proof.
+
+No proof or checker code was edited during this review.
+
+Follow-up: Lean formalisation scope and trust audit (2026-11-01)
+
+Conclusion: I found no weakened hypothesis, omitted cube-use constraint,
+or incorrect physical compatibility condition in the formal definitions
+or the inspected counting/classification proofs. This remains an AI review.
+
+Definitions and theorem scope
+* Inventory is Fin 68 -> Nat, with no bound on the multiplicity of an
+  individual variety. Stock is the dependent pair (i, j) with j < x i.
+  Builds requires an embedding from all eight slots into Stock. Distinct
+  slots therefore use distinct copies, including when varieties repeat.
+* Hall quantifies over every finite subset of the eight slots and counts
+  the full stock multiplicity of its source neighbourhood. The proved
+  hall_iff_builds applies Mathlib's finite Hall theorem to these actual
+  copies. It does not treat a cube's multiple corners as multiple cubes.
+* PhysicalSolvable selects one target for the entire assembly, an injective
+  placement of eight copies, and one rotation per occupied position. The
+  same rotation matches all three outward faces of that cube. There is no
+  constraint on the internal faces, consistently with the stated puzzle.
+  MacMahon's rotation characterization uses distinct coordinate axes and
+  determinant +1, and exposed_face_rule describes all eight binary slots.
+* fits_physical checks all 68 sources, 120 targets, and eight positions;
+  solvable_iff_physical transports the full matching problem in both
+  directions. Exact-three-colour target and exact-four-colour source
+  conditions are proved for every catalogue entry in Encoder.lean.
+* The counting proof operates on the original 68 source indices, not just
+  the 38 reduced types. Its partition has eight T indices, 24 P indices,
+  and 36 checker-group indices; the last group includes all 30 discarded
+  varieties. All statistical partition identities and construction
+  certificates are checked against these original groups and actual fits.
+  Thus no unproved assumption that an arbitrary inventory is reduced is
+  hidden in threshold29 or classify28.
+* Certificate universally quantifies over every Hall subset and supplies a
+  pool contained in its neighbourhood with sufficient cardinality. The
+  construction lemmas prove the required inventory mass bounds. They do
+  not trust a solver's assertion of feasibility or an unchecked matching.
+  The lower witnesses likewise have a checked Hall deficiency for every
+  one of the 120 targets.
+
+Precise representation scope
+The final wrappers quantify over multiplicity functions on the 68 fixed
+catalogue representatives. Catalogue.lean proves coverage of every raw
+four-colour source and every exactly-three-colour target up to a proper
+rotation, using all 4^6 face assignments. Uniqueness.lean now additionally
+proves that distinct source indices are distinct proper-rotation varieties.
+The main theorem statements use this canonical-variety inventory model;
+they are not statements directly over lists of arbitrarily oriented raw
+face assignments. The formalisation guide accurately states this scope.
+I independently verified the 68 source and 120 target rotation orbits.
+There is no remaining source-uniqueness qualification. The final
+least_guaranteed_size theorem also establishes the full minimality claim:
+29 is the least n for which every inventory of total size at least n is
+physically solvable, rather than only asserting sufficiency at exactly 29.
+
+Trust and independent data checks
+I imported the compiled Classification and Physical modules into a separate
+temporary Lean file and printed the axioms of threshold29, classify28,
+hall_iff_builds, solvable_iff_physical, proper_rotation_iff,
+exposed_face_rule, and extremal_distinct. All depended only on the standard
+propext, Classical.choice, and Quot.sound axioms (exposed_face_rule needed
+only propext). A source scan of ThreeColour found no sorry, admit,
+native_decide, added axiom, unsafe declaration, extern, or implemented_by.
+The finite certificates use decide +kernel rather than native_decide.
+
+Separately parsed the generated Lean data and compared it with the earlier
+independent signed-permutation implementation: all source/target tuples,
+all 65,280 source-target-position fit entries, and all 4,096 raw catalogue
+normalization entries agree. The source partition covers all 68 indices
+exactly once, with sizes 8+24+36. The independent checks also establish
+that all table indices used in these data checks are in range.
+
+Final build and audit completed
+The full default lake build completed successfully (9,242 jobs), including
+the source-uniqueness theorem and nine guarded public axiom reports. After
+that completed, I independently ran lake env lean on a separate temporary
+file importing the final ThreeColour module. The import succeeded, and I
+printed the axioms of physical_threshold29, physical_classify28,
+sharp_threshold29, least_guaranteed_size, source_catalogue_complete,
+target_catalogue_complete, source_catalogue_unique, reflect_extremal,
+extremal_distinct, sources_use_four, targets_use_three, reflection_geometry,
+and fits_physical. Every report contained only propext, Classical.choice,
+and Quot.sound (reflection_geometry needed only propext). The final source
+scan likewise found no proof holes, native_decide, or added axioms. The
+root #guard_msgs checks guard the expected axiom lists for the nine public
+results. There is no remaining pending-build qualification in this review.
+No formalisation files were edited by this reviewer.

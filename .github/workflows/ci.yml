@@ -1,0 +1,61 @@
+# Build the Lean library and run scripts/check.sh on each push and
+# pull request.
+#
+# Third-party actions are pinned to full commit SHAs (the release tag is in the comment), and
+# elan is pinned to a release archive and SHA-256 checksum.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch or pull request cancels the run it supersedes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ELAN_VERSION: v4.2.4
+  ELAN_SHA256: 42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.14"
+      - name: Install elan
+        run: |
+          installer_dir=$(mktemp -d)
+          trap 'rm -rf "$installer_dir"' EXIT
+          curl -fsSL --retry 3 "https://github.com/leanprover/elan/releases/download/${ELAN_VERSION}/elan-x86_64-unknown-linux-gnu.tar.gz" -o "$installer_dir/elan.tar.gz"
+          echo "$ELAN_SHA256  $installer_dir/elan.tar.gz" | sha256sum --check --strict
+          tar -xzf "$installer_dir/elan.tar.gz" -C "$installer_dir"
+          "$installer_dir/elan-init" -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Restore project build
+        id: restore
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: .lake/build
+          key: lake-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: lake-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Install metadata checker
+        run: sudo apt-get update && sudo apt-get install -y ruby
+      - name: Check
+        run: bash scripts/check.sh
+      # Save the build even when the checks fail, so the next run starts from it.
+      - name: Save project build
+        if: always() && steps.restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: .lake/build
+          key: lake-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}

@@ -1,0 +1,71 @@
+Literature and priority check: four-colour sources, three-colour targets
+Checked 1 November 2026
+
+Conclusion
+The sharp threshold 29 and the two labelled extremal 28-cube multisets
+were not found in the sources examined. The precise threshold is explicitly
+asked for in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
+This is a bounded literature search, not a certification of priority.
+
+Primary sources examined
+
+1. E. Berkove, A. Eickemeyer and M. Schulman, The 4-Color Cubes Puzzle,
+   Integers 18 (2018), A68.
+   https://math.colgate.edu/~integers/s68/s68.pdf
+   Section 8, Problem 2 asks when four-colour source cubes can build a
+   three-colour corner solution and asks for the minimum guaranteed size.
+   Its earlier threshold eleven concerns four-colour targets. Its minimum
+   universal corner-collection size ten is already proved, not an open
+   problem. Section 2 and Table 8 supply the corner-containment reduction.
+
+2. E. Berkove and J. Schettler, The corner poset with an application to
+   an n-dimensional hypercube stacking puzzle, Australasian Journal of
+   Combinatorics 84(1) (2022), 86–110.
+   https://ajc.maths.uq.edu.au/pdf/84/ajc_v84_p086.pdf
+   This studies two-colour hypercubes in varying dimension. Its overview
+   distinguishes earlier results by source palette size; it does not
+   provide the four-to-three-colour threshold studied here.
+
+3. I. Johnson and E. Roldán, Solution Numbers for Eight Blocks to Madness
+   Puzzle, arXiv:2407.13208 (2024).
+   https://arxiv.org/abs/2407.13208
+   https://doi.org/10.48550/arXiv.2407.13208
+   The scope is six distinct face colours, principally collections of
+   distinct cubes and target counts/universal collections. It does not
+   answer the four-to-three-colour question. The arXiv record examined
+   lists the original 18 July 2024 version.
+
+4. R. A. Beeler, Major MacMahon's Revenge, author-hosted survey.
+   https://faculty.etsu.edu/beelerr/macmahon-revenge.pdf
+   Full PDF retrieved and converted to text after browser retrieval failed.
+   Its cube discussion describes the classical six-colour puzzle; most of
+   the article concerns edge-matching polygon puzzles. It cites the 2018
+   four-colour paper but does not give the present threshold/classification.
+
+Discovery checks
+The Lafayette REU publications list confirms the 2017 two/three-colour
+chapter and 2018 four-colour paper. The 2017 six-colour paper's references,
+the 2022 paper's references, institutional publication pages, and indexed
+title/citation searches were used to look for follow-up work. Queries
+included combinations of the exact 2018 title, the authors' names,
+four-/three-colour corner solutions, and twenty-nine/29-cube thresholds.
+These searches returned no matching later result. Search engine coverage
+and institutional lists are incomplete; snippets were not treated as proof
+that an unread article cannot contain the result.
+
+Known access limitation
+Moshe Rosenfeld, MacMahon Cubes and Moshe's Insanity, Puzzle 1,
+Geombinatorics Quarterly 36(2), October 2026, starts at p. 78:
+https://geombina.uccs.edu/author-index/moshe-rosenfeld
+https://geombina.uccs.edu/past-issues/volume-xxxvi
+The publisher listing was verified, but full text was not located. Its
+title alone does not establish its palette or relevance. The user already
+reported lacking access during the earlier six-colour project, so no
+repeat request was made. This remains an explicit limitation of the
+priority check. No authors or editors have been contacted.
+
+Suggested claim for a submission
+We resolve the threshold question posed in Problem 2 of Berkove,
+Eickemeyer and Schulman (2018), and classify all extremal collections.
+Keep novelty subject to the bounded search above until the remaining
+potentially relevant source and independent human review are addressed.
