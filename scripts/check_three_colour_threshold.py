@@ -210,7 +210,7 @@ def main():
                     'Wrong form of target without trichrome corners')
     require(no_trichrome == 12, 'Wrong number of no-trichrome targets')
 
-    path = (Path(__file__).resolve().parents[1] / 'results/q4-to-q3-initial.json')
+    path = (Path(__file__).resolve().parents[1] / 'data/lower-obstruction.json')
     data = json.loads(path.read_text())
     counts = [0] * len(cubes)
     for e in data['collection']:
@@ -261,8 +261,6 @@ def main():
                   status='all checks passed',
                   scope='Independent finite geometric audit; upper bound proved in the note')
     print(json.dumps(result, indent=2))
-    (Path(__file__).resolve().parents[1] / 'results/three-colour-geometric-check.json').write_text(
-        json.dumps(result, indent=2) + '\n')
 
 
 if __name__ == '__main__':

@@ -79,7 +79,7 @@ def lean_source_files(root: Path) -> list[Path]:
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[2]
+    root = Path(__file__).resolve().parents[1]
     failed = False
     for path in lean_source_files(root):
         relative = path.relative_to(root)

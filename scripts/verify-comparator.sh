@@ -7,7 +7,7 @@ set -euo pipefail
 # (NanoDa and con-ron). Nothing is built from a pin; everything that judges
 # comes from `lean-toolchain`, which Palomar requires to be v4.35.0-rc2 or
 # later.
-repository_root=$(cd "$(dirname "$0")/../.." && pwd)
+repository_root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$repository_root"
 
 for required_command in bwrap lake lean python3; do

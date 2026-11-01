@@ -90,8 +90,7 @@ automation:
     the research and accepts responsibility for the paper's content and the
     accuracy of its disclosure. The nineteen intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
-    is used. The supplied Claude reviews are summarised in
-    research/claude-review-contributions.txt.
+    is used.
 fidelity:
   divergences: >-
     Cubes are represented by their six discrete coordinate-face colours, with
@@ -111,15 +110,21 @@ review:
     - "GPT-6-Astra (OpenAI), used through Codex: separate AI review of the earlier argument and formalisation"
     - "Claude Opus 5.5 (Anthropic; claude-opus-5-5): Claude Code reviews and tool runs in this repository, supplied by the author"
   notes: >-
-    The original review record is in research/independent-review.txt and predates
-    extraction into this package and the manuscript rewrites. It is not a review
-    of the current manuscript. Later author-supplied Claude reviews and their
-    contributions are summarised in research/claude-review-contributions.txt.
+    The original GPT-6-Astra review predates extraction into this package and
+    the manuscript rewrites; it does not cover the current manuscript.
+    Later Claude reviews contributed the mathematical simplifications listed
+    above and identified comparator definition mismatches, corrected with a
+    reviewer-supplied patch. Historical review notes remain in Git history.
     Reproduce current checks with make check and
     make comparator. CI and preflight logs identify the checked revision; no
     stale machine-specific validation logs are committed. The literature check
-    found no prior answer, but Rosenfeld's October 2026 article remains unread.
-    No publication or Palomar acceptance is asserted.
+    on November 1, 2026 found no prior answer. Sources examined included BES
+    (2018), Berkove and Schettler (2022), Johnson and Roldan (2024), and Beeler's
+    survey, together with citation and title searches. Search coverage is
+    incomplete. Rosenfeld's October 2026 article remains unread; his 2024
+    six-colour talk is only indirect evidence about its relevance. No authors
+    or editors were contacted. No priority, publication or Palomar acceptance
+    is asserted.
 alignment:
   namespace: ThreeColour
   statements:

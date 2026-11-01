@@ -19,9 +19,19 @@ counting the two extremal collections.
 This answers the threshold question in Problem 2 of
 [Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
 The written proof uses corner containment, explicit corner assignments and
-elementary counting. The [literature check](research/literature-review.txt) found no later
+elementary counting. A literature search on November 1, 2026 found no later
 answer, but Rosenfeld's October 2026 Geombinatorics article remains unread.
 Priority has not been independently established.
+
+## Repository layout
+
+- `paper/`: manuscript source and PDF.
+- `ThreeColour/`: Lean proofs, generated geometry and formalisation guide.
+- `scripts/`: geometry generation, validation, comparator and optional search.
+- `data/lower-obstruction.json`: the 28-cube witness and its 120 Hall certificates.
+- `.github/workflows/`: CI and the optional Palomar preflight.
+- Root Lean files and configuration: build entry points, independent challenge,
+  comparator configuration and formalisation metadata.
 
 ## Lean dependency
 
@@ -128,28 +138,17 @@ python3 -m venv .venv
 python3 -m pip install -r requirements.txt
 python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
   --minimal --seconds 60 --workers 8 \
-  --hint results/q4-to-q3-initial.json --output /tmp/four-to-three-search.json
+  --hint data/lower-obstruction.json --output /tmp/four-to-three-search.json
 ```
 
-The saved search outputs include the size-28 optimum, a size-29 infeasibility
-run, and a size-28 run excluding both extrema. Those runs use the reduced
-source family and proved bucket bounds. They are computational checks, not
-imported optimality certificates. The Lean proof stands independently of
-CP-SAT and the saved JSON results.
+The checked-in fixture contains the 28-cube witness and Hall certificates
+for every target. The geometric checker validates them on each run and prints
+its report to stdout. Solver outputs can be regenerated with the command
+above; neither saved run reports nor solver claims are needed for the Lean proof.
 
-GPT-6-Astra (OpenAI), used through Codex, developed the original argument,
-computational search, Lean proof and manuscript under Jason Davies's direction.
-Claude Opus 5.5 (`claude-opus-5-5`, Anthropic), used through Claude Code in
-this repository, contributed the
-minority-cube argument, edge-count balance proof, degree remark, and shorter
-bucket and threshold proofs. Subsequent Codex revisions incorporated these
-contributions; the [contribution record](research/claude-review-contributions.txt)
-summarises their scope and the reported tool runs.
-
-A separate AI reviewer found no mathematical errors in the original
-development; its [review record](research/independent-review.txt) predates
-extraction into this repository and the manuscript rewrites. It covers an
-earlier version of the argument. These automated checks are not independent
-human peer review.
+AI contributions and review scope are recorded in [formalization.yaml](formalization.yaml)
+and the paper's disclosure. The original GPT-6-Astra review covered an earlier
+version; Claude Opus 5.5 contributed later mathematical simplifications and
+review. The paper has not received independent human peer review.
 
 Code and manuscript are distributed under the [Apache-2.0 licence](LICENSE).
