@@ -64,6 +64,15 @@ reported lacking access during the earlier six-colour project, so no
 repeat request was made. This remains an explicit limitation of the
 priority check. No authors or editors have been contacted.
 
+Related talk (checked 1 November 2026)
+Rosenfeld's University of Washington talk abstract for 14 February 2024,
+https://math.washington.edu/events/2024-02-14/moshes-insanity,
+describes cubes with six distinct face colours. That talk concerns a
+different palette setting, but is only indirect evidence about the unread
+2026 article and does not settle its relevance. The journal listing places
+the next article at p. 83, suggesting this article occupies at most five
+pages; its contents have not been examined.
+
 Suggested claim for a submission
 We resolve the threshold question posed in Problem 2 of Berkove,
 Eickemeyer and Schulman (2018), and classify all extremal collections.

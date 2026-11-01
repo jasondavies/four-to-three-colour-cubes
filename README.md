@@ -1,7 +1,7 @@
 # A sharp threshold for three-colour targets from four-colour cubes
 
 - [Paper (PDF)](paper/macmahon-four-to-three.pdf) and [LaTeX](paper/macmahon-four-to-three.tex).
-- [Main Lean results](ThreeColour/Theorems.lean), [physical model](ThreeColour/PhysicalDefs.lean), and [formalisation guide](ThreeColour/README.md).
+- [Main Lean results](ThreeColour/Family.lean), [physical model](ThreeColour/PhysicalDefs.lean), and [formalisation guide](ThreeColour/README.md).
 - [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
 - [Provenance, scope and AI disclosure](formalization.yaml).
 
@@ -53,8 +53,8 @@ make paper  # requires latexmk and a LaTeX installation
 
 `make check` validates source requirements and metadata, checks the dependency
 pin and absence of proof holes, regenerates finite geometry in a temporary
-directory, runs the independent Python geometric checker, and builds all Lean
-targets. The root `ThreeColour.lean` guards eleven axiom reports, permitting only
+directory, runs the separate Python geometric checker, and builds all Lean
+targets. The root `ThreeColour.lean` guards twenty-one axiom reports, permitting only
 `propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
 The first Lean build takes several minutes; finite checks are split into
 modules for parallel builds. CI repeats these checks on pushes and pull requests.
@@ -63,6 +63,10 @@ The public Lean results include:
 
 | Theorem | Claim |
 | --- | --- |
+| `family_threshold29` | Every arbitrary indexed family of 29 four-colour cubes has a three-colour solution. |
+| `family_sharp_threshold29` | Table-free upper bound and explicit size-28 counterexample. |
+| `family_least_guaranteed_size` | Table-free least-size theorem. |
+| `family_classify28` | Classification for arbitrary indexed cubes, after counting their rotation varieties. |
 | `physical_threshold29` | Every collection of size 29 has a physical solution. |
 | `physical_classify28` | Exactly the two specified size-28 collections fail. |
 | `least_guaranteed_size` | 29 is the least size guaranteeing success for all larger collections. |
@@ -70,10 +74,12 @@ The public Lean results include:
 | `source_catalogue_unique` | Distinct source indices are distinct rotation varieties. |
 | `reflect_extremal` | Reflection exchanges the two extremal collections. |
 
-The main results quantify over natural-number multiplicities of 68 canonical
-source varieties. A physical solution uses eight distinct copies and one
-proper rotation per copy. Catalogue coverage is a separate theorem, rather
-than an explicit transport theorem for lists of arbitrarily oriented cubes.
+`Family.lean` proves the threshold and sharpness directly for arbitrary
+indexed face colourings, with exactly four colours per source and an
+existential target using exactly three. A solution selects eight distinct
+copies and geometric proper rotations. Transport in both directions connects
+this model to natural-number multiplicities of the 68 canonical varieties
+and extends the classification to arbitrarily oriented input cubes.
 A [general corner–rotation theorem](ThreeColour/CornerGeometry.lean), valid for
 any palette, proves that cyclic corner matching is equivalent to matching the
 three exposed faces by a proper rotation. Small finite checks connect the
@@ -82,8 +88,11 @@ collections.
 
 ## Comparator and Palomar
 
-`Challenge.lean` independently restates nine results and their physical
-model, importing only mathlib. Its nine deliberate `sorry` declarations are
+`Challenge.lean` independently restates eighteen results and their physical
+models, importing only mathlib. These include table-free threshold and
+sharpness statements, colour counts for both catalogues, completeness and
+properness of the rotation table, the outward-face rule, and physical mirror
+geometry. Its eighteen deliberate `sorry` declarations are
 isolated comparator targets. They are not imported by `Solution.lean` or any
 proof module, and are excluded from the proof-development hole count.
 
@@ -99,7 +108,7 @@ submission or acceptance. No registry entry is claimed.
 
 ## Computation and review
 
-The [independent checker](scripts/check_three_colour_threshold.py) uses Python's
+The [separate checker](scripts/check_three_colour_threshold.py) uses Python's
 standard library and generates rotations from quarter-turns. It checks the
 68-to-38 corner reduction, the printed entries in both geometric tables,
 both exhibited lower obstructions, all 120 targets,
@@ -125,11 +134,12 @@ CP-SAT and the saved JSON results.
 
 GPT-6-Astra (OpenAI), used through Codex, developed the original argument,
 computational search, Lean proof and manuscript under Jason Davies's direction.
-Claude (Anthropic), through reviews supplied by the author, contributed the
+Claude Opus 5.5 (`claude-opus-5-5`, Anthropic), used through Claude Code in
+this repository, contributed the
 minority-cube argument, edge-count balance proof, degree remark, and shorter
 bucket and threshold proofs. Subsequent Codex revisions incorporated these
 contributions; the [contribution record](research/claude-review-contributions.txt)
-summarises their scope. Claude's model version was not recorded.
+summarises their scope and the reported tool runs.
 
 A separate AI reviewer found no mathematical errors in the original
 development; its [review record](research/independent-review.txt) predates

@@ -1,6 +1,6 @@
 module
 
-public import ThreeColour.Theorems
+public import ThreeColour.Family
 
 @[expose] public section
 
@@ -47,3 +47,43 @@ public import ThreeColour.Theorems
 /-- info: 'ThreeColour.Geometry.corner_proper_rotation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.Geometry.corner_proper_rotation_iff
+
+/-- info: 'MacMahon.proper_rotation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms MacMahon.proper_rotation_iff
+
+/-- info: 'MacMahon.exposed_face_rule' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms MacMahon.exposed_face_rule
+
+/-- info: 'ThreeColour.sources_use_four' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.sources_use_four
+
+/-- info: 'ThreeColour.targets_use_three' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.targets_use_three
+
+/-- info: 'ThreeColour.reflection_geometry' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms ThreeColour.reflection_geometry
+
+/-- info: 'ThreeColour.family_solvable_of_29_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_solvable_of_29_le
+
+/-- info: 'ThreeColour.family_threshold29' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_threshold29
+
+/-- info: 'ThreeColour.family_sharp_threshold29' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_sharp_threshold29
+
+/-- info: 'ThreeColour.family_least_guaranteed_size' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_least_guaranteed_size
+
+/-- info: 'ThreeColour.family_classify28' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_classify28

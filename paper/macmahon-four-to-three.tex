@@ -50,7 +50,9 @@ target; internal faces are unrestricted.
 A corner is a cyclically ordered triple. Read its face colours
 counterclockwise as viewed from outside along the corner's body diagonal;
 equivalently, order the three outward face normals to form a positively
-oriented basis. Thus $abc$ and $acb$ are distinct when the three colours
+oriented basis. BES~\cite[Section 2]{BES} reads corners clockwise; our
+convention reverses every triple, preserving containment and matching.
+Thus $abc$ and $acb$ are distinct when the three colours
 differ. A source cube fits a target corner by a proper rotation if and
 only if it has the same cyclic corner type: the cyclic alignments of two
 corner frames are exactly those realised by proper rotations of the cube.
@@ -74,7 +76,9 @@ copy of $w$ by $v$ preserves unsolvability. This is the reduction of
 \cite[Section 2]{BES}. For clarity, Table~\ref{tab:reduction} gives the
 entire reduction needed here. A face tuple is read in the order
 $+x,-x,+y,-y,+z,-z$. The rows represent the seven orbits under colour
-permutations, with rotations already identified. The three non-retained
+permutations, with rotations already identified. These seven orbits of all
+68 varieties differ from the seven minimal representatives in
+\cite[Figure 2]{BES}; four of our orbits are retained. The three non-retained
 representatives all contain the corner types of $001123$. Colour
 permutations transport these containments to every member of their orbits.
 
@@ -110,7 +114,9 @@ at least two of the three corner types $aab$ with $b\ne a$.
   occupy opposite face pairs; with repeated colours $a,b$, a checkerboard
   supports both orientations on $\{a,b,c\}$ and $\{a,b,d\}$.
 \end{itemize}
-The 32 ordinary varieties ($T$ and $P$) split into two classes of 16.
+The classes and checkerboard terminology come from \cite[Section 2]{BES}.
+The 32 ordinary varieties ($T$ and $P$) split into two classes of 16,
+corresponding to BES's $K_o$ and $K_m$ (up to interchanging the names).
 Every member of one class has the same four trichromatic corner types,
 one orientation for each three-element subset of the palette; every
 member of the other class has the four reversed orientations.
@@ -118,6 +124,7 @@ For our corner convention the four trichromatic types of one class are
 \[
  \Omega=\{012,031,023,132\}.
 \]
+These are one set of BES's \emph{universal corners}, in our convention.
 All three ordinary representatives in Table~\ref{tab:corners} belong
 to the class of $\Omega$. Even colour permutations preserve $\Omega$
 and odd ones reverse it, with triples read cyclically. Applying colour
@@ -171,7 +178,7 @@ Suppose the collection has no solution. Reduce it as above; the reduced
 collection has no solution either, since reduction preserves unsolvability.
 Let $A\ge B$ be the sizes of the two ordinary orientation classes, and
 let $C$ count checkerboards, so $A+B+C=28$. Call the class of size $A$
-the majority class. Call the remaining $M=B+C$ cubes \emph{minority cubes}.
+the majority class (either one if equal). Call the remaining $M=B+C$ cubes \emph{minority cubes}.
 A minority cube \emph{supports} a three-element colour set $E$ if it has
 the orientation on $E$ opposite to the majority class. Smaller-class
 cubes support every $E$; a checkerboard supports two.
@@ -325,36 +332,39 @@ copies and proper rotations matching the exposed faces. Kernel checks
 establish source and target catalogue coverage, source uniqueness up to
 rotation, and correctness of stored corner codes. A palette-independent
 lemma, allowing repeated colours, equates cyclic corner matching with
-physical face matching by a proper rotation.
+physical face matching by a proper rotation. Transport theorems extend
+the results to arbitrary indexed face colourings: each source uses all
+four colours, and the existentially chosen target uses exactly three.
+The sharp threshold also has this table-free statement.
 
-The proof uses a related counting argument and finite Hall certificates for sufficient
+The Lean proof uses a related counting argument and finite Hall certificates for sufficient
 constructions. It treats checkerboards and the smaller ordinary class
 separately, whereas the written proof combines them as minority cubes.
 The lower bound checks Hall deficiencies for all 120 targets and both
 extremal collections; reflection exchanges the two. No proof enumerates all
 collections. The axiom audit reports only Lean's standard
-\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}; it uses
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. The Lean proof uses
 neither proof holes nor \texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/macmahon-four-to-three}}
 contains sources and reproduction commands, with the proper-rotation and
 outward-face geometry pinned from \href{https://github.com/jasondavies/macmahon-min-universal-sets}{the earlier MacMahon formalisation}.
 No classification result from that project is used.
 
 A computational search found the 28-cube example and returned results
-consistent with the threshold and classification. An independent script
+consistent with the threshold and classification. A separate script
 checks the finite geometric facts and lower obstructions; neither the
 written proof nor the Lean proof depends on the search or this script.
 
 \section*{Literature and priority}
 A literature search on November 1, 2026 found no earlier answer; this
-does not establish priority. Rosenfeld's October 2026 article
+does not establish priority. Rosenfeld's October 2026 article~\cite{Rosenfeld}
 \emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1} remains unread,
 and its relevance is undetermined.
 
 \section*{Declaration of AI-generated research and review}
 GPT-6-Astra (OpenAI), used through Codex, developed the original research
 argument, computational search, Lean formalisation and manuscript under
-the author's direction. Claude (Anthropic), in reviews supplied by the
-author, contributed the minority-cube argument, edge-count balance proof,
+the author's direction. Claude Opus 5.5 (Anthropic), used through Claude
+Code in this repository, contributed the minority-cube argument, edge-count balance proof,
 degree remark, and shorter bucket and threshold proofs. Subsequent Codex
 revisions incorporated these contributions. A separate AI reviewer checked
 an earlier version of the argument and physical model.
@@ -368,6 +378,11 @@ disclosure. The paper has not received independent human peer review.
 E. Berkove, A. Eickemeyer and M. Schulman,
 \emph{The 4-Color Cubes Puzzle}, Integers \textbf{18} (2018), A68.
 \href{https://math.colgate.edu/~integers/s68/s68.pdf}{Journal PDF}.
+\bibitem{Rosenfeld} M.~Rosenfeld,
+\emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1},
+Geombinatorics Quarterly \textbf{36}(2) (October 2026), starts at p.~78.
+\href{https://geombina.uccs.edu/past-issues/volume-xxxvi}{Journal listing};
+full text not examined.
 \bibitem{Lean4} L.~de Moura and S.~Ullrich,
 \emph{The Lean 4 Theorem Prover and Programming Language},
 in Automated Deduction---CADE~28, LNCS \textbf{12699}, Springer (2021),

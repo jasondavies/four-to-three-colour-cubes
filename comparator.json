@@ -10,7 +10,16 @@
     "ThreeColour.target_catalogue_complete",
     "ThreeColour.source_catalogue_unique",
     "ThreeColour.reflect_extremal",
-    "ThreeColour.extremal_distinct"
+    "ThreeColour.extremal_distinct",
+    "MacMahon.proper_rotation_iff",
+    "MacMahon.exposed_face_rule",
+    "ThreeColour.sources_use_four",
+    "ThreeColour.targets_use_three",
+    "ThreeColour.reflection_geometry",
+    "ThreeColour.family_solvable_of_29_le",
+    "ThreeColour.family_threshold29",
+    "ThreeColour.family_sharp_threshold29",
+    "ThreeColour.family_least_guaranteed_size"
   ],
   "definition_names": [],
   "permitted_axioms": [

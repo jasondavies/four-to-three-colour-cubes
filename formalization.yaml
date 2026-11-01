@@ -45,8 +45,10 @@ status:
   scope: >-
     Sharp threshold 29, all larger collections, full classification at size 28,
     reflection of the two obstructions, source and target catalogue coverage,
-    and source orbit uniqueness. The main statements use multiplicities of
-    canonical representatives, with catalogue coverage proved separately.
+    and source orbit uniqueness. Transport theorems connect canonical
+    inventories to arbitrary indexed face colourings. Table-free threshold
+    and sharpness statements require exactly four source colours, exactly
+    three target colours, distinct copies and geometric proper rotations.
     No priority claim or general five-colour threshold is formalised.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -68,25 +70,27 @@ automation:
         hardware: "local CPU; no GPU"
       prompting_notes: "The author requested a publishable research direction, efficient computation, proof review, and Lean formalisation."
     - method: agent
-      models: ["Claude (Anthropic; model version not recorded)"]
-      framework: "Reviews supplied by the author"
+      models: ["Claude Opus 5.5 (Anthropic; claude-opus-5-5)"]
+      framework: "Claude Code, run in this repository"
       tool_setup: >-
         Contributed the minority-cube counting argument, edge-count balance
         proof, degree remark, shorter bucket and threshold proofs, and
-        exposition and release-review comments. Subsequent Codex revisions
+        exposition and release-review comments, with tool runs in this
+        repository. Solver and audit scripts from the later review were
+        run from a temporary scratchpad and are not checked in. Subsequent Codex revisions
         incorporated these contributions into the manuscript and package.
   spend_usd: "not tracked"
   notes: >-
     GPT-6-Astra (OpenAI), used through Codex, developed the original research
-    and package under the human author's direction. Claude (Anthropic)
+    and package under the human author's direction. Claude Opus 5.5 (Anthropic), used through Claude Code in this repository,
     contributed mathematical simplifications and editorial review through
     reviews supplied by the author; these were incorporated in subsequent
     Codex revisions. The human author initiated and directed
     the research and accepts responsibility for the paper's content and the
-    accuracy of its disclosure. The nine intentional statement holes in
+    accuracy of its disclosure. The eighteen intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
     is used. The supplied Claude reviews are summarised in
-    research/claude-review-contributions.txt; the model version was not recorded.
+    research/claude-review-contributions.txt.
 fidelity:
   divergences: >-
     Cubes are represented by their six discrete coordinate-face colours, with
@@ -104,7 +108,7 @@ review:
   status: "AI-reviewed; not independently reviewed by a human expert"
   reviewers:
     - "GPT-6-Astra (OpenAI), used through Codex: separate AI review of the earlier argument and formalisation"
-    - "Claude (Anthropic; model version not recorded): author-supplied mathematical, exposition and release reviews"
+    - "Claude Opus 5.5 (Anthropic; claude-opus-5-5): Claude Code reviews and tool runs in this repository, supplied by the author"
   notes: >-
     The original review record is in research/independent-review.txt and predates
     extraction into this package and the manuscript rewrites. It is not a review
@@ -119,16 +123,16 @@ alignment:
   namespace: ThreeColour
   statements:
     - source: "Paper, threshold theorem"
-      lean: ThreeColour.physical_threshold29
-      module: ThreeColour.Theorems
+      lean: ThreeColour.family_threshold29
+      module: ThreeColour.Family
       status: proved
     - source: "Paper, classification and sharpness theorems"
-      lean: ThreeColour.physical_classify28
-      module: ThreeColour.Theorems
+      lean: ThreeColour.family_classify28
+      module: ThreeColour.Family
       status: proved
     - source: "Paper, sharp threshold"
-      lean: ThreeColour.least_guaranteed_size
-      module: ThreeColour.Theorems
+      lean: ThreeColour.family_least_guaranteed_size
+      module: ThreeColour.Family
       status: proved
     - source: "Paper, formal verification and geometric conventions"
       lean: ThreeColour.source_catalogue_complete

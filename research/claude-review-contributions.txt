@@ -3,9 +3,11 @@ Recorded 1 November 2026
 
 Provenance
 This is a summary of reviews supplied by the author in the project
-conversation and attributed there to Claude (Anthropic). The model version
-and original execution environment were not recorded. It is not a new
-independent review or a transcript of a tool run in this repository.
+conversation. The author clarified that the reviews were run by Claude
+Opus 5.5 (claude-opus-5-5) in Claude Code, in this repository, with tool
+runs here. This file is a summary, not an original transcript. The later
+solver and audit scripts were run here from a temporary scratchpad and
+are not checked into this repository.
 
 Mathematical contributions incorporated through subsequent Codex revisions
 - Combine the smaller ordinary orientation class with checkerboards as
@@ -29,7 +31,14 @@ and the uniqueness corollary up to colour permutation.
 
 Scope and limitations
 The supplied reviews report mathematical and finite-geometric checks of
-successive manuscript versions. Their claims should not be confused with
+successive manuscript versions, a fresh Lean rebuild, a direct solver over
+all 68 varieties, and comparison with BES Problem 2. The latest report
+identified missing comparator statement coverage and prompted the new
+arbitrary-family transport theorems and table-certification statements.
+At the time of that report the comparator replay was still running: con-ron
+had accepted the proof, while NanoDa and leanchecker had no confirmed final
+result. This is a record of the supplied report, not a completed comparator
+validation of the subsequently expanded challenge. Their claims should not be confused with
 checks newly executed by the repository's scripts or with Lean verification
 of the revised written argument. The Lean proof retains a related counting
 argument and checks the lower bound by finite Hall deficiencies; it does not
