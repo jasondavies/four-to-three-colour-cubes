@@ -124,31 +124,6 @@ def PhysicalSolvable (x : Inventory) : Prop :=
   ∃ t : Target, ∃ f : Slot ↪ Stock x, ∀ k, ∃ r : Fin 24, FaceFits t (f k).1 k r
 end ThreeColour
 ''')
-(OUT/'PhysicalChecks').mkdir(exist_ok=True)
-for i in range(68):
-    (OUT/f'PhysicalChecks/Source{i}.lean').write_text(f'''import ThreeColour.PhysicalDefs
-set_option maxRecDepth 100000
-set_option maxHeartbeats 0
-namespace ThreeColour
-theorem fits_physical_{i} : ∀ t : Target, ∀ k : Slot,
-    fits t k {i} = true ↔ ∃ r : Fin 24, FaceFits t {i} k r := by decide +kernel
-end ThreeColour
-''')
-(OUT/'Physical.lean').write_text('\n'.join(f'import ThreeColour.PhysicalChecks.Source{i}' for i in range(68))+'''
-namespace ThreeColour
-theorem fits_physical (t : Target) (k : Slot) (i : Source) :
-    fits t k i = true ↔ ∃ r : Fin 24, FaceFits t i k r := by
-  fin_cases i
-'''+ '\n'.join(f'  · exact fits_physical_{i} t k' for i in range(68))+'''
-theorem solvable_iff_physical (x : Inventory) : Solvable x ↔ PhysicalSolvable x := by
-  constructor
-  · rintro ⟨t,f,hf⟩
-    exact ⟨t,f,fun k => (fits_physical t k (f k).1).mp (hf k)⟩
-  · rintro ⟨t,f,hf⟩
-    exact ⟨t,f,fun k => (fits_physical t k (f k).1).mpr (hf k)⟩
-end ThreeColour
-''')
-
 raw_source=[]; raw_target=[]; raw_rotation=[]
 for n in range(4096):
     c=tuple((n//4**f)%4 for f in range(6))

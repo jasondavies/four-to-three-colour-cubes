@@ -74,8 +74,11 @@ The main results quantify over natural-number multiplicities of 68 canonical
 source varieties. A physical solution uses eight distinct copies and one
 proper rotation per copy. Catalogue coverage is a separate theorem, rather
 than an explicit transport theorem for lists of arbitrarily oriented cubes.
-All 65,280 source–target–corner compatibility entries are checked against
-physical rotations. The proof does not enumerate all collections.
+A [general corner–rotation theorem](ThreeColour/CornerGeometry.lean), valid for
+any palette, proves that cyclic corner matching is equivalent to matching the
+three exposed faces by a proper rotation. Small finite checks connect the
+catalogue's corner codes to this theorem. The proof does not enumerate all
+collections.
 
 ## Comparator and Palomar
 

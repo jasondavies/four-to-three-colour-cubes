@@ -7,7 +7,8 @@ project:
     that form an exactly-three-colour target with monochromatic exterior faces.
     The bound is sharp, and the two labelled 28-cube obstruction multisets are
     classified and proved to be mirror images. Internal faces are unrestricted.
-    The formalisation checks physical rotations, distinct copy use, catalogue
+    A palette-independent corner–rotation lemma connects cyclic corner types to
+    physical face matching. The formalisation checks distinct copy use, catalogue
     coverage and source uniqueness, and follows the counting proof with finite
     kernel-checked Hall certificates for sufficient constructions.
   authors: ["Jason Davies"]

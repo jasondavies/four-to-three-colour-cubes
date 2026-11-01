@@ -16,7 +16,7 @@ Any collection of 29 cubes, each displaying all four colours of a fixed
 palette, contains eight that form a $2\times2\times2$ cube with monochromatic
 faces using exactly three colours. There is a collection of 28 cubes with
 no such solution. This answers the threshold question in Problem 2 of Berkove, Eickemeyer and Schulman
-(2018), subject to a further priority check. Moreover, there are exactly two
+(2018). Moreover, there are exactly two
 labelled 28-cube obstructions, exchanged by reflection. The proof uses their reduction
 by corner containment and elementary counting. The threshold and classification are formalised in Lean.
 \end{abstract}
@@ -26,13 +26,38 @@ code, Lean formalisation and manuscript were developed using AI under the
 author's direction. The declaration at the end gives the scope of this work
 and its review status.
 
+\section{Introduction}
+Berkove, Eickemeyer and Schulman~\cite[Problem 2]{BES} ask for the
+least number of four-colour cubes that guarantees a subset of eight
+forming a three-colour corner solution: a $2\times2\times2$ cube whose
+exterior faces are monochromatic and use exactly three colours.
+Here every source cube uses all four colours of a fixed palette, and
+repeated varieties are allowed.
+
+We prove that the least number is 29 and classify all collections of
+28 cubes that fail. There are exactly two such collections when colour
+labels are fixed, and reflection exchanges them. Each consists of seven
+copies of each of four varieties; explicit face tuples are given in
+Theorem~\ref{thm:sharp}. The proof first classifies the possible
+28-cube obstructions by corner containment and counting, then deduces
+the upper bound and verifies that both obstructions fail.
+
 \section{Model and geometric facts}
 Colours are fixed, varieties are identified by proper rotations, and
 reflections are not allowed as moves. Collections are multisets: repeated
-varieties are allowed. Only exterior faces must match the target; internal
-faces are unrestricted. A corner is a cyclically ordered triple, so $abc$
-and $acb$ are distinct when the three colours differ. A cube supplies one
-corner position, regardless of how many suitable corners it has.
+varieties are allowed. Thus ``labelled'' refers to the colour labels,
+not to labels on individual copies of a cube. Only exterior faces must
+match the target; internal faces are unrestricted.
+
+A corner is a cyclically ordered triple. Read its face colours
+counterclockwise as viewed from outside along the corner's body diagonal;
+equivalently, order the three outward face normals to form a positively
+oriented basis. Thus $abc$ and $acb$ are distinct when the three colours
+differ. A source cube fits a target corner by a proper rotation if and
+only if it has the same cyclic corner type: the cyclic alignments of two
+corner frames are exactly those realised by proper rotations of the cube.
+A cube supplies one corner position, regardless of how many suitable
+corners it has.
 
 Write $Q(a;b,c)$ for a target whose $b$ and $c$ faces are opposite and whose
 other four faces have colour $a$. Its corner multiset is
@@ -94,14 +119,32 @@ Every member of one class has the same four trichromatic corner types,
 one orientation for each three-element subset of the palette; every
 member of the other class has the four reversed orientations.
 Each class contains exactly one $T$ variety for each repeated colour.
-For our
-coordinate convention the first four types can be taken as
+For our coordinate convention the first four types can be taken as
 \[
  \Omega=\{012,031,023,132\}.
 \]
-These properties follow by reading the corners of the four retained
-representatives and permuting colours. A separate geometric checker
-verifies the table and all the stated incidences using physical rotations.
+Table~\ref{tab:corners} lists the corner types of the four retained
+representatives. These sets and their colour permutations give the
+stated incidences and orientation classes. A separate geometric checker
+verifies both tables and all the stated incidences using physical rotations.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cc}
+\toprule
+Representative & Corner-type set\\
+\midrule
+$001123$ & $\{012,013,021,031\}$\\
+$010203$ & $\{000,001,002,003,012,023,031,132\}$\\
+$010213$ & $\{001,003,011,012,023,031,112,132\}$\\
+$010223$ & $\{002,003,012,022,023,031,122,132\}$\\
+\bottomrule
+\end{tabular}
+\caption{Corner types of the retained representatives, with cyclic triples
+written in lexicographically least form. Multiplicities are omitted:
+each source cube supplies only one target position.}
+\label{tab:corners}
+\end{table}
 
 \begin{lemma}[Bucket bound]\label{lem:bucket}
 Eight reduced cubes in a single bucket can build a three-colour target.
@@ -265,9 +308,11 @@ The threshold and the full classification have been formalised in Lean
 multiplicities to the 68 four-colour varieties. A physical solution selects
 eight distinct copies and specifies a proper rotation matching the three
 exposed faces at each corner of a target. Separate kernel checks establish
-coverage of all four-colour source and three-colour target face assignments,
-uniqueness of source varieties up to rotation, and the equivalence of corner
-compatibility with physical face matching.
+coverage of all four-colour source and three-colour target face assignments
+and uniqueness of source varieties up to rotation. A general lemma, valid for
+any palette and allowing repeated colours, identifies cyclic corner matching
+with physical face matching by a proper rotation. Finite checks connect the
+stored corner codes to this lemma.
 
 The formal upper bound follows the counting argument, using finite Hall
 certificates for the sufficient constructions. The lower bound checks a Hall
@@ -300,10 +345,12 @@ bipartite matching and explicit Hall deficiencies. It also checks all
 of size 29. These samples do not establish the upper bound; the written
 proof does.
 
-Problem 2 of \cite{BES} explicitly asks for this threshold. An expanded,
-bounded literature search on November 1, 2026 found no later answer, but does
-not establish priority. In particular, Rosenfeld's October 2026 article
-\cite{Rosenfeld} was identified but could not be read. A separate AI review
+The result answers the threshold question in Problem 2 of \cite{BES};
+whether it is the first answer remains unresolved. An expanded, bounded
+literature search on November 1, 2026 found no later answer, but does not
+establish priority. In particular, Rosenfeld's October 2026 article
+\cite{Rosenfeld} was identified but could not be read, so its relevance
+to this question has not been determined. A separate AI review
 found no mathematical errors in the argument or physical model. These
 automated checks are not independent human peer review.
 
