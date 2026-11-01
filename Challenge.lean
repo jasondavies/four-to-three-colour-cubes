@@ -5,13 +5,18 @@ public import Mathlib
 @[expose] public section
 
 /-! Independent physical statements. No proof-library imports. The intentional
-statement holes are comparator targets, not part of the proof library. -/
+statement holes are comparator targets, not part of the proof library.
+The comparator compares exported declarations, including helper-proof names.
+When adding `Fin` literals, preserve the library's named bounds and run the
+comparator: ordinary elaboration can accept definitions that it rejects. -/
 namespace MacMahon
 abbrev Slot := Fin 8
 def exposedFaces : Slot → Fin 3 → Fin 6 := ![![0, 2, 4], ![0, 2, 5], ![0, 3, 4], ![0, 3, 5], ![1, 2, 4], ![1, 2, 5], ![1, 3, 4], ![1, 3, 5]]
 def rotations : Fin 24 → Fin 6 → Fin 6 := ![![0, 1, 2, 3, 4, 5], ![0, 1, 3, 2, 5, 4], ![0, 1, 4, 5, 3, 2], ![0, 1, 5, 4, 2, 3], ![1, 0, 2, 3, 5, 4], ![1, 0, 3, 2, 4, 5], ![1, 0, 4, 5, 2, 3], ![1, 0, 5, 4, 3, 2], ![2, 3, 0, 1, 5, 4], ![2, 3, 1, 0, 4, 5], ![2, 3, 4, 5, 0, 1], ![2, 3, 5, 4, 1, 0], ![3, 2, 0, 1, 4, 5], ![3, 2, 1, 0, 5, 4], ![3, 2, 4, 5, 1, 0], ![3, 2, 5, 4, 0, 1], ![4, 5, 0, 1, 2, 3], ![4, 5, 1, 0, 3, 2], ![4, 5, 2, 3, 1, 0], ![4, 5, 3, 2, 0, 1], ![5, 4, 0, 1, 3, 2], ![5, 4, 1, 0, 2, 3], ![5, 4, 2, 3, 0, 1], ![5, 4, 3, 2, 1, 0]]
+theorem faceOne_bound : 1 < 6 := by decide
+
 def opposite (f : Fin 6) : Fin 6 :=
-  if f.val % 2 = 0 then f + 1 else f - 1
+  if f.val % 2 = 0 then f + ⟨1, faceOne_bound⟩ else f - ⟨1, faceOne_bound⟩
 def fromAxes (a b c : Fin 6) : Fin 6 → Fin 6 :=
   ![a, opposite a, b, opposite b, c, opposite c]
 def ValidAxes (a b c : Fin 6) : Prop :=
@@ -45,7 +50,7 @@ def total (a : Inventory) : ℕ := mass a Finset.univ
 def extremal : Fin 2 → Inventory := ![fun i => (#[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0] : Array (ℕ))[i.val]!, fun i => (#[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7] : Array (ℕ))[i.val]!]
 def reflection : Source → Source := fun i => (#[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 10, 11, 12, 16, 18, 17, 19, 21, 20, 22, 25, 26, 23, 24, 27, 28, 30, 29, 31, 32, 33, 34, 35, 36, 39, 40, 37, 38, 41, 42, 43, 46, 47, 44, 45, 48, 49, 50, 52, 51, 53, 54, 55, 56, 57, 58, 62, 60, 63, 59, 61, 64, 65, 67, 66] : Array (Source))[i.val]!
 def reflectionRotation : Source → Fin 24 := fun i => (#[0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 6, 4, 12, 4, 4, 4, 4, 4, 5, 5, 4, 4, 4, 4, 4, 4, 6, 4, 4, 4, 4, 12, 5, 4, 5, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4] : Array (Fin 24))[i.val]!
-def reflectFace : Fin 6 → Fin 6 := ![1,0,2,3,4,5]
+def reflectFace (f : Fin 6) : Fin 6 := if f.val < 2 then MacMahon.opposite f else f
 def reflectInventory (x : Inventory) : Inventory := fun i => x (reflection i)
 def flip : Fin 2 → Fin 2 := ![1,0]
 def Uses (n : ℕ) (c : Fin 6 → Colour) : Prop := (Finset.univ.image c).card = n
@@ -80,15 +85,14 @@ theorem reflect_extremal : ∀ s : Fin 2, reflectInventory (extremal s) = extrem
 
 theorem extremal_distinct : extremal 0 ≠ extremal 1 := by sorry
 
-/-- Arithmetic geometry and actual face colourings; no catalogue in these definitions. -/
-def outwardFace (k : Fin 8) (axis : Fin 3) : Fin 6 :=
-  Fin.ofNat 6 (2 * axis.val + (k.val / 2 ^ (2 - axis.val)) % 2)
+/-- Actual face colourings and geometric rotations. The outward positions
+are pinned by `MacMahon.exposed_face_rule`; no source or target catalogue is used. -/
 def FamilySolvable {n : ℕ} (cubes : Fin n → Fin 6 → Colour) : Prop :=
   ∃ target : Fin 6 → Colour, Uses 3 target ∧
     ∃ placement : Fin 8 ↪ Fin n, ∀ k,
       ∃ r : Fin 6 → Fin 6, MacMahon.ProperRotation r ∧
-        ∀ axis : Fin 3, cubes (placement k) (r (outwardFace k axis)) =
-          target (outwardFace k axis)
+        ∀ axis : Fin 3, cubes (placement k) (r (MacMahon.exposedFaces k axis)) =
+          target (MacMahon.exposedFaces k axis)
 
 lemma sources_use_four : ∀ i : Source, Uses 4 (sourceFaces i) := by sorry
 lemma targets_use_three : ∀ t : Target, Uses 3 (targetFaces t) := by sorry
@@ -111,5 +115,11 @@ theorem family_sharp_threshold29 :
 theorem family_least_guaranteed_size :
     IsLeast {m : ℕ | ∀ n, ∀ cubes : Fin n → Fin 6 → Colour,
       (∀ j, Uses 4 (cubes j)) → m ≤ n → FamilySolvable cubes} 29 := by sorry
+
+theorem family_classify28_geometric (cubes : Fin 28 → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) :
+    ¬ FamilySolvable cubes ↔ ∃ s : Fin 2, ∀ i : Source,
+      Fintype.card {j // ∃ r : Fin 24, ∀ f,
+        cubes j f = sourceFaces i (MacMahon.rotations r f)} = extremal s i := by sorry
 
 end ThreeColour

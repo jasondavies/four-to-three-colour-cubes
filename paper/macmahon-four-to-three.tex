@@ -25,7 +25,7 @@ counting. The threshold and classification are formalised in Lean.
 \end{abstract}
 
 \section{Introduction}
-Berkove, Eickemeyer and Schulman~\cite[Problem 2]{BES} ask for the
+Berkove, Eickemeyer and Schulman (BES)~\cite[Problem 2]{BES} ask for the
 least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
 exterior faces are monochromatic and use exactly three colours.
@@ -50,10 +50,10 @@ target; internal faces are unrestricted.
 A corner is a cyclically ordered triple. Read its face colours
 counterclockwise as viewed from outside along the corner's body diagonal;
 equivalently, order the three outward face normals to form a positively
-oriented basis. BES~\cite[Section 2]{BES} reads corners clockwise; our
-convention reverses every triple, preserving containment and matching.
-Thus $abc$ and $acb$ are distinct when the three colours
-differ. A source cube fits a target corner by a proper rotation if and
+oriented basis. Thus $abc$ and $acb$ are distinct when the three colours
+differ. BES~\cite[Section 2]{BES} reads corners clockwise; our convention
+reverses every triple, preserving containment and matching. A source cube
+fits a target corner by a proper rotation if and
 only if it has the same cyclic corner type: the cyclic alignments of two
 corner frames are exactly those realised by proper rotations of the cube.
 A target is represented by its
@@ -335,7 +335,7 @@ lemma, allowing repeated colours, equates cyclic corner matching with
 physical face matching by a proper rotation. Transport theorems extend
 the results to arbitrary indexed face colourings: each source uses all
 four colours, and the existentially chosen target uses exactly three.
-The sharp threshold also has this table-free statement.
+The sharp threshold also has this statement without source or target catalogues.
 
 The Lean proof uses a related counting argument and finite Hall certificates for sufficient
 constructions. It treats checkerboards and the smaller ordinary class

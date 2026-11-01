@@ -48,3 +48,15 @@ The older GPT-6-Astra review in research/independent-review.txt covers the
 original development before extraction and the later manuscript rewrites.
 Neither that record nor the supplied Claude reviews is independent human
 peer review, and neither establishes publication priority.
+
+Comparator follow-up on 5a71204
+The reviewer found three exported-definition mismatches that ordinary Lean
+elaboration and make check did not catch: outwardFace, opposite and
+reflectFace. The supplied four-file patch removes the first definition,
+matches upstream's named proof in opposite, and defines reflection through
+opposite in both the library and generator. The reviewer reports that this
+patch passed all three comparator kernels (9400 declarations, about 36
+minutes) on a separate copy. The patch was then applied here. The follow-up
+also prompted a comparator-facing classification using geometric rotation-
+class counts, and clarified the paper's introduction of the BES abbreviation
+and placement of its corner-convention comparison.

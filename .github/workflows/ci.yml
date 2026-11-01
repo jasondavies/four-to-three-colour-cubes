@@ -1,5 +1,5 @@
-# Build the Lean library and run scripts/check.sh on each push and
-# pull request.
+# Build the Lean library, run scripts/check.sh, and replay the comparator
+# on each push and pull request.
 #
 # Third-party actions are pinned to full commit SHAs (the release tag is in the comment), and
 # elan is pinned to a release archive and SHA-256 checksum.
@@ -48,10 +48,18 @@ jobs:
           restore-keys: lake-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Fetch Mathlib cache
         run: lake exe cache get
-      - name: Install metadata checker
-        run: sudo apt-get update && sudo apt-get install -y ruby
+      - name: Install metadata checker and comparator sandbox
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ruby bubblewrap
+          if [ -e /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
       - name: Check
         run: bash scripts/check.sh
+      - name: Compare statements and replay all three kernels
+        timeout-minutes: 90
+        run: make comparator
       # Save the build even when the checks fail, so the next run starts from it.
       - name: Save project build
         if: always() && steps.restore.outputs.cache-hit != 'true'

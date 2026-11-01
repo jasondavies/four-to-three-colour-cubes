@@ -11,20 +11,14 @@ set_option maxHeartbeats 0
 namespace ThreeColour
 open scoped BigOperators
 
-/-- The outward coordinate face at a binary cube position, without a lookup table. -/
-def outwardFace (k : Fin 8) (axis : Fin 3) : Fin 6 :=
-  Fin.ofNat 6 (2 * axis.val + (k.val / 2 ^ (2 - axis.val)) % 2)
-
-lemma outwardFace_eq : outwardFace = MacMahon.exposedFaces := by decide +kernel
-
 /-- A solution for an arbitrary indexed family of face colourings. The target
 uses exactly three colours, and rotations are specified geometrically. -/
 def FamilySolvable {n : ℕ} (cubes : Fin n → Fin 6 → Colour) : Prop :=
   ∃ target : Fin 6 → Colour, Uses 3 target ∧
     ∃ placement : Fin 8 ↪ Fin n, ∀ k,
       ∃ r : Fin 6 → Fin 6, MacMahon.ProperRotation r ∧
-        ∀ axis : Fin 3, cubes (placement k) (r (outwardFace k axis)) =
-          target (outwardFace k axis)
+        ∀ axis : Fin 3, cubes (placement k) (r (MacMahon.exposedFaces k axis)) =
+          target (MacMahon.exposedFaces k axis)
 
 /-- The catalogue index of each individual cube. -/
 def familySource {n : ℕ} (cubes : Fin n → Fin 6 → Colour) (j : Fin n) : Source :=
@@ -72,8 +66,8 @@ lemma familySolvable_of_physical {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
   obtain ⟨u, hu⟩ := MacMahon.rotation_composition s r
   refine ⟨MacMahon.rotations u, (MacMahon.proper_rotation_iff _).mpr ⟨u, rfl⟩, ?_⟩
   intro axis
-  change cubes j (MacMahon.rotations u (outwardFace k axis)) = _
-  rw [familySource_faces cubes hc j, hu, hs, familyStock_source, outwardFace_eq]
+  change cubes j (MacMahon.rotations u (MacMahon.exposedFaces k axis)) = _
+  rw [familySource_faces cubes hc j, hu, hs, familyStock_source]
   exact hr axis
 
 /-- Every family of at least 29 four-colour cubes has a physical three-colour
@@ -117,7 +111,6 @@ lemma physical_of_familySolvable {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
     rw [hsource, hv, hu, ← familySource_faces cubes hc j]
     rw [hs f]
     have hh := hfit (Geometry.cornerOrder (e k) (f + s))
-    rw [outwardFace_eq] at hh
     change cubes j (MacMahon.rotations rf (Geometry.frame (e k) (f + s))) =
       target (Geometry.frame (e k) (f + s)) at hh
     rw [hh, htarget, ← hs f, hi]
@@ -138,6 +131,45 @@ theorem family_classify28 (cubes : Fin 28 → Fin 6 → Colour)
       familyInventory cubes = extremal 1 := by
   rw [family_solvable_iff cubes hc]
   exact physical_classify28 _ (familyInventory_total cubes)
+
+/-- Membership in a source rotation class, without the internal encoder. -/
+lemma familySource_eq_iff {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) (j : Fin n) (i : Source) :
+    familySource cubes j = i ↔
+      ∃ r : Fin 24, ∀ f, cubes j f = sourceFaces i (MacMahon.rotations r f) := by
+  constructor
+  · intro h
+    exact ⟨rawRotation (encode (cubes j)), by
+      simpa only [h] using familySource_faces cubes hc j⟩
+  · rintro ⟨r, hr⟩
+    let q := rawRotation (encode (cubes j))
+    obtain ⟨s, hs⟩ := MacMahon.rotation_inverse r
+    obtain ⟨u, hu⟩ := MacMahon.rotation_composition q s
+    apply source_catalogue_unique (familySource cubes j) i u
+    intro f
+    rw [hu, ← familySource_faces cubes hc j, hr, hs]
+
+/-- Classification by geometric rotation-class counts, with no encoder in
+its statement. This is the arbitrary-family comparator interface. -/
+theorem family_classify28_geometric (cubes : Fin 28 → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) :
+    ¬ FamilySolvable cubes ↔ ∃ s : Fin 2, ∀ i : Source,
+      Fintype.card {j // ∃ r : Fin 24, ∀ f,
+        cubes j f = sourceFaces i (MacMahon.rotations r f)} = extremal s i := by
+  have hcount (i : Source) :
+      Fintype.card {j // ∃ r : Fin 24, ∀ f,
+        cubes j f = sourceFaces i (MacMahon.rotations r f)} = familyInventory cubes i := by
+    simp only [← familySource_eq_iff cubes hc, familyInventory]
+  simp only [hcount]
+  rw [family_classify28 cubes hc]
+  constructor
+  · rintro (h | h)
+    · exact ⟨0, fun i => congrFun h i⟩
+    · exact ⟨1, fun i => congrFun h i⟩
+  · rintro ⟨s, hs⟩
+    fin_cases s
+    · exact Or.inl (funext hs)
+    · exact Or.inr (funext hs)
 
 /-- Seven copies of each of the four face tuples printed in the paper. -/
 def lowerFamily (j : Fin 28) : Fin 6 → Colour :=

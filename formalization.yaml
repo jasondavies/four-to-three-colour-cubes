@@ -46,9 +46,10 @@ status:
     Sharp threshold 29, all larger collections, full classification at size 28,
     reflection of the two obstructions, source and target catalogue coverage,
     and source orbit uniqueness. Transport theorems connect canonical
-    inventories to arbitrary indexed face colourings. Table-free threshold
-    and sharpness statements require exactly four source colours, exactly
-    three target colours, distinct copies and geometric proper rotations.
+    inventories to arbitrary indexed face colourings. Threshold
+    and sharpness statements without source or target catalogues require
+    exactly four source colours, exactly three target colours, distinct
+    copies and geometric proper rotations.
     No priority claim or general five-colour threshold is formalised.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -87,7 +88,7 @@ automation:
     reviews supplied by the author; these were incorporated in subsequent
     Codex revisions. The human author initiated and directed
     the research and accepts responsibility for the paper's content and the
-    accuracy of its disclosure. The eighteen intentional statement holes in
+    accuracy of its disclosure. The nineteen intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
     is used. The supplied Claude reviews are summarised in
     research/claude-review-contributions.txt.
@@ -127,7 +128,7 @@ alignment:
       module: ThreeColour.Family
       status: proved
     - source: "Paper, classification and sharpness theorems"
-      lean: ThreeColour.family_classify28
+      lean: ThreeColour.family_classify28_geometric
       module: ThreeColour.Family
       status: proved
     - source: "Paper, sharp threshold"

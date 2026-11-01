@@ -54,19 +54,20 @@ make paper  # requires latexmk and a LaTeX installation
 `make check` validates source requirements and metadata, checks the dependency
 pin and absence of proof holes, regenerates finite geometry in a temporary
 directory, runs the separate Python geometric checker, and builds all Lean
-targets. The root `ThreeColour.lean` guards twenty-one axiom reports, permitting only
+targets. The root `ThreeColour.lean` guards twenty-two axiom reports, permitting only
 `propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
 The first Lean build takes several minutes; finite checks are split into
-modules for parallel builds. CI repeats these checks on pushes and pull requests.
+modules for parallel builds. CI repeats these checks and runs the full
+comparator on pushes and pull requests.
 
 The public Lean results include:
 
 | Theorem | Claim |
 | --- | --- |
 | `family_threshold29` | Every arbitrary indexed family of 29 four-colour cubes has a three-colour solution. |
-| `family_sharp_threshold29` | Table-free upper bound and explicit size-28 counterexample. |
-| `family_least_guaranteed_size` | Table-free least-size theorem. |
-| `family_classify28` | Classification for arbitrary indexed cubes, after counting their rotation varieties. |
+| `family_sharp_threshold29` | Upper bound without source or target catalogues and explicit size-28 counterexample. |
+| `family_least_guaranteed_size` | Least-size theorem without source or target catalogues. |
+| `family_classify28_geometric` | Classification for arbitrary indexed cubes by proper-rotation equivalence to the source representatives. |
 | `physical_threshold29` | Every collection of size 29 has a physical solution. |
 | `physical_classify28` | Exactly the two specified size-28 collections fail. |
 | `least_guaranteed_size` | 29 is the least size guaranteeing success for all larger collections. |
@@ -88,11 +89,13 @@ collections.
 
 ## Comparator and Palomar
 
-`Challenge.lean` independently restates eighteen results and their physical
-models, importing only mathlib. These include table-free threshold and
-sharpness statements, colour counts for both catalogues, completeness and
+`Challenge.lean` independently restates nineteen results and their physical
+models, importing only mathlib. These include threshold and
+sharpness statements without source or target catalogues, geometric
+rotation-class counts for the arbitrary-family classification, colour counts
+for both catalogues, completeness and
 properness of the rotation table, the outward-face rule, and physical mirror
-geometry. Its eighteen deliberate `sorry` declarations are
+geometry. Its nineteen deliberate `sorry` declarations are
 isolated comparator targets. They are not imported by `Solution.lean` or any
 proof module, and are excluded from the proof-development hole count.
 
@@ -101,7 +104,9 @@ make comparator
 ```
 
 This uses the toolchain's comparator and bundled Lean, NanoDa and con-ron
-kernels. It requires `bwrap` and support for its sandbox. The manually triggered
+kernels. Definition and statement mismatches fail before kernel replay;
+the full replay can take tens of minutes. `make check` alone does not run it.
+It requires `bwrap` and support for its sandbox. The manually triggered
 Palomar preflight workflow follows the same pinned pipeline as the earlier
 MacMahon repository. Neither a local pass nor this packaging is a registry
 submission or acceptance. No registry entry is claimed.

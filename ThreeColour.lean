@@ -87,3 +87,7 @@ public import ThreeColour.Family
 /-- info: 'ThreeColour.family_classify28' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.family_classify28
+
+/-- info: 'ThreeColour.family_classify28_geometric' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_classify28_geometric

@@ -153,7 +153,7 @@ for c in sources:
     'import ThreeColour.LowerData','import MacMahon.Rotations','namespace ThreeColour',
     'def reflection : Source → Source := '+array_fun(reflection,'Source'),
     'def reflectionRotation : Source → Fin 24 := '+array_fun(reflection_rot,'Fin 24'),
-    'def reflectFace : Fin 6 → Fin 6 := ![1,0,2,3,4,5]',
+    'def reflectFace (f : Fin 6) : Fin 6 := if f.val < 2 then MacMahon.opposite f else f',
     'def reflectInventory (x : Inventory) : Inventory := fun i => x (reflection i)',
     'end ThreeColour','']))
 
