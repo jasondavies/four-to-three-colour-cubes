@@ -36,7 +36,6 @@ Priority has not been independently established.
 - `ThreeColour/`: Lean proofs, generated geometry and formalisation guide.
 - `scripts/`: geometry generation, validation, comparator and optional search.
 - `data/lower-obstruction.json`: the 28-cube witness and its 120 Hall certificates.
-- `.github/workflows/`: CI and the optional Palomar preflight.
 - Root Lean files and configuration: build entry points, independent challenge,
   comparator configuration and formalisation metadata.
 
