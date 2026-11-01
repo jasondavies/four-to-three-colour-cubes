@@ -9,7 +9,7 @@ project:
     classified and proved to be mirror images. Internal faces are unrestricted.
     A palette-independent corner–rotation lemma connects cyclic corner types to
     physical face matching. The formalisation checks distinct copy use, catalogue
-    coverage and source uniqueness, and follows the counting proof with finite
+    coverage and source uniqueness, and uses a related counting argument with finite
     kernel-checked Hall certificates for sufficient constructions.
   authors: ["Jason Davies"]
   responsible_maintainers: ["Jason Davies"]

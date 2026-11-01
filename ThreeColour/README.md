@@ -33,8 +33,10 @@ exchanges the two extremal collections.
 `Core.lean` derives the Hall criterion from mathlib. `Stats.lean` verifies the
 source-pool counting identities. These pools are preimages under the corner
 reduction: `allCheckers` contains 36 original varieties mapping to six
-checkerboards, while the other two pools have sizes 8 and 24. `Counting.lean` and `Classification.lean` implement
-the counting proof with named lemmas. `Certificates/` checks finite Hall
+checkerboards, while the other two pools have sizes 8 and 24. `Counting.lean` and `Classification.lean` prove
+the threshold and classification by a related counting argument with named
+lemmas. They treat checkerboards and the smaller ordinary class separately;
+the written proof combines them as minority cubes. `Certificates/` checks finite Hall
 certificates for the sufficient constructions; `Lower.lean` checks a Hall
 deficiency for each target and each extremal collection.
 

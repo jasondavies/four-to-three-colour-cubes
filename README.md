@@ -18,8 +18,8 @@ counting the two extremal collections.
 
 This answers the threshold question in Problem 2 of
 [Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
-The written proof uses corner containment, Hall's theorem and elementary
-counting. The [literature check](research/literature-review.txt) found no later
+The written proof uses corner containment, explicit corner assignments and
+elementary counting. The [literature check](research/literature-review.txt) found no later
 answer, but Rosenfeld's October 2026 Geombinatorics article remains unread.
 Priority has not been independently established.
 
@@ -54,7 +54,7 @@ make paper  # requires latexmk and a LaTeX installation
 `make check` validates source requirements and metadata, checks the dependency
 pin and absence of proof holes, regenerates finite geometry in a temporary
 directory, runs the independent Python geometric checker, and builds all Lean
-targets. The root `ThreeColour.lean` guards nine axiom reports, permitting only
+targets. The root `ThreeColour.lean` guards eleven axiom reports, permitting only
 `propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
 The first Lean build takes several minutes; finite checks are split into
 modules for parallel builds. CI repeats these checks on pushes and pull requests.
