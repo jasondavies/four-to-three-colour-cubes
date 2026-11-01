@@ -6,45 +6,39 @@
 - [Provenance, scope and AI disclosure](formalization.yaml).
 
 **Every collection of 29 four-colour cubes contains eight that build an
-exactly-three-colour target. The bound is sharp, and exactly two labelled
-28-cube collections fail.** The two obstructions are mirror images: seven
-copies of each of four varieties in one orientation class.
+exactly-three-colour target. For a fixed palette, exactly two collections of
+28 cubes fail.** Each consists of seven copies of each of four varieties; the two
+collections are mirror images.
 
-![Why the exceptional 28 cubes fail: missing corner orientations, or eight required cubes with only seven available](paper/obstruction-figure.svg)
-
-*A: seven copies of each variety; marked vertices are monochromatic corners.
-B: every source cube has the four shown trichromatic orientations and lacks
-their reversals. The example target has four corners of each of the types
-012 and 021; its bottom face is hidden.
-C: any target without trichromatic corners has four faces of colour a and
-opposite faces of distinct colours b and c. It needs eight cubes with repeated
-colour a, but the collection has only seven. Reflection gives the other obstruction.*
-
-Each source cube uses all four colours of a fixed palette. Varieties identify
-proper rotations, not reflections, and collections may repeat varieties.
-The target is a 2×2×2 cube with monochromatic exterior faces using exactly
-three colours. Internal faces need not match. Colours remain fixed when
-counting the two extremal collections.
+Each source cube uses all four colours. A target is a 2×2×2 cube with
+monochromatic exterior faces using exactly three colours; internal faces
+need not match. Colourings related by a proper rotation are the same
+*variety*; reflecting a cube is not an allowed move. Collections may repeat varieties.
+A trichromatic corner has three different face colours.
 
 This answers the threshold question in Problem 2 of
 [Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
-The written proof uses corner containment, explicit corner assignments and
-elementary counting. A literature search on November 1, 2026 found no later
-answer, but Rosenfeld's October 2026 Geombinatorics article remains unread.
-Priority has not been independently established.
+
+![Why the exceptional 28 cubes fail: missing corner orientations, or eight required cubes with only seven available](paper/obstruction-figure.svg)
+
+*Marked vertices are monochromatic corners. In panel B, opposite faces of
+the target have equal colours, so its hidden bottom face has colour 2.
+In panel C, $a,b,c$ are distinct colours.*
 
 ## Proof idea
 
-Reduction leaves three cube types: triple-corner ($T$), pair-type ($P$),
-and checkerboard ($C$). A cube belongs to colour bucket $a$ if it has at least
-two of the three corner types $aab$, with $b\ne a$. The examples below show
-their bucket memberships; colour permutations give the other cases.
+The proof reduces the 68 varieties to 38 by replacing cubes with varieties
+whose corner types are contained in theirs. This preserves unsolvability.
+The retained types are triple-corner ($T$), pair-type ($P$), and checkerboard ($C$).
+A cube belongs to colour bucket $a$ if it has at least two of the three
+corner types $aab$, with $b\ne a$. The examples show one cube of each type;
+colour permutations give the other bucket memberships.
 
 ![A T cube links to one colour bucket, a P cube to two, and a checkerboard to none](paper/bucket-figure.svg)
 
-In an unsolvable reduced collection, each bucket contains at most seven cubes.
-Writing $n_T$ and $n_P$ for the numbers of $T$ and $P$ cubes, including repeats,
-counting memberships in the four buckets gives
+Eight cubes in any bucket can build a three-colour target, so an unsolvable
+collection has at most seven in each bucket. Let $n_T,n_P$ count the $T$ and
+$P$ cubes, including repeats. Counting memberships by cube type and by bucket gives
 
 $$n_T+2n_P\le 4\cdot7=28.$$
 
@@ -70,12 +64,8 @@ physical definitions: the 24 proper rotations, six coordinate face directions
 and eight corner positions. It does not import the six-colour classification
 proof. Both projects use Lean and mathlib **v4.35.0**.
 
-This avoids maintaining a second copy of the same geometry. The tradeoff is
-that the upstream geometry currently imports some six-colour definitions;
-a small shared geometry package would be a sensible future extraction if
-more projects need it. The fixed commit makes this build independent of
-future changes to the upstream default branch. A fresh clone fetches the
-public dependency; no sibling checkout or machine-specific path is needed.
+A fresh clone fetches this pinned public dependency; no sibling checkout
+is needed.
 
 ## Reproduce
 
@@ -88,13 +78,11 @@ make check
 make paper  # requires latexmk and a LaTeX installation
 ```
 
-`make check` validates source requirements and metadata, checks the dependency
-pin and absence of proof holes, regenerates finite geometry in a temporary
-directory, runs the separate Python geometric checker, and builds all Lean
-targets. The root `ThreeColour.lean` guards twenty-two axiom reports, permitting only
+`make check` audits proof sources, validates metadata and dependency pins,
+regenerates geometry and figures, runs the separate Python checker, and builds
+all Lean targets. The root `ThreeColour.lean` guards twenty-two axiom reports, permitting only
 `propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
-The first Lean build takes several minutes; finite checks are split into
-modules for parallel builds. CI repeats these checks and runs the full
+The first Lean build takes several minutes. CI repeats these checks and runs the full
 comparator on pushes and pull requests.
 
 The public Lean results include:
@@ -112,29 +100,21 @@ The public Lean results include:
 | `source_catalogue_unique` | Distinct source indices are distinct rotation varieties. |
 | `reflect_extremal` | Reflection exchanges the two extremal collections. |
 
-`Family.lean` proves the threshold and sharpness directly for arbitrary
-indexed face colourings, with exactly four colours per source and an
-existential target using exactly three. A solution selects eight distinct
-copies and geometric proper rotations. Transport in both directions connects
-this model to natural-number multiplicities of the 68 canonical varieties
-and extends the classification to arbitrarily oriented input cubes.
-A [general corner–rotation theorem](ThreeColour/CornerGeometry.lean), valid for
-any palette, proves that cyclic corner matching is equivalent to matching the
-three exposed faces by a proper rotation. Small finite checks connect the
-catalogue's corner codes to this theorem. The proof does not enumerate all
-collections.
+`Family.lean` works with arbitrary indexed face colourings; a solution selects
+eight distinct copies and proper rotations. Transport lemmas connect these
+families to inventories of the 68 canonical varieties. A
+[corner–rotation theorem](ThreeColour/CornerGeometry.lean), valid for any
+palette, equates cyclic corner matching with matching the three exposed faces
+by a proper rotation. The proof does not enumerate all collections.
 
 ## Comparator and Palomar
 
-`Challenge.lean` independently restates nineteen results and their physical
-models, importing only mathlib. These include threshold and
-sharpness statements without source or target catalogues, geometric
-rotation-class counts for the arbitrary-family classification, colour counts
-for both catalogues, completeness and
-properness of the rotation table, the outward-face rule, and physical mirror
-geometry. Its nineteen deliberate `sorry` declarations are
-isolated comparator targets. They are not imported by `Solution.lean` or any
-proof module, and are excluded from the proof-development hole count.
+`Challenge.lean` imports only mathlib and independently restates nineteen
+results: the threshold, sharpness and classification, catalogue coverage and
+colour counts, and correctness of the rotation, exposed-face and reflection
+geometry. Its nineteen deliberate `sorry` declarations are statement
+placeholders. No proof module imports them; they are excluded from the
+proof-development hole count.
 
 ```sh
 make comparator
@@ -143,10 +123,9 @@ make comparator
 This uses the toolchain's comparator and bundled Lean, NanoDa and con-ron
 kernels. Definition and statement mismatches fail before kernel replay;
 the full replay can take tens of minutes. `make check` alone does not run it.
-It requires `bwrap` and support for its sandbox. The manually triggered
-Palomar preflight workflow follows the same pinned pipeline as the earlier
-MacMahon repository. Neither a local pass nor this packaging is a registry
-submission or acceptance. No registry entry is claimed.
+It requires `bwrap` and support for its sandbox. The repository also includes
+a manually triggered Palomar preflight workflow. No registry submission or
+acceptance is claimed.
 
 ## Computation and review
 
@@ -157,7 +136,7 @@ both exhibited lower obstructions, all 120 targets,
 68 one-cube extensions of the first obstruction and 1,000 sampled 29-cube
 collections. These finite samples do not prove the upper bound.
 
-The optional search uses OR-Tools' compiled multicore CP-SAT backend:
+The optional search uses OR-Tools CP-SAT:
 
 ```sh
 python3 -m venv .venv
@@ -168,9 +147,8 @@ python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
   --hint data/lower-obstruction.json --output /tmp/four-to-three-search.json
 ```
 
-That command finds the size-28 optimum. These report no 29-cube obstruction
-and no other 28-cube obstruction among the 38 reduced varieties, up to colour
-permutation:
+That command searches for the largest obstruction. To test size 29 and
+exclude the known 28-cube obstructions among the 38 reduced varieties, run:
 
 ```sh
 python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
@@ -182,9 +160,12 @@ python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
 ```
 
 Both should report `INFEASIBLE`. The checked-in fixture contains the 28-cube
-witness and Hall certificates for every target. The geometric checker validates
-them on each run and prints its report to stdout. Neither saved run reports nor
-solver claims are needed for the Lean proof.
+witness and Hall certificates for every target; the geometric checker validates
+them on each run. The Lean proof does not depend on the solver.
+
+A literature search on November 1, 2026 found no earlier answer, but
+Rosenfeld's October 2026 Geombinatorics article remains unread.
+Priority has not been independently established.
 
 AI contributions and review scope are recorded in [formalization.yaml](formalization.yaml)
 and the paper's disclosure. The original GPT-6-Astra review covered an earlier
