@@ -62,9 +62,13 @@ only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
 proof holes or uses of `native_decide` in the proof library. The nine intentional
 statement holes in `Challenge.lean` are isolated comparator targets.
 
-The independent Python geometry checker and separate AI proof review provide
-additional checks. Neither constitutes independent human peer review, and
-formal verification does not establish novelty.
+The independent Python geometry checker provides additional checks, including
+comparison with the printed corner-type table. The original separate AI proof
+review covers an earlier version of the argument. Later author-supplied Claude
+reviews contributed the manuscript's minority-cube argument, edge-count balance
+proof, degree remark and shorter bucket and threshold proofs. These reviews
+are not independent human peer review, and formal verification does not
+establish novelty.
 
 The geometry dependency is `macmahon_min_universal_sets`, pinned in
 `lakefile.toml` and `lake-manifest.json`. Only `MacMahon.Rotations` and its

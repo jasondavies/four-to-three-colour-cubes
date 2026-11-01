@@ -60,37 +60,57 @@ automation:
         Under the author's direction, investigated the open problem, developed
         a multicore CP-SAT search and separate geometric checker, derived the
         counting and classification argument, wrote the Lean proof and manuscript,
-        and prepared this package. A separate AI reviewer checked the argument,
-        finite geometry, formal theorem scope and axiom reports.
+        and prepared this package. A separate AI reviewer checked an earlier
+        version of the argument, finite geometry, formal theorem scope and axiom reports.
       cost:
         wall_time: "not tracked"
         spend_usd: "not tracked"
         hardware: "local CPU; no GPU"
       prompting_notes: "The author requested a publishable research direction, efficient computation, proof review, and Lean formalisation."
+    - method: agent
+      models: ["Claude (Anthropic; model version not recorded)"]
+      framework: "Reviews supplied by the author"
+      tool_setup: >-
+        Contributed the minority-cube counting argument, edge-count balance
+        proof, degree remark, shorter bucket and threshold proofs, and
+        exposition and release-review comments. Subsequent Codex revisions
+        incorporated these contributions into the manuscript and package.
   spend_usd: "not tracked"
   notes: >-
-    GPT-6-Astra (OpenAI), used through Codex, developed the research and package
-    under the human author's direction. The human author initiated and directed
+    GPT-6-Astra (OpenAI), used through Codex, developed the original research
+    and package under the human author's direction. Claude (Anthropic)
+    contributed mathematical simplifications and editorial review through
+    reviews supplied by the author; these were incorporated in subsequent
+    Codex revisions. The human author initiated and directed
     the research and accepts responsibility for the paper's content and the
     accuracy of its disclosure. The nine intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
-    is used. No Claude contribution to this project is asserted.
+    is used. The supplied Claude reviews are summarised in
+    research/claude-review-contributions.txt; the model version was not recorded.
 fidelity:
   divergences: >-
     Cubes are represented by their six discrete coordinate-face colours, with
     proper rotations represented by determinant-positive signed-axis permutations.
     Collections allow arbitrary repeated varieties. Only exterior faces match.
-    The written counting proof is followed with finite Hall certificates for
-    the constructions. The lower bound is checked against every target rather
-    than formalising the written dual-octahedron balance argument. Geometry
+    The Lean proof uses a related counting argument with finite Hall certificates
+    for the constructions. It treats checkerboards and the smaller ordinary
+    class separately; the written proof combines them as minority cubes.
+    The lower bound is checked against every target rather than formalising
+    the written edge-count balance proof or the degree remark. Uniqueness up
+    to colour permutation is a written corollary, without a separate formal
+    colour-permutation theorem. Geometry
     checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
 review:
   status: "AI-reviewed; not independently reviewed by a human expert"
   reviewers:
-    - "GPT-6-Astra (OpenAI), used through Codex: separate AI proof and formalisation review"
+    - "GPT-6-Astra (OpenAI), used through Codex: separate AI review of the earlier argument and formalisation"
+    - "Claude (Anthropic; model version not recorded): author-supplied mathematical, exposition and release reviews"
   notes: >-
     The original review record is in research/independent-review.txt and predates
-    extraction into this package. Reproduce current checks with make check and
+    extraction into this package and the manuscript rewrites. It is not a review
+    of the current manuscript. Later author-supplied Claude reviews and their
+    contributions are summarised in research/claude-review-contributions.txt.
+    Reproduce current checks with make check and
     make comparator. CI and preflight logs identify the checked revision; no
     stale machine-specific validation logs are committed. The literature check
     found no prior answer, but Rosenfeld's October 2026 article remains unread.

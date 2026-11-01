@@ -10,6 +10,7 @@ import itertools
 import json
 from pathlib import Path
 import random
+import re
 
 
 def require(condition, message):
@@ -48,6 +49,53 @@ def corner_types(c):
             k = (k[0], k[2], k[1])
         result.append(min(k, k[1:] + k[:1], k[2:] + k[:2]))
     return result
+
+
+def printed_table_rows(manuscript, label):
+    """Read the simple tabular format used by the two geometric tables."""
+    tables = [table for table in re.findall(
+        r'\\begin\{table\}.*?\\end\{table\}', manuscript, re.S)
+        if rf'\label{{{label}}}' in table]
+    require(len(tables) == 1, f'Expected one printed table labelled {label}')
+    tabular = re.search(
+        r'\\begin\{tabular\}\{[^}]*\}(.*?)\\end\{tabular\}', tables[0], re.S)
+    require(tabular is not None, f'Missing tabular in {label}')
+    body = re.sub(r'\\(?:toprule|midrule|bottomrule)\b', '', tabular.group(1))
+    rows = [row.strip() for row in body.split(r'\\') if row.strip()]
+    require(len(rows) > 1, f'Missing printed rows in {label}')
+    return [[cell.strip() for cell in row.split('&')] for row in rows[1:]]
+
+
+def check_printed_tables(manuscript, reduction_table):
+    """Compare printed entries with the independently checked geometry."""
+    retained_types = {'001123': 'checkerboard $C$', '010203': 'triple-corner $T$',
+                      '010213': 'pair type $P$', '010223': 'pair type $P$'}
+    expected = [[f'${word}$', str(size), retained_types[word] if retained else '---',
+                 '---' if retained else '$001123$']
+                for word, size, retained in reduction_table]
+    rows = printed_table_rows(manuscript, 'tab:reduction')
+    require(sorted(rows) == sorted(expected), 'Printed reduction table disagrees with geometry')
+
+    rows = printed_table_rows(manuscript, 'tab:corners')
+    expected_words = {word for word, _, retained in reduction_table if retained}
+    require(len(rows) == len(expected_words), 'Wrong number of printed corner-table rows')
+    seen = set()
+    for row in rows:
+        require(len(row) == 2, 'Malformed printed corner-table row')
+        word = re.fullmatch(r'\$([0-3]{6})\$', row[0])
+        entries = re.fullmatch(r'\$\\\{([0-3,\s]+)\\\}\$', row[1])
+        require(word is not None and entries is not None, 'Malformed printed corner-table entry')
+        word = word.group(1)
+        require(word in expected_words and word not in seen,
+                f'Unexpected or duplicate printed representative: {word}')
+        seen.add(word)
+        triples = [entry.strip() for entry in entries.group(1).split(',')]
+        require(all(re.fullmatch(r'[0-3]{3}', triple) for triple in triples),
+                f'Malformed printed corner type for {word}')
+        require(len(triples) == len(set(triples)), f'Duplicate printed corner type for {word}')
+        actual = {''.join(map(str, k)) for k in corner_types(tuple(map(int, word)))}
+        require(set(triples) == actual, f'Printed corner types disagree with geometry for {word}')
+    return len(rows)
 
 
 def fits(cubes, targets):
@@ -107,6 +155,9 @@ def main():
             require(set(corner_types((0,0,1,1,2,3))) <= set(corner_types(c)),
                     'Printed replacement does not preserve corner containment')
     require(covered == set(cubes), 'Reduction table is incomplete')
+    manuscript = (Path(__file__).resolve().parents[1] /
+                  'paper/macmahon-four-to-three.tex').read_text()
+    printed_corner_rows = check_printed_tables(manuscript, reduction_table)
     plus = {(0, 1, 2), (0, 3, 1), (0, 2, 3), (1, 3, 2)}
     minus = {min((a,c,b), (c,b,a), (b,a,c)) for a,b,c in plus}
     categories = Counter()
@@ -201,6 +252,8 @@ def main():
             x[rng.choice(support)] += 1
         require(any(match(ss, x) for ss in slots), 'Unsolved random 29-cube inventory')
     result = dict(varieties=68, targets=120, minimal_varieties=38,
+                  printed_reduction_rows_checked=len(reduction_table),
+                  printed_corner_rows_checked=printed_corner_rows,
                   classes=dict(categories), lower_bound_size=28,
                   exhibited_labelled_lower_obstructions=2,
                   lower_bound_targets_checked=120, one_cube_extensions_checked=68,

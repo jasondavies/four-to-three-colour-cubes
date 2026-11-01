@@ -1,0 +1,41 @@
+Claude review contributions
+Recorded 1 November 2026
+
+Provenance
+This is a summary of reviews supplied by the author in the project
+conversation and attributed there to Claude (Anthropic). The model version
+and original execution environment were not recorded. It is not a new
+independent review or a transcript of a tool run in this repository.
+
+Mathematical contributions incorporated through subsequent Codex revisions
+- Combine the smaller ordinary orientation class with checkerboards as
+  minority cubes; count T and P cubes only in the majority class. This
+  removes the separate checkerboard and mixed-orientation cases.
+- Prove three-colour corner balance by counting directed colour transitions
+  at the two endpoints of each cube edge.
+- Identify the common signed trichromatic imbalance as a degree and explain
+  its behaviour under reflection and colour permutations.
+- Give a direct corner-assignment proof of the bucket bound using the
+  types each cube misses.
+- Shorten the threshold proof using the multiplicity 1-or-8 contradiction.
+
+Further review contributions
+The supplied reviews suggested improvements to definitions, notation,
+ordering and concision; identified missing attribution and stale fidelity
+statements; requested an explicit check of the printed corner-type table;
+and clarified the remaining literature-access limitation. They also proposed
+the merged strengthened-bucket construction, explicit minority support,
+and the uniqueness corollary up to colour permutation.
+
+Scope and limitations
+The supplied reviews report mathematical and finite-geometric checks of
+successive manuscript versions. Their claims should not be confused with
+checks newly executed by the repository's scripts or with Lean verification
+of the revised written argument. The Lean proof retains a related counting
+argument and checks the lower bound by finite Hall deficiencies; it does not
+formalise the edge-count balance proof or the degree remark.
+
+The older GPT-6-Astra review in research/independent-review.txt covers the
+original development before extraction and the later manuscript rewrites.
+Neither that record nor the supplied Claude reviews is independent human
+peer review, and neither establishes publication priority.

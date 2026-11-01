@@ -101,7 +101,8 @@ submission or acceptance. No registry entry is claimed.
 
 The [independent checker](scripts/check_three_colour_threshold.py) uses Python's
 standard library and generates rotations from quarter-turns. It checks the
-68-to-38 corner reduction, both exhibited lower obstructions, all 120 targets,
+68-to-38 corner reduction, the printed entries in both geometric tables,
+both exhibited lower obstructions, all 120 targets,
 68 one-cube extensions of the first obstruction and 1,000 sampled 29-cube
 collections. These finite samples do not prove the upper bound.
 
@@ -122,10 +123,18 @@ source family and proved bucket bounds. They are computational checks, not
 imported optimality certificates. The Lean proof stands independently of
 CP-SAT and the saved JSON results.
 
-GPT-6-Astra (OpenAI), used through Codex, developed the argument, computational
-search, Lean proof and manuscript under Jason Davies's direction. A separate
-AI reviewer found no mathematical errors in the original development; its
-[review record](research/independent-review.txt) predates extraction into this
-repository. These automated checks are not independent human peer review.
+GPT-6-Astra (OpenAI), used through Codex, developed the original argument,
+computational search, Lean proof and manuscript under Jason Davies's direction.
+Claude (Anthropic), through reviews supplied by the author, contributed the
+minority-cube argument, edge-count balance proof, degree remark, and shorter
+bucket and threshold proofs. Subsequent Codex revisions incorporated these
+contributions; the [contribution record](research/claude-review-contributions.txt)
+summarises their scope. Claude's model version was not recorded.
+
+A separate AI reviewer found no mathematical errors in the original
+development; its [review record](research/independent-review.txt) predates
+extraction into this repository and the manuscript rewrites. It covers an
+earlier version of the argument. These automated checks are not independent
+human peer review.
 
 Code and manuscript are distributed under the [Apache-2.0 licence](LICENSE).

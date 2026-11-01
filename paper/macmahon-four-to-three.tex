@@ -6,6 +6,8 @@
   pdfauthor={Jason Davies}}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
 \title{A sharp threshold for three-colour targets from four-colour cubes}
 \author{Jason Davies}
 \date{November 1, 2026}
@@ -22,11 +24,6 @@ the threshold question in Problem 2 of Berkove, Eickemeyer and Schulman
 counting. The threshold and classification are formalised in Lean.
 \end{abstract}
 
-\noindent\textbf{AI transparency statement.} The research argument, computer
-code, Lean formalisation and manuscript were developed using AI under the
-author's direction. The declaration at the end gives the scope of this work
-and its review status.
-
 \section{Introduction}
 Berkove, Eickemeyer and Schulman~\cite[Problem 2]{BES} ask for the
 least number of four-colour cubes that guarantees a choice of eight cubes
@@ -39,7 +36,8 @@ are allowed.
 
 We prove that the least number is 29 and classify all collections of
 28 cubes that fail. There are exactly two such collections, exchanged by
-reflection. Each consists of seven
+reflection and by any odd colour permutation, so there is one obstruction
+up to colour permutation. Each consists of seven
 copies of each of four varieties; explicit face tuples are given in
 Theorem~\ref{thm:sharp}. The proof first classifies the possible
 28-cube obstructions by corner containment and counting, then deduces
@@ -56,7 +54,7 @@ oriented basis. Thus $abc$ and $acb$ are distinct when the three colours
 differ. A source cube fits a target corner by a proper rotation if and
 only if it has the same cyclic corner type: the cyclic alignments of two
 corner frames are exactly those realised by proper rotations of the cube.
-For matching purposes, a target is represented by its
+A target is represented by its
 multiset of eight corner types: a collection builds it exactly when these
 eight occurrences can be matched to distinct cubes having the required types.
 
@@ -104,8 +102,8 @@ The retained types are precisely the minimal varieties in
 \cite[Table 8]{BES}. A reduced variety belongs to bucket $a$ if it has
 at least two of the three corner types $aab$ with $b\ne a$.
 \begin{itemize}
-\item The eight $T$ varieties have a monochromatic corner $aaa$ and
-  belong only to bucket $a$.
+\item The eight $T$ varieties have corners $aaa$ and $aab$ for every
+  $b\ne a$, and belong only to bucket $a$.
 \item The 24 $P$ varieties belong to two buckets, one for each repeated
   colour.
 \item The six checkerboards belong to no bucket. Their repeated colours
@@ -116,16 +114,18 @@ The 32 ordinary varieties ($T$ and $P$) split into two classes of 16.
 Every member of one class has the same four trichromatic corner types,
 one orientation for each three-element subset of the palette; every
 member of the other class has the four reversed orientations.
-For our coordinate convention the four trichromatic types of one class are
+For our corner convention the four trichromatic types of one class are
 \[
  \Omega=\{012,031,023,132\}.
 \]
 All three ordinary representatives in Table~\ref{tab:corners} belong
 to the class of $\Omega$. Even colour permutations preserve $\Omega$
-and odd ones reverse it, with triples read cyclically. These permutations
-give the stated incidences and orientation classes. Since even permutations
-act transitively on the four colours, each class contains exactly one
-$T$ variety for each repeated colour. A separate geometric checker
+and odd ones reverse it, with triples read cyclically. Applying colour
+permutations to Table~\ref{tab:corners} gives the stated incidences and
+orientation classes. The eight $T$ varieties split evenly between the
+classes, and even permutations act transitively on the four colours, so
+each class contains exactly one $T$ variety for each repeated colour.
+A separate geometric checker
 verifies both tables and all the stated incidences using physical rotations.
 
 \begin{table}[ht]
@@ -167,18 +167,21 @@ solution consists of seven copies of each of the four $T$ varieties
 in one ordinary orientation class.
 \end{theorem}
 \begin{proof}
-Reduce the collection as above and suppose that no solution exists.
+Suppose the collection has no solution. Reduce it as above; the reduced
+collection has no solution either, since reduction preserves unsolvability.
 Let $A\ge B$ be the sizes of the two ordinary orientation classes, and
 let $C$ count checkerboards, so $A+B+C=28$. Call the class of size $A$
 the majority class. Call the remaining $M=B+C$ cubes \emph{minority cubes}.
+A minority cube \emph{supports} a three-element colour set $E$ if it has
+the orientation on $E$ opposite to the majority class. Smaller-class
+cubes support every $E$; a checkerboard supports two.
 
-For a three-element colour set $E=\{a,b,c\}$, let $z_E$ count checkerboards supporting
-its two orientations. If $z_E\ge8$, those eight checkerboards build the
+For $E=\{a,b,c\}$, let $z_E$ count checkerboards supporting $E$.
+If $z_E\ge8$, those eight checkerboards build the
 target $D(a,b,c)$. Thus $z_E\le7$ for each
 $E$, and, since each checkerboard supports two triples, $2C\le28$.
 It follows that $A+B\ge14$, so $A\ge7$. There are $m_E=B+z_E$
-minority cubes supporting the orientation on $E$ opposite to that of the
-majority class. If $m_E\ge4$, four such cubes and four majority cubes
+minority cubes supporting $E$. If $m_E\ge4$, four such cubes and four majority cubes
 build $D(a,b,c)$. Hence
 $m_E\le3$ for every $E$. Summing gives
 \begin{equation}\label{eq:minority}
@@ -210,15 +213,12 @@ checkerboard with the complementary pair of repeated colours. One of
 the corresponding $m_E$ would then equal $M\ge4$, contradicting $m_E\le3$.
 
 We claim that $t_a\ge4$ forces $t_a+p_a\le5$.
-If $t_a=5$ and $p_a\ge1$, choose an $aab$ corner on a pair-type cube and
-a minority cube supporting $\{a,b,c\}$. The pair-type cube supplies one
-$aab$ corner and five $T$ cubes supply $2aaa+aab+2aac$, completing the
-six non-trichromatic corners of $R(a;b,c)$.
-If $t_a=4$ and $p_a\ge2$, two pair-type cubes have a common third colour
-$b$, since each supports two of the three possibilities. These two cubes
-supply $2aab$, and four $T$ cubes supply $2aaa+2aac$, where a minority
-cube again supports $\{a,b,c\}$. In both cases the construction above
-gives a solution, proving the claim.
+Otherwise, since $t_a\le5$, choose six majority cubes in bucket $a$,
+with four or five $T$ cubes and the rest $P$ cubes. These one or two
+$P$ cubes share a type $aab$, since each has two of the three possibilities.
+Choose a minority cube supporting $\{a,b,c\}$. The $P$ cubes take $aab$
+positions and the $T$ cubes supply the rest of $2aaa+2aab+2aac$,
+so the construction above gives a solution, proving the claim.
 
 If $t_a\le3$, the bucket bound gives $2t_a+p_a\le t_a+7\le10$.
 If $4\le t_a\le5$, the claim gives $2t_a+p_a\le t_a+5\le10$.
@@ -277,25 +277,10 @@ neighbours form a path containing both $a$ and $b$, again forcing a
 change. Both cases produce a trichromatic corner.
 \end{proof}
 
-\noindent\textbf{Remark.}
-For the palette $\{0,1,2,3\}$, write
-$\delta(xyz)=n(xyz)-n(xzy)$. Applying \eqref{eq:edge-balance} to the
-different colour pairs gives
-\[
- \delta(012)=\delta(031)=\delta(023)=\delta(132).
-\]
-This common integer is the cube's \emph{degree}, relative to the
-orientation $\Omega$. Reflection reverses all cyclic orders and hence
-the degree. Each transposition of colour labels also reverses its sign;
-thus even colour permutations preserve the degree and odd ones reverse it.
-Table~\ref{tab:corners} shows that the two ordinary classes have degrees
-$+1$ and $-1$, while checkerboards have degree zero. Any cube missing a
-colour also has degree zero, recovering the balance in
-Lemma~\ref{lem:balance}.
-
 \begin{theorem}\label{thm:sharp}
 The threshold 29 in Theorem~\ref{thm:upper} is best possible. For a fixed
 palette, exactly two 28-cube collections fail, and they are mirror images.
+Up to colour permutation, there is a single obstruction.
 \end{theorem}
 \begin{proof}
 Take seven copies of each of the following four face tuples:
@@ -310,47 +295,69 @@ every one of its eight corners has colour $a$ twice, so only the seven
 $T$ cubes of repeated colour $a$ are usable. No three-colour target is
 possible. Reflection gives the analogous example in the other orientation
 class. Theorem~\ref{thm:classification} excludes all other collections.
+Every odd colour permutation exchanges the two orientation classes and
+hence these two collections.
 \end{proof}
 
-\section{Formal verification and computation}
-The threshold and the full classification have been formalised in Lean
-4.35.0~\cite{Lean4} with mathlib v4.35.0~\cite{mathlib}. The formal model assigns arbitrary natural-number
-multiplicities to the 68 four-colour varieties. A physical solution selects
-eight distinct copies and specifies a proper rotation matching the three
-exposed faces at each corner of a target. Separate kernel checks establish
-coverage of all four-colour source and three-colour target face assignments
-and uniqueness of source varieties up to rotation. A general lemma, valid for
-any palette and allowing repeated colours, identifies cyclic corner matching
-with physical face matching by a proper rotation. Finite checks connect the
-stored corner codes to this lemma.
+\begin{samepage}
+\begin{remark}
+For the palette $\{0,1,2,3\}$, write
+$\delta(xyz)=n(xyz)-n(xzy)$. Applying \eqref{eq:edge-balance} to the
+different colour pairs gives
+\[
+ \delta(012)=\delta(031)=\delta(023)=\delta(132).
+\]
+This common integer is the cube's \emph{degree}, relative to $\Omega$.
+Reflection negates the degree, as does each transposition of colour labels;
+thus even colour permutations preserve it and odd ones negate it.
+Each ordinary representative in Table~\ref{tab:corners} has eight distinct
+corner types, so each occurs once; the two ordinary classes therefore
+have degrees $+1$ and $-1$. The checkerboard representative has neither
+$023$ nor $032$, so its degree, and that of every checkerboard, is zero.
+\end{remark}
+\end{samepage}
 
-The formalisation proves the same threshold and classification using a
-related counting argument and finite Hall certificates for sufficient
+\section{Formal verification and computation}
+The threshold and classification are formalised in Lean 4.35.0~\cite{Lean4}
+with mathlib v4.35.0~\cite{mathlib}. Inventories assign natural-number
+multiplicities to the 68 source varieties; solutions select eight distinct
+copies and proper rotations matching the exposed faces. Kernel checks
+establish source and target catalogue coverage, source uniqueness up to
+rotation, and correctness of stored corner codes. A palette-independent
+lemma, allowing repeated colours, equates cyclic corner matching with
+physical face matching by a proper rotation.
+
+The proof uses a related counting argument and finite Hall certificates for sufficient
 constructions. It treats checkerboards and the smaller ordinary class
 separately, whereas the written proof combines them as minority cubes.
-The lower bound checks a Hall
-deficiency for each of the 120 targets and each extremal collection;
-reflection exchanges the two collections. The formal proof does not
-enumerate all collections. Its axiom audit reports only Lean's standard
+The lower bound checks Hall deficiencies for all 120 targets and both
+extremal collections; reflection exchanges the two. No proof enumerates all
+collections. The axiom audit reports only Lean's standard
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}; it uses
-neither proof holes nor \texttt{native\_decide}. The accompanying repository\footnote{\url{https://github.com/jasondavies/macmahon-four-to-three}}
-contains the source, dependency pin and reproduction commands. It reuses the proper-rotation
-and outward-face geometry from \href{https://github.com/jasondavies/macmahon-min-universal-sets}{the earlier MacMahon formalisation}. No classification
-result from that project is used.
+neither proof holes nor \texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/macmahon-four-to-three}}
+contains sources and reproduction commands, with the proper-rotation and
+outward-face geometry pinned from \href{https://github.com/jasondavies/macmahon-min-universal-sets}{the earlier MacMahon formalisation}.
+No classification result from that project is used.
 
 A computational search found the 28-cube example and returned results
 consistent with the threshold and classification. An independent script
 checks the finite geometric facts and lower obstructions; neither the
 written proof nor the Lean proof depends on the search or this script.
 
-\paragraph{Literature and priority.}
-An expanded, bounded literature search on November 1, 2026 found no
-earlier answer to this threshold question, but does not establish priority.
+\section*{Literature and priority}
+A literature search on November 1, 2026 found no earlier answer; this
+does not establish priority. Rosenfeld's October 2026 article
+\emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1} remains unread,
+and its relevance is undetermined.
 
 \section*{Declaration of AI-generated research and review}
-GPT-6-Astra (OpenAI), used through Codex, developed the research argument,
-computational search, Lean formalisation and manuscript under the author's
-direction. A separate AI reviewer checked the argument and physical model.
+GPT-6-Astra (OpenAI), used through Codex, developed the original research
+argument, computational search, Lean formalisation and manuscript under
+the author's direction. Claude (Anthropic), in reviews supplied by the
+author, contributed the minority-cube argument, edge-count balance proof,
+degree remark, and shorter bucket and threshold proofs. Subsequent Codex
+revisions incorporated these contributions. A separate AI reviewer checked
+an earlier version of the argument and physical model.
 The human author initiated and directed the research and accepts
 responsibility for the content of this paper and the accuracy of this
 disclosure. The paper has not received independent human peer review.
