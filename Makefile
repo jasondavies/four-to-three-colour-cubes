@@ -15,4 +15,7 @@ paper:
 regenerate:
 	python3 scripts/generate_three_colour_lean.py
 
-.PHONY: all lean check comparator paper regenerate
+figure:
+	python3 scripts/generate_figure.py
+
+.PHONY: all lean check comparator paper regenerate figure

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="985.64" height="258" viewBox="0 0 985.64 258" role="img" aria-labelledby="t">
+<title id="t">A three-colour target beside four cube varieties, each repeated seven times, that cannot build any such target</title>
+<rect width="985.64" height="258" rx="10" fill="#fff"/>
+<g font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#111">
+<text x="93.82" y="40" text-anchor="middle" font-size="17" font-weight="bold">A target</text>
+<text x="596.64" y="40" text-anchor="middle" font-size="17" font-weight="bold">An obstruction: 28 cubes</text>
+<g stroke="#111" stroke-width="1.2" stroke-linejoin="round">
+<polygon points="28,91 60.91,110 60.91,148 28,129" fill="#E69F00"/>
+<polygon points="28,129 60.91,148 60.91,186 28,167" fill="#E69F00"/>
+<polygon points="60.91,110 93.82,129 93.82,167 60.91,148" fill="#E69F00"/>
+<polygon points="60.91,148 93.82,167 93.82,205 60.91,186" fill="#E69F00"/>
+<polygon points="93.82,129 126.73,110 126.73,148 93.82,167" fill="#56B4E9"/>
+<polygon points="93.82,167 126.73,148 126.73,186 93.82,205" fill="#56B4E9"/>
+<polygon points="126.73,110 159.64,91 159.64,129 126.73,148" fill="#56B4E9"/>
+<polygon points="126.73,148 159.64,129 159.64,167 126.73,186" fill="#56B4E9"/>
+<polygon points="93.82,53 60.91,72 93.82,91 126.73,72" fill="#009E73"/>
+<polygon points="126.73,72 93.82,91 126.73,110 159.64,91" fill="#009E73"/>
+<polygon points="60.91,72 28,91 60.91,110 93.82,91" fill="#009E73"/>
+<polygon points="93.82,91 60.91,110 93.82,129 126.73,110" fill="#009E73"/>
+<rect x="273.64" y="72" width="38" height="38" fill="#E69F00"/>
+<rect x="235.64" y="110" width="38" height="38" fill="#009E73"/>
+<rect x="273.64" y="110" width="38" height="38" fill="#E69F00"/>
+<rect x="311.64" y="110" width="38" height="38" fill="#E69F00"/>
+<rect x="349.64" y="110" width="38" height="38" fill="#56B4E9"/>
+<rect x="273.64" y="148" width="38" height="38" fill="#F0E442"/>
+<rect x="463.64" y="72" width="38" height="38" fill="#56B4E9"/>
+<rect x="425.64" y="110" width="38" height="38" fill="#F0E442"/>
+<rect x="463.64" y="110" width="38" height="38" fill="#56B4E9"/>
+<rect x="501.64" y="110" width="38" height="38" fill="#56B4E9"/>
+<rect x="539.64" y="110" width="38" height="38" fill="#E69F00"/>
+<rect x="463.64" y="148" width="38" height="38" fill="#009E73"/>
+<rect x="653.64" y="72" width="38" height="38" fill="#009E73"/>
+<rect x="615.64" y="110" width="38" height="38" fill="#56B4E9"/>
+<rect x="653.64" y="110" width="38" height="38" fill="#009E73"/>
+<rect x="691.64" y="110" width="38" height="38" fill="#009E73"/>
+<rect x="729.64" y="110" width="38" height="38" fill="#E69F00"/>
+<rect x="653.64" y="148" width="38" height="38" fill="#F0E442"/>
+<rect x="843.64" y="72" width="38" height="38" fill="#F0E442"/>
+<rect x="805.64" y="110" width="38" height="38" fill="#009E73"/>
+<rect x="843.64" y="110" width="38" height="38" fill="#F0E442"/>
+<rect x="881.64" y="110" width="38" height="38" fill="#F0E442"/>
+<rect x="919.64" y="110" width="38" height="38" fill="#E69F00"/>
+<rect x="843.64" y="148" width="38" height="38" fill="#56B4E9"/>
+</g>
+<text x="44.45" y="119.5" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="44.45" y="157.5" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="77.36" y="138.5" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="77.36" y="176.5" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="110.27" y="138.5" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="110.27" y="176.5" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="143.18" y="119.5" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="143.18" y="157.5" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="93.82" y="72" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="126.73" y="91" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="60.91" y="91" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="93.82" y="110" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="292.64" y="91" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="254.64" y="129" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="292.64" y="129" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="330.64" y="129" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="368.64" y="129" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="292.64" y="167" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="482.64" y="91" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="444.64" y="129" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="482.64" y="129" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="520.64" y="129" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="558.64" y="129" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="482.64" y="167" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="672.64" y="91" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="634.64" y="129" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="672.64" y="129" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="710.64" y="129" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="748.64" y="129" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="672.64" y="167" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="862.64" y="91" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="824.64" y="129" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="862.64" y="129" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="900.64" y="129" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="938.64" y="129" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="862.64" y="167" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="311.64" y="212" text-anchor="middle" dominant-baseline="central">7 × 010203</text>
+<text x="501.64" y="212" text-anchor="middle" dominant-baseline="central">7 × 011213</text>
+<text x="691.64" y="212" text-anchor="middle" dominant-baseline="central">7 × 021223</text>
+<text x="881.64" y="212" text-anchor="middle" dominant-baseline="central">7 × 031323</text>
+</g>
+</svg>

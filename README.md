@@ -10,6 +10,13 @@ exactly-three-colour target. The bound is sharp, and exactly two labelled
 28-cube collections fail.** The two obstructions are mirror images: seven
 copies of each of four varieties in one orientation class.
 
+![A three-colour target beside the four cube varieties of one obstruction](paper/obstruction-figure.svg)
+
+*Left: a target, with each hidden side the same colour as the side opposite it.
+Right: unfolded cubes viewed from outside, each rotated so that its repeated
+colour occupies the central square and the squares to its right and above.
+These 28 cubes build no three-colour target.*
+
 Each source cube uses all four colours of a fixed palette. Varieties identify
 proper rotations, not reflections, and collections may repeat varieties.
 The target is a 2×2×2 cube with monochromatic exterior faces using exactly

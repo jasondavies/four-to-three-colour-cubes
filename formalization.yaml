@@ -80,6 +80,7 @@ automation:
         repository. Solver and audit scripts from the later review were
         run from a temporary scratchpad and are not checked in. Subsequent Codex revisions
         incorporated these contributions into the manuscript and package.
+        Claude Code also added the obstruction figure and scripts/generate_figure.py.
   spend_usd: "not tracked"
   notes: >-
     GPT-6-Astra (OpenAI), used through Codex, developed the original research

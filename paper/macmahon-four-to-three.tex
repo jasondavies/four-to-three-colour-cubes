@@ -1,6 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[a4paper,margin=25mm]{geometry}
-\usepackage{amsmath,amssymb,amsthm,booktabs}
+\usepackage{amsmath,amssymb,amsthm,booktabs,tikz}
 \usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref}
 \hypersetup{pdftitle={A sharp threshold for three-colour targets from four-colour cubes},
   pdfauthor={Jason Davies}}
@@ -289,8 +289,18 @@ The threshold 29 in Theorem~\ref{thm:upper} is best possible. For a fixed
 palette, exactly two 28-cube collections fail, and they are mirror images.
 Up to colour permutation, there is a single obstruction.
 \end{theorem}
+\begin{figure}[ht]
+\centering
+\input{obstruction-figure}
+\caption{One obstruction, as cube nets folded away from the reader. Each
+variety is labelled by its face tuple and rotated so that its repeated colour
+occupies the central square and the squares to its right and above, three faces
+meeting at a corner. Reflection gives the other obstruction.}
+\label{fig:obstruction}
+\end{figure}
 \begin{proof}
-Take seven copies of each of the following four face tuples:
+Take seven copies of each of the following four face tuples
+(Figure~\ref{fig:obstruction}):
 \[
  010203,\qquad 011213,\qquad 021223,\qquad 031323.
 \]
@@ -366,7 +376,8 @@ argument, computational search, Lean formalisation and manuscript under
 the author's direction. Claude Opus 5.5 (Anthropic), used through Claude
 Code in this repository, contributed the minority-cube argument, edge-count balance proof,
 degree remark, and shorter bucket and threshold proofs. Subsequent Codex
-revisions incorporated these contributions. A separate AI reviewer checked
+revisions incorporated these contributions. Claude Code also drew
+Figure~\ref{fig:obstruction}. A separate AI reviewer checked
 an earlier version of the argument and physical model.
 The human author initiated and directed the research and accepts
 responsibility for the content of this paper and the accuracy of this
