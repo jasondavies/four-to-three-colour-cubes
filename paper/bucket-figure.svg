@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="450" viewBox="0 0 560 450" role="img" aria-labelledby="title description">
+<title id="title">Counting colour-bucket memberships</title>
+<desc id="description">A T cube belongs to one colour bucket, a P cube to two, and a checkerboard cube to none. In an unsolvable reduced collection, each of the four buckets contains at most seven cubes.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="Helvetica,Arial,sans-serif" fill="#111" stroke-linejoin="round">
+<text x="104" y="25" font-size="20" font-weight="bold" text-anchor="middle" dy="0.35em">Reduced cubes</text>
+<text x="460" y="25" font-size="20" font-weight="bold" text-anchor="middle" dy="0.35em">Colour buckets</text>
+<polygon points="390,60 530,60 520,115 400,115" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="460" y="87" font-size="22" font-weight="bold" text-anchor="middle" dy="0.35em">0</text>
+<text x="460" y="136" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">at most 7</text>
+<polygon points="390,160 530,160 520,215 400,215" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
+<text x="460" y="187" font-size="22" font-weight="bold" text-anchor="middle" dy="0.35em">1</text>
+<text x="460" y="236" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">at most 7</text>
+<polygon points="390,260 530,260 520,315 400,315" fill="#009E73" stroke="#222" stroke-width="1.2"/>
+<text x="460" y="287" font-size="22" font-weight="bold" text-anchor="middle" dy="0.35em">2</text>
+<text x="460" y="336" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">at most 7</text>
+<polygon points="390,360 530,360 520,415 400,415" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
+<text x="460" y="387" font-size="22" font-weight="bold" text-anchor="middle" dy="0.35em">3</text>
+<text x="460" y="436" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">at most 7</text>
+<polygon points="66,55 92,55 92,81 66,81" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="68" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="40,81 66,81 66,107 40,107" fill="#009E73" stroke="#222" stroke-width="1.2"/>
+<text x="53" y="94" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
+<polygon points="66,81 92,81 92,107 66,107" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="94" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="92,81 118,81 118,107 92,107" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="105" y="94" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="118,81 144,81 144,107 118,107" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
+<text x="131" y="94" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<polygon points="66,107 92,107 92,133 66,133" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="120" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
+<text x="104" y="156" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">T: 1 membership</text>
+<polyline points="156,94 394,82" fill="none" stroke="#555" stroke-width="1.7"/>
+<polygon points="394,82 385.213,86.448 384.81,78.458" fill="#555" stroke="#555" stroke-width="1.2"/>
+<polygon points="66,190 92,190 92,216 66,216" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="203" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<polygon points="40,216 66,216 66,242 40,242" fill="#009E73" stroke="#222" stroke-width="1.2"/>
+<text x="53" y="229" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
+<polygon points="66,216 92,216 92,242 66,242" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="229" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="92,216 118,216 118,242 92,242" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="105" y="229" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="118,216 144,216 144,242 118,242" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
+<text x="131" y="229" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<polygon points="66,242 92,242 92,268 66,268" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="255" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
+<text x="104" y="291" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">P: 2 memberships</text>
+<polyline points="156,229 399,109" fill="none" stroke="#555" stroke-width="1.7"/>
+<polygon points="399,109 392.701,116.572 389.159,109.399" fill="#555" stroke="#555" stroke-width="1.2"/>
+<polyline points="156,229 395,187" fill="none" stroke="#555" stroke-width="1.7"/>
+<polygon points="395,187 386.828,192.497 385.444,184.618" fill="#555" stroke="#555" stroke-width="1.2"/>
+<polygon points="66,325 92,325 92,351 66,351" fill="#009E73" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="338" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
+<polygon points="40,351 66,351 66,377 40,377" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
+<text x="53" y="364" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<polygon points="66,351 92,351 92,377 66,377" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="364" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="92,351 118,351 118,377 92,377" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
+<text x="105" y="364" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<polygon points="118,351 144,351 144,377 118,377" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
+<text x="131" y="364" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
+<polygon points="66,377 92,377 92,403 66,403" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
+<text x="79" y="390" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
+<text x="104" y="426" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">C: 0 memberships</text>
+</g>
+</svg>

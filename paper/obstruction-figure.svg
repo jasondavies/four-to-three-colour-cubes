@@ -3,189 +3,189 @@
 <desc id="description">Seven copies of each of four cube varieties share one orientation on every colour triple and lack its reverse. A target with a trichromatic corner needs both orientations. A target without such a corner needs eight cubes with the same repeated colour, but only seven are available.</desc>
 <rect width="100%" height="100%" fill="white"/>
 <g font-family="Helvetica,Arial,sans-serif" fill="#111" stroke-linejoin="round">
-<text x="16" y="24" font-size="20" font-weight="bold" text-anchor="start" dominant-baseline="central">A   The exceptional collection: 28 cubes</text>
+<text x="16" y="24" font-size="20" font-weight="bold" text-anchor="start" dy="0.35em">A   The exceptional collection: 28 cubes</text>
 <polygon points="100,58 130,58 130,88 100,88" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="115" y="73" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="115" y="73" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="70,88 100,88 100,118 70,118" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="85" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="85" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="100,88 130,88 130,118 100,118" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="115" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="115" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="130,88 160,88 160,118 130,118" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="145" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="145" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="160,88 190,88 190,118 160,118" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="175" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="175" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="100,118 130,118 130,148 100,148" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="115" y="133" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="115" y="133" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <circle cx="130" cy="88" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="130" cy="88" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
-<text x="130" y="171" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">7 × 010203</text>
+<text x="130" y="171" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">7 × 010203</text>
 <polygon points="380,58 410,58 410,88 380,88" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="395" y="73" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="395" y="73" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="350,88 380,88 380,118 350,118" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="365" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="365" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="380,88 410,88 410,118 380,118" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="395" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="395" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="410,88 440,88 440,118 410,118" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="425" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="425" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="440,88 470,88 470,118 440,118" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="455" y="103" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="455" y="103" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="380,118 410,118 410,148 380,148" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="395" y="133" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="395" y="133" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <circle cx="410" cy="88" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="410" cy="88" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
-<text x="410" y="171" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">7 × 011213</text>
+<text x="410" y="171" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">7 × 011213</text>
 <polygon points="100,218 130,218 130,248 100,248" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="115" y="233" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="115" y="233" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="70,248 100,248 100,278 70,278" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="85" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="85" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="100,248 130,248 130,278 100,278" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="115" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="115" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="130,248 160,248 160,278 130,278" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="145" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="145" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="160,248 190,248 190,278 160,278" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="175" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="175" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="100,278 130,278 130,308 100,308" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="115" y="293" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="115" y="293" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <circle cx="130" cy="248" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="130" cy="248" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
-<text x="130" y="331" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">7 × 021223</text>
+<text x="130" y="331" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">7 × 021223</text>
 <polygon points="380,218 410,218 410,248 380,248" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="395" y="233" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="395" y="233" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="350,248 380,248 380,278 350,278" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="365" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="365" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="380,248 410,248 410,278 380,278" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="395" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="395" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="410,248 440,248 440,278 410,278" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="425" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="425" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="440,248 470,248 470,278 440,278" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="455" y="263" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="455" y="263" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="380,278 410,278 410,308 380,308" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="395" y="293" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="395" y="293" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <circle cx="410" cy="248" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="410" cy="248" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
-<text x="410" y="331" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">7 × 031323</text>
+<text x="410" y="331" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">7 × 031323</text>
 <circle cx="25" cy="354" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="25" cy="354" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
-<text x="40" y="354" font-size="17" font-weight="normal" text-anchor="start" dominant-baseline="central">Monochromatic corner; fold the nets away from you.</text>
+<text x="40" y="354" font-size="17" font-weight="normal" text-anchor="start" dy="0.35em">Monochromatic corner; fold the nets away from you.</text>
 <polyline points="16,377 544,377" fill="none" stroke="#ccc" stroke-width="1.2"/>
-<text x="16" y="400" font-size="20" font-weight="bold" text-anchor="start" dominant-baseline="central">B   The missing corner orientations</text>
-<text x="16" y="434" font-size="18" font-weight="bold" text-anchor="start" dominant-baseline="central">Available on every source cube</text>
-<text x="16" y="544" font-size="18" font-weight="bold" text-anchor="start" dominant-baseline="central">Missing from the whole collection</text>
+<text x="16" y="400" font-size="20" font-weight="bold" text-anchor="start" dy="0.35em">B   The missing corner orientations</text>
+<text x="16" y="434" font-size="18" font-weight="bold" text-anchor="start" dy="0.35em">Available on every source cube</text>
+<text x="16" y="544" font-size="18" font-weight="bold" text-anchor="start" dy="0.35em">Missing from the whole collection</text>
 <polygon points="70,475 49.215,463 49.215,487 70,499" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="59.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="59.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="70,475 70,499 90.785,487 90.785,463" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="80.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="80.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="70,475 90.785,463 70,451 49.215,463" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="70" y="463" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
-<text x="70" y="516" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">012</text>
+<text x="70" y="463" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
+<text x="70" y="516" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">012</text>
 <polygon points="70,585 49.215,573 49.215,597 70,609" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="59.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="59.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="70,585 70,609 90.785,597 90.785,573" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="80.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="80.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="70,585 90.785,573 70,561 49.215,573" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="70" y="573" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
-<text x="70" y="626" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">021</text>
+<text x="70" y="573" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<text x="70" y="626" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">021</text>
 <polygon points="210,475 189.215,463 189.215,487 210,499" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="199.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="199.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="210,475 210,499 230.785,487 230.785,463" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="220.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="220.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="210,475 230.785,463 210,451 189.215,463" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="210" y="463" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
-<text x="210" y="516" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">031</text>
+<text x="210" y="463" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
+<text x="210" y="516" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">031</text>
 <polygon points="210,585 189.215,573 189.215,597 210,609" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="199.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="199.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="210,585 210,609 230.785,597 230.785,573" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="220.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="220.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="210,585 230.785,573 210,561 189.215,573" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="210" y="573" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
-<text x="210" y="626" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">013</text>
+<text x="210" y="573" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
+<text x="210" y="626" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">013</text>
 <polygon points="350,475 329.215,463 329.215,487 350,499" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="339.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="339.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="350,475 350,499 370.785,487 370.785,463" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="360.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="360.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="350,475 370.785,463 350,451 329.215,463" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="350" y="463" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
-<text x="350" y="516" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">023</text>
+<text x="350" y="463" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
+<text x="350" y="516" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">023</text>
 <polygon points="350,585 329.215,573 329.215,597 350,609" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="339.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="339.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="350,585 350,609 370.785,597 370.785,573" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="360.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="360.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="350,585 370.785,573 350,561 329.215,573" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="350" y="573" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
-<text x="350" y="626" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">032</text>
+<text x="350" y="573" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
+<text x="350" y="626" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">032</text>
 <polygon points="490,475 469.215,463 469.215,487 490,499" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="479.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="479.608" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="490,475 490,499 510.785,487 510.785,463" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="500.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
+<text x="500.392" y="481" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
 <polygon points="490,475 510.785,463 490,451 469.215,463" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="490" y="463" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
-<text x="490" y="516" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">132</text>
+<text x="490" y="463" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
+<text x="490" y="516" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">132</text>
 <polygon points="490,585 469.215,573 469.215,597 490,609" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="479.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="479.608" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="490,585 490,609 510.785,597 510.785,573" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="500.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="500.392" y="591" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="490,585 510.785,573 490,561 469.215,573" fill="#F0E442" stroke="#222" stroke-width="1.2"/>
-<text x="490" y="573" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">3</text>
-<text x="490" y="626" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">123</text>
-<text x="16" y="653" font-size="17" font-weight="normal" text-anchor="start" dominant-baseline="central">Read each corner counterclockwise from outside.</text>
-<text x="16" y="686" font-size="20" font-weight="bold" text-anchor="start" dominant-baseline="central">A target with a trichromatic corner</text>
-<text x="16" y="712" font-size="20" font-weight="bold" text-anchor="start" dominant-baseline="central">needs both orientations.</text>
+<text x="490" y="573" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">3</text>
+<text x="490" y="626" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">123</text>
+<text x="16" y="653" font-size="17" font-weight="normal" text-anchor="start" dy="0.35em">Read each corner counterclockwise from outside.</text>
+<text x="16" y="686" font-size="20" font-weight="bold" text-anchor="start" dy="0.35em">A target with a trichromatic corner</text>
+<text x="16" y="712" font-size="20" font-weight="bold" text-anchor="start" dy="0.35em">needs both orientations.</text>
 <polygon points="117.646,770 148.823,788 148.823,824 117.646,806" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="133.235" y="797" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="133.235" y="797" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="117.646,806 148.823,824 148.823,860 117.646,842" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="133.235" y="833" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="133.235" y="833" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="148.823,788 180,806 180,842 148.823,824" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="164.412" y="815" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="164.412" y="815" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="148.823,824 180,842 180,878 148.823,860" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="164.412" y="851" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">0</text>
+<text x="164.412" y="851" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">0</text>
 <polygon points="180,806 211.177,788 211.177,824 180,842" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="195.588" y="815" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="195.588" y="815" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="180,842 211.177,824 211.177,860 180,878" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="195.588" y="851" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="195.588" y="851" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="211.177,788 242.354,770 242.354,806 211.177,824" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="226.765" y="797" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="226.765" y="797" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="211.177,824 242.354,806 242.354,842 211.177,860" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="226.765" y="833" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">1</text>
+<text x="226.765" y="833" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">1</text>
 <polygon points="180,734 148.823,752 180,770 211.177,752" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="180" y="752" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="180" y="752" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="211.177,752 180,770 211.177,788 242.354,770" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="211.177" y="770" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="211.177" y="770" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="148.823,752 117.646,770 148.823,788 180,770" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="148.823" y="770" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="148.823" y="770" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <polygon points="180,770 148.823,788 180,806 211.177,788" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="180" y="788" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">2</text>
+<text x="180" y="788" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">2</text>
 <circle cx="180" cy="806" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="180" cy="806" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
 <circle cx="180" cy="878" r="4.5" fill="white" stroke="#222" stroke-width="1.5"/>
 <circle cx="180" cy="878" r="1.3" fill="#222" stroke="#222" stroke-width="0"/>
 <polyline points="186,806 359,773" fill="none" stroke="#555" stroke-width="1.2"/>
-<text x="421" y="773" font-size="20" font-weight="bold" text-anchor="middle" dominant-baseline="central">012</text>
-<text x="421" y="797" font-size="17" font-weight="normal" text-anchor="middle" dominant-baseline="central">available</text>
+<text x="421" y="773" font-size="20" font-weight="bold" text-anchor="middle" dy="0.35em">012</text>
+<text x="421" y="797" font-size="17" font-weight="normal" text-anchor="middle" dy="0.35em">available</text>
 <polyline points="186,878 359,875" fill="none" stroke="#555" stroke-width="1.2" stroke-dasharray="4 3"/>
-<text x="421" y="875" font-size="20" font-weight="bold" text-anchor="middle" dominant-baseline="central">021</text>
-<text x="421" y="899" font-size="17" font-weight="normal" text-anchor="middle" dominant-baseline="central">missing</text>
-<text x="280" y="934" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">4 corners of each type</text>
-<text x="280" y="960" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">Opposite faces have equal colours.</text>
+<text x="421" y="875" font-size="20" font-weight="bold" text-anchor="middle" dy="0.35em">021</text>
+<text x="421" y="899" font-size="17" font-weight="normal" text-anchor="middle" dy="0.35em">missing</text>
+<text x="280" y="934" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">4 corners of each type</text>
+<text x="280" y="960" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">Opposite faces have equal colours.</text>
 <polyline points="16,985 544,985" fill="none" stroke="#ccc" stroke-width="1.2"/>
-<text x="16" y="1008" font-size="20" font-weight="bold" text-anchor="start" dominant-baseline="central">C   Targets with no trichromatic corners</text>
+<text x="16" y="1008" font-size="20" font-weight="bold" text-anchor="start" dy="0.35em">C   Targets with no trichromatic corners</text>
 <polygon points="82,1038 112,1038 112,1068 82,1068" fill="#56B4E9" stroke="#222" stroke-width="1.2"/>
-<text x="97" y="1053" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">b</text>
+<text x="97" y="1053" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">b</text>
 <polygon points="52,1068 82,1068 82,1098 52,1098" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="67" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">a</text>
+<text x="67" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">a</text>
 <polygon points="82,1068 112,1068 112,1098 82,1098" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="97" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">a</text>
+<text x="97" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">a</text>
 <polygon points="112,1068 142,1068 142,1098 112,1098" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="127" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">a</text>
+<text x="127" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">a</text>
 <polygon points="142,1068 172,1068 172,1098 142,1098" fill="#E69F00" stroke="#222" stroke-width="1.2"/>
-<text x="157" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">a</text>
+<text x="157" y="1083" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">a</text>
 <polygon points="82,1098 112,1098 112,1128 82,1128" fill="#009E73" stroke="#222" stroke-width="1.2"/>
-<text x="97" y="1113" font-size="19" font-weight="normal" text-anchor="middle" dominant-baseline="central">c</text>
-<text x="112" y="1156" font-size="18" font-weight="normal" text-anchor="middle" dominant-baseline="central">Q(a;b,c)</text>
-<text x="244" y="1048" font-size="20" font-weight="normal" text-anchor="start" dominant-baseline="central">Four a faces;</text>
-<text x="244" y="1075" font-size="20" font-weight="normal" text-anchor="start" dominant-baseline="central">b and c opposite.</text>
-<text x="244" y="1110" font-size="20" font-weight="normal" text-anchor="start" dominant-baseline="central">Every corner has</text>
-<text x="244" y="1137" font-size="20" font-weight="normal" text-anchor="start" dominant-baseline="central">colour a twice.</text>
-<text x="280" y="1182" font-size="20" font-weight="normal" text-anchor="middle" dominant-baseline="central">Eight corners need eight distinct cubes.</text>
-<text x="280" y="1212" font-size="20" font-weight="bold" text-anchor="middle" dominant-baseline="central">Only seven cubes can supply them.</text>
+<text x="97" y="1113" font-size="19" font-weight="normal" text-anchor="middle" dy="0.35em">c</text>
+<text x="112" y="1156" font-size="18" font-weight="normal" text-anchor="middle" dy="0.35em">Q(a;b,c)</text>
+<text x="244" y="1048" font-size="20" font-weight="normal" text-anchor="start" dy="0.35em">Four a faces;</text>
+<text x="244" y="1075" font-size="20" font-weight="normal" text-anchor="start" dy="0.35em">b and c opposite.</text>
+<text x="244" y="1110" font-size="20" font-weight="normal" text-anchor="start" dy="0.35em">Every corner has</text>
+<text x="244" y="1137" font-size="20" font-weight="normal" text-anchor="start" dy="0.35em">colour a twice.</text>
+<text x="280" y="1182" font-size="20" font-weight="normal" text-anchor="middle" dy="0.35em">Eight corners need eight distinct cubes.</text>
+<text x="280" y="1212" font-size="20" font-weight="bold" text-anchor="middle" dy="0.35em">Only seven cubes can supply them.</text>
 </g>
 </svg>

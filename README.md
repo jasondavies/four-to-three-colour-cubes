@@ -33,6 +33,24 @@ elementary counting. A literature search on November 1, 2026 found no later
 answer, but Rosenfeld's October 2026 Geombinatorics article remains unread.
 Priority has not been independently established.
 
+## Proof idea
+
+Reduction leaves three cube types: triple-corner ($T$), pair-type ($P$),
+and checkerboard ($C$). A cube belongs to colour bucket $a$ if it has at least
+two of the three corner types $aab$, with $b\ne a$. The examples below show
+their bucket memberships; colour permutations give the other cases.
+
+![A T cube links to one colour bucket, a P cube to two, and a checkerboard to none](paper/bucket-figure.svg)
+
+In an unsolvable reduced collection, each bucket contains at most seven cubes.
+Writing $n_T$ and $n_P$ for the numbers of $T$ and $P$ cubes, including repeats,
+counting memberships in the four buckets gives
+
+$$n_T+2n_P\le 4\cdot7=28.$$
+
+The proof combines this count with the corner-orientation constraints to
+classify the two exceptional collections.
+
 ## Repository layout
 
 - `paper/`: manuscript source and PDF.

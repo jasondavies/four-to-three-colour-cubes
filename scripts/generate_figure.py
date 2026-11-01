@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draw the 28-cube obstruction for the paper (TikZ) and README (SVG).
+"""Draw the obstruction (TikZ and SVG) and README bucket diagram (SVG).
 
 Face tuples are read from `lowerFamily` in the Lean source and checked against
 the obstruction fixture. Corner checks support the explanatory panels. Pass a
@@ -85,8 +85,15 @@ def number(value):
 
 class Drawing:
     """One vector scene, emitted as either SVG or TikZ."""
-    def __init__(self, width, height):
+    def __init__(self, width, height,
+                 title='Why the exceptional 28 cubes cannot build a three-colour target',
+                 description=('Seven copies of each of four cube varieties share '
+                              'one orientation on every colour triple and lack its reverse. '
+                              'A target with a trichromatic corner needs both orientations. '
+                              'A target without such a corner needs eight cubes with the same '
+                              'repeated colour, but only seven are available.')):
         self.width, self.height = width, height
+        self.title, self.description = title, description
         self.items = []
 
     def polygon(self, points, fill, stroke='#222', width=1.2):
@@ -106,11 +113,8 @@ class Drawing:
         out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.width}" '
                f'height="{self.height}" viewBox="0 0 {self.width} {self.height}" '
                'role="img" aria-labelledby="title description">',
-               '<title id="title">Why the exceptional 28 cubes cannot build a three-colour target</title>',
-               '<desc id="description">Seven copies of each of four cube varieties share '
-               'one orientation on every colour triple and lack its reverse. A target with '
-               'a trichromatic corner needs both orientations. A target without such a corner '
-               'needs eight cubes with the same repeated colour, but only seven are available.</desc>',
+               f'<title id="title">{escape(self.title)}</title>',
+               f'<desc id="description">{escape(self.description)}</desc>',
                '<rect width="100%" height="100%" fill="white"/>',
                '<g font-family="Helvetica,Arial,sans-serif" fill="#111" stroke-linejoin="round">']
         for kind, *args in self.items:
@@ -119,7 +123,7 @@ class Drawing:
                 weight = 'bold' if bold else 'normal'
                 out.append(f'<text x="{number(x)}" y="{number(y)}" font-size="{size}" '
                            f'font-weight="{weight}" text-anchor="{anchor}" '
-                           f'dominant-baseline="central">{escape(value)}</text>')
+                           f'dy="0.35em">{escape(value)}</text>')
             elif kind == 'circle':
                 x, y, radius, fill, stroke, width = args
                 out.append(f'<circle cx="{number(x)}" cy="{number(y)}" r="{radius}" '
@@ -320,12 +324,55 @@ def illustration(cubes, compact):
     return d
 
 
+def bucket_illustration():
+    """Show examples, checking memberships directly from their corner types."""
+    from cube_geometry import corners, cyclic
+    examples = (
+        ('T', (0,1,0,2,0,3), {0}),
+        ('P', (0,1,0,2,1,3), {0,1}),
+        ('C', (0,0,1,1,2,3), set()),
+    )
+    d = Drawing(560, 450, title='Counting colour-bucket memberships',
+                description='A T cube belongs to one colour bucket, a P cube to two, '
+                            'and a checkerboard cube to none. In an unsolvable reduced '
+                            'collection, each of the four buckets contains at most seven cubes.')
+    d.text(104, 25, 'Reduced cubes', size=20, bold=True)
+    d.text(460, 25, 'Colour buckets', size=20, bold=True)
+    for colour in range(4):
+        y = 60 + 100 * colour
+        d.polygon([(390,y), (530,y), (520,y+55), (400,y+55)], f'#{COLOURS[colour]}')
+        d.text(460, y+27, colour, size=22, bold=True)
+        d.text(460, y+76, 'at most 7', size=18)
+    for i, (kind, cube, expected) in enumerate(examples):
+        types = set(corners(cube))
+        memberships = {a for a in range(4)
+                       if sum(cyclic((a,a,b)) in types for b in range(4) if b != a) >= 2}
+        require(memberships == expected, f'Unexpected {kind} bucket memberships')
+        y = 55 + 135 * i
+        net(d, cube, 40, y, 26)
+        count = len(memberships)
+        label = '1 membership' if count == 1 else f'{count} memberships'
+        d.text(104, y+101, f'{kind}: {label}', size=19)
+        for a in sorted(memberships):
+            start = (156, y+39)
+            # Separate endpoints keep the two arrows into bucket 0 distinguishable.
+            end = (394, 82) if kind == 'T' else ((399,109) if a == 0 else (395,187))
+            d.line([start, end], width=1.7)
+            dx, dy = end[0]-start[0], end[1]-start[1]
+            length = math.hypot(dx,dy)
+            ux, uy = dx/length, dy/length
+            d.polygon([end, (end[0]-9*ux-4*uy, end[1]-9*uy+4*ux),
+                       (end[0]-9*ux+4*uy, end[1]-9*uy-4*ux)], '#555', stroke='#555')
+    return d
+
+
 def main():
     directory = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / 'paper'
     cubes = obstruction()
     validate_geometry(cubes)
     (directory / 'obstruction-figure.tex').write_text(illustration(cubes, compact=True).tikz(), encoding='utf-8')
     (directory / 'obstruction-figure.svg').write_text(illustration(cubes, compact=False).svg(), encoding='utf-8')
+    (directory / 'bucket-figure.svg').write_text(bucket_illustration().svg(), encoding='utf-8')
 
 
 if __name__ == '__main__':
