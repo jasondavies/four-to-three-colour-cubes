@@ -70,10 +70,8 @@ The bucket double-count is [BES's equation (1)](https://math.colgate.edu/~intege
 ## Lean dependency
 
 The project uses Lean and mathlib **v4.35.0** and pins
-[macmahon-min-universal-sets](https://github.com/jasondavies/macmahon-min-universal-sets/tree/3f854795a77cd7c902e4c5a1a5da3322f9cd44fa)
-for its rotations, face directions and corner positions.
-It imports no six-colour classification proof; Lake fetches the pinned dependency
-automatically.
+[colour-cubes-core](https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0) for the physical model, proper rotations and
+corner geometry. Lake fetches this shared library automatically.
 
 ## Reproduce
 
@@ -107,7 +105,7 @@ catalogue coverage, uniqueness, geometry and the restricted-target counts.
 `Family.lean` works with arbitrary indexed face colourings; a solution selects
 eight distinct copies and proper rotations. Transport lemmas connect these
 families to inventories of the 68 canonical varieties. A
-[corner–rotation theorem](ThreeColour/CornerGeometry.lean), valid for any
+[corner–rotation theorem](https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0/ColourCubes/Corners.lean), valid for any
 palette, equates cyclic corner matching with matching the three exposed faces
 by a proper rotation. The proof does not enumerate all collections.
 

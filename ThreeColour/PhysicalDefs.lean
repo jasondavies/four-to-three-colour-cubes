@@ -1,14 +1,14 @@
 module
 
 public import ThreeColour.Data
-public import MacMahon.Rotations
+public import ColourCubes.Physical
 
 @[expose] public section
 
 namespace ThreeColour
 def FaceFits (t : Target) (i : Source) (k : Slot) (r : Fin 24) : Prop :=
-  ∀ f : Fin 3, sourceFaces i (MacMahon.rotations r (MacMahon.exposedFaces k f)) =
-    targetFaces t (MacMahon.exposedFaces k f)
+  ∀ f : Fin 3, sourceFaces i (ColourCubes.rotations r (ColourCubes.exposedFaces k f)) =
+    targetFaces t (ColourCubes.exposedFaces k f)
 instance (t : Target) (i : Source) (k : Slot) (r : Fin 24) : Decidable (FaceFits t i k r) := by
   unfold FaceFits; infer_instance
 def PhysicalSolvable (x : Inventory) : Prop :=

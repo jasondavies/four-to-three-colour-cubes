@@ -46,7 +46,7 @@ these target witnesses. `RestrictedFamily.lean` proves
 `RestrictedCatalogue.lean` proves that these representatives exhaust the
 geometric families. These results and target uniqueness are comparator targets.
 
-`FamilyGeometry.lean` checks how rotations permute the eight positions. `Reflection.lean` proves that physical reflection
+`ColourCubes.RotationAction` checks how rotations permute the eight positions. `Reflection.lean` proves that physical reflection
 exchanges the two extremal collections.
 
 `Core.lean` derives the Hall criterion from mathlib. `Stats.lean` verifies the
@@ -59,7 +59,7 @@ the written proof combines them as minority cubes. `Certificates/` checks finite
 certificates for the sufficient constructions; `Lower.lean` checks a Hall
 deficiency for each target and each extremal collection.
 
-`CornerGeometry.lean` proves the corner–rotation correspondence for an arbitrary
+`ColourCubes.Corners` proves the corner–rotation correspondence for an arbitrary
 palette, allowing repeated colours. The proof checks only the finite geometry
 of the 24 rotations and eight oriented frames, then reasons symbolically about
 colours. `CornerCoding.lean` checks that the base-four canonical code identifies
@@ -87,13 +87,15 @@ The separate Python geometry checker also compares both printed tables with
 the computed geometry. Attribution and review scope are recorded in
 [formalization.yaml](../formalization.yaml).
 
-The geometry dependency is `macmahon_min_universal_sets`, pinned in
-`lakefile.toml` and `lake-manifest.json`. Only `MacMahon.Rotations` and its
-transitive definition imports are used; no six-colour classification result
-is imported. The standalone challenge imports only mathlib and contains copies
-of the relevant model definitions and tables. The comparator checks their
-agreement with the proof library and replays the exported proofs; this is
-separation of the statements from the implementation, not independent modelling.
+The shared dependency is `colour_cubes_core`, pinned in `lakefile.toml` and
+`lake-manifest.json`. It supplies the palette-independent physical model,
+rotations, corner matching and rotation transport; it imports no paper-specific
+catalogues or classifications. `FamilySolvable` specialises
+`ColourCubes.HasSolution` to targets using exactly three colours.
+The standalone challenge imports only mathlib and locally restates the required
+core definitions and catalogue data. The comparator checks agreement with the
+proof library, then replays the proofs; sharing definitions is not independent
+mathematical modelling.
 
 ## Verification and maintenance
 

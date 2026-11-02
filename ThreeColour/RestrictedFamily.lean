@@ -10,10 +10,7 @@ namespace ThreeColour
 in this definition: the sources, target, and rotations are face maps. -/
 def FamilyRestrictedSolvable {n : ℕ} (cubes : Fin n → Fin 6 → Colour) : Prop :=
   ∃ target : Fin 6 → Colour, RestrictedTarget target ∧ Uses 3 target ∧
-    ∃ placement : Fin 8 ↪ Fin n, ∀ k,
-      ∃ r : Fin 6 → Fin 6, MacMahon.ProperRotation r ∧
-        ∀ axis : Fin 3, cubes (placement k) (r (MacMahon.exposedFaces k axis)) =
-          target (MacMahon.exposedFaces k axis)
+    ColourCubes.Builds cubes target
 
 lemma familyRestrictedSolvable_of_inventory {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
     (hc : ∀ j, Uses 4 (cubes j))

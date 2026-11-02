@@ -8,7 +8,7 @@ set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
 namespace ThreeColour
-open ThreeColour.Geometry
+open ColourCubes.Geometry
 
 /-- Each stored source corner set is the set read from its six face colours. -/
 lemma source_corners_correct (i : Source) :

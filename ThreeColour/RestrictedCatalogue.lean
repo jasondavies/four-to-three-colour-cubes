@@ -11,7 +11,7 @@ set_option maxHeartbeats 0
 namespace ThreeColour
 
 lemma restricted_target_rotations (t : Target) : ∀ r : Fin 24,
-    RestrictedTarget (fun f => targetFaces t (MacMahon.rotations r f)) ↔
+    RestrictedTarget (fun f => targetFaces t (ColourCubes.rotations r f)) ↔
       RestrictedTarget (targetFaces t) := by
   fin_cases t <;> decide +kernel
 
@@ -20,7 +20,7 @@ lemma restricted_target_rotations (t : Target) : ∀ r : Fin 24,
 theorem restricted_target_catalogue_complete (c : Fin 6 → Colour)
     (hc : RestrictedTarget c) :
     ∃ t : Target, RestrictedTarget (targetFaces t) ∧
-      ∃ r : Fin 24, ∀ f, c f = targetFaces t (MacMahon.rotations r f) := by
+      ∃ r : Fin 24, ∀ f, c f = targetFaces t (ColourCubes.rotations r f) := by
   have hu : Uses 3 c := by
     rcases hc with h | h | h <;> exact h.1
   obtain ⟨t, r, hr⟩ := target_catalogue_complete c hu

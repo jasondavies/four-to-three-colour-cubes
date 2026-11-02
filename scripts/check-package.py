@@ -7,7 +7,11 @@ import tomllib
 root = Path(__file__).resolve().parents[1]
 config = tomllib.loads((root / 'lakefile.toml').read_text())
 manifest = json.loads((root / 'lake-manifest.json').read_text())
-upstream = next(d for d in config['require'] if d['name'] == 'macmahon_min_universal_sets')
+if {d['name'] for d in config['require']} != {'mathlib', 'colour_cubes_core'}:
+    raise SystemExit('Only mathlib and colour-cubes-core may be direct dependencies.')
+if any(p['name'] in {'macmahon_min_universal_sets', 'macmahon_four_to_three'} for p in manifest['packages']):
+    raise SystemExit('Paper repositories must not occur in the dependency closure.')
+upstream = next(d for d in config['require'] if d['name'] == 'colour_cubes_core')
 locked = next(d for d in manifest['packages'] if d['name'] == upstream['name'])
 if not re.fullmatch('[0-9a-f]{40}', upstream['rev']) or locked['rev'] != upstream['rev']:
     raise SystemExit('The geometry dependency must be pinned to the same full commit in both files.')

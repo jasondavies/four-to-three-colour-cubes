@@ -36,11 +36,12 @@ sources:
     note: "Explicit source problem asking for the guaranteed four-to-three-colour threshold."
     author_endorsement: not-contacted
 related_formalizations:
-  - id: "https://github.com/jasondavies/macmahon-min-universal-sets/tree/3f854795a77cd7c902e4c5a1a5da3322f9cd44fa"
+  - id: "https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0"
     relationship: builds-on
     note: >-
-      Pinned source of proper cube rotations and outward-face definitions.
-      No six-colour classification theorem is imported.
+      Pinned palette-independent physical model, proper rotations, exposed faces,
+      corner matching and rotation transport. The challenge locally restates the
+      definitions and imports only mathlib. The core imports no paper-specific catalogue.
 status:
   scope: >-
     Sharp threshold 29, all larger collections, full classification at size 28,
@@ -189,4 +190,4 @@ alignment:
       lean: ThreeColour.reflect_extremal
       module: ThreeColour.Reflection
       status: proved
-acknowledgements: "Lean 4, mathlib, the earlier MacMahon geometry formalisation, and the Palomar template authors."
+acknowledgements: "Lean 4, mathlib, the shared ColourCubes geometry library, and the Palomar template authors."

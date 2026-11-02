@@ -1,6 +1,6 @@
 module
 
-public import ThreeColour.CornerGeometry
+public import ColourCubes.Corners
 public import ThreeColour.Data
 
 @[expose] public section
@@ -9,7 +9,7 @@ set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
 namespace ThreeColour
-open ThreeColour.Geometry
+open ColourCubes.Geometry
 
 /-- Base-four encoding of an ordered triple. -/
 def linearCode (t : Fin 3 → Colour) : Fin 64 :=

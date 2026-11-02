@@ -111,14 +111,14 @@
       "configFile": "lakefile.toml"
     },
     {
-      "url": "https://github.com/jasondavies/macmahon-min-universal-sets.git",
+      "url": "https://github.com/jasondavies/colour-cubes-core.git",
       "type": "git",
       "subDir": null,
       "scope": "",
-      "rev": "3f854795a77cd7c902e4c5a1a5da3322f9cd44fa",
-      "name": "macmahon_min_universal_sets",
+      "rev": "3164adbd2ee16d2721caadc1db67c1498e5d67e0",
+      "name": "colour_cubes_core",
       "manifestFile": "lake-manifest.json",
-      "inputRev": "3f854795a77cd7c902e4c5a1a5da3322f9cd44fa",
+      "inputRev": "3164adbd2ee16d2721caadc1db67c1498e5d67e0",
       "inherited": false,
       "configFile": "lakefile.toml"
     }

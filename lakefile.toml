@@ -8,9 +8,9 @@ git = "https://github.com/leanprover-community/mathlib4.git"
 rev = "v4.35.0"
 
 [[require]]
-name = "macmahon_min_universal_sets"
-git = "https://github.com/jasondavies/macmahon-min-universal-sets.git"
-rev = "3f854795a77cd7c902e4c5a1a5da3322f9cd44fa"
+name = "colour_cubes_core"
+git = "https://github.com/jasondavies/colour-cubes-core.git"
+rev = "3164adbd2ee16d2721caadc1db67c1498e5d67e0"
 
 [[lean_lib]]
 name = "ThreeColour"

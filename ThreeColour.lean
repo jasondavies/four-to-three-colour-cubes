@@ -41,21 +41,21 @@ public import ThreeColour.RestrictedCatalogue
 #guard_msgs in
 #print axioms ThreeColour.extremal_distinct
 
-/-- info: 'ThreeColour.Geometry.corner_rotation_iff' depends on axioms: [propext, Quot.sound] -/
+/-- info: 'ColourCubes.Geometry.corner_rotation_iff' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in
-#print axioms ThreeColour.Geometry.corner_rotation_iff
+#print axioms ColourCubes.Geometry.corner_rotation_iff
 
-/-- info: 'ThreeColour.Geometry.corner_proper_rotation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'ColourCubes.Geometry.corner_proper_rotation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
-#print axioms ThreeColour.Geometry.corner_proper_rotation_iff
+#print axioms ColourCubes.Geometry.corner_proper_rotation_iff
 
-/-- info: 'MacMahon.proper_rotation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'ColourCubes.proper_rotation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
-#print axioms MacMahon.proper_rotation_iff
+#print axioms ColourCubes.proper_rotation_iff
 
-/-- info: 'MacMahon.exposed_face_rule' depends on axioms: [propext] -/
+/-- info: 'ColourCubes.exposed_face_rule' depends on axioms: [propext] -/
 #guard_msgs in
-#print axioms MacMahon.exposed_face_rule
+#print axioms ColourCubes.exposed_face_rule
 
 /-- info: 'ThreeColour.sources_use_four' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

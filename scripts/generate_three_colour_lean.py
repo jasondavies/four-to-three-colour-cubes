@@ -113,11 +113,11 @@ for x in winners:
     'end ThreeColour','']))
 
 (OUT/'PhysicalDefs.lean').write_text('''import ThreeColour.Data
-import MacMahon.Rotations
+import ColourCubes.Physical
 namespace ThreeColour
 def FaceFits (t : Target) (i : Source) (k : Slot) (r : Fin 24) : Prop :=
-  ∀ f : Fin 3, sourceFaces i (MacMahon.rotations r (MacMahon.exposedFaces k f)) =
-    targetFaces t (MacMahon.exposedFaces k f)
+  ∀ f : Fin 3, sourceFaces i (ColourCubes.rotations r (ColourCubes.exposedFaces k f)) =
+    targetFaces t (ColourCubes.exposedFaces k f)
 instance (t : Target) (i : Source) (k : Slot) (r : Fin 24) : Decidable (FaceFits t i k r) := by
   unfold FaceFits; infer_instance
 def PhysicalSolvable (x : Inventory) : Prop :=
@@ -139,7 +139,7 @@ for n in range(4096):
     'def sourceIndex : Raw → Source := '+array_fun(raw_source,'Source'),
     'def targetIndex : Raw → Target := '+array_fun(raw_target,'Target'),
     'def rawRotation : Raw → Fin 24 := '+array_fun(raw_rotation,'Fin 24'),
-    'def Uses (n : ℕ) (c : Fin 6 → Colour) : Prop := (Finset.univ.image c).card = n',
+    'def Uses (n : ℕ) (c : Fin 6 → Colour) : Prop := ColourCubes.Uses n c',
     'instance (n : ℕ) (c : Fin 6 → Colour) : Decidable (Uses n c) := by unfold Uses; infer_instance',
     'end ThreeColour','']))
 
@@ -150,10 +150,10 @@ for c in sources:
     reflection.append(str(sources.index(can)))
     reflection_rot.append(str(next(r for r,p in enumerate(ROT) if all(can[p[f]]==reflected[f] for f in range(6)))))
 (OUT/'ReflectionData.lean').write_text('\n'.join([
-    'import ThreeColour.LowerData','import MacMahon.Rotations','namespace ThreeColour',
+    'import ThreeColour.LowerData','import ColourCubes.Physical','namespace ThreeColour',
     'def reflection : Source → Source := '+array_fun(reflection,'Source'),
     'def reflectionRotation : Source → Fin 24 := '+array_fun(reflection_rot,'Fin 24'),
-    'def reflectFace (f : Fin 6) : Fin 6 := if f.val < 2 then MacMahon.opposite f else f',
+    'def reflectFace (f : Fin 6) : Fin 6 := if f.val < 2 then ColourCubes.opposite f else f',
     'def reflectInventory (x : Inventory) : Inventory := fun i => x (reflection i)',
     'end ThreeColour','']))
 

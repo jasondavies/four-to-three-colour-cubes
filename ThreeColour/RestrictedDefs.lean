@@ -10,17 +10,17 @@ namespace ThreeColour
 def IsQ (t : Fin 6 → Colour) : Prop :=
   Uses 3 t ∧ ∃ a : Colour,
     (Finset.univ.filter (fun f => t f = a)).card = 4 ∧
-    ∀ f, t f ≠ a → t (MacMahon.opposite f) ≠ a
+    ∀ f, t f ≠ a → t (ColourCubes.opposite f) ≠ a
 
 /-- Four faces have one colour; the two other faces are adjacent. -/
 def IsR (t : Fin 6 → Colour) : Prop :=
   Uses 3 t ∧ ∃ a : Colour,
     (Finset.univ.filter (fun f => t f = a)).card = 4 ∧
-    ∃ f, t f ≠ a ∧ t (MacMahon.opposite f) = a
+    ∃ f, t f ≠ a ∧ t (ColourCubes.opposite f) = a
 
 /-- Three monochromatic opposite pairs, in three different colours. -/
 def IsD (t : Fin 6 → Colour) : Prop :=
-  Uses 3 t ∧ ∀ f, t (MacMahon.opposite f) = t f
+  Uses 3 t ∧ ∀ f, t (ColourCubes.opposite f) = t f
 
 def RestrictedTarget (t : Fin 6 → Colour) : Prop := IsQ t ∨ IsR t ∨ IsD t
 
