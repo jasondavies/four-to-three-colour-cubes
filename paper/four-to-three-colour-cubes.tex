@@ -132,9 +132,9 @@ varieties. Their bucket incidences are:
 \end{itemize}
 The 32 ordinary varieties ($T$ and $P$) split into two classes of 16,
 corresponding to BES's $K_o$ and $K_m$ (up to interchanging the names).
-The members of each class share four trichromatic corner types, one for
-each three-element colour set. The two classes have opposite orientations.
-In our convention one class has the types
+Every member of a class has exactly the same four trichromatic corner
+types, one for each three-element colour set. The two classes have opposite
+orientations. In our convention one class has the trichromatic corner set
 \[
 \Omega=\{012,031,023,132\},
 \]
@@ -262,9 +262,13 @@ We claim that $t_a\ge4$ forces $t_a+p_a\le5$.
 Otherwise, since $t_a\le5$, choose six majority cubes in bucket $a$,
 with four or five $T$ cubes and the rest $P$ cubes. These one or two
 $P$ cubes share a type $aab$, since each has two of the three possibilities.
-Choose a minority cube supporting $\{a,b,c\}$. The $P$ cubes take $aab$
-positions and the $T$ cubes supply the rest of $2aaa+2aab+2aac$,
-so the construction above gives a solution, proving the claim.
+By the preceding pair-support argument, choose a minority cube supporting
+$\{a,b,c\}$ for some $c\notin\{a,b\}$. With four $T$ cubes and two $P$
+cubes, the $P$ cubes supply $2aab$ and the $T$ cubes supply $2aaa+2aac$.
+With five $T$ cubes and one $P$ cube, the $P$ cube supplies $aab$ and the
+$T$ cubes supply $2aaa+aab+2aac$. In either case the six cubes supply
+$2aaa+2aab+2aac$, so the construction above gives a solution, proving
+the claim.
 
 If $t_a\le3$, the bucket bound gives $2t_a+p_a\le t_a+7\le10$.
 If $4\le t_a\le5$, the claim gives $2t_a+p_a\le t_a+5\le10$.
@@ -418,10 +422,13 @@ Kernel checks verify the catalogues and finite geometry, and a lemma for
 arbitrary palettes equates cyclic corner matching with physical placement.
 
 Twenty-five results are restated in a standalone challenge importing only
-mathlib, and their proofs were replayed through Lean, NanoDa and con-ron.
-The axiom audit finds only the standard axioms \texttt{propext},
-\texttt{Classical.choice} and \texttt{Quot.sound}; no proof uses holes or
-\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes}}
+mathlib. A comparator checks their statements against the proof library
+and replays the proofs through Lean, NanoDa and con-ron.
+
+The audit reports three standard axioms: \texttt{propext},
+\texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
+\texttt{native\_decide}. The versioned repository\footnote{Proof sources and
+reproduction instructions: \href{https://github.com/jasondavies/four-to-three-colour-cubes/tree/d69d92b2c7ba725f986054d8f1157c88b0a0eafa}{repository revision \texttt{d69d92b2c7ba}}.}
 provides sources, reproduction commands and details of the statement checks.
 The rotation and exposed-face definitions come from the Lean project
 accompanying~\cite{MinUniversal}.
