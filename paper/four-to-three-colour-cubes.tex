@@ -11,14 +11,14 @@
 \newtheorem*{remark}{Remark}
 \title{Three-colour solutions from four-colour cubes}
 \author{Jason Davies}
-\date{November 1, 2026}
+\date{November 2, 2026}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-For every $n\ge2$, the sharp number of cubes using all four colours of a
-fixed palette guaranteeing an $n\times n\times n$ frame with monochromatic
-exterior faces using exactly three colours is $16n-3$. For a fixed palette,
+For every $n\ge2$, any $16n-3$ cubes, each using all four colours of a
+fixed palette, contain an $n\times n\times n$ frame whose exterior faces are
+monochromatic in exactly three colours; this bound is sharp. For a fixed palette,
 exactly two collections of $16n-4$ cubes fail: each has $4n-1$ copies of each
 of four monochromatic-corner varieties in one orientation class, and
 reflection exchanges the collections.
@@ -34,8 +34,8 @@ Berkove, Eickemeyer and Schulman (BES)~\cite[Problem 2]{BES} ask for the
 least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
 exterior faces are monochromatic and use exactly three colours.
-This follows BES's convention that a $k$-colour cube uses all $k$
-colours~\cite[Section 1, opening definition]{BES}.
+We apply BES's Coloring Condition~\cite[Section 1]{BES}, that every
+colour of the palette appears, to the target as well.
 Here every source cube uses all four colours of a fixed palette. A
 \emph{variety} is a face colouring up to proper rotation.
 Collections are multisets of varieties, so repeated copies
@@ -50,9 +50,13 @@ monochromatic corner of each colour, all in the same orientation class.
 Reflection or any odd colour permutation exchanges these collections.
 Figure~\ref{fig:obstruction} shows the first case, $n=2$.
 
-BES~\cite[Theorem 5]{BES} prove that four-colour targets need only the
-$12n-16$ pieces in the frame when $n\ge3$. Requiring exactly three exterior
-colours raises the sharp guarantee to $16n-3$.
+For comparison, BES~\cite[Theorem 5 and Table 7]{BES} show that any $12n-16$
+four-colour cubes build a four-colour $n$-frame when $n\ge3$: no cubes beyond
+the frame's own pieces are needed. Requiring exactly three exterior colours
+raises the sharp guarantee to $16n-3$. Their Table 7 also records the frame
+number $16n-17$, for $n\ge4$, for three-colour source cubes building
+three-colour frames, from earlier work in their series; that is a different
+problem, with the same leading coefficient.
 
 The classification explains the form $16n-4=4(4n-1)$. Mixing orientation
 classes allows new corner matches, while repeated-colour demands limit
@@ -317,14 +321,14 @@ trichromatic corner occur equally often. If no trichromatic corner occurs,
 the cube is $Q(a;b,c)$ for some distinct $a,b,c$.
 \end{lemma}
 \begin{proof}
-For any cube coloured from a palette $\{a,b,c,d\}$, let $n(xyz)$ count
+For any cube coloured from a palette $\{a,b,c,d\}$, let $\nu(xyz)$ count
 corners of cyclic type $xyz$. Read the three directed transitions around
 each corner in the chosen cyclic order. Each edge between an $a$ face
 and a $b$ face contributes $ab$ at one endpoint and $ba$ at the other,
 so the total counts of these transitions agree. Corners with repeated
 colours contribute equally to both counts. The remaining contributions give
 \begin{equation}\label{eq:edge-balance}
- n(abc)-n(acb)+n(abd)-n(adb)=0.
+ \nu(abc)-\nu(acb)+\nu(abd)-\nu(adb)=0.
 \end{equation}
 If only $a,b,c$ occur, the last two terms vanish, proving the balance.
 
@@ -406,7 +410,7 @@ one for each three-colour set.
 \Needspace{12\baselineskip}
 \begin{remark}
 For the palette $\{0,1,2,3\}$, write
-$\delta(xyz)=n(xyz)-n(xzy)$. Applying \eqref{eq:edge-balance} to the
+$\delta(xyz)=\nu(xyz)-\nu(xzy)$. Applying \eqref{eq:edge-balance} to the
 different colour pairs gives
 \[
  \delta(012)=\delta(031)=\delta(023)=\delta(132).
@@ -429,7 +433,7 @@ model of BES~\cite[Section 1]{BES}, with three target colours instead of four.
 
 \begin{theorem}[Frame threshold and classification]\label{thm:frames}
 For every $n\ge2$, every collection of $16n-3$ four-colour cubes contains
-an $n$-frame. For a fixed palette, exactly two collections of $16n-4$ cubes
+a three-colour $n$-frame. For a fixed palette, exactly two collections of $16n-4$ cubes
 fail: $4n-1$ copies of each of the four $T$ varieties in one orientation
 class, or their reflections. Consequently the sharp frame threshold is
 $F(n)=16n-3$.

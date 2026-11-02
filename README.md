@@ -87,7 +87,7 @@ majority and all other cubes the minority. The argument has four steps:
 ## Lean dependency
 
 The project uses Lean and mathlib **v4.35.0** and pins
-[colour-cubes-core](https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0) for the physical model, proper rotations and
+release [v1.0.0 of colour-cubes-core](https://github.com/jasondavies/colour-cubes-core/tree/v1.0.0) for the physical model, proper rotations and
 corner geometry. Lake fetches this shared library automatically.
 
 ## Reproduce
@@ -122,7 +122,7 @@ catalogue coverage, uniqueness, geometry and the restricted-target counts.
 `Family.lean` and `FrameFamily.lean` work with arbitrary indexed face colourings;
 solutions select distinct copies and proper rotations. Transport lemmas connect these
 families to inventories of the 68 canonical varieties. A
-[corner–rotation theorem](https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0/ColourCubes/Corners.lean), valid for any
+[corner–rotation theorem](https://github.com/jasondavies/colour-cubes-core/blob/v1.0.0/ColourCubes/Corners.lean), valid for any
 palette, equates cyclic corner matching with matching the three exposed faces
 by a proper rotation. The proof does not enumerate all collections.
 

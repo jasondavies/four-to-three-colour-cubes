@@ -129,8 +129,11 @@ review:
     finite geometry, pair-support step and disclosure. The reviewer was not
     identified in the supplied text. Historical review notes remain in Git history.
     On November 2, 2026 the author supplied the frame-extension argument and
-    complete-cube consequence. The supplied text did not identify its originating
-    reviewer or model. Codex checked the argument, wrote the general Lean proofs,
+    complete-cube consequence, produced by GPT-6-Astra (OpenAI) through ChatGPT.
+    Claude Opus 5.5 checked it independently, step by step and with finite
+    computations (obstructions and one-cube extensions for n = 2 to 6, and
+    perturbed and adversarial collections for n = 2 to 4); those scripts are not
+    checked in. Codex also checked the argument, wrote the general Lean proofs,
     added a separate finite frame audit, and revised the manuscript. This does
     not imply that earlier external reviews covered the frame extension.
     Reproduce current checks with make check and
