@@ -10,7 +10,7 @@ comparator:
 	bash scripts/verify-comparator.sh
 
 paper:
-	latexmk -cd -pdf -interaction=nonstopmode -halt-on-error paper/macmahon-four-to-three.tex
+	latexmk -cd -pdf -interaction=nonstopmode -halt-on-error paper/four-to-three-colour-cubes.tex
 
 regenerate:
 	python3 scripts/generate_three_colour_lean.py

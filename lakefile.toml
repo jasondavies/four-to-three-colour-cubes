@@ -1,4 +1,4 @@
-name = "macmahon_four_to_three"
+name = "four_to_three_colour_cubes"
 version = "0.1.0"
 defaultTargets = ["ThreeColour", "Challenge", "Solution"]
 

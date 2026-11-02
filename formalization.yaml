@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
 version: "v0.4"
 project:
-  name: "A sharp threshold for three-colour targets from four-colour cubes"
+  name: "Three-colour solutions from four-colour cubes"
   description: >-
     Every multiset of 29 cubes using all four fixed face colours contains eight
     that form an exactly-three-colour target with monochromatic exterior faces.
@@ -20,12 +20,12 @@ classification:
   arxiv: ["math.CO", "cs.LO"]
   msc2020: ["05C70", "68V15", "00A08"]
 sources:
-  - title: "A sharp threshold for three-colour targets from four-colour cubes"
+  - title: "Three-colour solutions from four-colour cubes"
     authors: ["Jason Davies"]
     type: original-proof
     relationship: other
-    location: "paper/macmahon-four-to-three.tex in this repository"
-    id: "https://github.com/jasondavies/macmahon-four-to-three"
+    location: "paper/four-to-three-colour-cubes.tex in this repository"
+    id: "https://github.com/jasondavies/four-to-three-colour-cubes"
     note: "Accompanying manuscript; publication priority remains subject to the documented literature limits."
   - title: "The 4-Color Cubes Puzzle"
     authors: ["Ethan Berkove", "Andrew Eickemeyer", "Michael Schulman"]

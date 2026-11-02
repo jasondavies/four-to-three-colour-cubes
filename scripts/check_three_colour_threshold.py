@@ -201,7 +201,7 @@ def main():
                             'two_opposite_pairs':1, 'one_opposite_pair':1,
                             'two_adjacent_pairs':3}, 'Wrong source arrangement cases')
     manuscript = (Path(__file__).resolve().parents[1] /
-                  'paper/macmahon-four-to-three.tex').read_text()
+                  'paper/four-to-three-colour-cubes.tex').read_text()
     printed_corner_rows = check_printed_tables(manuscript, reduction_table)
     plus = {(0, 1, 2), (0, 3, 1), (0, 2, 3), (1, 3, 2)}
     minus = {min((a,c,b), (c,b,a), (b,a,c)) for a,b,c in plus}

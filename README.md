@@ -1,6 +1,6 @@
-# A sharp threshold for three-colour targets from four-colour cubes
+# Three-colour solutions from four-colour cubes
 
-- [Paper (PDF)](paper/macmahon-four-to-three.pdf) and [LaTeX](paper/macmahon-four-to-three.tex).
+- [Paper (PDF)](paper/four-to-three-colour-cubes.pdf) and [LaTeX](paper/four-to-three-colour-cubes.tex).
 - [Main Lean results](ThreeColour/Family.lean), [physical model](ThreeColour/PhysicalDefs.lean), and [formalisation guide](ThreeColour/README.md).
 - [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
 - [Provenance, scope and AI disclosure](formalization.yaml).
