@@ -570,11 +570,11 @@ and replays the proofs through Lean, NanoDa and con-ron.
 
 The audit reports three standard axioms: \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
-\texttt{native\_decide}. The repository\footnote{Proof sources and
-reproduction instructions: \href{https://github.com/jasondavies/four-to-three-colour-cubes/tree/a993ed8c1011425e4f04a790625f9ea362cfd51d}{repository revision \texttt{a993ed8c1011}}.}
+\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes},
+release \href{https://github.com/jasondavies/four-to-three-colour-cubes/tree/v1.0.0}{\texttt{v1.0.0}}.}
 provides sources, reproduction commands and details of the statement checks.
 The physical model and palette-independent geometry come from the shared
-\texttt{ColourCubes} library~\cite{ColourCubes}. The challenge restates its
+\texttt{colour-cubes-core} library~\cite{ColourCubes}. The challenge restates its
 definitions locally.
 
 The Lean proof uses counting and finite Hall certificates. Its corner-case
@@ -630,7 +630,9 @@ Certified Programs and Proofs (CPP~2020), ACM (2020), 367--381.
 \href{https://doi.org/10.1145/3372885.3373824}{doi:\nolinkurl{10.1145/3372885.3373824}}.
 \href{https://arxiv.org/abs/1910.09336}{arXiv:1910.09336}.
 \bibitem{ColourCubes} J.~Davies,
-\emph{Colour cubes core}, Lean library (2026).
-\href{https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0}{Pinned repository revision}.
+\texttt{colour-cubes-core}: palette-independent Lean definitions and proofs
+for face-coloured cubes, Lean library (2026).
+Release \href{https://github.com/jasondavies/colour-cubes-core/tree/v1.0.0}{\texttt{v1.0.0}},
+\url{https://github.com/jasondavies/colour-cubes-core}.
 \end{thebibliography}
 \end{document}
