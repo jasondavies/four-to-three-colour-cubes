@@ -48,7 +48,7 @@ In panel C, $a,b,c$ are distinct colours.*
 
 The proof reduces the 68 varieties to 38 by replacing cubes with varieties
 whose corner types are contained in theirs. This preserves unsolvability.
-The retained types are triple-corner ($T$), pair-type ($P$), and checkerboard ($C$).
+The retained types are monochromatic-corner ($T$), pair-type ($P$), and checkerboard ($C$).
 A cube belongs to colour bucket $a$ if it has at least two of the three
 corner types $aab$, with $b\ne a$. The examples show one cube of each type;
 colour permutations give the other bucket memberships.

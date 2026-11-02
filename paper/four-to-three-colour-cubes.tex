@@ -19,14 +19,12 @@
 For every $n\ge2$, any $16n-3$ cubes, each using all four colours of a
 fixed palette, contain an $n\times n\times n$ frame whose exterior faces are
 monochromatic in exactly three colours; this bound is sharp. For a fixed palette,
-exactly two collections of $16n-4$ cubes fail: each has $4n-1$ copies of each
-of four monochromatic-corner varieties in one orientation class, and
-reflection exchanges the collections.
+exactly two collections of $16n-4$ cubes fail, and reflection exchanges them.
 The threshold for a complete cube is $\max\{n^3,16n-3\}$; in particular,
 any $n^3$ source cubes suffice when $n\ge4$. The case $n=2$ answers the
 threshold question in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
 The proof combines their corner-containment reduction with orientation
-constraints and bucket counts.
+constraints and double counting.
 \end{abstract}
 
 \section{Introduction}
@@ -34,9 +32,8 @@ Berkove, Eickemeyer and Schulman (BES)~\cite[Problem 2]{BES} ask for the
 least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
 exterior faces are monochromatic and use exactly three colours.
-We apply BES's Coloring Condition~\cite[Section 1]{BES}, that every
-colour of the palette appears, to the target as well.
-Here every source cube uses all four colours of a fixed palette. A
+As in BES~\cite[Section 1]{BES}, every source cube uses all four colours
+of one fixed palette; every target uses exactly three of them. A
 \emph{variety} is a face colouring up to proper rotation.
 Collections are multisets of varieties, so repeated copies
 are allowed.
@@ -58,18 +55,15 @@ exactly three colours. Four is the smallest side length for which this
 guarantee holds without spare cubes; it holds for every larger side length
 as well.
 
-For comparison, BES~\cite[Theorem 5 and Table 7]{BES} show that any $12n-16$
-four-colour cubes build a four-colour $n$-frame when $n\ge3$: no cubes beyond
-the frame's own pieces are needed. Requiring exactly three exterior colours
-raises the sharp guarantee to $16n-3$. Their observation about filling the
-remaining positions~\cite[Section 1]{BES} already implies that any $n^3$
-four-colour cubes can all form a complete cube using four exterior colours
-when $n\ge3$. Our result guarantees that one colour can be hidden completely
-from the exterior when $n\ge4$, with exactly three colours remaining visible.
-Their Table 7 also records the frame
-number $16n-17$, for $n\ge4$, for three-colour source cubes building
-three-colour frames, from earlier work in their series; that is a different
-problem, with the same leading coefficient.
+For comparison, BES~\cite[Theorem 5]{BES} show that any $12n-16$
+four-colour cubes build a four-colour $n$-frame when $n\ge3$. Requiring
+exactly three exterior colours raises the sharp threshold to
+$16n-3$.\footnote{BES's Table~7 also records the frame number $16n-17$, for
+$n\ge4$, for three-colour source cubes building three-colour frames: a
+different problem with the same leading coefficient.} Their completion
+argument~\cite[Section 1]{BES} gives a four-colour complete cube from any
+$n^3$ sources when $n\ge3$; our result guarantees exactly three exterior
+colours when $n\ge4$.
 
 The classification explains the form $16n-4=4(4n-1)$. Mixing orientation
 classes allows new corner matches, while repeated-colour demands limit
@@ -122,7 +116,7 @@ four orbits are retained.
 Representative & Orbit size & Retained type & Replacement\\
 \midrule
 $001123$ & 6  & checkerboard $C$ & ---\\
-$010203$ & 8  & triple-corner $T$ & ---\\
+$010203$ & 8  & monochromatic-corner $T$ & ---\\
 $010213$ & 12 & pair type $P$ & ---\\
 $010223$ & 12 & pair type $P$ & ---\\
 \midrule
@@ -233,9 +227,9 @@ in one ordinary orientation class.
 Replace each non-retained cube by a checkerboard using
 Lemma~\ref{lem:geometry}, leaving retained cubes unchanged. This preserves
 avoidance of all three target families.
-Let $A\ge B$ be the sizes of the two ordinary orientation classes, and
-let $C$ count checkerboards, so $A+B+C=28$. Call the class of size $A$
-the majority class (either one if equal). Call the remaining $M=B+C$ cubes \emph{minority cubes}.
+Let $A\ge B$ count the cubes belonging to the two ordinary orientation
+classes, and let $C$ count checkerboards, so $A+B+C=28$. Call the class with
+$A$ cubes the majority class (either one if equal). Call the remaining $M=B+C$ cubes \emph{minority cubes}.
 A minority cube \emph{supports} a three-element colour set $E$ if it has
 the orientation on $E$ opposite to the majority class. Smaller-class
 cubes support every $E$; a checkerboard supports two.
@@ -264,35 +258,22 @@ $n_T+n_P=28-M$ gives
  n_T+2n_P\le28,\qquad n_P\le M.
 \end{equation}
 
-We will repeatedly use the following construction. If six majority cubes
+We use the following construction. If six majority cubes
 supply $2aaa+2aab+2aac$ and a minority cube supports $\{a,b,c\}$, then
 the minority cube supplies the opposite trichromatic orientation and an
 unused majority cube supplies the other. Such a cube is available since
 $A\ge22$. This builds $R(a;b,c)$.
 
-Suppose $M>0$. Every minority cube supports some triple containing any
-given colour $a$. The construction above therefore rules out $t_a\ge6$.
-Thus $t_a\le5$ for every $a$, and $n_T\le20$. Since
-$n_T+n_P+M=28$ and $n_P\le M$, we obtain $M\ge4$.
-
-For any two distinct colours $a,b$, some minority cube supports a triple
-containing both. If not, every minority cube would be a checkerboard.
-A checkerboard whose repeated pair meets $\{a,b\}$ supports such a triple,
-so all would have the complementary repeated pair $\{c,d\}$,
-supporting exactly $\{a,c,d\}$ and $\{b,c,d\}$. Thus
-$m_{\{a,c,d\}}=M\ge4$, contradicting $m_E\le3$.
-
-We claim that $t_a\ge4$ forces $t_a+p_a\le5$.
-Otherwise, since $t_a\le5$, choose six majority cubes in bucket $a$,
-with four or five $T$ cubes and the rest $P$ cubes. These one or two
-$P$ cubes share a type $aab$, since each has two of the three possibilities.
-By the preceding pair-support argument, choose a minority cube supporting
-$\{a,b,c\}$ for some $c\notin\{a,b\}$. With four $T$ cubes and two $P$
-cubes, the $P$ cubes supply $2aab$ and the $T$ cubes supply $2aaa+2aac$.
-With five $T$ cubes and one $P$ cube, the $P$ cube supplies $aab$ and the
-$T$ cubes supply $2aaa+aab+2aac$. In either case the six cubes supply
-$2aaa+2aab+2aac$, so the construction above gives a solution, proving
-the claim.
+Suppose $M>0$. We claim that $t_a\ge4$ forces $t_a+p_a\le5$. Otherwise
+choose six majority cubes in bucket $a$, including at least four $T$ cubes.
+Any minority cube supports some triple containing $a$, say $\{a,b,c\}$,
+since a checkerboard's two supported triples together contain every colour.
+Each of the at most two $P$ cubes has two of the three types $aax$, so it
+has $aab$ or $aac$; since $R(a;b,c)$ needs two of each, each $P$ cube can
+take a position of a type it has. The $T$ cubes have $aaa$ and every type
+$aax$, so they fill the remaining positions of $2aaa+2aab+2aac$, and the
+construction above gives a solution, a contradiction. In particular,
+$t_a\le5$ for every $a$.
 
 If $t_a\le3$, the bucket bound gives $2t_a+p_a\le t_a+7\le10$.
 If $4\le t_a\le5$, the claim gives $2t_a+p_a\le t_a+5\le10$.
@@ -356,7 +337,7 @@ twice. Again a change is forced. Both cases produce a trichromatic corner.
 \begin{figure}[ht]
 \centering
 \input{obstruction-figure}
-\caption{Why one exceptional collection fails. (A) Seven copies of each
+\caption{Why one exceptional 28-cube collection fails for three-colour targets. (A) Seven copies of each
 variety, with monochromatic corners marked. (B) Targets with a trichromatic
 corner need both orientations; the example's bottom face is hidden. (C) Targets without
 trichromatic corners require eight cubes with the same repeated colour,
@@ -487,20 +468,22 @@ multisets are respectively
  aaa+2aab+aac+abb+bbc+abc+acb,
  \qquad 3aa+bb+4ab+2ac+2bc.
 \]
-Thus an ordinary class supplies a $U$-frame using $3n-2$ of its $T_a$ cubes,
+Write $T_a$ for the $T$ variety with repeated colour $a$ in a given ordinary
+class. Thus an ordinary class supplies a $U$-frame using $3n-2$ of its $T_a$ cubes,
 $n$ of its $T_b$ cubes, and $1+8(n-2)$ other cubes, together with one
 minority cube supporting $\{a,b,c\}$. The $T_a$ cubes fill four corners and
 the $3(n-2)$ monochromatic $aa$ edge positions; the $T_b$ cubes fill two
 corners and the $n-2$ monochromatic $bb$ positions. The minority cube and
-one further ordinary cube fill the two trichromatic corners. Every remaining
+one further cube from the same ordinary class fill the two trichromatic corners. Every remaining
 edge is bichromatic and can use any ordinary cube.
 
 \begin{proof}[Proof of Theorem~\ref{thm:frames}]
 We first classify a failing collection of $N=16n-4$ cubes. The case $n=2$
 is Theorem~\ref{thm:sharp}, so assume $n\ge3$. Apply the same reduction as
 in Theorem~\ref{thm:classification}, replacing every non-retained variety
-by a checkerboard. Keep the notation $A,B,C,M,t_a,p_a,n_T,n_P$ for the
-majority class, minority class, checkerboards and majority bucket counts.
+by a checkerboard. In the reduced collection, let $A\ge B$ count the cubes in the two ordinary
+classes, let $C$ count checkerboards, and put $M=B+C$. Define
+$t_a,p_a,n_T,n_P$ for the majority class as before.
 
 By Lemma~\ref{lem:D-extension}, no $D$ corner solution exists. The first
 step of Theorem~\ref{thm:classification} uses only these targets, so it
@@ -573,15 +556,16 @@ Corollary~\ref{cor:restricted} are
 formalised in Lean 4.35.0~\cite{Lean4} with mathlib v4.35.0~\cite{mathlib}
 for arbitrary indexed families of four-colour cubes. Solutions select
 distinct copies and proper rotations matching the exposed faces at every
-required position. The frame statements cover every side length $n\ge2$;
-completing a frame adds only the requirement that at least $n^3$ pieces are available. The threshold, sharpness and restricted-target statements
-use no catalogues; the classification counts cubes in each rotation class.
-Kernel checks verify the catalogues and finite geometry, and a lemma for
+required position. The frame statements cover every side length $n\ge2$. The threshold,
+sharpness and restricted-target statements are formulated without catalogue
+indices; the classification specifies multiplicities of rotation classes.
+Kernel checks establish the catalogue and finite geometric facts, and a lemma for
 arbitrary palettes equates cyclic corner matching with physical placement.
 
-Thirty-five results are restated in a standalone challenge importing only
-mathlib. A comparator checks their statements against the proof library
-and replays the proofs through Lean, NanoDa and con-ron.
+Thirty-five results and the required definitions are restated in a
+standalone verification file (the comparator challenge) importing only
+mathlib. Automated checks compare these statements with the proof library
+and replay the proofs through the Lean, NanoDa and con-ron kernels.
 
 The audit reports three standard axioms: \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
@@ -596,17 +580,29 @@ The Lean proof uses counting and finite Hall certificates. Its corner-case
 proof treats checkerboards and the smaller ordinary class separately; the
 frame proof combines them. Finite checks establish each target's corner and
 edge requirements, while the allocation and counting proofs are symbolic in
-the side length. Neither proof enumerates all collections.
+the side length. Neither the written proof nor the formalisation
+enumerates all source collections.
 
 A computational search found the corner obstruction and agreed with the
 corner threshold; separate scripts check the geometric tables, incidences,
 edge constructions and sample frame obstructions.
-Neither proof depends on these computations.
+The correctness of these external computations is not assumed in either
+the written proof or the formalisation.
+
+An assembly can be found by testing the 120 three-colour target varieties
+using capacitated bipartite matching. Source varieties have capacities equal
+to their available multiplicities; corner and edge requirements have
+capacities equal to their demands. A source is adjacent to a requirement
+when it has the required corner or edge type. Grouping identical requirements
+keeps the network size bounded independently of the side length. An integral
+flow meeting all demands determines a frame, and compatible proper rotations
+can then be chosen. Unused cubes complete the assembly whenever at least
+$n^3$ pieces are available.
 
 \section*{Literature and priority}
-A literature search on November 1, 2026 found no earlier answer to the
-corner question; targeted searches for the frame extension on November 2
-also found none. These searches do not establish priority. Rosenfeld's October 2026 article~\cite{Rosenfeld}
+Literature searches on November 1--2, 2026 found no earlier determination
+of the corner threshold or the frame formula. These searches do not
+establish priority. Rosenfeld's October 2026 article~\cite{Rosenfeld}
 \emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1} remains unread,
 and its relevance is undetermined.
 
