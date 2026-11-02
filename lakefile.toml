@@ -10,7 +10,7 @@ rev = "v4.35.0"
 [[require]]
 name = "colour_cubes_core"
 git = "https://github.com/jasondavies/colour-cubes-core.git"
-rev = "3164adbd2ee16d2721caadc1db67c1498e5d67e0"
+rev = "994ec9af4f44881819aea63e96b25e54afba5dec"
 
 [[lean_lib]]
 name = "ThreeColour"

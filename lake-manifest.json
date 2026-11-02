@@ -115,10 +115,10 @@
       "type": "git",
       "subDir": null,
       "scope": "",
-      "rev": "3164adbd2ee16d2721caadc1db67c1498e5d67e0",
+      "rev": "994ec9af4f44881819aea63e96b25e54afba5dec",
       "name": "colour_cubes_core",
       "manifestFile": "lake-manifest.json",
-      "inputRev": "3164adbd2ee16d2721caadc1db67c1498e5d67e0",
+      "inputRev": "994ec9af4f44881819aea63e96b25e54afba5dec",
       "inherited": false,
       "configFile": "lakefile.toml"
     }
