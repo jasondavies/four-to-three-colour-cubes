@@ -68,7 +68,7 @@ def printed_table_rows(manuscript, label):
 
 def check_printed_tables(manuscript, reduction_table):
     """Compare printed entries with the independently checked geometry."""
-    retained_types = {'001123': 'checkerboard $C$', '010203': 'triple-corner $T$',
+    retained_types = {'001123': 'checkerboard $C$', '010203': 'monochromatic-corner $T$',
                       '010213': 'pair type $P$', '010223': 'pair type $P$'}
     expected = [[f'${word}$', str(size), retained_types[word] if retained else '---',
                  '---' if retained else '$001123$']
