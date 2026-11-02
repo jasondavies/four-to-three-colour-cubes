@@ -14,6 +14,7 @@ paper:
 
 regenerate:
 	python3 scripts/generate_three_colour_lean.py
+	python3 scripts/generate_frame_data.py
 
 figure:
 	python3 scripts/generate_figure.py
