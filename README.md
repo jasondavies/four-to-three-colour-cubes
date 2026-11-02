@@ -42,8 +42,21 @@ $P$ cubes, including repeats. Counting memberships by cube type and by bucket gi
 
 $$n_T+2n_P\le 4\cdot7=28.$$
 
-The proof combines this count with the corner-orientation constraints to
-classify the two exceptional collections.
+The ordinary varieties ($T$ and $P$) form two orientation classes, each sharing
+one trichromatic orientation on every triple of colours. For a failing reduced
+collection of 28 cubes, call the larger class the majority and all other cubes
+the minority. The remaining argument has three steps:
+
+1. Targets with three monochromatic opposite face pairs ($D$) force the
+   minority to contain at most six cubes, leaving at least 22 in the majority.
+2. If any minority cubes occur, targets with four faces of one colour and two
+   differently coloured adjacent faces ($R$) force $2t_a+p_a\le10$ in each
+   bucket, where $t_a,p_a$ count majority $T,P$ cubes. Summing bounds the
+   majority by 20, a contradiction.
+3. All cubes therefore belong to one ordinary class. The bucket count then
+   excludes $P$ cubes and forces seven $T$ cubes of each repeated colour.
+
+The bucket double-count is [BES's equation (1)](https://math.colgate.edu/~integers/s68/s68.pdf).
 
 ## Repository layout
 
@@ -56,16 +69,11 @@ classify the two exceptional collections.
 
 ## Lean dependency
 
-The project pins
+The project uses Lean and mathlib **v4.35.0** and pins
 [macmahon-min-universal-sets](https://github.com/jasondavies/macmahon-min-universal-sets/tree/3f854795a77cd7c902e4c5a1a5da3322f9cd44fa)
-to commit `3f854795a77cd7c902e4c5a1a5da3322f9cd44fa` in both `lakefile.toml`
-and `lake-manifest.json`. It reuses `MacMahon.Rotations` and its transitive
-physical definitions: the 24 proper rotations, six coordinate face directions
-and eight corner positions. It does not import the six-colour classification
-proof. Both projects use Lean and mathlib **v4.35.0**.
-
-A fresh clone fetches this pinned public dependency; no sibling checkout
-is needed.
+for its rotations, face directions and corner positions.
+It imports no six-colour classification proof; Lake fetches the pinned dependency
+automatically.
 
 ## Reproduce
 
@@ -80,13 +88,8 @@ make paper  # requires latexmk and a LaTeX installation
 
 `make check` audits proof sources, validates metadata and dependency pins,
 regenerates geometry and figures, runs the separate Python checker, and builds
-all Lean targets. The root `ThreeColour.lean` guards twenty-eight axiom reports,
-permitting only
-`propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
+all Lean targets, including the axiom guards.
 [CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
-It builds the memory-heavy `RawChecks` modules serially before the remaining
-checks; the first build on a hosted runner can take much longer than a cached
-build. New pushes cancel superseded routine checks.
 
 The public Lean results include:
 
@@ -96,14 +99,10 @@ The public Lean results include:
 | `family_sharp_threshold29` | Upper bound without source or target catalogues and explicit size-28 counterexample. |
 | `family_least_guaranteed_size` | Least-size theorem without source or target catalogues. |
 | `family_classify28_geometric` | Classification for arbitrary indexed cubes by proper-rotation equivalence to the source representatives. |
-| `physical_threshold29` | Every collection of size 29 has a physical solution. |
-| `physical_classify28` | Exactly the two specified size-28 collections fail. |
-| `least_guaranteed_size` | 29 is the least size guaranteeing success for all larger collections. |
-| `source_catalogue_complete` / `target_catalogue_complete` | Every relevant face assignment occurs up to proper rotation. |
-| `source_catalogue_unique` / `target_catalogue_unique` | Distinct catalogue indices are distinct rotation varieties. |
 | `family_restricted_threshold29` / `family_restricted_of_solvable28` | Every 29-cube family and every solvable 28-cube family builds a target of type $Q$, $R$, or $D$. |
-| `restricted_target_counts` / `restricted_target_catalogue_complete` | The geometric target families have 12, 12, and 4 varieties: 28 in total. |
-| `reflect_extremal` | Reflection exchanges the two extremal collections. |
+
+See [Challenge.lean](Challenge.lean) for all 25 checked statements, including
+catalogue coverage, uniqueness, geometry and the restricted-target counts.
 
 `Family.lean` works with arbitrary indexed face colourings; a solution selects
 eight distinct copies and proper rotations. Transport lemmas connect these
@@ -112,43 +111,21 @@ families to inventories of the 68 canonical varieties. A
 palette, equates cyclic corner matching with matching the three exposed faces
 by a proper rotation. The proof does not enumerate all collections.
 
-## Comparator and Palomar
-
-`Challenge.lean` imports only mathlib and restates twenty-five
-results: the threshold, sharpness and classification, catalogue coverage and
-colour counts, the restricted-target corollary and its target counts, and
-correctness of the rotation, exposed-face and reflection geometry. Its model
-definitions and literal tables are copied from the proof library and its pinned
-geometry dependency; this separation does not constitute an independently
-devised model. The comparator checks agreement of the statements and referenced
-definitions, then replays the exported proofs through three kernel implementations.
-Its twenty-five deliberate `sorry` declarations are statement placeholders.
-No proof module imports them; they are excluded from the proof-development hole count.
+## Kernel replay
 
 ```sh
 make comparator
 ```
 
-The replay uses the toolchain's bundled Lean, NanoDa and con-ron kernels
-and can take tens of minutes. `make check` alone does not run it.
-It requires `bwrap` and support for its sandbox. On memory-limited machines,
-use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
-resource use, not the checks performed.
+This checks the statements and referenced definitions in `Challenge.lean`
+against the proof library, then replays the proofs through Lean, NanoDa and
+con-ron. The challenge copies model definitions and tables; it does not
+constitute an independently devised model. Replay requires `bwrap`, can take
+tens of minutes, and is separate from `make check`.
 
-The separate [Comparator workflow](.github/workflows/comparator.yml) runs
-only on manual request, with serial RawChecks builds and
-`CON_RON_JOBS=1`. It saves the build cache before replay and allows up to
-three hours for replay within a five-hour job. Routine pushes cannot cancel
-an active replay. These settings were informed by local tests with 16 GB;
-they do not establish that an 8 GB private runner can build the project.
-
-Before releasing or archiving a version, require a successful full replay of
-that exact commit. Start the Comparator workflow with its `ref` input set to
-the full commit SHA, then confirm the successful run summary records the same
-SHA. A green routine CI run alone does not certify independent kernel replay.
-
-The repository also includes a manually triggered Palomar preflight workflow.
-No registry submission or acceptance is claimed.
+The [Comparator workflow](.github/workflows/comparator.yml) runs only on manual
+request. See the [formalisation guide](ThreeColour/README.md#verification-and-maintenance)
+for resource settings, release checks and the Palomar preflight.
 
 ## Computation and review
 
@@ -190,13 +167,7 @@ Both should report `INFEASIBLE`. The checked-in fixture contains the 28-cube
 witness and Hall certificates for every target; the geometric checker validates
 them on each run. The Lean proof does not depend on the solver.
 
-A literature search on November 1, 2026 found no earlier answer, but
-Rosenfeld's October 2026 Geombinatorics article remains unread.
-Priority has not been independently established.
-
-AI contributions and review scope are recorded in [formalization.yaml](formalization.yaml)
-and the paper's disclosure. The original GPT-6-Astra review covered an earlier
-version; Claude Opus 5.5 contributed later mathematical simplifications and
-review. The paper has not received independent human peer review.
+See [formalization.yaml](formalization.yaml) for AI contributions, review scope
+and the outstanding literature check, and the paper for the author's disclosure.
 
 Code and manuscript are distributed under the [Apache-2.0 licence](LICENSE).

@@ -31,6 +31,8 @@ Berkove, Eickemeyer and Schulman (BES)~\cite[Problem 2]{BES} ask for the
 least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
 exterior faces are monochromatic and use exactly three colours.
+This follows BES's convention that a $k$-colour cube uses all $k$
+colours~\cite[Section 1]{BES}.
 Here every source cube uses all four colours of a fixed palette. A
 \emph{variety} is a face colouring up to proper rotation.
 Collections are multisets of varieties, so repeated copies
@@ -46,8 +48,9 @@ orientation class. Figure~\ref{fig:obstruction} shows one collection, and
 Theorem~\ref{thm:sharp} gives its face tuples.
 
 The classification explains the form $28=4\cdot7$. Mixing orientation classes
-allows new corner matches, while each colour bucket holds at most seven
-cubes without yielding a solution. Together these restrictions force an
+allows new corner matches, while each colour bucket---grouping cubes with
+specified repeated-colour corners---holds at most seven cubes without
+yielding a solution. Together these restrictions force an
 extremal collection into one orientation class, then force the four
 monochromatic-corner varieties to occur equally often. We first prove this
 rigidity, deduce the upper bound, and then verify that both obstructions fail.
@@ -57,7 +60,7 @@ Reflections are not allowed as moves. Only exterior faces must match the
 target; internal faces are unrestricted.
 
 A corner type is a cyclically ordered triple of face colours, read
-counterclockwise from outside along the corner's body diagonal.
+counterclockwise when viewed from outside along the corner's body diagonal.
 Equivalently, order the three outward face normals to form a positively
 oriented basis. A trichromatic corner has three distinct colours and two
 orientations, $abc$ and $acb$. BES~\cite[Section 2]{BES} use clockwise order; our convention
@@ -82,12 +85,11 @@ exactly-three-colour targets for the sufficient constructions.
 
 If every corner type of a variety $v$ occurs on a variety $w$, replacing a
 copy of $w$ by $v$ cannot create a solution to any target. In particular, it
-preserves unsolvability. This is the reduction of
-\cite[Section 2]{BES}, recorded in Table~\ref{tab:reduction}. Face tuples use the order
+preserves unsolvability. Table~\ref{tab:reduction} records the reduction.
+Face tuples use the order
 $+x,-x,+y,-y,+z,-z$. The rows represent the seven orbits under colour
-permutations, with rotations already identified. They cover all 68 varieties, unlike
-the seven minimal representatives in \cite[Figure 2]{BES}; four of the
-orbits are retained.
+permutations, with rotations already identified. They cover all 68 varieties;
+four orbits are retained.
 
 \begin{table}[ht]
 \centering
@@ -109,19 +111,16 @@ $010123$ & 6  & --- & $001123$\\
 \label{tab:reduction}
 \end{table}
 
-The retained types are precisely the minimal varieties in
-\cite[Table 8]{BES}. A reduced variety belongs to bucket $a$ if it has
+A reduced variety belongs to bucket $a$ if it has
 at least two of the three corner types $aab$ with $b\ne a$.
-These are the buckets of \cite[Definition 3]{BES}, with each bucket's
-seven mirror pairs treated as fourteen individual varieties.
-The following lemma collects the geometric facts used in the proof.
-The orientation classes and checkerboard terminology are from
-\cite[Section 2]{BES}.
+The reduction, 38 minimal varieties, orientation classes, checkerboards
+and buckets below are from BES~\cite[Section 2, Table 8 and Definition 3]{BES};
+we count each bucket's seven mirror pairs as fourteen individual varieties.
 
 \begin{lemma}[Finite geometry]\label{lem:geometry}
-Every variety can be reduced by corner containment to one of the 38 retained
-varieties in Table~\ref{tab:reduction}. Every non-retained variety can be
-replaced by a checkerboard. The retained varieties have these bucket incidences:
+Every non-retained variety in Table~\ref{tab:reduction} contains the corner
+types of a checkerboard, so every variety reduces to one of the 38 retained
+varieties. Their bucket incidences are:
 \begin{itemize}
 \item There are eight $T$ varieties. Each has a repeated colour $a$, corners
   $aaa$ and $aab$ for every $b\ne a$, and belongs only to bucket $a$.
@@ -149,9 +148,10 @@ The face-colour multiplicities are $3+1+1+1$ or $2+2+1+1$.
 In the first case, the three equal faces either meet at a vertex or contain
 an opposite pair, giving two orbits. In the second case, both repeated
 pairs can be opposite, exactly one can be opposite, or both can be adjacent.
-Fixing one adjacent pair and placing the other among the four remaining
-faces gives three patterns in the last case: $010213$, $010223$ and
-$010123$. The second multiplicity case thus gives five orbits, completing
+In the last case, the two monochromatic edges either have perpendicular
+directions, giving two mirror configurations represented by $010213$ and
+$010223$, or are parallel, represented by $010123$. These are distinct under proper rotation and
+colour permutation. The second multiplicity case thus gives five orbits, completing
 Table~\ref{tab:reduction}.
 The three non-retained representatives contain the corner types of $001123$;
 colour permutations transport these containments to their whole orbits.
@@ -201,13 +201,12 @@ $Q(a;b,c)$.
 
 \section{The extremal collections}
 \begin{theorem}\label{thm:classification}
-A collection of 28 four-colour cubes without a three-colour corner
-solution consists of seven copies of each of the four $T$ varieties
+A collection of 28 four-colour cubes that builds no target of type $Q$,
+$R$ or $D$ consists of seven copies of each of the four $T$ varieties
 in one ordinary orientation class.
 \end{theorem}
 \begin{proof}
-The argument needs only the assumption that no target of type $Q$, $R$ or
-$D$ can be built. Replace each non-retained cube by a checkerboard using
+Replace each non-retained cube by a checkerboard using
 Lemma~\ref{lem:geometry}, leaving retained cubes unchanged. This preserves
 avoidance of all three target families.
 Let $A\ge B$ be the sizes of the two ordinary orientation classes, and
@@ -217,6 +216,7 @@ A minority cube \emph{supports} a three-element colour set $E$ if it has
 the orientation on $E$ opposite to the majority class. Smaller-class
 cubes support every $E$; a checkerboard supports two.
 
+\smallskip\noindent\emph{(i) At most six minority cubes: $M\le6$.}
 For $E=\{a,b,c\}$, let $z_E$ count checkerboards supporting $E$.
 If $z_E\ge8$, those eight checkerboards build the
 target $D(a,b,c)$. Thus $z_E\le7$ for each
@@ -229,10 +229,13 @@ $m_E\le3$ for every $E$. Summing gives
  4B+2C\le12,\qquad M\le6,\qquad A=28-M\ge22.
 \end{equation}
 
-From now on, let $t_a$ and $p_a$ count only majority-class $T$ and $P$
+\smallskip\noindent\emph{(ii) No minority cubes: $M=0$.}
+Let $t_a$ and $p_a$ count only majority-class $T$ and $P$
 cubes in bucket $a$, and let $n_T,n_P$ be their respective totals, so
 $A=n_T+n_P$. By Lemma~\ref{lem:bucket}, $t_a+p_a\le7$.
-Each $T$ cube belongs to one bucket and each $P$ cube to two, so summing gives
+Each $T$ cube belongs to one bucket and each $P$ cube to two. This is BES's
+double-count~\cite[equation (1)]{BES}; summing the bucket bounds and using
+$n_T+n_P=28-M$ gives
 \begin{equation}\label{eq:buckets}
  n_T+2n_P\le28,\qquad n_P\le M.
 \end{equation}
@@ -271,8 +274,10 @@ through each of its two buckets. Summing gives
 \[
  2A=2n_T+2n_P=\sum_a(2t_a+p_a)\le40,
 \]
-contradicting $A\ge22$ from \eqref{eq:minority}. Therefore $M=0$,
-and \eqref{eq:buckets} forces $n_P=0$. All 28 cubes are majority-class
+contradicting $A\ge22$ from \eqref{eq:minority}. Therefore $M=0$.
+
+\smallskip\noindent\emph{(iii) Equal multiplicities: $t_a=7$.}
+With $M=0$, \eqref{eq:buckets} forces $n_P=0$. All 28 cubes are majority-class
 $T$ cubes, and the four bucket bounds force each $t_a=7$.
 
 Since the reduced collection contains no checkerboards, no replacement
@@ -367,10 +372,9 @@ $(540+3\cdot36+12\cdot6)/24=30$ varieties. Four choices of omitted colour
 give 120.}
 \end{corollary}
 \begin{proof}
-The classification argument uses only these three families, so a 28-cube
-collection avoiding them has one of the two extremal forms and is therefore
-unsolvable by Theorem~\ref{thm:sharp}. The deletion-and-insertion argument of
-Theorem~\ref{thm:upper} likewise rules out a 29-cube collection avoiding them.
+By Theorems~\ref{thm:classification} and~\ref{thm:sharp}, a 28-cube collection
+avoiding these families is unsolvable. The swap in the proof of
+Theorem~\ref{thm:upper} rules out a 29-cube collection avoiding them.
 There are $4\binom{3}{2}=12$ varieties each of $Q$ and $R$: choose $a$ and
 the unordered pair $\{b,c\}$. There are $\binom{4}{3}=4$ varieties of $D$,
 one for each three-colour set.
@@ -394,39 +398,31 @@ $023$ nor $032$, so its degree, and that of every checkerboard, is zero.
 \end{remark}
 
 \section{Formal verification and computation}
-The threshold and classification are formalised in Lean 4.35.0~\cite{Lean4}
-with mathlib v4.35.0~\cite{mathlib}, for both inventories of the 68 source
-varieties and arbitrary indexed families of four-colour cubes. A solution
-selects eight distinct copies and proper rotations matching the exposed
-faces of a three-colour target. The threshold and sharpness also have
-statements without source or target catalogues; the classification counts
-source cubes in each rotation class.
-Corollary~\ref{cor:restricted} is also formalised for arbitrary indexed
-families, using geometric definitions of $Q$, $R$ and $D$.
+The threshold, classification and Corollary~\ref{cor:restricted} are
+formalised in Lean 4.35.0~\cite{Lean4} with mathlib v4.35.0~\cite{mathlib}
+for arbitrary indexed families of four-colour cubes. Solutions select
+eight distinct copies and proper rotations matching a three-colour target's
+exposed faces. The threshold, sharpness and restricted-target statements
+use no catalogues; the classification counts cubes in each rotation class.
+Kernel checks verify the catalogues and finite geometry, and a lemma for
+arbitrary palettes equates cyclic corner matching with physical placement.
 
-Kernel checks establish catalogue coverage, source and target uniqueness up to rotation,
-the restricted-target counts, and correctness of stored corner codes. A palette-independent lemma, allowing
-repeated colours, equates cyclic corner matching with physical face matching
-by a proper rotation. Twenty-five results are restated in a standalone
-challenge file importing only mathlib. Their proofs were replayed through
-the Lean, NanoDa and con-ron kernels.
+Twenty-five results are restated in a standalone challenge importing only
+mathlib, and their proofs were replayed through Lean, NanoDa and con-ron.
+The axiom audit finds only the standard axioms \texttt{propext},
+\texttt{Classical.choice} and \texttt{Quot.sound}; no proof uses holes or
+\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/macmahon-four-to-three}}
+provides sources, reproduction commands and details of the statement checks.
+The rotation and exposed-face definitions come from the Lean project
+accompanying~\cite{MinUniversal}.
 
-The Lean proof uses counting and finite Hall certificates for the sufficient
-constructions. It treats checkerboards and the smaller ordinary class
-separately; the written proof combines them as minority cubes. The lower
-bound checks Hall deficiencies for all 120 targets and both extremal
-collections. Neither proof enumerates all collections.
+The Lean proof uses counting and finite Hall certificates, treating
+checkerboards and the smaller ordinary class separately where the written
+proof combines them. It checks Hall deficiencies for all 120 targets in
+both extremal collections. Neither proof enumerates all collections.
 
-\Needspace{5\baselineskip}
-The axiom audit finds only \texttt{propext}, \texttt{Classical.choice} and
-\texttt{Quot.sound}, all standard in Lean. No proof uses holes or \texttt{native\_decide}.
-The repository\footnote{\url{https://github.com/jasondavies/macmahon-four-to-three}}
-contains sources and reproduction commands. The cube-rotation and exposed-face
-definitions are reused from the Lean project accompanying~\cite{MinUniversal}.
-
-A computational search found the 28-cube example and returned results
-consistent with the threshold and classification. A separate script
-checks both geometric tables, the stated incidences and the lower obstructions.
+A computational search found the obstruction and agreed with the result;
+a separate script checks both geometric tables, incidences and obstructions.
 Neither proof depends on these computations.
 
 \section*{Literature and priority}

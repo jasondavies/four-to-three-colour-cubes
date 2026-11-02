@@ -143,7 +143,11 @@ alignment:
       lean: ThreeColour.family_threshold29
       module: ThreeColour.Family
       status: proved
-    - source: "Paper, classification and sharpness theorems"
+    - source: "Paper, classification theorem (avoidance of Q, R and D)"
+      lean: ThreeColour.restricted_classify28
+      module: ThreeColour.Classification
+      status: proved
+    - source: "Paper, classification of all unsolvable 28-cube collections"
       lean: ThreeColour.family_classify28_geometric
       module: ThreeColour.Family
       status: proved

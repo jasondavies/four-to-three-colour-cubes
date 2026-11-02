@@ -34,6 +34,8 @@ faces by geometric proper rotations. `family_classify28_geometric` extends the
 classification to arbitrary families using geometric rotation-class counts,
 and is included in the comparator challenge. `family_classify28` is the
 internal inventory formulation.
+`restricted_classify28` in `Classification.lean` proves the stronger statement used in the paper:
+avoiding $Q,R,D$ at size 28 already forces an extremal collection.
 `RestrictedDefs.lean` defines the target families geometrically: four faces of
 one colour and two differently coloured opposite faces ($Q$) or adjacent faces
 ($R$), or three monochromatic opposite pairs ($D$). The counting proof retains
@@ -81,13 +83,9 @@ only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
 proof holes or uses of `native_decide` in the proof library. The twenty-five intentional
 statement holes in `Challenge.lean` are isolated comparator targets.
 
-The separate Python geometry checker provides additional checks, including
-comparison with the printed corner-type table. The original separate AI proof
-review covers an earlier version of the argument. Later author-supplied Claude
-reviews contributed the manuscript's minority-cube argument, edge-count balance
-proof, degree remark and shorter bucket and threshold proofs. These reviews
-are not independent human peer review, and formal verification does not
-establish novelty.
+The separate Python geometry checker also compares both printed tables with
+the computed geometry. Attribution and review scope are recorded in
+[formalization.yaml](../formalization.yaml).
 
 The geometry dependency is `macmahon_min_universal_sets`, pinned in
 `lakefile.toml` and `lake-manifest.json`. Only `MacMahon.Rotations` and its
@@ -96,3 +94,40 @@ is imported. The standalone challenge imports only mathlib and contains copies
 of the relevant model definitions and tables. The comparator checks their
 agreement with the proof library and replays the exported proofs; this is
 separation of the statements from the implementation, not independent modelling.
+
+## Verification and maintenance
+
+Run `make check` from the repository root for source and metadata audits,
+generated-file checks, the Python geometry checker and the Lean build.
+Full kernel replay is a separate command:
+
+```sh
+make comparator
+```
+
+The comparator replays the 25 challenge results through the toolchain's bundled
+Lean, NanoDa and con-ron kernels after checking their statements and definitions.
+Replay requires `bwrap` and support for its sandbox. On memory-limited machines,
+use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
+resource use, not the checks performed.
+
+[Routine CI](../.github/workflows/ci.yml) runs on pushes and pull requests.
+It builds the memory-heavy `RawChecks` modules serially before the remaining
+checks. The first build can take substantially longer than a cached build;
+new pushes cancel superseded routine checks.
+
+The separate [Comparator workflow](../.github/workflows/comparator.yml) runs
+only on manual request, with serial `RawChecks` builds and `CON_RON_JOBS=1`.
+It saves the build cache before replay and allows up to three hours for replay
+within a five-hour job. Routine pushes cannot cancel an active replay.
+These settings were informed by local tests with 16 GB; they do not establish
+that an 8 GB runner can build the project.
+
+Before releasing or archiving a version, require a successful full replay of
+that exact commit. Start the Comparator workflow with its `ref` input set to
+the full commit SHA, then confirm the successful run summary records the same
+SHA. A green routine CI run alone does not certify kernel replay.
+
+The repository also includes a manually triggered
+[Palomar preflight workflow](../.github/workflows/palomar-preflight.yml).
+No registry submission or acceptance is claimed.
