@@ -16,11 +16,12 @@
 \maketitle
 
 \begin{abstract}
-For every $n\ge2$, the sharp number of four-colour cubes guaranteeing an
-$n\times n\times n$ frame with monochromatic exterior faces using exactly
-three colours is $16n-3$. For a fixed palette, exactly two collections of
-$16n-4$ cubes fail: each has $4n-1$ copies of four monochromatic-corner
-varieties in one orientation class, and reflection exchanges the collections.
+For every $n\ge2$, the sharp number of cubes using all four colours of a
+fixed palette guaranteeing an $n\times n\times n$ frame with monochromatic
+exterior faces using exactly three colours is $16n-3$. For a fixed palette,
+exactly two collections of $16n-4$ cubes fail: each has $4n-1$ copies of each
+of four monochromatic-corner varieties in one orientation class, and
+reflection exchanges the collections.
 The threshold for a complete cube is $\max\{n^3,16n-3\}$; in particular,
 any $n^3$ source cubes suffice when $n\ge4$. The case $n=2$ answers the
 threshold question in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
@@ -75,9 +76,10 @@ reverses every triple, preserving containment and matching. A source cube
 fits a target corner by a proper rotation if and
 only if it has the same cyclic corner type: the cyclic alignments of two
 corner frames are exactly those realised by proper rotations of the cube.
-A target is represented by its
-multiset of eight corner types: a collection builds it exactly when these
-eight occurrences can be matched to distinct cubes having the required types.
+For the corner problem ($n=2$), a target is represented by its multiset of
+eight corner types. A collection builds a corner solution modelled on that
+target exactly when these eight occurrences can be matched to distinct
+cubes having the required types.
 
 For distinct colours $a,b,c$, write $Q(a;b,c)$ for a target whose $b$ and $c$
 faces are opposite and whose other four faces have colour $a$. Its corner multiset is
@@ -435,13 +437,13 @@ $F(n)=16n-3$.
 
 The corner-containment reduction also preserves edge availability: an edge
 occurs in a corner, so containment of corner types implies containment of
-edge types~\cite[Section 1]{BES}. An edge type is an unordered pair of colours,
-allowing repetition. Every ordinary variety has all six bichromatic edge
+edge types~\cite[Section 2, after Definition 2]{BES}. An edge type is an
+unordered pair of colours, allowing repetition. Every ordinary variety has all six bichromatic edge
 types. A checkerboard has five, missing precisely the pair of its singleton
 colours; different checkerboards miss different pairs. These facts follow
 from the representatives in Table~\ref{tab:corners}, and also appear in
-BES's frame arguments~\cite[Section 2]{BES}. A cube in bucket $a$ has an $aa$
-edge.
+BES's frame arguments~\cite[proofs of Lemmas 7--8 and Table 5]{BES}.
+A cube in bucket $a$ has an $aa$ edge.
 
 \begin{lemma}\label{lem:D-extension}
 Let $n\ge2$. If a reduced collection of at least $16n-4$ cubes has a
@@ -513,8 +515,8 @@ would give
 Choose a minority cube. It supports a triple containing $a$: smaller-class
 ordinary cubes support every triple, and a checkerboard's two supported
 triples together contain every colour. At least one of the other two
-colours in that triple has $n$ majority $T$ cubes; call it $b$, and call
-the third $c$. The $U(a,b;c)$ construction now applies. After selecting its
+colours in that triple has at least $n$ majority $T$ cubes; call it $b$,
+and call the third $c$. The $U(a,b;c)$ construction now applies. After selecting its
 $4n-1$ majority corner and monochromatic-edge cubes, at least
 $A-(4n-1)\ge12n-9\ge8(n-2)$ majority cubes remain. This contradicts failure.
 
@@ -535,8 +537,8 @@ proves the upper bound.
 \end{proof}
 
 \begin{corollary}[Complete cubes]\label{cor:full-cubes}
-The sharp threshold for a complete $n\times n\times n$ cube with exactly
-three exterior colours is
+For every integer $n\ge2$, the sharp threshold for a complete
+$n\times n\times n$ cube with exactly three exterior colours is
 \[
  G(n)=\max\{n^3,16n-3\}.
 \]
