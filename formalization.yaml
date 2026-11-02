@@ -3,14 +3,13 @@ version: "v0.4"
 project:
   name: "Three-colour solutions from four-colour cubes"
   description: >-
-    Every multiset of 29 cubes using all four fixed face colours contains eight
-    that form an exactly-three-colour target with monochromatic exterior faces.
-    The bound is sharp, and the two labelled 28-cube obstruction multisets are
-    classified and proved to be mirror images. Internal faces are unrestricted.
-    A palette-independent corner–rotation lemma connects cyclic corner types to
-    physical face matching. The formalisation checks distinct copy use, catalogue
-    coverage and source and target uniqueness, and uses a related counting argument with finite
-    kernel-checked Hall certificates for sufficient constructions.
+    For every side length n >= 2, the sharp threshold for a three-colour frame
+    from four-colour source cubes is 16n-3. Exactly two collections of size
+    16n-4 fail: 4n-1 copies of each of four T varieties in one orientation class,
+    or their reflections. The sharp complete-cube threshold is max(n^3,16n-3).
+    Arbitrary indexed face colourings, geometric proper rotations, and distinct
+    physical copies are formalised. The original n=2 threshold of 29 and its
+    restricted-target corollary are retained. Internal faces are unrestricted.
   authors: ["Jason Davies"]
   responsible_maintainers: ["Jason Davies"]
   license: "Apache-2.0"
@@ -44,15 +43,14 @@ related_formalizations:
       definitions and imports only mathlib. The core imports no paper-specific catalogue.
 status:
   scope: >-
-    Sharp threshold 29, all larger collections, full classification at size 28,
-    reflection of the two obstructions, source and target catalogue coverage,
-    and source and target orbit uniqueness. The restricted-target corollary and
-    its count of 28 target varieties are also formalised. Transport theorems connect canonical
-    inventories to arbitrary indexed face colourings. Threshold
-    and sharpness statements without source or target catalogues require
-    exactly four source colours, exactly three target colours, distinct
-    copies and geometric proper rotations.
-    No priority claim or general five-colour threshold is formalised.
+    Sharp frame threshold 16n-3 for every n >= 2, classification of the two
+    size-(16n-4) obstructions and their reflection, sharp complete-cube threshold
+    max(n^3,16n-3), and the n >= 4 volume-only consequence. Source and target
+    catalogue coverage and uniqueness, corner and edge matching by proper
+    rotations, and transport to arbitrary indexed face colourings are checked.
+    The n=2 restricted-target corollary and its count of 28 targets remain proved.
+    No priority claim, near-extremal band classification, higher-dimensional
+    theorem, or general five-colour threshold is formalised.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: []
@@ -92,7 +90,7 @@ automation:
     reviews supplied by the author; these were incorporated in subsequent
     Codex revisions. The human author initiated and directed
     the research and accepts responsibility for the paper's content and the
-    accuracy of its disclosure. The twenty-five intentional statement holes in
+    accuracy of its disclosure. The thirty-five intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
     is used.
 fidelity:
@@ -101,8 +99,12 @@ fidelity:
     proper rotations represented by determinant-positive signed-axis permutations.
     Collections allow arbitrary repeated varieties. Only exterior faces match.
     The Lean proof uses a related counting argument with finite Hall certificates
-    for the constructions. It treats checkerboards and the smaller ordinary
+    for the constructions. Its n=2 proof treats checkerboards and the smaller ordinary
     class separately; the written proof combines them as minority cubes.
+    The frame proof combines them and is symbolic in k=n-2. Frame positions
+    consist of eight corners and twelve groups of k edge positions; complete
+    cube positions additionally include six groups of k^2 face interiors and
+    k^3 interior positions. The cardinality and frame-completion theorem are proved.
     The lower bound is checked against every target rather than formalising
     the written edge-count balance proof or the degree remark. Uniqueness up
     to colour permutation is a written corollary, without a separate formal
@@ -126,6 +128,11 @@ review:
     suggested the restricted-target corollary and revisions to the introduction,
     finite geometry, pair-support step and disclosure. The reviewer was not
     identified in the supplied text. Historical review notes remain in Git history.
+    On November 2, 2026 the author supplied the frame-extension argument and
+    complete-cube consequence. The supplied text did not identify its originating
+    reviewer or model. Codex checked the argument, wrote the general Lean proofs,
+    added a separate finite frame audit, and revised the manuscript. This does
+    not imply that earlier external reviews covered the frame extension.
     Reproduce current checks with make check and
     make comparator. Push/PR CI runs make check; a separate manually triggered
     workflow runs all three comparator kernels and records the checked commit.
@@ -142,6 +149,27 @@ review:
 alignment:
   namespace: ThreeColour
   statements:
+    - source: "Paper, sharp frame threshold for every n >= 2"
+      lean: ThreeColour.frame_threshold_n
+      module: ThreeColour.FrameResults
+      status: proved
+    - source: "Paper, extremal frame classification"
+      lean: ThreeColour.family_frame_classification
+      module: ThreeColour.FrameFamily
+      status: proved
+      note: "Uses k=n-2 and geometric rotation-class counts for arbitrary oriented cubes."
+    - source: "Paper, complete-cube threshold"
+      lean: ThreeColour.full_threshold_n
+      module: ThreeColour.FrameResults
+      status: proved
+    - source: "Paper, any n^3 cubes suffice when n >= 4"
+      lean: ThreeColour.full_cube_of_four_le
+      module: ThreeColour.FrameResults
+      status: proved
+    - source: "Paper, reflection of the scaled obstructions"
+      lean: ThreeColour.reflect_frame_extremal
+      module: ThreeColour.FrameResults
+      status: proved
     - source: "Paper, threshold theorem"
       lean: ThreeColour.family_threshold29
       module: ThreeColour.Family

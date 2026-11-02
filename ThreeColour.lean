@@ -2,6 +2,7 @@ module
 
 public import ThreeColour.RestrictedFamily
 public import ThreeColour.RestrictedCatalogue
+public import ThreeColour.FrameResults
 
 @[expose] public section
 
@@ -116,3 +117,34 @@ public import ThreeColour.RestrictedCatalogue
 /-- info: 'ThreeColour.target_catalogue_unique' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.target_catalogue_unique
+
+/-- info: 'ThreeColour.frame_threshold_n' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.frame_threshold_n
+/-- info: 'ThreeColour.full_threshold_n' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.full_threshold_n
+/-- info: 'ThreeColour.full_cube_of_four_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.full_cube_of_four_le
+/-- info: 'ThreeColour.edge_faces_geometry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.edge_faces_geometry
+/-- info: 'ThreeColour.frame_extremal_distinct' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.frame_extremal_distinct
+/-- info: 'ThreeColour.reflect_frame_extremal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.reflect_frame_extremal
+/-- info: 'ThreeColour.family_frame_classification' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_frame_classification
+/-- info: 'ThreeColour.full_iff_frame_and_size' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.full_iff_frame_and_size
+/-- info: 'ThreeColour.fullSlot_card' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.fullSlot_card
+/-- info: 'ThreeColour.frameSlot_card' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.frameSlot_card

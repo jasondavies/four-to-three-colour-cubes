@@ -154,7 +154,7 @@ def match(slots, counts):
                 owner[j] = s
                 return True
         return False
-    return all(augment(s, set()) for s in range(8))
+    return all(augment(s, set()) for s in range(len(slots)))
 
 
 def main():

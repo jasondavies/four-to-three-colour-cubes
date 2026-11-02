@@ -220,4 +220,83 @@ theorem restricted_target_catalogue_complete (c : Fin 6 → Colour)
 theorem target_catalogue_unique (i j : Target) (r : Fin 24)
     (h : ∀ f, targetFaces i (ColourCubes.rotations r f) = targetFaces j f) : i = j := by sorry
 
+theorem frameFinSix : NeZero 6 := by infer_instance
+theorem frameFinTwo : NeZero 2 := by infer_instance
+
+def edgeFaces : Fin 12 → Fin 2 → Fin 6 :=
+  letI : NeZero 6 := frameFinSix
+  ![![0,2], ![0,3], ![0,4], ![0,5], ![1,2], ![1,3],
+    ![1,4], ![1,5], ![2,4], ![2,5], ![3,4], ![3,5]]
+
+abbrev FrameSlot (k : ℕ) := Slot ⊕ (Fin 12 × Fin k)
+
+def frameExposed (k : ℕ) (q : FrameSlot k) : Finset (Fin 6) :=
+  letI : NeZero 2 := frameFinTwo
+  match q with
+  | .inl p => Finset.univ.image (ColourCubes.exposedFaces p)
+  | .inr p => {edgeFaces p.1 0, edgeFaces p.1 1}
+
+def FacesFit (c t : Fin 6 → Colour) (faces : Finset (Fin 6)) : Prop :=
+  ∃ r : Fin 6 → Fin 6, ColourCubes.ProperRotation r ∧ ∀ f ∈ faces, c (r f) = t f
+
+def FamilyFrameSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) : Prop :=
+  ∃ target : Fin 6 → Colour, Uses 3 target ∧
+    ∃ p : FrameSlot k ↪ Fin m, ∀ q, FacesFit (cubes (p q)) target (frameExposed k q)
+
+abbrev FillerSlot (k : ℕ) := (Fin 6 × Fin k × Fin k) ⊕ (Fin k × Fin k × Fin k)
+
+abbrev FullSlot (k : ℕ) := FrameSlot k ⊕ FillerSlot k
+
+def fullExposed (k : ℕ) : FullSlot k → Finset (Fin 6)
+  | .inl q => frameExposed k q
+  | .inr (.inl q) => {q.1}
+  | .inr (.inr _) => ∅
+
+def FamilyFullSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) : Prop :=
+  ∃ target : Fin 6 → Colour, Uses 3 target ∧
+    ∃ p : FullSlot k ↪ Fin m, ∀ q, FacesFit (cubes (p q)) target (fullExposed k q)
+
+def extremalSupport (s : Fin 2) : SourceSet := Finset.univ.filter (fun i => extremal s i = 7)
+
+def frameExtremal (k : ℕ) (s : Fin 2) : Inventory :=
+  fun i => if i ∈ extremalSupport s then 4*k+7 else 0
+
+theorem frame_threshold_n (n : ℕ) (hn : 2 ≤ n) :
+    IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyFrameSolvable (n-2) cubes} (16*n-3) := by sorry
+
+theorem full_threshold_n (n : ℕ) (hn : 2 ≤ n) :
+    IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyFullSolvable (n-2) cubes}
+      (max (n^3) (16*n-3)) := by sorry
+
+theorem full_cube_of_four_le (n : ℕ) (hn : 4 ≤ n)
+    (cubes : Fin (n^3) → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j)) :
+    FamilyFullSolvable (n-2) cubes := by sorry
+
+theorem edge_faces_geometry :
+    (∀ e : Fin 12, (edgeFaces e 0).val / 2 ≠ (edgeFaces e 1).val / 2) ∧
+    Function.Injective (fun e : Fin 12 => ({edgeFaces e 0,edgeFaces e 1} : Finset (Fin 6))) ∧
+    (∀ f g : Fin 6, f.val / 2 ≠ g.val / 2 →
+      ∃ e : Fin 12, ({f,g} : Finset (Fin 6)) = {edgeFaces e 0,edgeFaces e 1}) := by sorry
+
+theorem frame_extremal_distinct (k : ℕ) : frameExtremal k 0 ≠ frameExtremal k 1 := by sorry
+
+theorem reflect_frame_extremal (k : ℕ) (s : Fin 2) :
+    reflectInventory (frameExtremal k s) = frameExtremal k (flip s) := by sorry
+
+theorem family_frame_classification (k : ℕ) (cubes : Fin (16*k+28) → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) :
+    ¬ FamilyFrameSolvable k cubes ↔ ∃ s : Fin 2, ∀ i : Source,
+      Fintype.card {j // ∃ r : Fin 24, ∀ f,
+        cubes j f = sourceFaces i (ColourCubes.rotations r f)} = frameExtremal k s i := by sorry
+
+theorem full_iff_frame_and_size {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) : FamilyFullSolvable k cubes ↔
+      FamilyFrameSolvable k cubes ∧ (k+2)^3 ≤ m := by sorry
+
+theorem fullSlot_card (k : ℕ) : Fintype.card (FullSlot k) = (k+2)^3 := by sorry
+
+theorem frameSlot_card (k : ℕ) : Fintype.card (FrameSlot k) = 12 * k + 8 := by sorry
+
 end ThreeColour

@@ -9,15 +9,16 @@ import tempfile
 generated_sources = {
     Path('ThreeColour') / name
     for name in ('Data.lean', 'LowerData.lean', 'PhysicalDefs.lean',
-                 'RawData.lean', 'ReflectionData.lean', 'RData.lean')
+                 'RawData.lean', 'ReflectionData.lean', 'RData.lean', 'FrameData.lean')
 }
 root = Path(__file__).resolve().parents[1]
 with tempfile.TemporaryDirectory(prefix='four-to-three-generated-') as directory:
     stage = Path(directory)
     (stage / 'scripts').mkdir()
-    for name in ('generate_three_colour_lean.py', 'cube_geometry.py'):
+    for name in ('generate_three_colour_lean.py', 'generate_frame_data.py', 'cube_geometry.py'):
         shutil.copy2(root / 'scripts' / name, stage / 'scripts' / name)
     subprocess.run([sys.executable, '-S', str(stage / 'scripts/generate_three_colour_lean.py')], check=True)
+    subprocess.run([sys.executable, '-S', str(stage / 'scripts/generate_frame_data.py')], check=True)
     actual_sources = {
         path.relative_to(stage)
         for path in (stage / 'ThreeColour').rglob('*') if path.is_file()

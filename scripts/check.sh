@@ -7,4 +7,5 @@ ruby scripts/validate-formalization.rb
 python3 scripts/check-package.py
 python3 scripts/check-generated.py
 python3 -S scripts/check_three_colour_threshold.py
+python3 -S scripts/check_frames.py
 lake build

@@ -26,7 +26,17 @@
     "ThreeColour.family_restricted_of_solvable28",
     "ThreeColour.restricted_target_counts",
     "ThreeColour.restricted_target_catalogue_complete",
-    "ThreeColour.target_catalogue_unique"
+    "ThreeColour.target_catalogue_unique",
+    "ThreeColour.frame_threshold_n",
+    "ThreeColour.full_threshold_n",
+    "ThreeColour.full_cube_of_four_le",
+    "ThreeColour.edge_faces_geometry",
+    "ThreeColour.frame_extremal_distinct",
+    "ThreeColour.reflect_frame_extremal",
+    "ThreeColour.family_frame_classification",
+    "ThreeColour.full_iff_frame_and_size",
+    "ThreeColour.fullSlot_card",
+    "ThreeColour.frameSlot_card"
   ],
   "definition_names": [],
   "permitted_axioms": [

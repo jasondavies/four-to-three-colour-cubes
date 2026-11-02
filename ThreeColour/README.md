@@ -5,6 +5,38 @@ v4.35.0. The default `lake build` also builds the independent comparator challen
 Finite geometry checks are split across modules so Lake can build them in
 parallel. The first build is substantially slower than a cached build.
 
+The general results are in `FrameResults.lean`: `frame_threshold_n` proves the
+sharp frame threshold $16n-3$ for $n\ge2$, `full_threshold_n` proves the sharp
+complete-cube threshold $\max\{n^3,16n-3\}$, and `full_cube_of_four_le` gives
+the consequence for $n\ge4$. `FrameFamily.lean` proves the extremal classification
+for arbitrary indexed face colourings. Internally, `k=n-2` avoids truncated
+subtraction in position counts.
+
+`FrameDefs.lean` indexes frame positions by eight corners and twelve copies
+of `Fin k`. `FramePhysical.lean` proves that corner and edge eligibility is
+equivalent to proper-rotation matching on the specified exterior faces.
+`FrameFamily.lean` transports these placements in both directions between
+catalogue inventories and arbitrary oriented input families, including target
+rotation and edge-position permutation. `FullCube.lean` adds six face interiors
+of size $k^2$ and an interior of size $k^3$, proves that the total is $(k+2)^3$,
+and fills the remaining positions with unused copies. No internal faces are constrained.
+
+`FrameMatching.lean` groups interchangeable positions without losing distinct
+copy use. The $Q,D,U$ constructions are checked in `FrameCertificates.lean`,
+`FrameDGeometry.lean` and `FrameConstructions.lean`; `FrameCounting.lean`
+scales the minority and bucket argument. These pools remain preimages of the
+reduction, so the proof applies to all 68 original varieties.
+`FrameLower.lean` verifies the orientation-or-monochromatic-edge deficiency
+for every target and proves the obstruction for all `k`, rather than checking
+a bounded range of side lengths. `FrameTheorems.lean` supplies the inventory
+threshold and classification; the original 28-cube classification supplies `k=0`.
+
+`scripts/generate_frame_data.py` generates `FrameData.lean`; every tag and
+rotation in it is checked by Lean. `scripts/check_frames.py` separately checks
+the edge facts, reduction, $U$ multisets, both obstructions for $2\le n\le6$,
+and all 136 one-cube extensions at each tested side length. Those finite tests
+supplement the symbolic Lean proofs.
+
 The public results in `Theorems.lean` are:
 
 - `physical_threshold29`: every collection of size 29 has a solution.
@@ -77,10 +109,10 @@ collections of cubes.
 kernel checks the stated finite properties. The catalogue checks in
 `RawChecks/` and the certificate modules are checked-in Lean proofs.
 No external solver result is imported as an axiom.
-The root `ThreeColour.lean` guards twenty-eight axiom reports, covering the comparator results,
+The root `ThreeColour.lean` guards thirty-eight axiom reports, covering the comparator results,
 arbitrary-family classification, and both forms of the corner–rotation lemma;
 only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
-proof holes or uses of `native_decide` in the proof library. The twenty-five intentional
+proof holes or uses of `native_decide` in the proof library. The thirty-five intentional
 statement holes in `Challenge.lean` are isolated comparator targets.
 
 The separate Python geometry checker also compares both printed tables with
@@ -107,7 +139,7 @@ Full kernel replay is a separate command:
 make comparator
 ```
 
-The comparator replays the 25 challenge results through the toolchain's bundled
+The comparator replays the 35 challenge results through the toolchain's bundled
 Lean, NanoDa and con-ron kernels after checking their statements and definitions.
 Replay requires `bwrap` and support for its sandbox. On memory-limited machines,
 use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes

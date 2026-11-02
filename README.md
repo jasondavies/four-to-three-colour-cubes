@@ -1,23 +1,36 @@
 # Three-colour solutions from four-colour cubes
 
 - [Paper (PDF)](paper/four-to-three-colour-cubes.pdf) and [LaTeX](paper/four-to-three-colour-cubes.tex).
-- [Main Lean results](ThreeColour/Family.lean), [physical model](ThreeColour/PhysicalDefs.lean), and [formalisation guide](ThreeColour/README.md).
+- [Main Lean results](ThreeColour/FrameResults.lean), [physical model](ThreeColour/FramePhysical.lean), and [formalisation guide](ThreeColour/README.md).
 - [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
 - [Provenance, scope and AI disclosure](formalization.yaml).
 
-**Every collection of 29 four-colour cubes contains eight that build an
-exactly-three-colour target. For a fixed palette, exactly two collections of
-28 cubes fail.** Each consists of seven copies of each of four varieties; the two
-collections are mirror images.
+**For every side length $n\ge2$, the sharp three-colour frame threshold is
+$16n-3$. Exactly two collections of $16n-4$ four-colour cubes fail.** Each
+contains $4n-1$ copies of each of four varieties in one orientation class;
+reflection gives the other collection.
 
-Each source cube uses all four colours. A target is a 2×2×2 cube with
-monochromatic exterior faces using exactly three colours; internal faces
-need not match. Colourings related by a proper rotation are the same
-*variety*; reflecting a cube is not an allowed move. Collections may repeat varieties.
-A trichromatic corner has three different face colours.
+A frame consists of the eight corners and twelve edges of an
+$n\times n\times n$ cube, using $12n-16$ pieces. Every source cube uses all
+four colours of a fixed palette. The six exterior faces must be monochromatic
+and use exactly three colours; internal faces need not match. Collections
+may repeat varieties, and only proper rotations are allowed.
 
-This answers the threshold question in Problem 2 of
+For a complete cube the sharp threshold is
+$\max\{n^3,16n-3\}$. Thus **any $n^3$ four-colour cubes suffice when $n\ge4$**.
+The first cases are:
+
+| Side length | Frame size | Frame threshold | Complete-cube threshold |
+| --- | --- | --- | --- |
+| 2 | 8 | 29 | 29 |
+| 3 | 20 | 45 | 45 |
+| 4 | 32 | 61 | 64 |
+| 5 | 44 | 77 | 125 |
+
+The case $n=2$ answers the threshold question in Problem 2 of
 [Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
+The figure shows this first case; the general obstruction replaces seven
+copies of each variety by $4n-1$ copies.
 
 ![Why the exceptional 28 cubes fail: missing corner orientations, or eight required cubes with only seven available](paper/obstruction-figure.svg)
 
@@ -58,6 +71,15 @@ the minority. The remaining argument has three steps:
 
 The bucket double-count is [BES's equation (1)](https://math.colgate.edu/~integers/s68/s68.pdf).
 
+For larger frames, corner containment also preserves edge availability.
+Every ordinary cube supplies all six bichromatic edge types; a checkerboard
+misses only one. Hall's theorem extends a $D$ corner solution to a frame,
+so the minority still contains at most six cubes. The majority bucket capacity
+becomes $4n-1$. If a minority cube remains, a target with face tuple
+$(a,b,a,b,a,c)$ supplies a contradiction using abundant $T_a$ and $T_b$ cubes.
+The surviving four varieties must therefore have equal multiplicities.
+The original corner argument supplies the base case $n=2$.
+
 ## Repository layout
 
 - `paper/`: manuscript source and PDF.
@@ -85,7 +107,7 @@ make paper  # requires latexmk and a LaTeX installation
 ```
 
 `make check` audits proof sources, validates metadata and dependency pins,
-regenerates geometry and figures, runs the separate Python checker, and builds
+regenerates geometry and figures, runs the separate corner and frame Python checkers, and builds
 all Lean targets, including the axiom guards.
 [CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
 
@@ -93,17 +115,17 @@ The public Lean results include:
 
 | Theorem | Claim |
 | --- | --- |
-| `family_threshold29` | Every arbitrary indexed family of 29 four-colour cubes has a three-colour solution. |
-| `family_sharp_threshold29` | Upper bound without source or target catalogues and explicit size-28 counterexample. |
-| `family_least_guaranteed_size` | Least-size theorem without source or target catalogues. |
-| `family_classify28_geometric` | Classification for arbitrary indexed cubes by proper-rotation equivalence to the source representatives. |
-| `family_restricted_threshold29` / `family_restricted_of_solvable28` | Every 29-cube family and every solvable 28-cube family builds a target of type $Q$, $R$, or $D$. |
+| `frame_threshold_n` | For every $n\ge2$, the least frame guarantee is $16n-3$. |
+| `family_frame_classification` | Exactly the two scaled obstructions fail at size $16n-4$, for arbitrary oriented input cubes. |
+| `full_threshold_n` | The least complete-cube guarantee is $\max\{n^3,16n-3\}$. |
+| `full_cube_of_four_le` | Any $n^3$ source cubes suffice for $n\ge4$. |
+| `family_restricted_threshold29` / `family_restricted_of_solvable28` | At $n=2$, every 29-cube family and every solvable 28-cube family builds a $Q$, $R$, or $D$ target. |
 
-See [Challenge.lean](Challenge.lean) for all 25 checked statements, including
+See [Challenge.lean](Challenge.lean) for all 35 statements, including
 catalogue coverage, uniqueness, geometry and the restricted-target counts.
 
-`Family.lean` works with arbitrary indexed face colourings; a solution selects
-eight distinct copies and proper rotations. Transport lemmas connect these
+`Family.lean` and `FrameFamily.lean` work with arbitrary indexed face colourings;
+solutions select distinct copies and proper rotations. Transport lemmas connect these
 families to inventories of the 68 canonical varieties. A
 [corner–rotation theorem](https://github.com/jasondavies/colour-cubes-core/tree/3164adbd2ee16d2721caadc1db67c1498e5d67e0/ColourCubes/Corners.lean), valid for any
 palette, equates cyclic corner matching with matching the three exposed faces
