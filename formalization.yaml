@@ -104,7 +104,9 @@ fidelity:
     The lower bound is checked against every target rather than formalising
     the written edge-count balance proof or the degree remark. Uniqueness up
     to colour permutation is a written corollary, without a separate formal
-    colour-permutation theorem. Geometry
+    colour-permutation theorem. The restricted-target corollary, asserting
+    sufficiency of the 28 Q, R and D target varieties, is proved in the paper
+    but is not stated as a separate Lean theorem. Geometry
     checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
 review:
   status: "AI-reviewed; not independently reviewed by a human expert"
@@ -116,7 +118,10 @@ review:
     the manuscript rewrites; it does not cover the current manuscript.
     Later Claude reviews contributed the mathematical simplifications listed
     above and identified comparator definition mismatches, corrected with a
-    reviewer-supplied patch. Historical review notes remain in Git history.
+    reviewer-supplied patch. An additional external review supplied by the author
+    suggested the restricted-target corollary and revisions to the introduction,
+    finite geometry, pair-support step and disclosure. The reviewer was not
+    identified in the supplied text. Historical review notes remain in Git history.
     Reproduce current checks with make check and
     make comparator. CI and preflight logs identify the checked revision; no
     stale machine-specific validation logs are committed. The literature check

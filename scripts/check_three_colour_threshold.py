@@ -106,6 +106,40 @@ def fits(cubes, targets):
              for s, faces in enumerate(FACES)] for t in targets]
 
 
+def restricted_target_families(targets):
+    """Check the Q, R and D families used in the restricted-target corollary."""
+    cyclic = lambda k: min(k, k[1:] + k[:1], k[2:] + k[:2])
+    families = {name: set() for name in ('Q', 'R', 'D')}
+    for a, b, c in itertools.permutations(range(4), 3):
+        q = (a, a, a, a, b, c)
+        r = (b, a, c, a, a, a)
+        d = (a, a, b, b, c, c)
+        require(Counter(corner_types(q)) == Counter({cyclic((a,a,b)): 4,
+                                                    cyclic((a,a,c)): 4}), 'Q corner multiset')
+        require(Counter(corner_types(r)) == Counter({(a,a,a): 2,
+                    cyclic((a,a,b)): 2, cyclic((a,a,c)): 2,
+                    cyclic((a,b,c)): 1, cyclic((a,c,b)): 1}), 'R corner multiset')
+        require(Counter(corner_types(d)) == Counter({cyclic((a,b,c)): 4,
+                                                    cyclic((a,c,b)): 4}), 'D corner multiset')
+        for name, cube in (('Q', q), ('R', r), ('D', d)):
+            families[name].add(canonical(cube))
+    require({name: len(ts) for name, ts in families.items()} == {'Q':12, 'R':12, 'D':4},
+            'Wrong restricted target family sizes')
+    require(len(set.union(*families.values())) == 28, 'Target families overlap')
+    # Classify all 120 targets by face multiplicities and opposite-face geometry.
+    classified = {name: set() for name in families}
+    for t in targets:
+        counts = Counter(t)
+        if sorted(counts.values()) == [1, 1, 4]:
+            a = counts.most_common(1)[0][0]
+            f, g = [f for f in range(6) if t[f] != a]
+            classified['Q' if f // 2 == g // 2 else 'R'].add(t)
+        elif all(t[2*j] == t[2*j+1] for j in range(3)):
+            classified['D'].add(t)
+    require(families == classified, 'Constructed families disagree with target geometry')
+    return families
+
+
 def match(slots, counts):
     copies = [i for i, n in enumerate(counts) for _ in range(n)]
     adj = [[j for j, i in enumerate(copies) if i in possible] for possible in slots]
@@ -144,8 +178,16 @@ def main():
                        ('010203',8,True), ('010213',12,True),
                        ('010223',12,True)]
     covered = set()
+    arrangements = Counter()
     for word, size, retained in reduction_table:
         c = tuple(map(int, word))
+        multiplicities = Counter(c)
+        opposite = {c[2*j] for j in range(3) if c[2*j] == c[2*j+1]}
+        if max(multiplicities.values()) == 3:
+            arrangements['triple_opposite' if opposite else 'triple_corner'] += 1
+        else:
+            arrangements[{0: 'two_adjacent_pairs', 1: 'one_opposite_pair',
+                          2: 'two_opposite_pairs'}[len(opposite)]] += 1
         orbit = {canonical(tuple(p[a] for a in c))
                  for p in itertools.permutations(range(4))}
         require(len(orbit) == size and not (orbit & covered), 'Reduction table orbit')
@@ -155,6 +197,9 @@ def main():
             require(set(corner_types((0,0,1,1,2,3))) <= set(corner_types(c)),
                     'Printed replacement does not preserve corner containment')
     require(covered == set(cubes), 'Reduction table is incomplete')
+    require(arrangements == {'triple_corner':1, 'triple_opposite':1,
+                            'two_opposite_pairs':1, 'one_opposite_pair':1,
+                            'two_adjacent_pairs':3}, 'Wrong source arrangement cases')
     manuscript = (Path(__file__).resolve().parents[1] /
                   'paper/macmahon-four-to-three.tex').read_text()
     printed_corner_rows = check_printed_tables(manuscript, reduction_table)
@@ -172,6 +217,9 @@ def main():
             triples = {tuple(sorted(k)) for k in triple}
             require(len(triples) == 2 and len(triple) == 4,
                     'Checkerboard triple/orientation counts')
+            repeated = {a for a, n in Counter(c).items() if n == 2}
+            require(triples == {tuple(sorted(repeated | {a})) for a in range(4)
+                                if a not in repeated}, 'Checkerboard supports wrong triples')
             continue
         require(triple in (plus, minus), 'Ordinary cube has wrong orientation class')
         categories['plus' if triple == plus else 'minus'] += 1
@@ -209,6 +257,9 @@ def main():
             require(len(minority) == 2 and minority[0] // 2 == minority[1] // 2,
                     'Wrong form of target without trichrome corners')
     require(no_trichrome == 12, 'Wrong number of no-trichrome targets')
+    families = restricted_target_families(targets)
+    restricted_targets = set.union(*families.values())
+    restricted_slots = [ss for t, ss in zip(targets, slots) if t in restricted_targets]
 
     path = (Path(__file__).resolve().parents[1] / 'data/lower-obstruction.json')
     data = json.loads(path.read_text())
@@ -242,7 +293,8 @@ def main():
     # one-cube extensions of the tight example. The proof covers all multisets.
     for i in range(len(cubes)):
         counts[i] += 1
-        require(any(match(ss, counts) for ss in slots), 'Unsolved one-cube extension')
+        require(any(match(ss, counts) for ss in restricted_slots),
+                'One-cube extension has no Q, R or D solution')
         counts[i] -= 1
     rng = random.Random(29)
     for _ in range(1000):
@@ -250,14 +302,22 @@ def main():
         x = [0] * 68
         for _ in range(29):
             x[rng.choice(support)] += 1
-        require(any(match(ss, x) for ss in slots), 'Unsolved random 29-cube inventory')
+        require(any(match(ss, x) for ss in restricted_slots),
+                'Random 29-cube inventory has no Q, R or D solution')
+        x[next(i for i, n in enumerate(x) if n)] -= 1
+        if not any(match(ss, x) for ss in restricted_slots):
+            require(not any(match(ss, x) for ss in slots),
+                    'Solvable 28-cube inventory has no Q, R or D solution')
     result = dict(varieties=68, targets=120, minimal_varieties=38,
                   printed_reduction_rows_checked=len(reduction_table),
                   printed_corner_rows_checked=printed_corner_rows,
+                  source_arrangement_orbits=dict(arrangements),
+                  restricted_target_varieties={name: len(ts) for name, ts in families.items()},
                   classes=dict(categories), lower_bound_size=28,
                   exhibited_labelled_lower_obstructions=2,
                   lower_bound_targets_checked=120, one_cube_extensions_checked=68,
                   random_29_cube_collections_checked=1000,
+                  random_28_cube_collections_checked=1000,
                   status='all checks passed',
                   scope='Independent finite geometric audit; upper bound proved in the note')
     print(json.dumps(result, indent=2))

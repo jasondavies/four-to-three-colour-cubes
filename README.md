@@ -134,7 +134,11 @@ standard library and generates rotations from quarter-turns. It checks the
 68-to-38 corner reduction, the printed entries in both geometric tables,
 both exhibited lower obstructions, all 120 targets,
 68 one-cube extensions of the first obstruction and 1,000 sampled 29-cube
-collections. These finite samples do not prove the upper bound.
+collections. The extension and sample checks use only the 28 targets of
+types $Q,R,D$ in the paper's restricted-target corollary. It also checks this
+restriction on 1,000 sampled 28-cube collections. These finite samples do not
+prove the general statements; the restricted-target corollary is proved in
+the paper but is not stated as a separate Lean theorem.
 
 The optional search uses OR-Tools CP-SAT:
 
