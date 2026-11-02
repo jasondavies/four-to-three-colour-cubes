@@ -390,12 +390,13 @@ selects eight distinct copies and proper rotations matching the exposed
 faces of a three-colour target. The threshold and sharpness also have
 statements without source or target catalogues; the classification counts
 source cubes in each rotation class.
-Corollary~\ref{cor:restricted} is not stated as a separate Lean theorem.
+Corollary~\ref{cor:restricted} is also formalised for arbitrary indexed
+families, using geometric definitions of $Q$, $R$ and $D$.
 
-Kernel checks establish catalogue coverage, source uniqueness up to rotation,
-and correctness of stored corner codes. A palette-independent lemma, allowing
+Kernel checks establish catalogue coverage, source and target uniqueness up to rotation,
+the restricted-target counts, and correctness of stored corner codes. A palette-independent lemma, allowing
 repeated colours, equates cyclic corner matching with physical face matching
-by a proper rotation. Nineteen results were restated independently of the
+by a proper rotation. Twenty-five results were restated independently of the
 proof library and replayed through the Lean, NanoDa and con-ron kernels.
 
 The Lean proof uses counting and finite Hall certificates for the sufficient

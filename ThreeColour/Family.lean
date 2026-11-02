@@ -51,13 +51,17 @@ lemma familySource_faces {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
   simpa only [familySource, encode_decode] using
     raw_source_complete (encode (cubes j)) (by simpa only [encode_decode] using hc j)
 
-lemma familySolvable_of_physical {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
-    (hc : ∀ j, Uses 4 (cubes j))
-    (h : PhysicalSolvable (familyInventory cubes)) : FamilySolvable cubes := by
+/-- Transport a fixed target without losing its geometric properties. -/
+lemma familyBuilds_of_physical {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) (t : Target)
+    (p : Slot ↪ Stock (familyInventory cubes))
+    (hp : ∀ k, ∃ r : Fin 24, FaceFits t (p k).1 k r) :
+    ∃ placement : Fin 8 ↪ Fin n, ∀ k,
+      ∃ r : Fin 6 → Fin 6, MacMahon.ProperRotation r ∧
+        ∀ axis : Fin 3, cubes (placement k) (r (MacMahon.exposedFaces k axis)) =
+          targetFaces t (MacMahon.exposedFaces k axis) := by
   classical
-  obtain ⟨t, p, hp⟩ := h
-  refine ⟨targetFaces t, targets_use_three t,
-    p.trans (familyStockEquiv cubes).toEmbedding, ?_⟩
+  refine ⟨p.trans (familyStockEquiv cubes).toEmbedding, ?_⟩
   intro k
   obtain ⟨r, hr⟩ := hp k
   let j := familyStockEquiv cubes (p k)
@@ -69,6 +73,12 @@ lemma familySolvable_of_physical {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
   change cubes j (MacMahon.rotations u (MacMahon.exposedFaces k axis)) = _
   rw [familySource_faces cubes hc j, hu, hs, familyStock_source]
   exact hr axis
+
+lemma familySolvable_of_physical {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j))
+    (h : PhysicalSolvable (familyInventory cubes)) : FamilySolvable cubes := by
+  obtain ⟨t, p, hp⟩ := h
+  exact ⟨targetFaces t, targets_use_three t, familyBuilds_of_physical cubes hc t p hp⟩
 
 /-- Every family of at least 29 four-colour cubes has a physical three-colour
 solution; no source, target, or rotation catalogue appears in this statement. -/

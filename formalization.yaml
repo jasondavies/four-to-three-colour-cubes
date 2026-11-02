@@ -9,7 +9,7 @@ project:
     classified and proved to be mirror images. Internal faces are unrestricted.
     A palette-independent corner–rotation lemma connects cyclic corner types to
     physical face matching. The formalisation checks distinct copy use, catalogue
-    coverage and source uniqueness, and uses a related counting argument with finite
+    coverage and source and target uniqueness, and uses a related counting argument with finite
     kernel-checked Hall certificates for sufficient constructions.
   authors: ["Jason Davies"]
   responsible_maintainers: ["Jason Davies"]
@@ -45,7 +45,8 @@ status:
   scope: >-
     Sharp threshold 29, all larger collections, full classification at size 28,
     reflection of the two obstructions, source and target catalogue coverage,
-    and source orbit uniqueness. Transport theorems connect canonical
+    and source and target orbit uniqueness. The restricted-target corollary and
+    its count of 28 target varieties are also formalised. Transport theorems connect canonical
     inventories to arbitrary indexed face colourings. Threshold
     and sharpness statements without source or target catalogues require
     exactly four source colours, exactly three target colours, distinct
@@ -90,7 +91,7 @@ automation:
     reviews supplied by the author; these were incorporated in subsequent
     Codex revisions. The human author initiated and directed
     the research and accepts responsibility for the paper's content and the
-    accuracy of its disclosure. The nineteen intentional statement holes in
+    accuracy of its disclosure. The twenty-five intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
     is used.
 fidelity:
@@ -104,9 +105,9 @@ fidelity:
     The lower bound is checked against every target rather than formalising
     the written edge-count balance proof or the degree remark. Uniqueness up
     to colour permutation is a written corollary, without a separate formal
-    colour-permutation theorem. The restricted-target corollary, asserting
-    sufficiency of the 28 Q, R and D target varieties, is proved in the paper
-    but is not stated as a separate Lean theorem. Geometry
+    colour-permutation theorem. The restricted-target corollary is formalised for arbitrary indexed families,
+    with geometric definitions of Q, R and D, their catalogue coverage,
+    target uniqueness and the counts 12, 12, 4 and 28 in total. Geometry
     checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
 review:
   status: "AI-reviewed; not independently reviewed by a human expert"
@@ -153,6 +154,26 @@ alignment:
       status: proved
     - source: "Paper, formal verification and geometric conventions"
       lean: ThreeColour.source_catalogue_unique
+      module: ThreeColour.Uniqueness
+      status: proved
+    - source: "Paper, restricted-target corollary (29 cubes)"
+      lean: ThreeColour.family_restricted_threshold29
+      module: ThreeColour.RestrictedFamily
+      status: proved
+    - source: "Paper, restricted-target corollary (solvable 28 cubes)"
+      lean: ThreeColour.family_restricted_of_solvable28
+      module: ThreeColour.RestrictedFamily
+      status: proved
+    - source: "Paper, restricted-target counts"
+      lean: ThreeColour.restricted_target_counts
+      module: ThreeColour.RestrictedGeometry
+      status: proved
+    - source: "Paper, restricted-target coverage"
+      lean: ThreeColour.restricted_target_catalogue_complete
+      module: ThreeColour.RestrictedCatalogue
+      status: proved
+    - source: "Paper, target varieties up to rotation"
+      lean: ThreeColour.target_catalogue_unique
       module: ThreeColour.Uniqueness
       status: proved
     - source: "Paper, reflection of the obstructions"

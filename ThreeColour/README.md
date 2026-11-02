@@ -24,7 +24,7 @@ using exactly three of the four fixed colours.
 `Catalogue.lean` proves that every four-colour source and every exactly-three-
 colour target face assignment occurs up to a proper rotation. `Encoder.lean`
 checks that all listed representatives use the required number of colours;
-`Uniqueness.lean` proves that distinct source indices are distinct rotation
+`Uniqueness.lean` proves that distinct source and target indices are distinct rotation
 varieties. `Family.lean` transports solutions in both directions between inventories
 and arbitrary indexed face assignments. Its `family_threshold29`,
 `family_sharp_threshold29`, and `family_least_guaranteed_size` statements
@@ -34,6 +34,16 @@ faces by geometric proper rotations. `family_classify28_geometric` extends the
 classification to arbitrary families using geometric rotation-class counts,
 and is included in the comparator challenge. `family_classify28` is the
 internal inventory formulation.
+`RestrictedDefs.lean` defines the target families geometrically: four faces of
+one colour and two differently coloured opposite faces ($Q$) or adjacent faces
+($R$), or three monochromatic opposite pairs ($D$). The counting proof retains
+these target witnesses. `RestrictedFamily.lean` proves
+`family_restricted_of_29_le`, `family_restricted_threshold29`, and
+`family_restricted_of_solvable28` for arbitrary indexed families.
+`RestrictedGeometry.lean` proves the counts 12, 12, 4, and 28 in total;
+`RestrictedCatalogue.lean` proves that these representatives exhaust the
+geometric families. These results and target uniqueness are comparator targets.
+
 `FamilyGeometry.lean` checks how rotations permute the eight positions. `Reflection.lean` proves that physical reflection
 exchanges the two extremal collections.
 
@@ -65,10 +75,10 @@ collections of cubes.
 kernel checks the stated finite properties. The catalogue checks in
 `RawChecks/` and the certificate modules are checked-in Lean proofs.
 No external solver result is imported as an axiom.
-The root `ThreeColour.lean` guards twenty-two axiom reports, covering the comparator results,
+The root `ThreeColour.lean` guards twenty-eight axiom reports, covering the comparator results,
 arbitrary-family classification, and both forms of the corner–rotation lemma;
 only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
-proof holes or uses of `native_decide` in the proof library. The nineteen intentional
+proof holes or uses of `native_decide` in the proof library. The twenty-five intentional
 statement holes in `Challenge.lean` are isolated comparator targets.
 
 The separate Python geometry checker provides additional checks, including

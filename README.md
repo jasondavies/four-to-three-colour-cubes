@@ -80,7 +80,8 @@ make paper  # requires latexmk and a LaTeX installation
 
 `make check` audits proof sources, validates metadata and dependency pins,
 regenerates geometry and figures, runs the separate Python checker, and builds
-all Lean targets. The root `ThreeColour.lean` guards twenty-two axiom reports, permitting only
+all Lean targets. The root `ThreeColour.lean` guards twenty-eight axiom reports,
+permitting only
 `propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
 The first Lean build takes several minutes. CI repeats these checks and runs the full
 comparator on pushes and pull requests.
@@ -97,7 +98,9 @@ The public Lean results include:
 | `physical_classify28` | Exactly the two specified size-28 collections fail. |
 | `least_guaranteed_size` | 29 is the least size guaranteeing success for all larger collections. |
 | `source_catalogue_complete` / `target_catalogue_complete` | Every relevant face assignment occurs up to proper rotation. |
-| `source_catalogue_unique` | Distinct source indices are distinct rotation varieties. |
+| `source_catalogue_unique` / `target_catalogue_unique` | Distinct catalogue indices are distinct rotation varieties. |
+| `family_restricted_threshold29` / `family_restricted_of_solvable28` | Every 29-cube family and every solvable 28-cube family builds a target of type $Q$, $R$, or $D$. |
+| `restricted_target_counts` / `restricted_target_catalogue_complete` | The geometric target families have 12, 12, and 4 varieties: 28 in total. |
 | `reflect_extremal` | Reflection exchanges the two extremal collections. |
 
 `Family.lean` works with arbitrary indexed face colourings; a solution selects
@@ -109,10 +112,10 @@ by a proper rotation. The proof does not enumerate all collections.
 
 ## Comparator and Palomar
 
-`Challenge.lean` imports only mathlib and independently restates nineteen
+`Challenge.lean` imports only mathlib and independently restates twenty-five
 results: the threshold, sharpness and classification, catalogue coverage and
-colour counts, and correctness of the rotation, exposed-face and reflection
-geometry. Its nineteen deliberate `sorry` declarations are statement
+colour counts, the restricted-target corollary and its target counts, and
+correctness of the rotation, exposed-face and reflection geometry. Its twenty-five deliberate `sorry` declarations are statement
 placeholders. No proof module imports them; they are excluded from the
 proof-development hole count.
 
@@ -137,8 +140,8 @@ both exhibited lower obstructions, all 120 targets,
 collections. The extension and sample checks use only the 28 targets of
 types $Q,R,D$ in the paper's restricted-target corollary. It also checks this
 restriction on 1,000 sampled 28-cube collections. These finite samples do not
-prove the general statements; the restricted-target corollary is proved in
-the paper but is not stated as a separate Lean theorem.
+prove the general statements, which are established by the paper and the
+Lean proofs in [RestrictedFamily.lean](ThreeColour/RestrictedFamily.lean).
 
 The optional search uses OR-Tools CP-SAT:
 

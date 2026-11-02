@@ -1,6 +1,7 @@
 module
 
 public import ThreeColour.Certificates
+public import ThreeColour.RestrictedGeometry
 
 @[expose] public section
 
@@ -10,10 +11,10 @@ namespace ThreeColour
 open scoped BigOperators
 
 
-lemma solvable_q (x : Inventory) (a b c : Colour) (hab : a ≠ b) (hac : a ≠ c)
+lemma restricted_solvable_q (x : Inventory) (a b c : Colour) (hab : a ≠ b) (hac : a ≠ c)
     (hbc : b ≠ c) (hb : 4 ≤ mass x (support a b))
-    (hc : 4 ≤ mass x (support a c)) (hu : 8 ≤ mass x (bucket a)) : Solvable x := by
-  refine ⟨qTarget a b c, builds_of_certificate x _ _ _ (q_certificate a b c hab hac hbc) ?_⟩
+    (hc : 4 ≤ mass x (support a c)) (hu : 8 ≤ mass x (bucket a)) : RestrictedSolvable x := by
+  refine ⟨qTarget a b c, Or.inl (qTarget_isQ a b c hab hac hbc), builds_of_certificate x _ _ _ (q_certificate a b c hab hac hbc) ?_⟩
   intro j
   fin_cases j <;> simp_all [qBounds, qGroups, mass]
 
@@ -24,11 +25,11 @@ lemma ordinary_eligible_disjoint : ∀ s : Fin 2, ∀ d : Colour,
 lemma ordinary_union_eligible_disjoint : ∀ d : Colour,
     Disjoint (ordinary 0 ∪ ordinary 1) (eligible d) := by decide +kernel
 
-lemma solvable_opposite (x : Inventory) (d : Colour)
+lemma restricted_solvable_opposite (x : Inventory) (d : Colour)
     (h0 : 4 ≤ mass x (ordinary 0) + mass x (eligible d))
     (h1 : 4 ≤ mass x (ordinary 1) + mass x (eligible d))
-    (hu : 8 ≤ mass x (ordinary 0) + mass x (ordinary 1) + mass x (eligible d)) : Solvable x := by
-  refine ⟨oppositeTarget d, builds_of_certificate x _ _ _ (opposite_certificate d) ?_⟩
+    (hu : 8 ≤ mass x (ordinary 0) + mass x (ordinary 1) + mass x (eligible d)) : RestrictedSolvable x := by
+  refine ⟨oppositeTarget d, Or.inr (Or.inr (oppositeTarget_isD d)), builds_of_certificate x _ _ _ (opposite_certificate d) ?_⟩
   intro j
   fin_cases j
   · simp [oppBounds, oppGroups, mass]

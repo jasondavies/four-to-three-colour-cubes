@@ -20,7 +20,13 @@
     "ThreeColour.family_threshold29",
     "ThreeColour.family_sharp_threshold29",
     "ThreeColour.family_least_guaranteed_size",
-    "ThreeColour.family_classify28_geometric"
+    "ThreeColour.family_classify28_geometric",
+    "ThreeColour.family_restricted_of_29_le",
+    "ThreeColour.family_restricted_threshold29",
+    "ThreeColour.family_restricted_of_solvable28",
+    "ThreeColour.restricted_target_counts",
+    "ThreeColour.restricted_target_catalogue_complete",
+    "ThreeColour.target_catalogue_unique"
   ],
   "definition_names": [],
   "permitted_axioms": [

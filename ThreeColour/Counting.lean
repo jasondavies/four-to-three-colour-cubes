@@ -27,7 +27,7 @@ lemma pair_support_exists (x : Inventory) (a : Colour) (n : ℕ)
   fin_cases a <;>
     norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at h hsum hz hp ⊢ <;> omega
 
-lemma bucket_bound (x : Inventory) (hn : ¬ Solvable x) (a : Colour) : mass x (bucket a) ≤ 7 := by
+lemma bucket_bound (x : Inventory) (hn : ¬ RestrictedSolvable x) (a : Colour) : mass x (bucket a) ≤ 7 := by
   by_contra h
   have hu : 8 ≤ mass x (bucket a) := by omega
   have hp : ∀ b c : Colour, a ≠ b → a ≠ c → b ≠ c →
@@ -35,16 +35,16 @@ lemma bucket_bound (x : Inventory) (hn : ¬ Solvable x) (a : Colour) : mass x (b
     intro b c hab hac hbc
     by_contra hbad
     push Not at hbad
-    exact hn (solvable_q x a b c hab hac hbc (by omega) (by omega) hu)
+    exact hn (restricted_solvable_q x a b c hab hac hbc (by omega) (by omega) hu)
   have hs := support_totals x a
   have hb := bucket_totals x a
   have hl := support_le x a
   have hz := support_self x a
   fin_cases a <;> norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at hs hb hl hz hp hu h ⊢ <;> omega
 
-lemma eligible_bound (x : Inventory) (hn : ¬ Solvable x) (d : Colour) : mass x (eligible d) ≤ 7 := by
+lemma eligible_bound (x : Inventory) (hn : ¬ RestrictedSolvable x) (d : Colour) : mass x (eligible d) ≤ 7 := by
   by_contra h
-  exact hn (solvable_opposite x d (by omega) (by omega) (by omega))
+  exact hn (restricted_solvable_opposite x d (by omega) (by omega) (by omega))
 
 lemma ordered_totals (x : Inventory) (s : Fin 2) :
     mass x (ordinary s) + mass x (ordinary (flip s)) + mass x allCheckers = total x := by
@@ -52,7 +52,7 @@ lemma ordered_totals (x : Inventory) (s : Fin 2) :
   have h1 := totals x
   fin_cases s <;> norm_num [flip] <;> omega
 
-lemma minor_eligible_bound (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
+lemma minor_eligible_bound (x : Inventory) (hn : ¬ RestrictedSolvable x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) (ht : 28 ≤ total x)
     (d : Colour) : mass x (ordinary (flip s)) + mass x (eligible d) ≤ 3 := by
   have hc := eligible_totals x
@@ -64,10 +64,10 @@ lemma minor_eligible_bound (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
   have hlow : 4 ≤ mass x (ordinary (flip s)) + mass x (eligible d) := by omega
   apply hn
   fin_cases s <;> norm_num [flip] at ha hlow
-  · exact solvable_opposite x d (by omega) hlow (by omega)
-  · exact solvable_opposite x d hlow (by omega) (by omega)
+  · exact restricted_solvable_opposite x d (by omega) hlow (by omega)
+  · exact restricted_solvable_opposite x d hlow (by omega) (by omega)
 
-lemma checker_and_major_bounds (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
+lemma checker_and_major_bounds (x : Inventory) (hn : ¬ RestrictedSolvable x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) (ht : 28 ≤ total x) :
     mass x allCheckers + 2 * mass x (ordinary (flip s)) ≤ 6 ∧ 22 ≤ mass x (ordinary s) := by
   have hm := minor_eligible_bound x hn s hs ht
@@ -76,7 +76,7 @@ lemma checker_and_major_bounds (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
   norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at hm hz
   omega
 
-lemma buckets_sum_bound (x : Inventory) (hn : ¬ Solvable x) :
+lemma buckets_sum_bound (x : Inventory) (hn : ¬ RestrictedSolvable x) :
     mass x allTriples + 2 * mass x allPairs ≤ 28 := by
   have hb := bucket_bound x hn
   have hi := bucket_totals x
@@ -85,7 +85,7 @@ lemma buckets_sum_bound (x : Inventory) (hn : ¬ Solvable x) :
   norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at hb hi ht hp
   omega
 
-lemma triple_bound_with_checker (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
+lemma triple_bound_with_checker (x : Inventory) (hn : ¬ RestrictedSolvable x) (s : Fin 2)
     (ho : 8 ≤ mass x (ordinary s)) (hc : 0 < mass x allCheckers) (a : Colour) :
     mass x (triple a) ≤ 5 := by
   have ht := checker_totals x
@@ -96,7 +96,7 @@ lemma triple_bound_with_checker (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
     omega
   obtain ⟨j,hj⟩ := hj
   by_contra h
-  exact hn (solvable_r_single x a j s (by omega) hj ho)
+  exact hn (restricted_solvable_r_single x a j s (by omega) hj ho)
 
 lemma not_good_omitted : ∀ a b : Colour, a ≠ b → ∀ j : Fin 6,
     ¬ Good a b j → a ∈ omitted j := by decide +kernel
@@ -136,7 +136,7 @@ lemma good_checker_exists (x : Inventory) (a b : Colour) (hab : a ≠ b)
   have := hz a
   omega
 
-lemma strengthened_bucket (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
+lemma strengthened_bucket (x : Inventory) (hn : ¬ RestrictedSolvable x) (s : Fin 2)
     (ho : 8 ≤ mass x (ordinary s)) (hc : 4 ≤ mass x allCheckers)
     (hz : ∀ d, mass x (eligible d) ≤ 3) (a : Colour)
     (ht4 : 4 ≤ mass x (triple a)) (ht5 : mass x (triple a) ≤ 5) :
@@ -147,14 +147,14 @@ lemma strengthened_bucket (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
   · have hp : 2 ≤ mass x (pair a) := by omega
     obtain ⟨b,hab,hb⟩ := pair_support_exists x a 2 (by omega) (by omega) hp
     obtain ⟨j,hg,hj⟩ := good_checker_exists x a b hab hc hz
-    exact hn (solvable_r_pair x a b j s 0 hab hg (by simpa using ht4) (by simpa using hb) hj ho)
+    exact hn (restricted_solvable_r_pair x a b j s 0 hab hg (by simpa using ht4) (by simpa using hb) hj ho)
   · have ht : mass x (triple a) = 5 := by omega
     have hp : 1 ≤ mass x (pair a) := by omega
     obtain ⟨b,hab,hb⟩ := pair_support_exists x a 1 (by omega) (by omega) hp
     obtain ⟨j,hg,hj⟩ := good_checker_exists x a b hab hc hz
-    exact hn (solvable_r_pair x a b j s 1 hab hg (by simpa using ht.ge) (by simpa using hb) hj ho)
+    exact hn (restricted_solvable_r_pair x a b j s 1 hab hg (by simpa using ht.ge) (by simpa using hb) hj ho)
 
-lemma no_checker (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
+lemma no_checker (x : Inventory) (hn : ¬ RestrictedSolvable x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) (ht : 28 ≤ total x) :
     mass x allCheckers = 0 := by
   obtain ⟨hcb, ho⟩ := checker_and_major_bounds x hn s hs ht
@@ -185,14 +185,20 @@ lemma no_checker (x : Inventory) (hn : ¬ Solvable x) (s : Fin 2)
   norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at hlocal hts hps hbt
   omega
 
-/-- Every multiset of at least 29 cubes builds an exactly-three-colour target. -/
-theorem solvable_of_29_le (x : Inventory) (ht : 29 ≤ total x) : Solvable x := by
+/-- The counting argument only needs targets of types Q, R, and D. -/
+theorem restricted_solvable_of_29_le (x : Inventory) (ht : 29 ≤ total x) :
+    RestrictedSolvable x := by
   by_contra hn
   obtain ⟨s, hs⟩ := exists_major_orientation x
   have hc := no_checker x hn s hs (by omega)
   have hb := buckets_sum_bound x hn
   have ht' := totals x
   omega
+
+/-- Every multiset of at least 29 cubes builds an exactly-three-colour target. -/
+theorem solvable_of_29_le (x : Inventory) (ht : 29 ≤ total x) : Solvable x :=
+  (restricted_solvable_of_29_le x ht).solvable
+
 theorem threshold29 (x : Inventory) (ht : total x = 29) : Solvable x :=
   solvable_of_29_le x (by omega)
 end ThreeColour

@@ -52,7 +52,7 @@ lemma inventory_determined (x : Inventory) (s : Fin 2)
     rw [Finset.sum_insert hi, hz] at ht'
     omega
 
-lemma classify_ordered (x : Inventory) (hn : ¬ Solvable x) (ht : total x = 28)
+lemma classify_ordered (x : Inventory) (hn : ¬ RestrictedSolvable x) (ht : total x = 28)
     (s : Fin 2) (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) : x = extremal s := by
   have hc := no_checker x hn s hs (by omega)
   have htot := totals x
@@ -75,16 +75,33 @@ lemma classify_ordered (x : Inventory) (hn : ¬ Solvable x) (ht : total x = 28)
     obtain ⟨b,hb⟩ := he
     obtain ⟨a,hab⟩ := exists_ne b
     have hmajor := (checker_and_major_bounds x hn s hs (by omega)).2
-    exact hn (solvable_r_mixed x a b s hab (by rw [htt]; omega) hb (by omega))
+    exact hn (restricted_solvable_r_mixed x a b s hab (by rw [htt]; omega) hb (by omega))
   exact inventory_determined x s hp hc ho htt
+
+/-- Avoiding Q, R, and D at size 28 already forces an extremal obstruction. -/
+theorem restricted_classify28 (x : Inventory) (ht : total x = 28) :
+    ¬ RestrictedSolvable x ↔ ∃ s : Fin 2, x = extremal s := by
+  constructor
+  · intro hn
+    obtain ⟨s, hs⟩ := exists_major_orientation x
+    exact ⟨s, classify_ordered x hn ht s hs⟩
+  · rintro ⟨s,rfl⟩
+    exact fun h => extremal_not_solvable s h.solvable
 
 /-- Exactly the two printed multisets are extremal obstructions. -/
 theorem classify28 (x : Inventory) (ht : total x = 28) :
     ¬ Solvable x ↔ ∃ s : Fin 2, x = extremal s := by
   constructor
   · intro hn
-    obtain ⟨s, hs⟩ := exists_major_orientation x
-    exact ⟨s, classify_ordered x hn ht s hs⟩
-  · rintro ⟨s,rfl⟩
+    exact (restricted_classify28 x ht).mp (fun h => hn h.solvable)
+  · rintro ⟨s, rfl⟩
     exact extremal_not_solvable s
+
+/-- Every solvable 28-cube collection already builds Q, R, or D. -/
+theorem restricted_of_solvable28 (x : Inventory) (ht : total x = 28)
+    (h : Solvable x) : RestrictedSolvable x := by
+  by_contra hn
+  obtain ⟨s, rfl⟩ := (restricted_classify28 x ht).mp hn
+  exact extremal_not_solvable s h
+
 end ThreeColour

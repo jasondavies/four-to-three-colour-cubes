@@ -54,6 +54,31 @@ def reflectFace (f : Fin 6) : Fin 6 := if f.val < 2 then MacMahon.opposite f els
 def reflectInventory (x : Inventory) : Inventory := fun i => x (reflection i)
 def flip : Fin 2 → Fin 2 := ![1,0]
 def Uses (n : ℕ) (c : Fin 6 → Colour) : Prop := (Finset.univ.image c).card = n
+instance (n : ℕ) (c : Fin 6 → Colour) : Decidable (Uses n c) := by unfold Uses; infer_instance
+/-- Four faces have one colour; the two other faces are opposite. -/
+def IsQ (t : Fin 6 → Colour) : Prop :=
+  Uses 3 t ∧ ∃ a : Colour,
+    (Finset.univ.filter (fun f => t f = a)).card = 4 ∧
+    ∀ f, t f ≠ a → t (MacMahon.opposite f) ≠ a
+
+/-- Four faces have one colour; the two other faces are adjacent. -/
+def IsR (t : Fin 6 → Colour) : Prop :=
+  Uses 3 t ∧ ∃ a : Colour,
+    (Finset.univ.filter (fun f => t f = a)).card = 4 ∧
+    ∃ f, t f ≠ a ∧ t (MacMahon.opposite f) = a
+
+/-- Three monochromatic opposite pairs, in three different colours. -/
+def IsD (t : Fin 6 → Colour) : Prop :=
+  Uses 3 t ∧ ∀ f, t (MacMahon.opposite f) = t f
+
+def RestrictedTarget (t : Fin 6 → Colour) : Prop := IsQ t ∨ IsR t ∨ IsD t
+
+instance (t : Fin 6 → Colour) : Decidable (IsQ t) := by unfold IsQ; infer_instance
+instance (t : Fin 6 → Colour) : Decidable (IsR t) := by unfold IsR; infer_instance
+instance (t : Fin 6 → Colour) : Decidable (IsD t) := by unfold IsD; infer_instance
+instance (t : Fin 6 → Colour) : Decidable (RestrictedTarget t) := by
+  unfold RestrictedTarget; infer_instance
+
 def FaceFits (t : Target) (i : Source) (k : Slot) (r : Fin 24) : Prop :=
   ∀ f : Fin 3, sourceFaces i (MacMahon.rotations r (MacMahon.exposedFaces k f)) =
     targetFaces t (MacMahon.exposedFaces k f)
@@ -121,5 +146,38 @@ theorem family_classify28_geometric (cubes : Fin 28 → Fin 6 → Colour)
     ¬ FamilySolvable cubes ↔ ∃ s : Fin 2, ∀ i : Source,
       Fintype.card {j // ∃ r : Fin 24, ∀ f,
         cubes j f = sourceFaces i (MacMahon.rotations r f)} = extremal s i := by sorry
+
+/-- A physical solution with a target of type Q, R, or D. No catalogue appears
+in this definition: the sources, target, and rotations are face maps. -/
+def FamilyRestrictedSolvable {n : ℕ} (cubes : Fin n → Fin 6 → Colour) : Prop :=
+  ∃ target : Fin 6 → Colour, RestrictedTarget target ∧ Uses 3 target ∧
+    ∃ placement : Fin 8 ↪ Fin n, ∀ k,
+      ∃ r : Fin 6 → Fin 6, MacMahon.ProperRotation r ∧
+        ∀ axis : Fin 3, cubes (placement k) (r (MacMahon.exposedFaces k axis)) =
+          target (MacMahon.exposedFaces k axis)
+
+theorem family_restricted_of_29_le {n : ℕ} (cubes : Fin n → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) (hn : 29 ≤ n) : FamilyRestrictedSolvable cubes := by sorry
+
+theorem family_restricted_threshold29 (cubes : Fin 29 → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) : FamilyRestrictedSolvable cubes := by sorry
+
+theorem family_restricted_of_solvable28 (cubes : Fin 28 → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) (h : FamilySolvable cubes) :
+    FamilyRestrictedSolvable cubes := by sorry
+
+theorem restricted_target_counts :
+    (Finset.univ.filter (fun t : Target => IsQ (targetFaces t))).card = 12 ∧
+    (Finset.univ.filter (fun t : Target => IsR (targetFaces t))).card = 12 ∧
+    (Finset.univ.filter (fun t : Target => IsD (targetFaces t))).card = 4 ∧
+    (Finset.univ.filter (fun t : Target => RestrictedTarget (targetFaces t))).card = 28 := by sorry
+
+theorem restricted_target_catalogue_complete (c : Fin 6 → Colour)
+    (hc : RestrictedTarget c) :
+    ∃ t : Target, RestrictedTarget (targetFaces t) ∧
+      ∃ r : Fin 24, ∀ f, c f = targetFaces t (MacMahon.rotations r f) := by sorry
+
+theorem target_catalogue_unique (i j : Target) (r : Fin 24)
+    (h : ∀ f, targetFaces i (MacMahon.rotations r f) = targetFaces j f) : i = j := by sorry
 
 end ThreeColour

@@ -1,6 +1,7 @@
 module
 
-public import ThreeColour.Family
+public import ThreeColour.RestrictedFamily
+public import ThreeColour.RestrictedCatalogue
 
 @[expose] public section
 
@@ -91,3 +92,27 @@ public import ThreeColour.Family
 /-- info: 'ThreeColour.family_classify28_geometric' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.family_classify28_geometric
+
+/-- info: 'ThreeColour.family_restricted_of_29_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_restricted_of_29_le
+
+/-- info: 'ThreeColour.family_restricted_threshold29' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_restricted_threshold29
+
+/-- info: 'ThreeColour.family_restricted_of_solvable28' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_restricted_of_solvable28
+
+/-- info: 'ThreeColour.restricted_target_counts' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.restricted_target_counts
+
+/-- info: 'ThreeColour.restricted_target_catalogue_complete' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.restricted_target_catalogue_complete
+
+/-- info: 'ThreeColour.target_catalogue_unique' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.target_catalogue_unique
