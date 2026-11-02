@@ -5,22 +5,23 @@
 - [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
 - [Provenance, scope and AI disclosure](formalization.yaml).
 
-**For every side length $n\ge2$, the sharp three-colour frame threshold is
-$16n-3$. Exactly two collections of $16n-4$ four-colour cubes fail.** Each
-contains $4n-1$ copies of each of four varieties in one orientation class;
-reflection gives the other collection.
+**For every $n\ge4$, any $n^3$ cubes, each painted with all four colours of a
+fixed palette, build an $n\times n\times n$ cube with solid faces in exactly
+three colours. For $n=2$ and $n=3$ the sharp numbers are 29 and 45.**
 
-A frame consists of the eight corners and twelve edges of an
-$n\times n\times n$ cube, using $12n-16$ pieces. Every source cube uses all
-four colours of a fixed palette. The six exterior faces must be monochromatic
-and use exactly three colours; internal faces need not match. Collections
-may repeat varieties, and only proper rotations are allowed.
+Both follow from a frame theorem. A frame is the $12n-16$ corner and edge
+pieces of an $n\times n\times n$ cube. For every $n\ge2$, any $16n-3$
+four-colour cubes contain a three-colour frame. For a fixed palette, exactly
+two collections of $16n-4$ cubes fail: $4n-1$ copies of each of four
+varieties in one orientation class, and the mirror image of that collection.
+The remaining pieces of a complete cube are easy, since every cube shows
+every colour, so the complete-cube threshold is $\max\{n^3,16n-3\}$.
 
-For a complete cube the sharp threshold is
-$\max\{n^3,16n-3\}$. Thus **any $n^3$ four-colour cubes suffice when $n\ge4$**.
-The first cases are:
+The exterior faces must be monochromatic and use exactly three colours;
+internal faces need not match. Collections may repeat varieties, and only
+proper rotations are allowed.
 
-| Side length | Frame size | Frame threshold | Complete-cube threshold |
+| Side length | Frame pieces | Frame threshold | Complete-cube threshold |
 | --- | --- | --- | --- |
 | 2 | 8 | 29 | 29 |
 | 3 | 20 | 45 | 45 |
@@ -49,36 +50,30 @@ colour permutations give the other bucket memberships.
 
 ![A T cube links to one colour bucket, a P cube to two, and a checkerboard to none](paper/bucket-figure.svg)
 
-Eight cubes in any bucket can build a three-colour target, so an unsolvable
-collection has at most seven in each bucket. Let $n_T,n_P$ count the $T$ and
-$P$ cubes, including repeats. Counting memberships by cube type and by bucket gives
+Corner containment also preserves edges, so the reduction works for frames.
+Every ordinary cube ($T$ or $P$) has all six two-colour edge types, and a
+checkerboard lacks only one. The ordinary varieties form two orientation
+classes, each with one trichromatic orientation on every triple of colours.
+For a failing reduced collection of $16n-4$ cubes, call the larger class the
+majority and all other cubes the minority. The argument has four steps:
 
-$$n_T+2n_P\le 4\cdot7=28.$$
-
-The ordinary varieties ($T$ and $P$) form two orientation classes, each sharing
-one trichromatic orientation on every triple of colours. For a failing reduced
-collection of 28 cubes, call the larger class the majority and all other cubes
-the minority. The remaining argument has three steps:
-
-1. Targets with three monochromatic opposite face pairs ($D$) force the
-   minority to contain at most six cubes, leaving at least 22 in the majority.
-2. If any minority cubes occur, targets with four faces of one colour and two
-   differently coloured adjacent faces ($R$) force $2t_a+p_a\le10$ in each
-   bucket, where $t_a,p_a$ count majority $T,P$ cubes. Summing bounds the
-   majority by 20, a contradiction.
-3. All cubes therefore belong to one ordinary class. The bucket count then
-   excludes $P$ cubes and forces seven $T$ cubes of each repeated colour.
-
-The bucket double-count is [BES's equation (1)](https://math.colgate.edu/~integers/s68/s68.pdf).
-
-For larger frames, corner containment also preserves edge availability.
-Every ordinary cube supplies all six bichromatic edge types; a checkerboard
-misses only one. Hall's theorem extends a $D$ corner solution to a frame,
-so the minority still contains at most six cubes. The majority bucket capacity
-becomes $4n-1$. If a minority cube remains, a target with face tuple
-$(a,b,a,b,a,c)$ supplies a contradiction using abundant $T_a$ and $T_b$ cubes.
-The surviving four varieties must therefore have equal multiplicities.
-The original corner argument supplies the base case $n=2$.
+1. **At most six minority cubes.** Targets with three monochromatic opposite
+   face pairs ($D$) need both orientations of one colour triple. Hall's theorem
+   extends any $D$ corner solution to a frame, using the edge facts above, so
+   counting $D$ corner solutions leaves at most six minority cubes.
+2. **Bucket capacity $4n-1$.** A majority bucket with $4n$ cubes builds a frame
+   with four faces of one colour and two opposite faces of others ($Q$).
+   Counting memberships by cube type and by bucket, which is
+   [BES's equation (1)](https://math.colgate.edu/~integers/s68/s68.pdf), gives
+   $$n_T+2n_P\le 4(4n-1),$$
+   where $n_T,n_P$ count majority $T$ and $P$ cubes, including repeats.
+3. **No minority cubes.** If one remains, the target with face tuple
+   $(a,b,a,b,a,c)$ can be built from $3n-2$ cubes of one $T$ variety, $n$ of
+   another, the minority cube and ordinary cubes for the edges: a contradiction.
+   For $n=2$, the original corner argument with targets of type $R$ (four faces
+   of one colour, two adjacent faces of others) does this step.
+4. **Equal multiplicities.** All cubes are now majority cubes, the bucket count
+   excludes $P$ cubes, and each $T$ variety occurs exactly $4n-1$ times.
 
 ## Repository layout
 
@@ -160,7 +155,14 @@ restriction on 1,000 sampled 28-cube collections. These finite samples do not
 prove the general statements, which are established by the paper and the
 Lean proofs in [RestrictedFamily.lean](ThreeColour/RestrictedFamily.lean).
 
-The optional search uses OR-Tools CP-SAT:
+A second checker, [check_frames.py](scripts/check_frames.py), covers frames.
+It checks the edge facts used in the proof, that the reduction preserves edges,
+and the corners and edges of every $(a,b,a,b,a,c)$ target. For $n=2,\dots,6$
+it matches against all 120 targets to confirm that both obstructions fail and
+that all 136 one-cube extensions succeed. These are again finite checks; the
+general statements are proved in [FrameResults.lean](ThreeColour/FrameResults.lean).
+
+The optional search, for the case $n=2$, uses OR-Tools CP-SAT:
 
 ```sh
 python3 -m venv .venv
