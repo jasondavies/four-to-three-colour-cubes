@@ -32,7 +32,7 @@ least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
 exterior faces are monochromatic and use exactly three colours.
 This follows BES's convention that a $k$-colour cube uses all $k$
-colours~\cite[Section 1]{BES}.
+colours~\cite[Section 1, opening definition]{BES}.
 Here every source cube uses all four colours of a fixed palette. A
 \emph{variety} is a face colouring up to proper rotation.
 Collections are multisets of varieties, so repeated copies
@@ -150,9 +150,9 @@ an opposite pair, giving two orbits. In the second case, both repeated
 pairs can be opposite, exactly one can be opposite, or both can be adjacent.
 In the last case, the two monochromatic edges either have perpendicular
 directions, giving two mirror configurations represented by $010213$ and
-$010223$, or are parallel, represented by $010123$. These are distinct under proper rotation and
-colour permutation. The second multiplicity case thus gives five orbits, completing
-Table~\ref{tab:reduction}.
+$010223$, or are parallel, represented by $010123$. These cases cover all
+varieties. The orbit sizes in Table~\ref{tab:reduction} sum to 68, the total
+number of varieties~\cite{BES}, so the seven orbits are distinct.
 The three non-retained representatives contain the corner types of $001123$;
 colour permutations transport these containments to their whole orbits.
 Table~\ref{tab:corners} gives the corner sets of the retained representatives.
@@ -359,6 +359,16 @@ class. Theorem~\ref{thm:classification} excludes all other collections.
 Every odd colour permutation exchanges the two orientation classes and
 hence these two collections.
 \end{proof}
+
+\begin{remark}[Allowing fewer colours]
+If targets may use at most three colours, 28 cubes suffice. In either
+exceptional collection, four $T$ cubes of repeated colour $a$ and four of
+repeated colour $b$ supply $aaa+3aab+bbb+3bba$. These are the corners of a
+two-colour cube whose three $a$ faces meet at one vertex and whose three $b$
+faces meet at the opposite vertex. Every other 28-cube collection builds
+a three-colour target by Theorem~\ref{thm:sharp}. This gives an upper bound,
+not an exact threshold, for that variant.
+\end{remark}
 
 \Needspace{12\baselineskip}
 \begin{corollary}[Restricted targets]\label{cor:restricted}

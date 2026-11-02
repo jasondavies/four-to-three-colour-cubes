@@ -105,7 +105,9 @@ fidelity:
     The lower bound is checked against every target rather than formalising
     the written edge-count balance proof or the degree remark. Uniqueness up
     to colour permutation is a written corollary, without a separate formal
-    colour-permutation theorem. The restricted-target corollary is formalised for arbitrary indexed families,
+    colour-permutation theorem. The remark giving an upper bound of 28 when
+    targets may use at most three colours is not formalised.
+    The restricted-target corollary is formalised for arbitrary indexed families,
     with geometric definitions of Q, R and D, their catalogue coverage,
     target uniqueness and the counts 12, 12, 4 and 28 in total. Geometry
     checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
