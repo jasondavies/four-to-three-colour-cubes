@@ -7,6 +7,13 @@ set_option maxHeartbeats 1000000
 namespace ThreeColour
 open scoped BigOperators
 
+/-!
+The frame argument uses `k = n - 2`. First, D-frames bound the minority
+and force a large majority class. Q-frames bound each majority bucket.
+For `k ≥ 1`, these bounds leave enough T cubes for a U-frame whenever any
+minority cube remains. The corner argument handles `k = 0` separately.
+-/
+
 lemma mass_union_le (x : Inventory) (A B : SourceSet) :
     mass x (A ∪ B) ≤ mass x A + mass x B := by
   simp only [mass_weight, ← Finset.sum_add_distrib]
@@ -147,6 +154,17 @@ lemma two_small_colours_impossible (k : ℕ) (hk : 1 ≤ k) (t : Colour → ℕ)
 lemma palette_complement : ∀ a d : Colour, d ≠ a → ∃ b c : Colour,
     a ≠ b ∧ a ≠ c ∧ b ≠ c ∧ d ≠ b ∧ d ≠ c := by decide +kernel
 
+/-- Count each T cube once and each P cube twice across the four buckets. -/
+lemma frame_bucket_sum (k : ℕ) (x : Inventory)
+    (hb : ∀ a, mass x (bucket a) ≤ 4*k+7) :
+    mass x allTriples + 2 * mass x allPairs ≤ 16*k+28 := by
+  have ht := triple_totals x
+  have hp := pair_totals x
+  have hbt := bucket_totals x
+  norm_num [Fin.forall_fin_succ, Fin.sum_univ_succ] at ht hp hbt hb
+  omega
+
+/-- For side length at least three, a failing collection has no minority cubes. -/
 lemma frame_purity (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
     (hn : ¬ FrameSolvable k x) (ht : 16*k+28 ≤ total x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) :
@@ -155,13 +173,9 @@ lemma frame_purity (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
   have hb := frame_bucket_bound k x hn s (by omega)
   have hyt := major_totals x s
   have htrip := triple_totals (majorInventory x s)
-  have hpairs := pair_totals (majorInventory x s)
   have hbuckets := bucket_totals (majorInventory x s)
   have htotal := ordered_totals x s
-  have hweight : mass (majorInventory x s) allTriples + 2 * mass (majorInventory x s) allPairs ≤ 16*k+28 := by
-    have h := hb
-    norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at h hbuckets htrip hpairs
-    omega
+  have hweight := frame_bucket_sum k (majorInventory x s) hb
   have hT : 16*k+16 ≤ mass (majorInventory x s) allTriples := by omega
   have htb : ∀ a, mass (majorInventory x s) (triple a) ≤ 4*k+7 := by
     intro a

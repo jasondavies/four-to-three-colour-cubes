@@ -34,6 +34,7 @@ lemma frame_of_full {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
   obtain ⟨t,ht,p,hp⟩ := h
   exact ⟨t,ht,Function.Embedding.inl.trans p,fun q => hp (.inl q)⟩
 
+/-- Extend a placement by assigning the new positions to unused copies. -/
 lemma embedding_extend_sum {A B C : Type*} [Fintype A] [Fintype B] [Fintype C]
     (p : A ↪ C) (h : Fintype.card A + Fintype.card B ≤ Fintype.card C) :
     ∃ q : A ⊕ B ↪ C, ∀ a, q (.inl a) = p a := by
@@ -44,14 +45,8 @@ lemma embedding_extend_sum {A B C : Type*} [Fintype A] [Fintype B] [Fintype C]
     omega
   obtain ⟨r⟩ := Function.Embedding.nonempty_of_card_le hR
   refine ⟨⟨Sum.elim p (fun b => (r b).val), ?_⟩, fun _ => rfl⟩
-  intro a b heq
-  cases a with
-  | inl a => cases b with
-    | inl b => exact congrArg Sum.inl (p.injective heq)
-    | inr b => exact False.elim ((r b).property ⟨a,heq⟩)
-  | inr a => cases b with
-    | inl b => exact False.elim ((r a).property ⟨b,heq.symm⟩)
-    | inr b => exact congrArg Sum.inr (r.injective (Subtype.ext heq))
+  exact p.injective.sumElim (Subtype.val_injective.comp r.injective)
+    (fun a b heq => (r b).property ⟨a, heq⟩)
 
 lemma uses_four_surjective (c : Fin 6 → Colour) (hc : Uses 4 c) : Function.Surjective c := by
   have hi : Finset.univ.image c = Finset.univ := (Finset.card_eq_iff_eq_univ _).mp hc
@@ -69,10 +64,11 @@ lemma fits_one_face (c t : Fin 6 → Colour) (hc : Uses 4 c) (f : Fin 6) :
   obtain ⟨r,hr⟩ := rotations_face_transitive f g
   refine ⟨ColourCubes.rotations r,(ColourCubes.proper_rotation_iff _).mpr ⟨r,rfl⟩,?_⟩
   intro h hh
-  have he : h = f := Finset.mem_singleton.mp hh
-  subst h
+  rcases Finset.mem_singleton.mp hh with rfl
   simpa only [hr] using hg
 
+/-- Keep the frame placement, then fill face interiors using the common palette.
+Completely internal positions impose no colour constraints. -/
 lemma full_of_frame {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
     (hc : ∀ j, Uses 4 (cubes j)) (hm : (k+2)^3 ≤ m)
     (h : FamilyFrameSolvable k cubes) : FamilyFullSolvable k cubes := by

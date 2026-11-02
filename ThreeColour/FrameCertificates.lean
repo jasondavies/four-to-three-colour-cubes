@@ -11,9 +11,11 @@ set_option maxHeartbeats 0
 namespace ThreeColour
 open scoped BigOperators
 
+/-- Assign corners and all `k` positions along each edge to source pools. -/
 def frameTag {m : ℕ} (k : ℕ) (c : Slot → Fin m) (e : Fin 12 → Fin m) :
     FrameSlot k → Fin m := Sum.elim c (fun p => e p.1)
 
+/-- Number of corners or edges assigned to one pool, before scaling by `k`. -/
 def tagCount {n m : ℕ} (tag : Fin n → Fin m) (j : Fin m) : ℕ :=
   ∑ p, if tag p = j then 1 else 0
 
@@ -43,12 +45,17 @@ lemma frame_of_pools {m : ℕ} (k : ℕ) (x : Inventory) (t : Target)
   | inl q => exact hc q _ (hp (.inl q))
   | inr q => exact he q.1 _ (hp (.inr q))
 
+/-- Pools for the two corner types, the monochromatic edges, and the
+bichromatic edges of Q, all in the same ordinary orientation class. -/
 def qFramePools (a b c : Colour) (s : Fin 2) : Fin 4 → SourceSet :=
   ![support a b ∩ ordinary s, support a c ∩ ordinary s,
     bucket a ∩ ordinary s, ordinary s]
 
+/-- Cubes providing the opposite orientation on the triple omitting `d`. -/
 def minorityPool (s : Fin 2) (d : Colour) : SourceSet := ordinary (flip s) ∪ eligible d
 
+/-- U uses T_a and T_b for repeated-colour demands, one minority corner,
+and ordinary cubes for the other trichromatic corner and bichromatic edges. -/
 def uFramePools (a b d : Colour) (s : Fin 2) : Fin 4 → SourceSet :=
   ![tripleClass a s, tripleClass b s, minorityPool s d, ordinary s]
 

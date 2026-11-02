@@ -25,16 +25,14 @@ lemma frame_inventory_determined (k : ℕ) (x : Inventory) (s : Fin 2)
     (hp : mass x allPairs = 0) (hc : mass x allCheckers = 0)
     (ho : mass x (ordinary (flip s)) = 0)
     (ht : ∀ a, mass x (triple a) = 4*k+7) : x = frameExtremal k s := by
-  have hzero : ∀ s i, extremal s i = 0 → i ∉ extremalSupport s := by decide +kernel
-  have hseven : ∀ s i, extremal s i = 7 → i ∈ extremalSupport s := by decide +kernel
   funext i
   rcases classification_partition s i with ⟨hi,he⟩ | ⟨a,ha,hi,he⟩
-  · simp only [frameExtremal, ite_eq_right (hzero s i he)]
+  · simp [frameExtremal, extremalSupport, he]
     rcases hi with h | h | h
     · exact zero_of_mass_zero x h hp
     · exact zero_of_mass_zero x h hc
     · exact zero_of_mass_zero x h ho
-  · simp only [frameExtremal, ite_eq_left (hseven s i he)]
+  · simp [frameExtremal, extremalSupport, he]
     have hz : mass x (tripleClass a (flip s)) = 0 := by
       have := mass_mono x (triple_class_subset a (flip s)); omega
     have ht' := ht a
@@ -43,14 +41,20 @@ lemma frame_inventory_determined (k : ℕ) (x : Inventory) (s : Fin 2)
     rw [Finset.sum_insert hi, hz] at ht'
     omega
 
-lemma frame_bucket_sum (k : ℕ) (x : Inventory)
-    (hb : ∀ a, mass x (bucket a) ≤ 4*k+7) :
-    mass x allTriples + 2 * mass x allPairs ≤ 16*k+28 := by
-  have ht := triple_totals x
-  have hp := pair_totals x
-  have hbt := bucket_totals x
-  norm_num [Fin.forall_fin_succ, Fin.sum_univ_succ] at ht hp hbt hb
-  omega
+/-- After eliminating the minority, majority bucket bounds apply to the whole
+inventory. Both the classification and the upper bound use this step. -/
+lemma frame_failure_bounds (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
+    (hn : ¬ FrameSolvable k x) (ht : 16*k+28 ≤ total x) (s : Fin 2)
+    (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) :
+    mass x (ordinary (flip s)) = 0 ∧ mass x allCheckers = 0 ∧
+      ∀ a, mass x (bucket a) ≤ 4*k+7 := by
+  have hpure := frame_purity k hk x hn ht s hs
+  have ho : mass x (ordinary (flip s)) = 0 := by omega
+  have hc : mass x allCheckers = 0 := by omega
+  have hmajor := (frame_major_bounds k x hn ht s hs).2
+  have hb := frame_bucket_bound k x hn s (by omega)
+  rw [majorInventory_eq x s ho hc] at hb
+  exact ⟨ho, hc, hb⟩
 
 /-- Exactly two inventories fail at size `16n-4`, where `n=k+2`. -/
 theorem frame_classification (k : ℕ) (x : Inventory) (ht : total x = 16*k+28) :
@@ -63,13 +67,7 @@ theorem frame_classification (k : ℕ) (x : Inventory) (ht : total x = 16*k+28) 
       obtain ⟨s,hs⟩ := (classify28 x (by simpa using ht)).mp hn
       exact ⟨s, by simpa only [frameExtremal_zero] using hs⟩
     · obtain ⟨s,hs⟩ := exists_major_orientation x
-      have hpure := frame_purity k (by omega) x hn ht.ge s hs
-      have ho : mass x (ordinary (flip s)) = 0 := by omega
-      have hc : mass x allCheckers = 0 := by omega
-      have heq := majorInventory_eq x s ho hc
-      have hmajor := (frame_major_bounds k x hn ht.ge s hs).2
-      have hb := frame_bucket_bound k x hn s (by omega)
-      rw [heq] at hb
+      obtain ⟨ho, hc, hb⟩ := frame_failure_bounds k (by omega) x hn ht.ge s hs
       have hsum := frame_bucket_sum k x hb
       have htot := totals x
       have hp : mass x allPairs = 0 := by omega
@@ -92,13 +90,7 @@ theorem frame_solvable_of_le (k : ℕ) (x : Inventory) (ht : 16*k+29 ≤ total x
     exact solvable_of_29_le x (by simpa using ht)
   · by_contra hn
     obtain ⟨s,hs⟩ := exists_major_orientation x
-    have hpure := frame_purity k (by omega) x hn (by omega) s hs
-    have ho : mass x (ordinary (flip s)) = 0 := by omega
-    have hc : mass x allCheckers = 0 := by omega
-    have heq := majorInventory_eq x s ho hc
-    have hmajor := (frame_major_bounds k x hn (by omega) s hs).2
-    have hb := frame_bucket_bound k x hn s (by omega)
-    rw [heq] at hb
+    obtain ⟨ho, hc, hb⟩ := frame_failure_bounds k (by omega) x hn (by omega) s hs
     have hsum := frame_bucket_sum k x hb
     have htot := totals x
     omega

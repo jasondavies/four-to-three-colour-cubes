@@ -7,10 +7,11 @@ public import ColourCubes.Geometry
 
 namespace ThreeColour
 
-/-- The twelve edges, listed by their two outward face normals. -/
+/-- Named nonzero witnesses for the finite vector notation below. -/
 theorem frameFinSix : NeZero 6 := by infer_instance
 theorem frameFinTwo : NeZero 2 := by infer_instance
 
+/-- The twelve edges, listed by their two outward face normals. -/
 def edgeFaces : Fin 12 → Fin 2 → Fin 6 :=
   letI : NeZero 6 := frameFinSix
   ![![0,2], ![0,3], ![0,4], ![0,5], ![1,2], ![1,3],

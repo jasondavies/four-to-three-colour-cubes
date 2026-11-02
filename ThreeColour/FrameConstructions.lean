@@ -27,14 +27,13 @@ lemma frame_q (k : ℕ) (x : Inventory) (a b c : Colour) (s : Fin 2)
     funext j; fin_cases j <;> simp <;> omega
   rw [hd]
   exact q_pool_hall x _ _ _ _ k (q_frame_union a b c hab hac hbc s)
-    Finset.inter_subset_right hb hc hbucket hmajor
+    hb hc hbucket hmajor
 
 lemma u_pool_geometry : ∀ a b d : Colour, a ≠ b → ∀ s,
     Disjoint (tripleClass a s) (tripleClass b s) ∧
     Disjoint (tripleClass a s) (minorityPool s d) ∧
     Disjoint (tripleClass b s) (minorityPool s d) ∧
-    Disjoint (minorityPool s d) (ordinary s) ∧
-    tripleClass a s ⊆ ordinary s ∧ tripleClass b s ⊆ ordinary s := by decide +kernel
+    Disjoint (minorityPool s d) (ordinary s) := by decide +kernel
 
 lemma frame_u (k : ℕ) (x : Inventory) (a b c d : Colour) (s : Fin 2)
     (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
@@ -52,8 +51,8 @@ lemma frame_u (k : ℕ) (x : Inventory) (a b c d : Colour) (s : Fin 2)
       k * (![3,1,0,8] : Fin 4 → ℕ) j) = ![3*k+4,k+2,1,8*k+1] := by
     funext j; fin_cases j <;> simp <;> omega
   rw [hd]
-  obtain ⟨hAB,hAC,hBC,hCD,hAD,hBD⟩ := u_pool_geometry a b d hab s
-  exact u_pool_hall x _ _ _ _ _ _ _ _ hAB hAC hBC hCD hAD hBD ha hb hm (by omega)
+  obtain ⟨hAB,hAC,hBC,hCD⟩ := u_pool_geometry a b d hab s
+  exact u_pool_hall x _ _ _ _ _ _ _ _ hAB hAC hBC hCD ha hb hm (by omega)
 
 lemma frame_d (k : ℕ) (x : Inventory) (d : Colour)
     (h0 : 4 ≤ mass x (ordinary 0 ∪ eligible d))

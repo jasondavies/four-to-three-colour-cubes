@@ -17,8 +17,11 @@ lemma mass_pools_pair {m : ℕ} (x : Inventory) (g : Fin m → SourceSet)
   mass_mono x (Finset.union_subset (Finset.subset_biUnion_of_mem g hj)
     (Finset.subset_biUnion_of_mem g hl))
 
+/-- The two corner pools cover the repeated-colour bucket. The other edge
+positions use a pool large enough for the entire frame. No containment between
+that pool and the bucket is needed for Hall's inequalities. -/
 lemma q_pool_hall (x : Inventory) (A B C D : SourceSet) (k : ℕ)
-    (hAB : A ∪ B = C) (_hCD : C ⊆ D)
+    (hAB : A ∪ B = C)
     (ha : 4 ≤ mass x A) (hb : 4 ≤ mass x B)
     (hc : 4*k+8 ≤ mass x C) (hd : 12*k+8 ≤ mass x D) :
     PoolHall x (![A,B,C,D]) (![4,4,4*k,8*k]) := by
@@ -36,12 +39,15 @@ lemma q_pool_hall (x : Inventory) (A B C D : SourceSet) (k : ℕ)
     omega
   change (∑ j ∈ js, (![4,4,4*k,8*k] : Fin 4 → ℕ) j) ≤ z
   generalize hz : z = w at *
-  clear hz z g ha hb hc hd hAB _hCD A B C D x
+  clear hz z g ha hb hc hd hAB A B C D x
   fin_cases js <;> norm_num at * <;> omega
 
+/-- The two repeated-colour pools and the minority pool are disjoint.
+The remaining majority pool has capacity for all majority positions, even
+if some of its cubes were already used by the first two pools. -/
 lemma u_pool_hall (x : Inventory) (A B C D : SourceSet) (a b c d : ℕ)
     (hAB : Disjoint A B) (hAC : Disjoint A C) (hBC : Disjoint B C)
-    (hCD : Disjoint C D) (_hAD : A ⊆ D) (_hBD : B ⊆ D)
+    (hCD : Disjoint C D)
     (ha : a ≤ mass x A) (hb : b ≤ mass x B) (hc : c ≤ mass x C)
     (hd : a+b+d ≤ mass x D) :
     PoolHall x (![A,B,C,D]) (![a,b,c,d]) := by
@@ -81,9 +87,11 @@ lemma u_pool_hall (x : Inventory) (A B C D : SourceSet) (a b c d : ℕ)
     omega
   change (∑ j ∈ js, (![a,b,c,d] : Fin 4 → ℕ) j) ≤ z
   generalize hz : z = w at *
-  clear hz z g ha hb hc hd hAB hAC hBC hCD _hAD _hBD A B C D x
+  clear hz z g ha hb hc hd hAB hAC hBC hCD A B C D x
   fin_cases js <;> norm_num at * <;> omega
 
+/-- Each edge pool can fill one edge-type group after reserving eight corners;
+any two edge pools together contain every source variety. -/
 lemma d_pool_hall (x : Inventory) (A B E F G : SourceSet) (k : ℕ)
     (hab : 8 ≤ mass x (A ∪ B)) (ha : 4 ≤ mass x A) (hb : 4 ≤ mass x B)
     (he : 4*k+8 ≤ mass x E) (hf : 4*k+8 ≤ mass x F) (hg : 4*k+8 ≤ mass x G)
