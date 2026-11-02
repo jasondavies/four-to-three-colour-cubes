@@ -124,7 +124,7 @@ review:
     finite geometry, pair-support step and disclosure. The reviewer was not
     identified in the supplied text. Historical review notes remain in Git history.
     Reproduce current checks with make check and
-    make comparator. Push/PR CI runs make check; a separate nightly or manual
+    make comparator. Push/PR CI runs make check; a separate manually triggered
     workflow runs all three comparator kernels and records the checked commit.
     A successful replay of the exact commit is required before release.
     CI and preflight logs identify the checked revision; no

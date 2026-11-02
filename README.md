@@ -136,7 +136,7 @@ use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
 resource use, not the checks performed.
 
 The separate [Comparator workflow](.github/workflows/comparator.yml) runs
-nightly at 03:17 UTC or manually, with serial RawChecks builds and
+only on manual request, with serial RawChecks builds and
 `CON_RON_JOBS=1`. It saves the build cache before replay and allows up to
 three hours for replay within a five-hour job. Routine pushes cannot cancel
 an active replay. These settings were informed by local tests with 16 GB;
