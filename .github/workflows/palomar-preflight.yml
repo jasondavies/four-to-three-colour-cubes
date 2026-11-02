@@ -1,7 +1,7 @@
 # Advisory mechanical preflight with Palomar's own reusable verifier, pinned to a fixed commit.
 # It is not a submission and does not run on push: start it by hand from the Actions tab, or
 # with `gh workflow run palomar-preflight.yml [-f request_id=...]`, on the exact commit you
-# intend to submit. CI (ci.yml) also runs the local three-kernel comparator.
+# intend to submit. comparator.yml runs the local three-kernel replay nightly or manually.
 name: Palomar preflight
 
 on:

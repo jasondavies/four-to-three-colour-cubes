@@ -34,6 +34,7 @@ config=$(mktemp "${TMPDIR:-/tmp}/palomar-comparator.XXXXXX")
 trap 'rm -f "$config"' EXIT
 python3 - comparator.json "$config" "$prefix" <<'PY'
 import json
+import os
 import pathlib
 import sys
 
@@ -50,9 +51,12 @@ if "external_kernels" in config:
     print(f"error: {source}: external_kernels is not a submitter field; Palomar rejects it", file=sys.stderr)
     raise SystemExit(1)
 config.pop("enable_nanoda", None)
+# CON_RON_JOBS limits con-ron's parallel workers on small machines: 16 GB needs 1.
+# It changes memory use and time, not the verdict.
+jobs = os.environ.get("CON_RON_JOBS")
 config["external_kernels"] = {
     "nanoda": [f"{prefix}/bin/nanoda_bin"],
-    "con-ron": [f"{prefix}/bin/con-ron"],
+    "con-ron": [f"{prefix}/bin/con-ron", *([f"--jobs={jobs}"] if jobs else [])],
 }
 pathlib.Path(destination).write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
 PY

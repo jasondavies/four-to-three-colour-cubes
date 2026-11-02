@@ -83,8 +83,10 @@ regenerates geometry and figures, runs the separate Python checker, and builds
 all Lean targets. The root `ThreeColour.lean` guards twenty-eight axiom reports,
 permitting only
 `propext`, `Classical.choice`, and `Quot.sound`. There is no `native_decide`.
-The first Lean build takes several minutes. CI repeats these checks and runs the full
-comparator on pushes and pull requests.
+[CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
+It builds the memory-heavy `RawChecks` modules serially before the remaining
+checks; the first build on a hosted runner can take much longer than a cached
+build. New pushes cancel superseded routine checks.
 
 The public Lean results include:
 
@@ -126,9 +128,24 @@ make comparator
 This uses the toolchain's comparator and bundled Lean, NanoDa and con-ron
 kernels. Definition and statement mismatches fail before kernel replay;
 the full replay can take tens of minutes. `make check` alone does not run it.
-It requires `bwrap` and support for its sandbox. The repository also includes
-a manually triggered Palomar preflight workflow. No registry submission or
-acceptance is claimed.
+It requires `bwrap` and support for its sandbox. On memory-limited machines,
+use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
+resource use, not the checks performed.
+
+The separate [Comparator workflow](.github/workflows/comparator.yml) runs
+nightly at 03:17 UTC or manually, with serial RawChecks builds and
+`CON_RON_JOBS=1`. It saves the build cache before replay and allows up to
+three hours for replay within a five-hour job. Routine pushes cannot cancel
+an active replay. These settings were informed by local tests with 16 GB;
+they do not establish that an 8 GB private runner can build the project.
+
+Before releasing or archiving a version, require a successful full replay of
+that exact commit. Start the Comparator workflow with its `ref` input set to
+the full commit SHA, then confirm the successful run summary records the same
+SHA. A green routine CI run alone does not certify independent kernel replay.
+
+The repository also includes a manually triggered Palomar preflight workflow.
+No registry submission or acceptance is claimed.
 
 ## Computation and review
 
