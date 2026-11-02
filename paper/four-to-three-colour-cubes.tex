@@ -50,10 +50,23 @@ monochromatic corner of each colour, all in the same orientation class.
 Reflection or any odd colour permutation exchanges these collections.
 Figure~\ref{fig:obstruction} shows the first case, $n=2$.
 
+Filling the face interiors gives the complete-cube threshold
+$\max\{n^3,16n-3\}$ (Corollary~\ref{cor:full-cubes}). In particular, any
+64 cubes, each using all four colours of a fixed palette, can all be
+assembled into a $4\times4\times4$ cube with monochromatic faces using
+exactly three colours. Four is the smallest side length for which this
+guarantee holds without spare cubes; it holds for every larger side length
+as well.
+
 For comparison, BES~\cite[Theorem 5 and Table 7]{BES} show that any $12n-16$
 four-colour cubes build a four-colour $n$-frame when $n\ge3$: no cubes beyond
 the frame's own pieces are needed. Requiring exactly three exterior colours
-raises the sharp guarantee to $16n-3$. Their Table 7 also records the frame
+raises the sharp guarantee to $16n-3$. Their observation about filling the
+remaining positions~\cite[Section 1]{BES} already implies that any $n^3$
+four-colour cubes can all form a complete cube using four exterior colours
+when $n\ge3$. Our result guarantees that one colour can be hidden completely
+from the exterior when $n\ge4$, with exactly three colours remaining visible.
+Their Table 7 also records the frame
 number $16n-17$, for $n\ge4$, for three-colour source cubes building
 three-colour frames, from earlier work in their series; that is a different
 problem, with the same leading coefficient.
@@ -64,8 +77,6 @@ the capacity of each colour bucket. Together these restrictions force an
 extremal collection into one orientation class and then force the four
 multiplicities to be equal. We first prove the corner case, including its
 restricted-target corollary, and then extend the argument to frames.
-Filling the face interiors gives the complete-cube threshold
-$\max\{n^3,16n-3\}$ (Corollary~\ref{cor:full-cubes}).
 
 \section{Model and geometric facts}
 Reflections are not allowed as moves. Only exterior faces must match the

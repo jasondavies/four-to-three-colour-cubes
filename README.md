@@ -9,7 +9,12 @@
 fixed palette, build an $n\times n\times n$ cube with solid faces in exactly
 three colours. For $n=2$ and $n=3$ the sharp numbers are 29 and 45.**
 
-Both follow from a frame theorem. A frame is the $12n-16$ corner and edge
+In particular, **any 64 such cubes can all form a $4\times4\times4$ cube
+with solid faces in exactly three colours. No spare cubes are needed.**
+Four is the smallest side length for which this universal guarantee holds;
+it holds for every larger side length as well.
+
+These guarantees follow from a frame theorem. A frame is the $12n-16$ corner and edge
 pieces of an $n\times n\times n$ cube. For every $n\ge2$, any $16n-3$
 four-colour cubes contain a three-colour frame. For a fixed palette, exactly
 two collections of $16n-4$ cubes fail: $4n-1$ copies of each of four
