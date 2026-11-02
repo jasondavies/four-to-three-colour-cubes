@@ -19,7 +19,8 @@
 Any collection of 29 cubes, each displaying all four colours of a fixed
 palette, contains eight that form a $2\times2\times2$ cube with monochromatic
 faces using exactly three colours. For this fixed palette, exactly two
-collections of 28 cubes fail, and reflection exchanges them. This answers
+collections of 28 cubes fail, and reflection exchanges them. Only 28 of the
+120 target varieties are needed for the guarantee. This answers
 the threshold question in Problem 2 of Berkove, Eickemeyer and Schulman
 (2018). The proof uses their corner-containment reduction and elementary
 counting. The threshold and classification are formalised in Lean.
@@ -149,8 +150,9 @@ In the first case, the three equal faces either meet at a vertex or contain
 an opposite pair, giving two orbits. In the second case, both repeated
 pairs can be opposite, exactly one can be opposite, or both can be adjacent.
 Fixing one adjacent pair and placing the other among the four remaining
-faces gives three patterns in the last case, hence five orbits in all.
-These are the seven rows of Table~\ref{tab:reduction}.
+faces gives three patterns in the last case: $010213$, $010223$ and
+$010123$. The second multiplicity case thus gives five orbits, completing
+Table~\ref{tab:reduction}.
 The three non-retained representatives contain the corner types of $001123$;
 colour permutations transport these containments to their whole orbits.
 Table~\ref{tab:corners} gives the corner sets of the retained representatives.
@@ -205,7 +207,9 @@ in one ordinary orientation class.
 \end{theorem}
 \begin{proof}
 The argument needs only the assumption that no target of type $Q$, $R$ or
-$D$ can be built. Reduction by Lemma~\ref{lem:geometry} preserves this property.
+$D$ can be built. Replace each non-retained cube by a checkerboard using
+Lemma~\ref{lem:geometry}, leaving retained cubes unchanged. This preserves
+avoidance of all three target families.
 Let $A\ge B$ be the sizes of the two ordinary orientation classes, and
 let $C$ count checkerboards, so $A+B+C=28$. Call the class of size $A$
 the majority class (either one if equal). Call the remaining $M=B+C$ cubes \emph{minority cubes}.
@@ -245,8 +249,9 @@ Thus $t_a\le5$ for every $a$, and $n_T\le20$. Since
 $n_T+n_P+M=28$ and $n_P\le M$, we obtain $M\ge4$.
 
 For any two distinct colours $a,b$, some minority cube supports a triple
-containing both. Write $\{c,d\}$ for the complementary pair. Otherwise
-every minority cube would be a checkerboard with repeated colours $c,d$,
+containing both. If not, every minority cube would be a checkerboard.
+A checkerboard whose repeated pair meets $\{a,b\}$ supports such a triple,
+so all would have the complementary repeated pair $\{c,d\}$,
 supporting exactly $\{a,c,d\}$ and $\{b,c,d\}$. Thus
 $m_{\{a,c,d\}}=M\ge4$, contradicting $m_E\le3$.
 
@@ -260,7 +265,9 @@ so the construction above gives a solution, proving the claim.
 
 If $t_a\le3$, the bucket bound gives $2t_a+p_a\le t_a+7\le10$.
 If $4\le t_a\le5$, the claim gives $2t_a+p_a\le t_a+5\le10$.
-Thus in all cases $2t_a+p_a\le10$, and summing gives
+Thus $2t_a+p_a\le10$ in all cases. Each majority $T$ cube contributes two
+through its single bucket, and each majority $P$ cube contributes one
+through each of its two buckets. Summing gives
 \[
  2A=2n_T+2n_P=\sum_a(2t_a+p_a)\le40,
 \]
@@ -268,8 +275,7 @@ contradicting $A\ge22$ from \eqref{eq:minority}. Therefore $M=0$,
 and \eqref{eq:buckets} forces $n_P=0$. All 28 cubes are majority-class
 $T$ cubes, and the four bucket bounds force each $t_a=7$.
 
-Every non-retained variety in Table~\ref{tab:reduction} is replaced by a
-checkerboard. Since the reduced collection contains none, no replacement
+Since the reduced collection contains no checkerboards, no replacement
 occurred: the original collection was already reduced.
 \end{proof}
 
@@ -310,8 +316,8 @@ $b$ around this face would produce a trichromatic corner. The opposite
 face is then the sole $b$ face. Otherwise each colour occurs twice.
 If the two $c$ faces are opposite, the four neighbours of either contain
 both $a$ and $b$, forcing a change. If they are adjacent, the other three
-neighbours form a path containing both $a$ and $b$, again forcing a
-change. Both cases produce a trichromatic corner.
+neighbours form a path containing both $a$ and $b$, since each occurs only
+twice. Again a change is forced. Both cases produce a trichromatic corner.
 \end{proof}
 
 \begin{figure}[ht]
@@ -353,7 +359,12 @@ hence these two collections.
 \begin{corollary}[Restricted targets]\label{cor:restricted}
 Every collection of 29 four-colour cubes, and every solvable collection of
 28, builds a target of type $Q$, $R$ or $D$. These families contain just
-28 of the 120 target varieties.
+28 of the 120 target varieties.\footnote{For any fixed three colours, a
+rotation with $k$ face cycles fixes $3^k-3\cdot2^k+3$ colourings using all
+three. The 24 rotations have $6,4,3,2$ face cycles with multiplicities
+$1,3,12,8$, so Burnside's lemma gives
+$(540+3\cdot36+12\cdot6)/24=30$ varieties. Four choices of omitted colour
+give 120.}
 \end{corollary}
 \begin{proof}
 The classification argument uses only these three families, so a 28-cube
@@ -396,8 +407,9 @@ families, using geometric definitions of $Q$, $R$ and $D$.
 Kernel checks establish catalogue coverage, source and target uniqueness up to rotation,
 the restricted-target counts, and correctness of stored corner codes. A palette-independent lemma, allowing
 repeated colours, equates cyclic corner matching with physical face matching
-by a proper rotation. Twenty-five results were restated independently of the
-proof library and replayed through the Lean, NanoDa and con-ron kernels.
+by a proper rotation. Twenty-five results are restated in a standalone
+challenge file importing only mathlib. Their proofs were replayed through
+the Lean, NanoDa and con-ron kernels.
 
 The Lean proof uses counting and finite Hall certificates for the sufficient
 constructions. It treats checkerboards and the smaller ordinary class

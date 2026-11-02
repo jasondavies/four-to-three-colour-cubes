@@ -114,20 +114,23 @@ by a proper rotation. The proof does not enumerate all collections.
 
 ## Comparator and Palomar
 
-`Challenge.lean` imports only mathlib and independently restates twenty-five
+`Challenge.lean` imports only mathlib and restates twenty-five
 results: the threshold, sharpness and classification, catalogue coverage and
 colour counts, the restricted-target corollary and its target counts, and
-correctness of the rotation, exposed-face and reflection geometry. Its twenty-five deliberate `sorry` declarations are statement
-placeholders. No proof module imports them; they are excluded from the
-proof-development hole count.
+correctness of the rotation, exposed-face and reflection geometry. Its model
+definitions and literal tables are copied from the proof library and its pinned
+geometry dependency; this separation does not constitute an independently
+devised model. The comparator checks agreement of the statements and referenced
+definitions, then replays the exported proofs through three kernel implementations.
+Its twenty-five deliberate `sorry` declarations are statement placeholders.
+No proof module imports them; they are excluded from the proof-development hole count.
 
 ```sh
 make comparator
 ```
 
-This uses the toolchain's comparator and bundled Lean, NanoDa and con-ron
-kernels. Definition and statement mismatches fail before kernel replay;
-the full replay can take tens of minutes. `make check` alone does not run it.
+The replay uses the toolchain's bundled Lean, NanoDa and con-ron kernels
+and can take tens of minutes. `make check` alone does not run it.
 It requires `bwrap` and support for its sandbox. On memory-limited machines,
 use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
 resource use, not the checks performed.

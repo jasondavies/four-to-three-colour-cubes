@@ -92,6 +92,7 @@ establish novelty.
 The geometry dependency is `macmahon_min_universal_sets`, pinned in
 `lakefile.toml` and `lake-manifest.json`. Only `MacMahon.Rotations` and its
 transitive definition imports are used; no six-colour classification result
-is imported. The independent challenge restates the physical model and imports
-only mathlib, so comparator checking does not inherit the proof library's
-definitions by import.
+is imported. The standalone challenge imports only mathlib and contains copies
+of the relevant model definitions and tables. The comparator checks their
+agreement with the proof library and replays the exported proofs; this is
+separation of the statements from the implementation, not independent modelling.
