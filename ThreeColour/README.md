@@ -31,6 +31,17 @@ for every target and proves the obstruction for all `k`, rather than checking
 a bounded range of side lengths. `FrameTheorems.lean` supplies the inventory
 threshold and classification; the original 28-cube classification supplies `k=0`.
 
+`Stability.lean` gives the failure criterion at total at least $14n$, for
+$n\ge3$, including an arbitrary physical-family statement. The strengthened
+`frame_checker_many` construction supplies the sharper D-extension bound.
+`StabilityParameters.lean` proves that twelve pair multiplicities and four
+bucket slacks encode and decode the inventories exactly.
+`StabilityCounting.lean` gives the bijection, the stars-and-bars count
+$2\binom{d+15}{15}$ and the maximal-failure count $2\binom{d+11}{11}$,
+for $d\le2n-4$. Here `FrameMaximalFailure` quantifies over every pointwise
+larger inventory, rather than just a prescribed family of additions.
+These library results are outside the original comparator challenge.
+
 `NearPurity.lean` strengthens the purity argument to size $16n-5$.
 For the 27-cube endpoint, `RMajority0.lean` through `RMajority3.lean`
 verify the R construction with an arbitrary supported minority corner.
@@ -126,7 +137,8 @@ kernel checks the stated finite properties. The catalogue checks in
 `RawChecks/` and the certificate modules are checked-in Lean proofs.
 No external solver result is imported as an axiom.
 The root `ThreeColour.lean` contains explicit axiom guards for the public results,
-including the comparator results, both obstruction classifications, the
+including the comparator results, the stability criterion and counts, both
+obstruction classifications, the
 forty-target extension, and both forms of the corner–rotation lemma;
 only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
 proof holes or uses of `native_decide` in the proof library. The thirty-five intentional

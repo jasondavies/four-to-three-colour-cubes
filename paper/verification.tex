@@ -1,0 +1,17 @@
+\section{Verification details}\label{app:verification}
+Thirty-five results and the required definitions are restated in a
+standalone verification file (the comparator challenge) importing only
+mathlib. The stability and near-extremal classifications, their counts and the forty-target extension are
+additional library theorems, with physical-family interfaces where appropriate
+and explicit axiom audits; they are not yet added to that challenge. Automated checks compare
+the challenge statements with the proof library
+and replay the proofs through the Lean, NanoDa and con-ron kernels.
+
+The audit reports three standard axioms: \texttt{propext},
+\texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
+\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes}.}
+provides sources, reproduction commands and details of the statement checks.
+The physical model and palette-independent geometry come from the shared
+\texttt{colour-cubes-core} library~\cite{ColourCubes}. The challenge restates its
+definitions locally.
+

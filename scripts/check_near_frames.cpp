@@ -151,6 +151,44 @@ int main() {
     require(inventories.size()==32,"distinct near cases");
     std::cout<<"n="<<n<<": 32 failures and 1632 pair-case extensions checked\n";
   }
+  // The first new band: all weak compositions of deficit two, including
+  // its n=3 stability boundary. Geometry and buckets were reconstructed above.
+  for(int n : {3,4}) {
+    std::set<Counts> failures;
+    int maximal=0, extensions=0;
+    for(int side=0;side<2;++side) {
+      std::vector<int> pp;
+      for(int i:pairs) if(orientation[i]==side) pp.push_back(i);
+      require(pp.size()==12,"stability pair coordinates");
+      for(int u=0;u<16;++u) for(int v=u;v<16;++v) {
+        Counts x{};
+        for(int a=0;a<4;++a) x[triples[side][a]]=4*n-1;
+        for(int coordinate : {u,v}) {
+          if(coordinate<12) {
+            int i=pp[coordinate]; x[i]++;
+            for(int a=0;a<4;++a) if(bucket[i]&(1<<a)) x[triples[side][a]]--;
+          } else x[triples[side][coordinate-12]]--;
+        }
+        require(std::accumulate(x.begin(),x.end(),0)==16*n-6,"stability total");
+        require(failures.insert(x).second,"stability parametrisation collision");
+        for(auto t:targets) require(!builds(x,t,{n,n,n}),"stable example solved");
+        if(v<12) {
+          maximal++;
+          for(int j=0;j<68;++j) {
+            x[j]++; bool solved=false;
+            for(auto t:qdus) if(builds(x,t,{n,n,n})) {solved=true;break;}
+            require(solved,"saturated stability extension failed"); x[j]--; extensions++;
+          }
+        } else {
+          x[triples[side][v-12]]++;
+          for(auto t:targets) require(!builds(x,t,{n,n,n}),"positive slack failed to extend");
+        }
+      }
+    }
+    require(failures.size()==272 && maximal==156,"stability binomial counts");
+    std::cout<<"n="<<n<<": 272 deficit-two failures, 156 maximal, "<<extensions
+             <<" maximal extensions and 116 slack extensions checked\n";
+  }
   for(int k=1;k<=4;++k) {
     Counts x{}; for(int i:checkers) x[i]=2*k;
     for(auto t:targets) for(auto r:rotations) require(!builds(x,rotate(t,r),{2,2,3*k}),"thin checkerboard box solved");

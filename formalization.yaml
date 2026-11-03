@@ -7,7 +7,11 @@ project:
     from four-colour source cubes is 16n-3. Exactly two collections of size
     16n-4 fail: 4n-1 copies of each of four T varieties in one orientation class,
     or their reflections. Exactly 32 collections of size 16n-5 fail for every n >= 2,
-    including 24 inclusion-maximal pair cases. Forty Q/D/U targets suffice for
+    including 24 inclusion-maximal pair cases. For n >= 3, failures of size
+    at least 14n are exactly the pure ordinary collections with every bucket
+    at most 4n-1. A bijective parametrisation counts all failures and all
+    inclusion-maximal failures in this band by binomial coefficients.
+    Forty Q/D/U targets suffice for
     guaranteed frames when n >= 3. The sharp complete-cube threshold is max(n^3,16n-3).
     Arbitrary indexed face colourings, geometric proper rotations, and distinct
     physical copies are formalised. The original n=2 threshold of 29 and its
@@ -53,7 +57,11 @@ status:
     The n=2 restricted-target corollary and its count of 28 targets remain proved.
     The complete size-(16n-5) band is classified into 32 templates; the 24 pair
     cases are inclusion-maximal. Forty Q/D/U targets suffice when n >= 3.
-    No priority claim, smaller-band classification, higher-dimensional theorem,
+    For n >= 3, all failures of size at least 14n are characterised by purity
+    and bucket capacities. At size 16n-4-d, for 0 <= d <= 2n-4, the exact
+    counts are 2*choose(d+15,15) failures and 2*choose(d+11,11) inclusion-maximal
+    failures, proved by explicit bijections and stars and bars.
+    No priority claim, classification below this band, higher-dimensional theorem,
     or general five-colour threshold is formalised.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -119,7 +127,7 @@ fidelity:
     with geometric definitions of Q, R and D, their catalogue coverage,
     target uniqueness and the counts 12, 12, 4 and 28 in total. Geometry
     checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
-    The near-extremal and forty-target extensions are checked library theorems,
+    The stability, near-extremal and forty-target extensions are checked library theorems,
     outside the original 35-statement comparator challenge. The near-extremal
     physical statement specifies rotation-class counts. The forty-target
     statement uses canonical target indices and physical proper-rotation
@@ -152,6 +160,9 @@ review:
     Codex checked and integrated these arguments, formalised the first two,
     and added a separate C++ geometry audit. These additions have not received
     a separate human review or an extended comparator challenge.
+    A further user-supplied review proposed the stability theorem and binomial
+    counts. Codex checked and integrated that argument, formalised the criterion,
+    parametrisation and inclusion-maximality, and extended the raw-geometry audit.
     Reproduce current checks with make check and
     make comparator. Push/PR CI runs make check; a separate manually triggered
     workflow runs all three comparator kernels and records the checked commit.
@@ -161,13 +172,26 @@ review:
     on November 1, 2026 found no prior answer. Sources examined included BES
     (2018), Berkove and Schettler (2022), Johnson and Roldan (2024), and Beeler's
     survey, together with citation and title searches. Search coverage is
-    incomplete. Rosenfeld's October 2026 article remains unread; his 2024
-    six-colour talk is only indirect evidence about its relevance. No authors
+    incomplete. Rosenfeld's October 2026 article (pp. 78-82) was examined
+    in full on November 3 using the supplied scan. It presents an eight-cube
+    six-colour puzzle and does not state the four-to-three thresholds. No authors
     or editors were contacted. No priority, publication or Palomar acceptance
     is asserted.
 alignment:
   namespace: ThreeColour
   statements:
+    - source: "Paper, stability theorem"
+      lean: ThreeColour.family_frame_stability
+      module: ThreeColour.Stability
+      status: proved
+    - source: "Paper, number of failing collections in the stability band"
+      lean: ThreeColour.stability_failure_count
+      module: ThreeColour.StabilityCounting
+      status: proved
+    - source: "Paper, number of inclusion-maximal failures in the stability band"
+      lean: ThreeColour.stability_maximal_count
+      module: ThreeColour.StabilityCounting
+      status: proved
     - source: "Paper, one cube below the extremal size"
       lean: ThreeColour.family_near_frame_classification
       module: ThreeColour.NearResults

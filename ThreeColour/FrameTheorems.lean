@@ -44,14 +44,14 @@ lemma frame_inventory_determined (k : ℕ) (x : Inventory) (s : Fin 2)
 /-- After eliminating the minority, majority bucket bounds apply to the whole
 inventory. Both the classification and the upper bound use this step. -/
 lemma frame_failure_bounds (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
-    (hn : ¬ FrameSolvable k x) (ht : 16*k+27 ≤ total x) (s : Fin 2)
+    (hn : ¬ FrameSolvable k x) (ht : 14*k+28 ≤ total x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) :
     mass x (ordinary (flip s)) = 0 ∧ mass x allCheckers = 0 ∧
       ∀ a, mass x (bucket a) ≤ 4*k+7 := by
   have hpure := frame_purity k hk x (fun h => hn h.solvable) ht s hs
   have ho : mass x (ordinary (flip s)) = 0 := by omega
   have hc : mass x allCheckers = 0 := by omega
-  have hmajor := (frame_major_bounds k x (fun h => hn h.solvable) ht s hs).2
+  have hmajor := (frame_major_bounds k x (fun h => hn h.solvable) (by omega) s hs).2
   have hb := frame_bucket_bound k x (fun h => hn h.solvable) s (by omega)
   rw [majorInventory_eq x s ho hc] at hb
   exact ⟨ho, hc, hb⟩

@@ -24,6 +24,14 @@ fail**, for every $n\ge2$: eight deletions from the two largest obstructions
 and twenty-four cases containing one $P$ cube. Each pair case is
 inclusion-maximal: adding any cube makes it solvable.
 
+For $n\ge3$, the stronger **stability theorem** classifies every failure with
+at least $14n$ sources: all cubes lie in one ordinary orientation class and
+each colour bucket contains at most $4n-1$ cubes. Consequently, for
+$0\le d\le2n-4$, the number of failures at size $16n-4-d$ is
+$2\binom{d+15}{15}$, of which $2\binom{d+11}{11}$ are inclusion-maximal.
+For deficits $0,1,2$, these counts are $2,32,272$, with $2,24,156$ maximal.
+The criterion, bijection and both formulas are proved in Lean.
+
 The remaining pieces of a complete cube are easy, since every cube shows
 every colour, so the complete-cube threshold is $\max\{n^3,16n-3\}$.
 
@@ -64,7 +72,7 @@ Corner containment also preserves edges, so the reduction works for frames.
 Every ordinary cube ($T$ or $P$) has all six two-colour edge types, and a
 checkerboard lacks only one. The ordinary varieties form two orientation
 classes, each with one trichromatic orientation on every triple of colours.
-For a failing reduced collection of $16n-4$ cubes, call the larger class the
+For a failing reduced collection of at least $14n$ cubes ($n\ge3$), call the larger class the
 majority and all other cubes the minority. The argument has four steps:
 
 1. **At most six minority cubes.** Targets with three monochromatic opposite
@@ -82,8 +90,10 @@ majority and all other cubes the minority. The argument has four steps:
    another, the minority cube and ordinary cubes for the edges: a contradiction.
    For $n=2$, the original corner argument with targets of type $R$ (four faces
    of one colour, two adjacent faces of others) does this step.
-4. **Equal multiplicities.** All cubes are now majority cubes, the bucket count
-   excludes $P$ cubes, and each $T$ variety occurs exactly $4n-1$ times.
+4. **Classify and count.** At size $16n-4$, the bucket count excludes $P$
+   cubes and each $T$ variety occurs exactly $4n-1$ times. Below that size,
+   the twelve $P$ multiplicities and four bucket slacks parametrise the
+   failures; stars and bars gives the two binomial formulas.
 
 ## Repository layout
 
@@ -124,6 +134,8 @@ The public Lean results include:
 | `frame_threshold_n` | For every $n\ge2$, the least frame guarantee is $16n-3$. |
 | `family_frame_classification` | Exactly the two scaled obstructions fail at size $16n-4$, for arbitrary oriented input cubes. |
 | `family_near_frame_classification` / `near_inventories_card` | Exactly 32 failures of size $16n-5$, for every $n\ge2$. |
+| `family_frame_stability` | For $n\ge3$ and $N\ge14n$, failure is equivalent to one ordinary orientation class and bounded buckets. |
+| `stability_failure_count` / `stability_maximal_count` | The two binomial formulas, using $k=n-2$ and $d\le2k$. |
 | `near_pair_maximal` | Adding any cube solves each of the 24 pair cases. |
 | `family_restricted_frame_of_le` / `frame_target_count` | For $n\ge3$, 40 targets suffice in the guaranteed range. |
 | `full_threshold_n` | The least complete-cube guarantee is $\max\{n^3,16n-3\}$. |
@@ -132,8 +144,10 @@ The public Lean results include:
 
 The original 35 statements in [Challenge.lean](Challenge.lean) cover
 catalogue coverage, uniqueness, geometry and the earlier restricted-target counts.
-The new near-extremal and forty-target results are checked library theorems
-in [NearResults.lean](ThreeColour/NearResults.lean), with axiom guards in
+The stability, near-extremal and forty-target results are checked library theorems
+in [Stability.lean](ThreeColour/Stability.lean),
+[StabilityCounting.lean](ThreeColour/StabilityCounting.lean), and
+[NearResults.lean](ThreeColour/NearResults.lean), with axiom guards in
 [ThreeColour.lean](ThreeColour.lean); they are not yet part of the comparator
 challenge. The forty-target statement retains a canonical target index, with
 proper-rotation placements proved for arbitrary physical source families.
@@ -185,7 +199,10 @@ The compiled [near-extremal audit](scripts/check_near_frames.cpp) independently
 regenerates the rotation group and catalogues from raw face colourings.
 For $n=2,\dots,6$ it checks all 32 listed failures against all 120 targets
 and all 1,632 one-cube extensions of the pair cases, using 28 or 40 targets.
-It also checks the target counts and thin checkerboard-box controls. These
+It also checks the target counts and thin checkerboard-box controls. The
+audit now checks all 272 deficit-two failures for $n=3,4$, the 10,608
+one-cube extensions of the 156 saturated cases in each dimension, and
+the 116 extensions allowed by positive slack. These
 checks run with `bash scripts/check-near-frames.sh`; they supplement the
 symbolic classification rather than enumerate all collections.
 
@@ -217,6 +234,6 @@ witness and Hall certificates for every target; the geometric checker validates
 them on each run. The Lean proof does not depend on the solver.
 
 See [formalization.yaml](formalization.yaml) for AI contributions, review scope
-and the outstanding literature check, and the paper for the author's disclosure.
+and the literature comparison, and the paper for the author's disclosure.
 
 Code and manuscript are distributed under the [Apache-2.0 licence](LICENSE).

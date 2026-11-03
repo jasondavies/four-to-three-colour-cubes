@@ -20,8 +20,10 @@ For every $n\ge2$, any $16n-3$ cubes, each using all four colours of a
 fixed palette, contain an $n\times n\times n$ frame whose exterior faces are
 monochromatic in exactly three colours; this bound is sharp. For a fixed palette,
 exactly two collections of $16n-4$ cubes fail, and reflection exchanges them.
-One cube below this size, exactly 32 collections fail; twenty-four are
-inclusion-maximal.
+For $n\ge3$, every failure of size at least $14n$ lies in one ordinary
+orientation class with four bounded colour buckets. This gives
+$2\binom{d+15}{15}$ failures at size $16n-4-d$, for $0\le d\le2n-4$,
+of which $2\binom{d+11}{11}$ are inclusion-maximal.
 The threshold for a complete cube is $\max\{n^3,16n-3\}$; in particular,
 any $n^3$ source cubes suffice when $n\ge4$. The case $n=2$ answers the
 threshold question in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
@@ -33,7 +35,8 @@ constraints and double counting.
 Berkove, Eickemeyer and Schulman (BES)~\cite[Problem 2]{BES} ask for the
 least number of four-colour cubes that guarantees a choice of eight cubes
 forming a three-colour corner solution: a $2\times2\times2$ cube whose
-exterior faces are monochromatic and use exactly three colours.
+exterior faces are monochromatic and use exactly three colours. Touching
+interior faces need not match.
 As in BES~\cite[Section 1]{BES}, every source cube uses all four colours
 of one fixed palette; every target uses exactly three of them. A
 \emph{variety} is a face colouring up to proper rotation.
@@ -48,8 +51,13 @@ $16n-4$ cubes fail: $4n-1$ copies of each of four varieties, one with a
 monochromatic corner of each colour, all in the same orientation class.
 Reflection or any odd colour permutation exchanges these collections.
 Figure~\ref{fig:obstruction} shows the first case, $n=2$.
-We also classify all 32 failures of size $16n-5$, including twenty-four
-that cannot be enlarged without becoming solvable (Theorem~\ref{thm:near}).
+More generally, every failure of size at least $14n$, for $n\ge3$, is
+confined to one ordinary class with bounded buckets
+(Theorem~\ref{thm:stability}). Counting pair multiplicities and bucket
+slacks gives explicit binomial formulas for a band of failures
+(Theorem~\ref{thm:stability-count}). This includes the 32 failures of size
+$16n-5$, twenty-four of which cannot be enlarged; the same counts hold
+separately at $n=2$ (Theorem~\ref{thm:near}).
 
 Filling the face interiors gives the complete-cube threshold
 $\max\{n^3,16n-3\}$ (Corollary~\ref{cor:full-cubes}). In particular, any
@@ -89,6 +97,8 @@ reverses every triple, preserving containment and matching. A source cube
 fits a target corner by a proper rotation if and
 only if it has the same cyclic corner type: the cyclic alignments of two
 corner frames are exactly those realised by proper rotations of the cube.
+Only the presence of a corner type on a source matters: a physical copy
+occupies one position. Target occurrences remain separate requirements.
 For the corner problem ($n=2$), a target is represented by its multiset of
 eight corner types. A collection builds a corner solution modelled on that
 target exactly when these eight occurrences can be matched to distinct
@@ -104,6 +114,50 @@ adjacent; its corners are
 Finally, write $D(a,b,c)$ for the target with opposite pairs $aa,bb,cc$;
 it has four corners of each orientation on $\{a,b,c\}$. These three families suffice for the corner argument. Section~\ref{sec:frames}
 introduces one further target for larger frames.
+
+\begin{lemma}\label{lem:balance}
+In a cube using exactly three colours, the two orientations of a
+trichromatic corner occur equally often. If no trichromatic corner occurs,
+the cube is $Q(a;b,c)$ for some distinct $a,b,c$.
+\end{lemma}
+\begin{proof}
+For any cube coloured from a palette $\{a,b,c,d\}$, let $\nu(xyz)$ count
+corners of cyclic type $xyz$. Read the three directed transitions around
+each corner in the chosen cyclic order. Each edge between an $a$ face
+and a $b$ face contributes $ab$ at one endpoint and $ba$ at the other,
+so the total counts of these transitions agree. Corners with repeated
+colours contribute equally to both counts. The remaining contributions give
+\begin{equation}\label{eq:edge-balance}
+ \nu(abc)-\nu(acb)+\nu(abd)-\nu(adb)=0.
+\end{equation}
+If only $a,b,c$ occur, the last two terms vanish, proving the balance.
+
+For the second assertion, if a colour $c$ occurs on only one face, its
+four neighbours must all have the same colour $a$: a change from $a$ to
+$b$ around this face would produce a trichromatic corner. The opposite
+face is then the sole $b$ face. Otherwise each colour occurs twice.
+If the two $c$ faces are opposite, the four neighbours of either contain
+both $a$ and $b$, forcing a change. If they are adjacent, the other three
+neighbours form a path containing both $a$ and $b$, since each occurs only
+twice. Again a change is forced. Both cases produce a trichromatic corner.
+\end{proof}
+
+The target families test complementary constraints:
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Target & Role\\
+\midrule
+$D$ & Detects the availability of both orientations\\
+$Q$ & Bounds the capacity of a colour bucket\\
+$R$ & Eliminates minority cubes in the corner case\\
+$U$ & Eliminates minority cubes in larger frames\\
+\bottomrule
+\end{tabular}
+\end{center}
+The two ordinary classes below supply opposite cyclic orientations. The
+balance lemma explains why confining a collection to one class obstructs
+all targets with trichromatic corners.
 
 If every corner type of a variety $v$ occurs on a variety $w$, replacing a
 copy of $w$ by $v$ cannot create a solution to any target. In particular, it
@@ -311,33 +365,6 @@ Theorem~\ref{thm:classification} has multiplicity 0 or 7, a contradiction.
 \end{proof}
 
 \section{Sharpness}
-\begin{lemma}\label{lem:balance}
-In a cube using exactly three colours, the two orientations of a
-trichromatic corner occur equally often. If no trichromatic corner occurs,
-the cube is $Q(a;b,c)$ for some distinct $a,b,c$.
-\end{lemma}
-\begin{proof}
-For any cube coloured from a palette $\{a,b,c,d\}$, let $\nu(xyz)$ count
-corners of cyclic type $xyz$. Read the three directed transitions around
-each corner in the chosen cyclic order. Each edge between an $a$ face
-and a $b$ face contributes $ab$ at one endpoint and $ba$ at the other,
-so the total counts of these transitions agree. Corners with repeated
-colours contribute equally to both counts. The remaining contributions give
-\begin{equation}\label{eq:edge-balance}
- \nu(abc)-\nu(acb)+\nu(abd)-\nu(adb)=0.
-\end{equation}
-If only $a,b,c$ occur, the last two terms vanish, proving the balance.
-
-For the second assertion, if a colour $c$ occurs on only one face, its
-four neighbours must all have the same colour $a$: a change from $a$ to
-$b$ around this face would produce a trichromatic corner. The opposite
-face is then the sole $b$ face. Otherwise each colour occurs twice.
-If the two $c$ faces are opposite, the four neighbours of either contain
-both $a$ and $b$, forcing a change. If they are adjacent, the other three
-neighbours form a path containing both $a$ and $b$, since each occurs only
-twice. Again a change is forced. Both cases produce a trichromatic corner.
-\end{proof}
-
 \begin{figure}[ht]
 \centering
 \input{obstruction-figure}
@@ -446,23 +473,25 @@ BES's frame arguments~\cite[proofs of Lemmas 7--8 and Table 5]{BES}.
 A reduced cube has an $aa$ edge if and only if it belongs to bucket $a$.
 
 \begin{lemma}\label{lem:D-extension}
-Let $n\ge2$. If a reduced collection of at least $16n-5$ cubes has a
-$D$ corner solution, it has an $n$-frame.
+Let $n\ge2$. A reduced collection with a $D$ corner solution has an $n$-frame
+whenever its size $N$ satisfies
+\[
+ N\ge\max\{12n-16,\,8n-1\}.
+\]
 \end{lemma}
 \begin{proof}
-If a checkerboard variety occurs at least $L$ times, those copies build a
-$D$-frame on either supported triple. Otherwise every checkerboard variety
-occurs at most $L-1$ times. Remove the eight cubes in the given $D(a,b,c)$
-corner solution. The remaining positions demand $4(n-2)$ copies of each
-of $ab,ac,bc$. Each type is available on at least
+If a checkerboard variety occurs at least $4n$ times, use eight copies for
+a supported $D$ corner solution. Its remaining copies supply at least
+$4(n-2)$ neighbours for each required edge type. Otherwise every
+checkerboard variety occurs at most $4n-1$ times. Remove any $D$ corner
+solution. Each of its three bichromatic edge types then has at least
 \[
- (16n-5)-8-(L-1)=4n+4
+ N-8-(4n-1)\ge4(n-2)
 \]
-remaining cubes. The union of the available source sets for any two types
-is the entire remaining collection, since no reduced cube misses two
-bichromatic types. There are at least $12(n-2)$ remaining cubes. These
-are Hall's conditions for the three groups of edge positions, so all
-positions can be filled with distinct copies.
+available suppliers. In either case, the union of the supplier sets for
+two edge types is the entire residual collection, since no reduced cube
+misses two bichromatic types. There are at least $12(n-2)$ remaining
+cubes, so Hall's inequalities hold for all edge positions.
 \end{proof}
 
 One more target supplies the growing repeated-colour demands. For distinct
@@ -481,61 +510,83 @@ corners and the $n-2$ monochromatic $bb$ positions. The minority cube and
 one further cube from the same ordinary class fill the two trichromatic corners. Every remaining
 edge is bichromatic and can use any ordinary cube.
 
+\begin{theorem}[Stability]\label{thm:stability}
+Let $n\ge3$ and $N\ge14n$. A collection of $N$ four-colour cubes fails to
+build a three-colour $n$-frame if and only if all its cubes are ordinary
+varieties in one orientation class and each colour bucket contains at
+most $h=4n-1$ cubes.
+\end{theorem}
+\begin{proof}
+Reduce a failing collection as before. Let $A\ge B$ count the two ordinary
+classes, let $C$ count checkerboards, and put $M=B+C$. Write $t_a,p_a,n_T,n_P$
+for the majority-class counts. Lemma~\ref{lem:D-extension} excludes a $D$
+corner solution. The orientation count from Theorem~\ref{thm:classification}
+therefore gives
+\[
+ 4B+2C\le12,\qquad M\le6,\qquad A=N-M\ge14n-6.
+\]
+A majority bucket of size $4n$ would build a $Q$-frame: eight of its cubes
+supply the corners, $4(n-2)$ supply the monochromatic edge positions, and
+$8(n-2)$ other majority cubes supply the bichromatic positions. There are
+enough since $A\ge12n-16$. Thus
+\[
+ t_a+p_a\le h,\qquad n_T+2n_P\le4h,\qquad
+ n_T\ge2N-4h-12\ge12n-8.
+\]
+Some $t_a\ge3n-2$. At most one colour has fewer than $n$ majority $T$ cubes,
+since two such colours would give
+\[
+ n_T\le2(n-1)+2h=10n-4<12n-8.
+\]
+If $M>0$, a minority cube supports a triple containing $a$ and another
+colour $b$ with $t_b\ge n$. The $U(a,b;c)$ construction then applies.
+After its $4n-1$ majority corner and monochromatic-edge cubes have been
+selected, at least $A-(4n-1)\ge10n-5\ge8(n-2)$ ordinary cubes remain.
+This contradiction gives $M=0$. No checkerboards remain, so the reduction
+made no replacements in the original collection.
+
+Conversely, one ordinary class cannot supply both orientations of a
+trichromatic corner. Lemma~\ref{lem:balance} leaves only $Q$ targets.
+Their corners and monochromatic edges require $4n$ cubes from one bucket,
+exceeding its capacity $h$.
+\end{proof}
+
 \begin{proof}[Proof of Theorem~\ref{thm:frames}]
-We first classify a failing collection of $N=16n-4$ cubes. The case $n=2$
-is Theorem~\ref{thm:sharp}, so assume $n\ge3$. Apply the same reduction as
-in Theorem~\ref{thm:classification}, replacing every non-retained variety
-by a checkerboard. In the reduced collection, let $A\ge B$ count the cubes in the two ordinary
-classes, let $C$ count checkerboards, and put $M=B+C$. Define
-$t_a,p_a,n_T,n_P$ for the majority class as before.
+For $n=2$, use Theorem~\ref{thm:sharp}. For $n\ge3$, apply
+Theorem~\ref{thm:stability}. At size $4h$, purity and
+$n_T+2n_P\le4h=n_T+n_P$ force $n_P=0$, and all four $T$ multiplicities
+equal $h$. Both collections fail by the converse. At size $4h+1$ the
+bucket inequalities are impossible, proving the upper bound.
+\end{proof}
 
-By Lemma~\ref{lem:D-extension}, no $D$ corner solution exists. The first
-step of Theorem~\ref{thm:classification} uses only these targets, so it
-still applies, since $N\ge28$ preserves its preliminary bound $A\ge7$. It gives
+\begin{theorem}[Counting stable failures]\label{thm:stability-count}
+For $n\ge3$ and $0\le d\le2n-4$, exactly
 \[
- 4B+2C\le12,\qquad M=B+C\le6,\qquad A=N-M\ge16n-10.
+ 2\binom{d+15}{15}
 \]
-A majority bucket cannot contain $4n$ cubes: eight build a $Q$ corner
-solution by Lemma~\ref{lem:bucket}, another $4(n-2)$ fill its $aa$ edge
-positions, and $8(n-2)$ further majority cubes fill its bichromatic edges.
-The supply is sufficient since $A-4n\ge12n-10\ge8(n-2)$.
-Consequently
+fixed-palette collections of $16n-4-d$ cubes fail to build a three-colour
+$n$-frame. Exactly $2\binom{d+11}{11}$ of them are inclusion-maximal.
+\end{theorem}
+\begin{proof}
+The size is at least $14n$, so Theorem~\ref{thm:stability} applies. Fix an
+orientation class. Write $x_1,\ldots,x_{12}$ for its $P$ multiplicities,
+$p_a$ for their incidences in bucket $a$, and
+$s_a=h-t_a-p_a$ for the four bucket slacks. Double counting gives
 \[
- t_a+p_a\le4n-1,\qquad n_T+2n_P\le16n-4.
+ \sum_{j=1}^{12}x_j+\sum_a s_a=d.
 \]
-Together with $n_T+n_P=N-M$, this implies
-\[
- n_P\le M,\qquad n_T\ge16n-16.
-\]
+Conversely, any nonnegative solution determines a failing collection by
+$t_a=h-p_a-s_a$. These values satisfy $t_a\ge h-d>0$, so there are no
+additional feasibility constraints and the two orientation classes give
+disjoint collections. Stars and bars, followed by the two choices of
+orientation, gives the first count.
 
-Suppose $M>0$. Some colour $a$ has $t_a\ge4n-4\ge3n-2$.
-At most one colour has fewer than $n$ majority $T$ cubes: two such colours
-would give
-\[
- n_T\le2(n-1)+2(4n-1)=10n-4<16n-16.
-\]
-Choose a minority cube. It supports a triple containing $a$: smaller-class
-ordinary cubes support every triple, and a checkerboard's two supported
-triples together contain every colour. At least one of the other two
-colours in that triple has at least $n$ majority $T$ cubes; call it $b$,
-and call the third $c$. The $U(a,b;c)$ construction now applies. After selecting its
-$4n-1$ majority corner and monochromatic-edge cubes, at least
-$A-(4n-1)\ge12n-9\ge8(n-2)$ majority cubes remain. This contradicts failure.
-
-Hence $M=0$, then $n_P=0$, and the four bucket capacities force
-$t_a=4n-1$ for every $a$. No checkerboards remain, so no replacement
-occurred. This proves the classification of possible failures.
-
-Both stated collections do fail. A target with a trichromatic corner needs
-both orientations by Lemma~\ref{lem:balance}. Otherwise it is $Q(a;b,c)$.
-Its eight corners and its $4(n-2)$ monochromatic $aa$ edge positions all
-require $T_a$ cubes, giving demand $4n$ and supply $4n-1$.
-
-Finally, a failing collection of $16n-3$ cubes would have every
-$(16n-4)$-cube subcollection of the classified form. The swap in
-Theorem~\ref{thm:upper} changes one variety's multiplicity to $1$ or $4n$,
-whereas the classification allows only $0$ and $4n-1$. This contradiction
-proves the upper bound.
+A positive slack permits adding the corresponding $T_a$. If all slacks
+vanish, adding any ordinary cube in the same class overfills a bucket;
+adding any other cube violates purity. The stability theorem applies to
+the enlarged collection, so these and only these failures are
+inclusion-maximal. Setting the four slacks to zero leaves twelve
+nonnegative variables summing to $d$, giving the second count.
 \end{proof}
 
 \begin{theorem}[One cube below the extremal size]\label{thm:near}
@@ -559,17 +610,7 @@ adding any cube makes it solvable.
 \end{theorem}
 \begin{proof}
 Let $N=16n-5$ and retain the majority notation from the frame proof.
-For $n\ge3$, Lemma~\ref{lem:D-extension} and the same orientation count give
-$M\le6$ and $A\ge16n-11$. A majority bucket of size $4n$ would still
-build a $Q$-frame, so
-\[
- n_T+2n_P\le16n-4,\qquad n_P\le M+1,\qquad n_T\ge16n-18.
-\]
-If $M>0$, some $t_a\ge4n-4\ge3n-2$, and at most one colour has
-$t_b<n$: two such colours would give
-$n_T\le10n-4<16n-18$. The same $U$ construction applies, with at least
-$A-(4n-1)\ge12n-10\ge8(n-2)$ ordinary cubes left for its bichromatic
-edges. Hence $M=0$.
+For $n\ge3$, Theorem~\ref{thm:stability} gives $M=0$ immediately.
 
 For $n=2$, the orientation count at $N=27$ gives $M\le6$ and $A\ge21$.
 If $M>0$, the $R$ argument in Theorem~\ref{thm:classification} still
@@ -623,40 +664,31 @@ cubes complete the assembly whenever at least $n^3$ pieces are available.
 \end{proof}
 
 \section{Formal verification and computation}
-The frame threshold, both obstruction classifications, complete-cube threshold
-and restricted-target corollaries are
-formalised in Lean 4.35.0~\cite{Lean4} with mathlib v4.35.0~\cite{mathlib}
-for arbitrary indexed families of four-colour cubes. Solutions select
-distinct copies and proper rotations matching the exposed faces at every
-required position. The frame statements cover every side length $n\ge2$.
-The threshold and sharpness statements, and the corner restricted-target
-statements, are formulated without catalogue indices. The forty-target
-extension uses a canonical target index and proves proper-rotation placements
-for arbitrary indexed source families. The classifications specify
-multiplicities of rotation classes.
-Kernel checks establish the catalogue and finite geometric facts, and a lemma for
-arbitrary palettes equates cyclic corner matching with physical placement.
+The frame and complete-cube thresholds and restricted-target corollaries
+are formalised in Lean~4 and mathlib~\cite{Lean4,mathlib}, both at
+\texttt{v4.35.0}, for arbitrary indexed families of four-colour cubes.
+Solutions select distinct copies and proper rotations matching the exposed
+faces at every required position. The frame statements cover every side
+length $n\ge2$. The threshold and sharpness statements, and the corner
+restricted-target statements, use no catalogue indices. The forty-target
+extension specifies its target by a canonical index. The classifications
+and their counts concern multisets of rotation classes over a fixed palette.
+Kernel checks establish the catalogue and finite geometry; a
+palette-independent lemma equates cyclic corner matching with physical placement.
 
-Thirty-five results and the required definitions are restated in a
-standalone verification file (the comparator challenge) importing only
-mathlib. The near-extremal classification and forty-target extension are
-additional library theorems, with physical-family statements and axiom
-audits; they are not yet added to that challenge. Automated checks compare
-the challenge statements with the proof library
-and replay the proofs through the Lean, NanoDa and con-ron kernels.
-
-The audit reports three standard axioms: \texttt{propext},
-\texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
-\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes}.}
-provides sources, reproduction commands and details of the statement checks.
-The physical model and palette-independent geometry come from the shared
-\texttt{colour-cubes-core} library~\cite{ColourCubes}. The challenge restates its
-definitions locally.
+The stability criterion has a physical-family statement. Its counting proof
+constructs a bijection between failing multisets and the twelve pair
+multiplicities with four bucket slacks, then applies stars and bars.
+Inclusion-maximality is formalised using the pointwise order on all source
+multiplicities. The original comparator challenge covers thirty-five earlier
+results; the stability, near-extremal and forty-target extensions have
+library proofs and axiom guards, but are outside that challenge.
+Appendix~\ref{app:verification} describes the verification scope.
 
 The Lean proof uses counting and finite Hall certificates. Its corner-case
 proof of the extremal classification treats checkerboards and the smaller
-ordinary class separately. The near-extremal proof combines them, as does
-the frame proof. Finite checks establish each target's corner and
+ordinary class separately. The stability proof combines them and supplies the
+larger-frame and near-extremal classifications. Finite checks establish each target's corner and
 edge requirements, while the allocation and counting proofs are symbolic in
 the side length. Neither the written proof nor the formalisation
 enumerates all source collections.
@@ -682,8 +714,8 @@ can then be chosen. Unused cubes complete the assembly whenever at least
 $n^3$ pieces are available.
 
 \section*{Further questions}
-An elementary classification of smaller inclusion-maximal failures would
-extend Theorem~\ref{thm:near}. Cuboids pose a separate problem: for each
+Classifying failures below the stability range would extend
+Theorem~\ref{thm:stability}. Cuboids pose a separate problem: for each
 $k\ge1$, take $2k$ copies of each of the six checkerboards. These $12k$
 cubes cannot fill a $2\times2\times3k$ box in exactly three colours.
 Every target corner must be trichromatic, forcing a $D$ target. Every
@@ -692,13 +724,6 @@ axis, including the corners. One checkerboard lacks that type, so only
 $10k$ cubes are usable for $12k$ positions. Thus assembly from exactly the
 volume fails for arbitrarily large cuboids, even though it holds for
 cubes of side length at least four.
-
-\section*{Literature and priority}
-Literature searches on November 1--2, 2026 found no earlier determination
-of the corner threshold or the frame formula. These searches do not
-establish priority. Rosenfeld's October 2026 article~\cite{Rosenfeld}
-\emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1} remains unread,
-and its relevance is undetermined.
 
 \Needspace{12\baselineskip}
 \section*{Declaration of AI-generated research and review}
@@ -712,17 +737,15 @@ and review scope are recorded in the repository's \texttt{formalization.yaml}.
 The human author initiated and directed the research and accepts responsibility
 for the paper's content and the accuracy of this disclosure.
 
+\appendix
+\input{verification}
+
 \begin{thebibliography}{9}
 \raggedright
 \bibitem{BES}
 E. Berkove, A. Eickemeyer and M. Schulman,
 \emph{The 4-Color Cubes Puzzle}, Integers \textbf{18} (2018), A68.
 \href{https://math.colgate.edu/~integers/s68/s68.pdf}{Journal PDF}.
-\bibitem{Rosenfeld} M.~Rosenfeld,
-\emph{MacMahon Cubes and Moshe's Insanity, Puzzle 1},
-Geombinatorics Quarterly \textbf{36}(2) (October 2026), starts at p.~78.
-\href{https://geombina.uccs.edu/past-issues/volume-xxxvi}{Journal listing};
-full text not examined.
 \bibitem{Lean4} L.~de Moura and S.~Ullrich,
 \emph{The Lean 4 Theorem Prover and Programming Language},
 in Automated Deduction---CADE~28, LNCS \textbf{12699}, Springer (2021),

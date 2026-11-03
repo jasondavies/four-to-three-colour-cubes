@@ -75,6 +75,29 @@ lemma frame_d (k : ℕ) (x : Inventory) (d : Colour)
     (d_edge_pairs_cover d 0 1 (by decide)) (d_edge_pairs_cover d 0 2 (by decide))
     (d_edge_pairs_cover d 1 2 (by decide)) hn
 
+/-- A concentrated checkerboard supplies the corners and each individual edge
+requirement; all remaining cubes supply unions of two edge requirements. -/
+lemma frame_checker_many (k : ℕ) (x : Inventory) (j : Fin 6)
+    (hj : 4*k+8 ≤ mass x (checker j)) (ht : 12*k+8 ≤ total x) :
+    RestrictedFrameSolvable k x := by
+  have hc : ∀ j : Fin 6, checker j ⊆ eligible (checkerFrameOmitted j) := by
+    decide +kernel
+  have he : ∀ (j : Fin 6) (l : Fin 3),
+      checker j ⊆ dEdgePool (checkerFrameOmitted j) l := by decide +kernel
+  have h0 : mass x (checker j) ≤ mass x (ordinary 0 ∪ eligible (checkerFrameOmitted j)) :=
+    mass_mono x ((hc j).trans Finset.subset_union_right)
+  have h1 : mass x (checker j) ≤ mass x (ordinary 1 ∪ eligible (checkerFrameOmitted j)) :=
+    mass_mono x ((hc j).trans Finset.subset_union_right)
+  apply frame_d k x (checkerFrameOmitted j) (by omega) (by omega)
+  · have hu : mass x (ordinary 0 ∪ eligible (checkerFrameOmitted j)) ≤
+        mass x ((ordinary 0 ∪ eligible (checkerFrameOmitted j)) ∪
+          (ordinary 1 ∪ eligible (checkerFrameOmitted j))) :=
+      mass_mono x Finset.subset_union_left
+    omega
+  · intro l
+    exact hj.trans (mass_mono x (he j l))
+  · exact ht
+
 lemma frame_checker (k : ℕ) (x : Inventory) (j : Fin 6)
     (hj : 12*k+8 ≤ mass x (checker j)) : RestrictedFrameSolvable k x := by
   have hh : PoolHall x (fun _ : Fin 1 => checker j) (fun _ => 12*k+8) := by

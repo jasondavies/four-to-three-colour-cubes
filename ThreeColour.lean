@@ -4,6 +4,7 @@ public import ThreeColour.RestrictedFamily
 public import ThreeColour.RestrictedCatalogue
 public import ThreeColour.FrameResults
 public import ThreeColour.NearResults
+public import ThreeColour.StabilityCounting
 
 @[expose] public section
 
@@ -177,3 +178,27 @@ public import ThreeColour.NearResults
 /-- info: 'ThreeColour.family_restricted_frame_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.family_restricted_frame_of_le
+
+/-- info: 'ThreeColour.frame_stability' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.frame_stability
+
+/-- info: 'ThreeColour.family_frame_stability' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_frame_stability
+
+/-- info: 'ThreeColour.stabilityEquiv' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.stabilityEquiv
+
+/-- info: 'ThreeColour.stability_failure_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.stability_failure_count
+
+/-- info: 'ThreeColour.stability_inventory_maximal_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.stability_inventory_maximal_iff
+
+/-- info: 'ThreeColour.stability_maximal_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.stability_maximal_count

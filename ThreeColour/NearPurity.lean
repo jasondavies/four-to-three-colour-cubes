@@ -95,7 +95,7 @@ theorem near_failure_bounds (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable k x
     have hb := frame_bucket_bound 0 x (fun h => hn h.solvable) s (by omega)
     rw [majorInventory_eq x s ho hc] at hb
     exact ⟨ho,hc,hb⟩
-  · exact frame_failure_bounds k (by omega) x hn ht s hs
+  · exact frame_failure_bounds k (by omega) x hn (by omega) s hs
 
 /-- For `n ≥ 3`, the guaranteed frame can be found among forty targets. -/
 theorem restricted_frame_solvable_of_le (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
