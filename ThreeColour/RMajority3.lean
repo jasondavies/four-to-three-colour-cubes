@@ -12,5 +12,7 @@ lemma r_majority_certificate_3 : ∀ b c d : Colour,
     Certificate (fits (rTarget 3 b c))
       (packGroups (tripleClass 3 s) (pair 3 ∩ ordinary s)
         (minorityPool s d) (ordinary s)) (packBounds (4+u.val) (2-u.val)) := by
-  decide +kernel
+  -- Split before kernel reduction so one check does not retain all colour cases.
+  intro b c
+  fin_cases b <;> fin_cases c <;> decide +kernel
 end ThreeColour

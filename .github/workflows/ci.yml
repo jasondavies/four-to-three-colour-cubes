@@ -58,8 +58,12 @@ jobs:
         env:
           LEAN_NUM_THREADS: "1"
         run: lake build ThreeColour.RawChecks
+      # Keep the remaining finite kernel checks serial too: several independent
+      # certificate modules become ready together after FrameCertificates.
       - name: Check
-        run: bash scripts/check.sh
+        env:
+          LEAN_NUM_THREADS: "1"
+        run: /usr/bin/time -v bash scripts/check.sh
       # Save the build even when the checks fail, so the next run starts from it.
       - name: Save project build
         if: always() && steps.restore.outcome == 'success' && steps.restore.outputs.cache-hit != 'true'

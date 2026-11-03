@@ -162,8 +162,10 @@ use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
 resource use, not the checks performed.
 
 [Routine CI](../.github/workflows/ci.yml) runs on pushes and pull requests.
-It builds the memory-heavy `RawChecks` modules serially before the remaining
-checks. The first build can take substantially longer than a cached build;
+It builds the memory-heavy `RawChecks` modules serially, and also sets
+`LEAN_NUM_THREADS=1` for the main check step. The step reports peak memory
+with `/usr/bin/time -v`. Local builds retain their usual parallelism. The first
+build can take substantially longer than a cached build;
 new pushes cancel superseded routine checks.
 
 The separate [Comparator workflow](../.github/workflows/comparator.yml) runs
