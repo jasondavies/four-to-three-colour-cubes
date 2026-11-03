@@ -31,15 +31,16 @@ lemma frameTag_count {m : ℕ} (k : ℕ) (c : Slot → Fin m) (e : Fin 12 → Fi
   intro i hi
   split_ifs <;> simp_all
 
-lemma frame_of_pools {m : ℕ} (k : ℕ) (x : Inventory) (t : Target)
+lemma frame_at_of_pools {m : ℕ} (k : ℕ) (x : Inventory) (t : Target)
     (g : Fin m → SourceSet) (c : Slot → Fin m) (e : Fin 12 → Fin m)
     (hc : ∀ p i, i ∈ g (c p) → fits t p i = true)
     (he : ∀ p i, i ∈ g (e p) → HasEdge (sourceFaces i)
       (targetFaces t (edgeFaces p 0)) (targetFaces t (edgeFaces p 1)))
-    (hh : PoolHall x g (fun j => tagCount c j + k * tagCount e j)) : FrameSolvable k x := by
+    (hh : PoolHall x g (fun j => tagCount c j + k * tagCount e j)) :
+    ∃ p : FrameSlot k ↪ Stock x, ∀ q, frameFits k t q (p q).1 := by
   obtain ⟨p, hp⟩ := pool_assignment x g (frameTag k c e) _
     (fun j => (frameTag_count k c e j).le) hh
-  refine ⟨t, p, ?_⟩
+  refine ⟨p, ?_⟩
   intro q
   cases q with
   | inl q => exact hc q _ (hp (.inl q))

@@ -2,6 +2,7 @@ module
 public import ThreeColour.FrameDGeometry
 public import ThreeColour.FramePoolBounds
 public import ThreeColour.Constructions
+public import ThreeColour.FrameRestrictedDefs
 @[expose] public section
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
@@ -17,8 +18,9 @@ lemma frame_q (k : ℕ) (x : Inventory) (a b c : Colour) (s : Fin 2)
     (hb : 4 ≤ mass x (support a b ∩ ordinary s))
     (hc : 4 ≤ mass x (support a c ∩ ordinary s))
     (hbucket : 4*k+8 ≤ mass x (bucket a ∩ ordinary s))
-    (hmajor : 12*k+8 ≤ mass x (ordinary s)) : FrameSolvable k x := by
-  apply frame_of_pools k x (qTarget a b c) (qFramePools a b c s)
+    (hmajor : 12*k+8 ≤ mass x (ordinary s)) : RestrictedFrameSolvable k x := by
+  refine ⟨qTarget a b c, Or.inl (qTarget_isQ a b c hab hac hbc), ?_⟩
+  apply frame_at_of_pools k x (qTarget a b c) (qFramePools a b c s)
     (qCornerTag a b c) (qEdgeTag a b c)
     (q_frame_corners a b c hab hac hbc s) (q_frame_edges a b c hab hac hbc s)
   rw [(q_frame_counts a b c hab hac hbc).1, (q_frame_counts a b c hab hac hbc).2]
@@ -41,8 +43,9 @@ lemma frame_u (k : ℕ) (x : Inventory) (a b c d : Colour) (s : Fin 2)
     (ha : 3*k+4 ≤ mass x (tripleClass a s))
     (hb : k+2 ≤ mass x (tripleClass b s))
     (hm : 1 ≤ mass x (minorityPool s d))
-    (ho : 12*k+7 ≤ mass x (ordinary s)) : FrameSolvable k x := by
-  apply frame_of_pools k x (uTarget a b c) (uFramePools a b d s)
+    (ho : 12*k+7 ≤ mass x (ordinary s)) : RestrictedFrameSolvable k x := by
+  refine ⟨uTarget a b c, Or.inr (Or.inr ⟨a,b,c,hab,hac,hbc,rfl⟩), ?_⟩
+  apply frame_at_of_pools k x (uTarget a b c) (uFramePools a b d s)
     (uCornerTag a b c s) (uEdgeTag a b c)
     (u_frame_corners a b c d hab hac hbc hda hdb hdc s)
     (u_frame_edges a b c d hab hac hbc hda hdb hdc s)
@@ -59,8 +62,9 @@ lemma frame_d (k : ℕ) (x : Inventory) (d : Colour)
     (h1 : 4 ≤ mass x (ordinary 1 ∪ eligible d))
     (h01 : 8 ≤ mass x ((ordinary 0 ∪ eligible d) ∪ (ordinary 1 ∪ eligible d)))
     (he : ∀ j, 4*k+8 ≤ mass x (dEdgePool d j))
-    (hn : 12*k+8 ≤ total x) : FrameSolvable k x := by
-  apply frame_of_pools k x (oppositeTarget d) (dFramePools d)
+    (hn : 12*k+8 ≤ total x) : RestrictedFrameSolvable k x := by
+  refine ⟨oppositeTarget d, Or.inr (Or.inl (oppositeTarget_isD d)), ?_⟩
+  apply frame_at_of_pools k x (oppositeTarget d) (dFramePools d)
     (dCornerTag d) (dEdgeTag d) (d_frame_corners d) (d_frame_edges d)
   rw [(d_frame_counts d).1, (d_frame_counts d).2]
   have hd : (fun j : Fin 5 => (![4,4,0,0,0] : Fin 5 → ℕ) j +
@@ -72,7 +76,7 @@ lemma frame_d (k : ℕ) (x : Inventory) (d : Colour)
     (d_edge_pairs_cover d 1 2 (by decide)) hn
 
 lemma frame_checker (k : ℕ) (x : Inventory) (j : Fin 6)
-    (hj : 12*k+8 ≤ mass x (checker j)) : FrameSolvable k x := by
+    (hj : 12*k+8 ≤ mass x (checker j)) : RestrictedFrameSolvable k x := by
   have hh : PoolHall x (fun _ : Fin 1 => checker j) (fun _ => 12*k+8) := by
     intro js
     have cases : js = ∅ ∨ js = {0} := by
@@ -83,7 +87,8 @@ lemma frame_checker (k : ℕ) (x : Inventory) (j : Fin 6)
     · simpa using hj
   obtain ⟨p,hp⟩ := pool_assignment (P := FrameSlot k) x (fun _ : Fin 1 => checker j)
     (fun _ => 0) (fun _ => 12*k+8) (fun _ => (Fintype.card_subtype_le _).trans (frameSlot_card k).le) hh
-  refine ⟨oppositeTarget (checkerFrameOmitted j), p, ?_⟩
+  refine ⟨oppositeTarget (checkerFrameOmitted j),
+    Or.inr (Or.inl (oppositeTarget_isD _)), p, ?_⟩
   intro q
   cases q with
   | inl q => exact checker_frame_corners j q _ (hp (.inl q))

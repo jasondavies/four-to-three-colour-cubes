@@ -62,12 +62,13 @@ lemma frame_fits_iff (k : ℕ) (t : Target) (q : FrameSlot k) (i : Source) :
       exact ⟨r,fun a => h _ (Finset.mem_image.mpr ⟨a,Finset.mem_univ _,rfl⟩)⟩
   | inr q => exact edge_fits_iff _ _ q.1
 
-lemma familyFrame_of_inventory {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
-    (hc : ∀ j, Uses 4 (cubes j)) (h : FrameSolvable k (familyInventory cubes)) :
-    FamilyFrameSolvable k cubes := by
-  obtain ⟨t,p,hp⟩ := h
-  refine ⟨targetFaces t, targets_use_three t,
-    p.trans (familyStockEquiv cubes).toEmbedding, ?_⟩
+lemma familyFrame_at_of_inventory {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) (t : Target)
+    (p : FrameSlot k ↪ Stock (familyInventory cubes))
+    (hp : ∀ q, frameFits k t q (p q).1) :
+    ∃ f : FrameSlot k ↪ Fin m,
+      ∀ q, FacesFit (cubes (f q)) (targetFaces t) (frameExposed k q) := by
+  refine ⟨p.trans (familyStockEquiv cubes).toEmbedding, ?_⟩
   intro q
   obtain ⟨r,hr,hfit⟩ := (frame_fits_iff k t q (p q).1).mp (hp q)
   obtain ⟨r,rfl⟩ := (ColourCubes.proper_rotation_iff r).mp hr
@@ -80,5 +81,11 @@ lemma familyFrame_of_inventory {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → 
   change cubes j (ColourCubes.rotations u f) = _
   rw [familySource_faces cubes hc j,hu,hs,familyStock_source]
   exact hfit f hf
+
+lemma familyFrame_of_inventory {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
+    (hc : ∀ j, Uses 4 (cubes j)) (h : FrameSolvable k (familyInventory cubes)) :
+    FamilyFrameSolvable k cubes := by
+  obtain ⟨t,p,hp⟩ := h
+  exact ⟨targetFaces t, targets_use_three t, familyFrame_at_of_inventory k cubes hc t p hp⟩
 
 end ThreeColour

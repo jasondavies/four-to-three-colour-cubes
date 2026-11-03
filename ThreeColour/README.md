@@ -31,6 +31,22 @@ for every target and proves the obstruction for all `k`, rather than checking
 a bounded range of side lengths. `FrameTheorems.lean` supplies the inventory
 threshold and classification; the original 28-cube classification supplies `k=0`.
 
+`NearPurity.lean` strengthens the purity argument to size $16n-5$.
+For the 27-cube endpoint, `RMajority0.lean` through `RMajority3.lean`
+verify the R construction with an arbitrary supported minority corner.
+`NearData.lean` defines 32 explicit templates (eight T parameters and
+24 P parameters) and proves their count for every `k`. `NearLower.lean`
+proves that all these templates fail, and `NearClassification.lean` proves
+that no others fail at that size and that the pair cases are inclusion-maximal.
+`NearResults.lean` transports the classification to arbitrary physical families.
+
+`FrameRestrictedDefs.lean` retains the Q/D/U target witness and checks the
+count of forty. The frame constructions and counting argument now preserve
+that witness, giving `family_restricted_frame_of_le` for `k ≥ 1`. The source
+families and rotations are physical; the permitted target set is specified
+using the checked catalogue. These extensions are built and axiom-audited
+by the default target but are not yet in the 35-statement comparator challenge.
+
 `scripts/generate_frame_data.py` generates `FrameData.lean`; every tag and
 rotation in it is checked by Lean. `scripts/check_frames.py` separately checks
 the edge facts, reduction, $U$ multisets, both obstructions for $2\le n\le6$,

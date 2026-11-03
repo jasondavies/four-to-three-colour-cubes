@@ -19,6 +19,11 @@ pieces of an $n\times n\times n$ cube. For every $n\ge2$, any $16n-3$
 four-colour cubes contain a three-colour frame. For a fixed palette, exactly
 two collections of $16n-4$ cubes fail: $4n-1$ copies of each of four
 varieties in one orientation class, and the mirror image of that collection.
+One cube below the extremal size, **exactly 32 collections of $16n-5$ cubes
+fail**, for every $n\ge2$: eight deletions from the two largest obstructions
+and twenty-four cases containing one $P$ cube. Each pair case is
+inclusion-maximal: adding any cube makes it solvable.
+
 The remaining pieces of a complete cube are easy, since every cube shows
 every colour, so the complete-cube threshold is $\max\{n^3,16n-3\}$.
 
@@ -98,7 +103,7 @@ corner geometry. Lake fetches this shared library automatically.
 ## Reproduce
 
 Install [elan](https://github.com/leanprover/elan), Python 3.11 or later and
-Ruby, then run:
+Ruby and a C++20 compiler, then run:
 
 ```sh
 lake exe cache get
@@ -107,7 +112,7 @@ make paper  # requires latexmk and a LaTeX installation
 ```
 
 `make check` audits proof sources, validates metadata and dependency pins,
-regenerates geometry and figures, runs the separate corner and frame Python checkers, and builds
+regenerates geometry and figures, runs the separate Python geometry checks and compiled near-extremal audit, and builds
 all Lean targets, including the axiom guards.
 [CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
 
@@ -117,12 +122,20 @@ The public Lean results include:
 | --- | --- |
 | `frame_threshold_n` | For every $n\ge2$, the least frame guarantee is $16n-3$. |
 | `family_frame_classification` | Exactly the two scaled obstructions fail at size $16n-4$, for arbitrary oriented input cubes. |
+| `family_near_frame_classification` / `near_inventories_card` | Exactly 32 failures of size $16n-5$, for every $n\ge2$. |
+| `near_pair_maximal` | Adding any cube solves each of the 24 pair cases. |
+| `family_restricted_frame_of_le` / `frame_target_count` | For $n\ge3$, 40 targets suffice in the guaranteed range. |
 | `full_threshold_n` | The least complete-cube guarantee is $\max\{n^3,16n-3\}$. |
 | `full_cube_of_four_le` | Any $n^3$ source cubes suffice for $n\ge4$. |
 | `family_restricted_threshold29` / `family_restricted_of_solvable28` | At $n=2$, every 29-cube family and every solvable 28-cube family builds a $Q$, $R$, or $D$ target. |
 
-See [Challenge.lean](Challenge.lean) for all 35 statements, including
-catalogue coverage, uniqueness, geometry and the restricted-target counts.
+The original 35 statements in [Challenge.lean](Challenge.lean) cover
+catalogue coverage, uniqueness, geometry and the earlier restricted-target counts.
+The new near-extremal and forty-target results are checked library theorems
+in [NearResults.lean](ThreeColour/NearResults.lean), with axiom guards in
+[ThreeColour.lean](ThreeColour.lean); they are not yet part of the comparator
+challenge. The forty-target statement retains a canonical target index, with
+proper-rotation placements proved for arbitrary physical source families.
 
 `Family.lean` and `FrameFamily.lean` work with arbitrary indexed face colourings;
 solutions select distinct copies and proper rotations. Transport lemmas connect these
@@ -166,6 +179,14 @@ and the corners and edges of every $(a,b,a,b,a,c)$ target. For $n=2,\dots,6$
 it matches against all 120 targets to confirm that both obstructions fail and
 that all 136 one-cube extensions succeed. These are again finite checks; the
 general statements are proved in [FrameResults.lean](ThreeColour/FrameResults.lean).
+
+The compiled [near-extremal audit](scripts/check_near_frames.cpp) independently
+regenerates the rotation group and catalogues from raw face colourings.
+For $n=2,\dots,6$ it checks all 32 listed failures against all 120 targets
+and all 1,632 one-cube extensions of the pair cases, using 28 or 40 targets.
+It also checks the target counts and thin checkerboard-box controls. These
+checks run with `bash scripts/check-near-frames.sh`; they supplement the
+symbolic classification rather than enumerate all collections.
 
 The optional search, for the case $n=2$, uses OR-Tools CP-SAT:
 

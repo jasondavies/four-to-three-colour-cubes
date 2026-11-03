@@ -21,8 +21,8 @@ lemma mass_union_le (x : Inventory) (A B : SourceSet) :
   intro i hi
   by_cases ha : i ∈ A <;> by_cases hb : i ∈ B <;> simp [ha,hb]
 
-lemma frame_opposite_impossible (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable k x)
-    (ht : 16*k+28 ≤ total x) (d : Colour)
+lemma frame_opposite_impossible (k : ℕ) (x : Inventory) (hn : ¬ RestrictedFrameSolvable k x)
+    (ht : 16*k+27 ≤ total x) (d : Colour)
     (h0 : 4 ≤ mass x (ordinary 0) + mass x (eligible d))
     (h1 : 4 ≤ mass x (ordinary 1) + mass x (eligible d))
     (hu : 8 ≤ mass x (ordinary 0) + mass x (ordinary 1) + mass x (eligible d)) : False := by
@@ -50,13 +50,13 @@ lemma frame_opposite_impossible (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable
   · exact he
   · omega
 
-lemma frame_eligible_bound (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable k x)
-    (ht : 16*k+28 ≤ total x) (d : Colour) : mass x (eligible d) ≤ 7 := by
+lemma frame_eligible_bound (k : ℕ) (x : Inventory) (hn : ¬ RestrictedFrameSolvable k x)
+    (ht : 16*k+27 ≤ total x) (d : Colour) : mass x (eligible d) ≤ 7 := by
   by_contra h
   exact frame_opposite_impossible k x hn ht d (by omega) (by omega) (by omega)
 
-lemma frame_minor_eligible_bound (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable k x)
-    (ht : 16*k+28 ≤ total x) (s : Fin 2)
+lemma frame_minor_eligible_bound (k : ℕ) (x : Inventory) (hn : ¬ RestrictedFrameSolvable k x)
+    (ht : 16*k+27 ≤ total x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) (d : Colour) :
     mass x (ordinary (flip s)) + mass x (eligible d) ≤ 3 := by
   have hc := eligible_totals x
@@ -70,11 +70,11 @@ lemma frame_minor_eligible_bound (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvabl
   · exact frame_opposite_impossible k x hn ht d (by omega) hlow (by omega)
   · exact frame_opposite_impossible k x hn ht d hlow (by omega) (by omega)
 
-lemma frame_major_bounds (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable k x)
-    (ht : 16*k+28 ≤ total x) (s : Fin 2)
+lemma frame_major_bounds (k : ℕ) (x : Inventory) (hn : ¬ RestrictedFrameSolvable k x)
+    (ht : 16*k+27 ≤ total x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) :
     mass x allCheckers + 2 * mass x (ordinary (flip s)) ≤ 6 ∧
-      16*k+22 ≤ mass x (ordinary s) := by
+      16*k+21 ≤ mass x (ordinary s) := by
   have hm := frame_minor_eligible_bound k x hn ht s hs
   have hz := eligible_totals x
   have ho := ordered_totals x s
@@ -108,7 +108,7 @@ lemma major_totals (x : Inventory) (s : Fin 2) :
   rw [hc, ht, Nat.add_zero] at h
   exact h
 
-lemma frame_bucket_bound (k : ℕ) (x : Inventory) (hn : ¬ FrameSolvable k x)
+lemma frame_bucket_bound (k : ℕ) (x : Inventory) (hn : ¬ RestrictedFrameSolvable k x)
     (s : Fin 2) (ho : 12*k+8 ≤ mass x (ordinary s)) (a : Colour) :
     mass (majorInventory x s) (bucket a) ≤ 4*k+7 := by
   by_contra h
@@ -145,7 +145,7 @@ lemma minority_supported_triple (x : Inventory) (s : Fin 2) (a : Colour)
   fin_cases a <;> norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at h hsum hle <;> omega
 
 lemma two_small_colours_impossible (k : ℕ) (hk : 1 ≤ k) (t : Colour → ℕ)
-    (ht : 16*k+16 ≤ ∑ a, t a) (hb : ∀ a, t a ≤ 4*k+7) :
+    (ht : 16*k+14 ≤ ∑ a, t a) (hb : ∀ a, t a ≤ 4*k+7) :
     ∀ a b, a ≠ b → k+2 ≤ t a ∨ k+2 ≤ t b := by
   intro a b hab
   norm_num [Fin.sum_univ_succ, Fin.forall_fin_succ] at ht hb
@@ -166,7 +166,7 @@ lemma frame_bucket_sum (k : ℕ) (x : Inventory)
 
 /-- For side length at least three, a failing collection has no minority cubes. -/
 lemma frame_purity (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
-    (hn : ¬ FrameSolvable k x) (ht : 16*k+28 ≤ total x) (s : Fin 2)
+    (hn : ¬ RestrictedFrameSolvable k x) (ht : 16*k+27 ≤ total x) (s : Fin 2)
     (hs : mass x (ordinary (flip s)) ≤ mass x (ordinary s)) :
     mass x (ordinary (flip s)) + mass x allCheckers = 0 := by
   obtain ⟨hm,ho⟩ := frame_major_bounds k x hn ht s hs
@@ -176,7 +176,7 @@ lemma frame_purity (k : ℕ) (hk : 1 ≤ k) (x : Inventory)
   have hbuckets := bucket_totals (majorInventory x s)
   have htotal := ordered_totals x s
   have hweight := frame_bucket_sum k (majorInventory x s) hb
-  have hT : 16*k+16 ≤ mass (majorInventory x s) allTriples := by omega
+  have hT : 16*k+14 ≤ mass (majorInventory x s) allTriples := by omega
   have htb : ∀ a, mass (majorInventory x s) (triple a) ≤ 4*k+7 := by
     intro a
     have := hb a

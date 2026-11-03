@@ -11,7 +11,7 @@
 \newtheorem*{remark}{Remark}
 \title{Three-colour solutions from four-colour cubes}
 \author{Jason Davies}
-\date{November 2, 2026}
+\date{November 3, 2026}
 \begin{document}
 \maketitle
 
@@ -20,6 +20,8 @@ For every $n\ge2$, any $16n-3$ cubes, each using all four colours of a
 fixed palette, contain an $n\times n\times n$ frame whose exterior faces are
 monochromatic in exactly three colours; this bound is sharp. For a fixed palette,
 exactly two collections of $16n-4$ cubes fail, and reflection exchanges them.
+One cube below this size, exactly 32 collections fail; twenty-four are
+inclusion-maximal.
 The threshold for a complete cube is $\max\{n^3,16n-3\}$; in particular,
 any $n^3$ source cubes suffice when $n\ge4$. The case $n=2$ answers the
 threshold question in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
@@ -46,6 +48,8 @@ $16n-4$ cubes fail: $4n-1$ copies of each of four varieties, one with a
 monochromatic corner of each colour, all in the same orientation class.
 Reflection or any odd colour permutation exchanges these collections.
 Figure~\ref{fig:obstruction} shows the first case, $n=2$.
+We also classify all 32 failures of size $16n-5$, including twenty-four
+that cannot be enlarged without becoming solvable (Theorem~\ref{thm:near}).
 
 Filling the face interiors gives the complete-cube threshold
 $\max\{n^3,16n-3\}$ (Corollary~\ref{cor:full-cubes}). In particular, any
@@ -442,7 +446,7 @@ BES's frame arguments~\cite[proofs of Lemmas 7--8 and Table 5]{BES}.
 A cube in bucket $a$ has an $aa$ edge.
 
 \begin{lemma}\label{lem:D-extension}
-Let $n\ge2$. If a reduced collection of at least $16n-4$ cubes has a
+Let $n\ge2$. If a reduced collection of at least $16n-5$ cubes has a
 $D$ corner solution, it has an $n$-frame.
 \end{lemma}
 \begin{proof}
@@ -452,7 +456,7 @@ occurs at most $L-1$ times. Remove the eight cubes in the given $D(a,b,c)$
 corner solution. The remaining positions demand $4(n-2)$ copies of each
 of $ab,ac,bc$. Each type is available on at least
 \[
- (16n-4)-8-(L-1)=4n+5
+ (16n-5)-8-(L-1)=4n+4
 \]
 remaining cubes. The union of the available source sets for any two types
 is the entire remaining collection, since no reduced cube misses two
@@ -534,6 +538,74 @@ whereas the classification allows only $0$ and $4n-1$. This contradiction
 proves the upper bound.
 \end{proof}
 
+\begin{theorem}[One cube below the extremal size]\label{thm:near}
+For every $n\ge2$, exactly 32 fixed-palette collections of $16n-5$ cubes
+fail to contain a three-colour $n$-frame. Put $h=4n-1$. They are:
+\begin{enumerate}
+\item the eight collections
+\[
+ (h-1)T_a+hT_b+hT_c+hT_d,
+\]
+one for each choice of ordinary orientation class and colour $a$;
+\item the twenty-four collections
+\[
+ P+(h-1)T_a+(h-1)T_b+hT_c+hT_d,
+\]
+one for each ordinary $P$ variety, where $a,b$ are its bucket colours
+and the four $T$ varieties belong to its orientation class.
+\end{enumerate}
+Each collection in the second family is inclusion-maximal among failures:
+adding any cube makes it solvable.
+\end{theorem}
+\begin{proof}
+Let $N=16n-5$ and retain the majority notation from the frame proof.
+For $n\ge3$, Lemma~\ref{lem:D-extension} and the same orientation count give
+$M\le6$ and $A\ge16n-11$. A majority bucket of size $4n$ would still
+build a $Q$-frame, so
+\[
+ n_T+2n_P\le16n-4,\qquad n_P\le M+1,\qquad n_T\ge16n-18.
+\]
+If $M>0$, some $t_a\ge4n-4\ge3n-2$, and at most one colour has
+$t_b<n$: two such colours would give
+$n_T\le10n-4<16n-18$. The same $U$ construction applies, with at least
+$A-(4n-1)\ge12n-10\ge8(n-2)$ ordinary cubes left for its bichromatic
+edges. Hence $M=0$.
+
+For $n=2$, the orientation count at $N=27$ gives $M\le6$ and $A\ge21$.
+If $M>0$, the $R$ argument in Theorem~\ref{thm:classification} still
+implies $2t_a+p_a\le10$ for every colour. Summing yields $2A\le40$,
+a contradiction. Thus $M=0$ here too.
+
+Now $n_P\le1$. If $n_P=0$, four bucket capacities of $h$ and total
+$4h-1$ leave exactly one $T$ multiplicity at $h-1$, giving the eight
+deletion cases. If $n_P=1$, every bucket must have size $h$, since
+$n_T+2n_P=4h$. The unique $P$ cube fills two buckets, giving the stated
+multiplicities and twenty-four cases. No checkerboards remain, so the
+reduction made no replacements in the original collection.
+
+Conversely, each listed collection lies in one ordinary orientation
+class. Orientation balance excludes every target with a trichromatic
+corner. A remaining target $Q(a;b,c)$ requires $4n$ distinct cubes with
+an $aa$ edge for its corners and monochromatic edges, while bucket $a$
+has at most $h=4n-1$ cubes. Every listed collection therefore fails.
+Finally, adding any cube to a pair case produces a collection of size
+$16n-4$ still containing a $P$ cube; Theorem~\ref{thm:frames} excludes it
+from the failing collections of that size.
+\end{proof}
+
+\begin{corollary}\label{cor:frame-targets}
+For $n\ge3$, every collection of at least $16n-3$ source cubes has an
+$n$-frame modelled on one of the 40 targets of types $Q,D,U$.
+\end{corollary}
+\begin{proof}
+The frame counting argument uses only these three types: avoiding them
+forces purity and four bucket capacities of $4n-1$, hence at most
+$16n-4$ cubes. There are twelve $Q$ targets and four $D$ targets.
+The ordered choice of three distinct colours in $U(a,b;c)$ gives
+$4\cdot3\cdot2=24$ varieties: their face multiplicities $3,2,1$
+recover $a,b,c$, respectively. These families are disjoint.
+\end{proof}
+
 \begin{corollary}[Complete cubes]\label{cor:full-cubes}
 For every integer $n\ge2$, the sharp threshold for a complete
 $n\times n\times n$ cube with exactly three exterior colours is
@@ -551,8 +623,8 @@ cubes complete the assembly whenever at least $n^3$ pieces are available.
 \end{proof}
 
 \section{Formal verification and computation}
-The frame threshold, extremal classification, complete-cube threshold and
-Corollary~\ref{cor:restricted} are
+The frame threshold, both obstruction classifications, complete-cube threshold
+and restricted-target corollaries are
 formalised in Lean 4.35.0~\cite{Lean4} with mathlib v4.35.0~\cite{mathlib}
 for arbitrary indexed families of four-colour cubes. Solutions select
 distinct copies and proper rotations matching the exposed faces at every
@@ -564,21 +636,24 @@ arbitrary palettes equates cyclic corner matching with physical placement.
 
 Thirty-five results and the required definitions are restated in a
 standalone verification file (the comparator challenge) importing only
-mathlib. Automated checks compare these statements with the proof library
+mathlib. The near-extremal classification and forty-target extension are
+additional library theorems, with physical-family statements and axiom
+audits; they are not yet added to that challenge. Automated checks compare
+the challenge statements with the proof library
 and replay the proofs through the Lean, NanoDa and con-ron kernels.
 
 The audit reports three standard axioms: \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
-\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes},
-release \href{https://github.com/jasondavies/four-to-three-colour-cubes/tree/v1.0.0}{\texttt{v1.0.0}}.}
+\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes}.}
 provides sources, reproduction commands and details of the statement checks.
 The physical model and palette-independent geometry come from the shared
 \texttt{colour-cubes-core} library~\cite{ColourCubes}. The challenge restates its
 definitions locally.
 
 The Lean proof uses counting and finite Hall certificates. Its corner-case
-proof treats checkerboards and the smaller ordinary class separately; the
-frame proof combines them. Finite checks establish each target's corner and
+proof of the extremal classification treats checkerboards and the smaller
+ordinary class separately. The near-extremal proof combines them, as does
+the frame proof. Finite checks establish each target's corner and
 edge requirements, while the allocation and counting proofs are symbolic in
 the side length. Neither the written proof nor the formalisation
 enumerates all source collections.
@@ -589,8 +664,11 @@ edge constructions and sample frame obstructions.
 The correctness of these external computations is not assumed in either
 the written proof or the formalisation.
 
-An assembly can be found by testing the 120 three-colour target varieties
-using capacitated bipartite matching. Source varieties have capacities equal
+In the guaranteed range, an assembly can be found by testing just 28
+$Q,R,D$ targets when $n=2$ (Corollary~\ref{cor:restricted}), or 40 $Q,D,U$
+targets when $n\ge3$ (Corollary~\ref{cor:frame-targets}), using capacitated
+bipartite matching. Testing all 120 targets decides feasibility for arbitrary
+smaller collections; the restricted-target guarantee alone does not do so. Source varieties have capacities equal
 to their available multiplicities; corner and edge requirements have
 capacities equal to their demands. A source is adjacent to a requirement
 when it has the required corner or edge type. Grouping identical requirements
@@ -599,6 +677,18 @@ length; only the capacities vary. An integral
 flow meeting all demands determines a frame, and compatible proper rotations
 can then be chosen. Unused cubes complete the assembly whenever at least
 $n^3$ pieces are available.
+
+\section*{Further questions}
+An elementary classification of smaller inclusion-maximal failures would
+extend Theorem~\ref{thm:near}. Cuboids pose a separate problem: for each
+$k\ge1$, take $2k$ copies of each of the six checkerboards. These $12k$
+cubes cannot fill a $2\times2\times3k$ box in exactly three colours.
+Every target corner must be trichromatic, forcing a $D$ target. Every
+position then demands the same bichromatic edge type along the long
+axis, including the corners. One checkerboard lacks that type, so only
+$10k$ cubes are usable for $12k$ positions. Thus assembly from exactly the
+volume fails for arbitrarily large cuboids, even though it holds for
+cubes of side length at least four.
 
 \section*{Literature and priority}
 Literature searches on November 1--2, 2026 found no earlier determination

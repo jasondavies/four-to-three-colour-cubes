@@ -3,6 +3,7 @@ module
 public import ThreeColour.RestrictedFamily
 public import ThreeColour.RestrictedCatalogue
 public import ThreeColour.FrameResults
+public import ThreeColour.NearResults
 
 @[expose] public section
 
@@ -148,3 +149,31 @@ public import ThreeColour.FrameResults
 /-- info: 'ThreeColour.frameSlot_card' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.frameSlot_card
+
+/-- info: 'ThreeColour.near_frame_classification' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.near_frame_classification
+
+/-- info: 'ThreeColour.near_inventories_card' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.near_inventories_card
+
+/-- info: 'ThreeColour.near_parameter_counts' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.near_parameter_counts
+
+/-- info: 'ThreeColour.near_pair_maximal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.near_pair_maximal
+
+/-- info: 'ThreeColour.family_near_frame_classification' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_near_frame_classification
+
+/-- info: 'ThreeColour.frame_target_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.frame_target_count
+
+/-- info: 'ThreeColour.family_restricted_frame_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_restricted_frame_of_le
