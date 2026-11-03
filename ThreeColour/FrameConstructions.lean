@@ -98,23 +98,4 @@ lemma frame_checker_many (k : ℕ) (x : Inventory) (j : Fin 6)
     exact hj.trans (mass_mono x (he j l))
   · exact ht
 
-lemma frame_checker (k : ℕ) (x : Inventory) (j : Fin 6)
-    (hj : 12*k+8 ≤ mass x (checker j)) : RestrictedFrameSolvable k x := by
-  have hh : PoolHall x (fun _ : Fin 1 => checker j) (fun _ => 12*k+8) := by
-    intro js
-    have cases : js = ∅ ∨ js = {0} := by
-      have h : ∀ js : Finset (Fin 1), js = ∅ ∨ js = {0} := by decide +kernel
-      exact h js
-    rcases cases with rfl | rfl
-    · simp [mass]
-    · simpa using hj
-  obtain ⟨p,hp⟩ := pool_assignment (P := FrameSlot k) x (fun _ : Fin 1 => checker j)
-    (fun _ => 0) (fun _ => 12*k+8) (fun _ => (Fintype.card_subtype_le _).trans (frameSlot_card k).le) hh
-  refine ⟨oppositeTarget (checkerFrameOmitted j),
-    Or.inr (Or.inl (oppositeTarget_isD _)), p, ?_⟩
-  intro q
-  cases q with
-  | inl q => exact checker_frame_corners j q _ (hp (.inl q))
-  | inr q => exact checker_frame_edges j q.1 _ (hp (.inr q))
-
 end ThreeColour

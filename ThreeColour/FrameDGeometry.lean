@@ -32,12 +32,4 @@ lemma d_edge_pairs_cover : ∀ d (j l : Fin 3), j ≠ l →
 lemma d_edge_complement : ∀ d j, ∃ h : Fin 6,
     dEdgePool d j ∪ checker h = Finset.univ := by decide +kernel
 
-lemma checker_frame_corners : ∀ j p i, i ∈ checker j →
-    fits (oppositeTarget (checkerFrameOmitted j)) p i = true := by decide +kernel
-
-lemma checker_frame_edges : ∀ j p i, i ∈ checker j →
-    HasEdge (sourceFaces i)
-      (targetFaces (oppositeTarget (checkerFrameOmitted j)) (edgeFaces p 0))
-      (targetFaces (oppositeTarget (checkerFrameOmitted j)) (edgeFaces p 1)) := by decide +kernel
-
 end ThreeColour
