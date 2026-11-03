@@ -202,7 +202,7 @@ and all 1,632 one-cube extensions of the pair cases, using 28 or 40 targets.
 It also checks the target counts and thin checkerboard-box controls. The
 audit now checks all 272 deficit-two failures for $n=3,4$, the 10,608
 one-cube extensions of the 156 saturated cases in each dimension, and
-the 116 extensions allowed by positive slack. These
+one slack-preserving extension for each of the 116 nonsaturated cases. These
 checks run with `bash scripts/check-near-frames.sh`; they supplement the
 symbolic classification rather than enumerate all collections.
 
