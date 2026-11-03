@@ -102,12 +102,13 @@ corner geometry. Lake fetches this shared library automatically.
 
 ## Reproduce
 
-Install [elan](https://github.com/leanprover/elan), Python 3.11 or later and
-Ruby and a C++20 compiler, then run:
+Install [elan](https://github.com/leanprover/elan), Python 3.11 or later,
+Ruby and a C++20 compiler. For a clean build using CI's single-worker setting, run:
 
 ```sh
 lake exe cache get
-make check
+LEAN_NUM_THREADS=1 lake build ThreeColour.RawChecks
+LEAN_NUM_THREADS=1 make check
 make paper  # requires latexmk and a LaTeX installation
 ```
 

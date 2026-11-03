@@ -125,8 +125,9 @@ collections of cubes.
 kernel checks the stated finite properties. The catalogue checks in
 `RawChecks/` and the certificate modules are checked-in Lean proofs.
 No external solver result is imported as an axiom.
-The root `ThreeColour.lean` guards thirty-eight axiom reports, covering the comparator results,
-arbitrary-family classification, and both forms of the corner–rotation lemma;
+The root `ThreeColour.lean` contains explicit axiom guards for the public results,
+including the comparator results, both obstruction classifications, the
+forty-target extension, and both forms of the corner–rotation lemma;
 only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
 proof holes or uses of `native_decide` in the proof library. The thirty-five intentional
 statement holes in `Challenge.lean` are isolated comparator targets.
@@ -147,8 +148,10 @@ mathematical modelling.
 
 ## Verification and maintenance
 
-Run `make check` from the repository root for source and metadata audits,
-generated-file checks, the Python geometry checker and the Lean build.
+Follow the [clean-build sequence](../README.md#reproduce) for a first build
+with CI's single-worker setting. `make check` runs source and metadata audits,
+generated-file checks, the Python geometry checkers, the compiled C++
+near-extremal audit, and the Lean build.
 Full kernel replay is a separate command:
 
 ```sh

@@ -443,7 +443,7 @@ types. A checkerboard has five, missing precisely the pair of its singleton
 colours; different checkerboards miss different pairs. These facts follow
 from the representatives in Table~\ref{tab:corners}, and also appear in
 BES's frame arguments~\cite[proofs of Lemmas 7--8 and Table 5]{BES}.
-A cube in bucket $a$ has an $aa$ edge.
+A reduced cube has an $aa$ edge if and only if it belongs to bucket $a$.
 
 \begin{lemma}\label{lem:D-extension}
 Let $n\ge2$. If a reduced collection of at least $16n-5$ cubes has a
@@ -628,9 +628,12 @@ and restricted-target corollaries are
 formalised in Lean 4.35.0~\cite{Lean4} with mathlib v4.35.0~\cite{mathlib}
 for arbitrary indexed families of four-colour cubes. Solutions select
 distinct copies and proper rotations matching the exposed faces at every
-required position. The frame statements cover every side length $n\ge2$. The threshold,
-sharpness and restricted-target statements are formulated without catalogue
-indices; the classification specifies multiplicities of rotation classes.
+required position. The frame statements cover every side length $n\ge2$.
+The threshold and sharpness statements, and the corner restricted-target
+statements, are formulated without catalogue indices. The forty-target
+extension uses a canonical target index and proves proper-rotation placements
+for arbitrary indexed source families. The classifications specify
+multiplicities of rotation classes.
 Kernel checks establish the catalogue and finite geometric facts, and a lemma for
 arbitrary palettes equates cyclic corner matching with physical placement.
 
