@@ -34,7 +34,7 @@ sources:
     note: "Accompanying manuscript; publication priority remains subject to the documented literature limits."
   - title: "The 4-Color Cubes Puzzle"
     authors: ["Ethan Berkove", "Andrew Eickemeyer", "Michael Schulman"]
-    type: article
+    type: paper
     relationship: background
     id: "https://math.colgate.edu/~integers/s68/s68.pdf"
     location: "Integers 18 (2018), A68; Problem 2 and the corner-containment reduction"
