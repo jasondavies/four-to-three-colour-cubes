@@ -208,4 +208,22 @@ theorem stability_maximal_count (k d : ℕ) (hk : 1 ≤ k) (hd : d ≤ 2*k) :
     saturated_parameter_count]
   simp
 
+lemma maximalFrameFails_iff (k : ℕ) (x : Inventory) :
+    MaximalFrameFails k x ↔ FrameMaximalFailure k x := by
+  simp only [MaximalFrameFails, FrameMaximalFailure, frameFails_iff]
+
+/-- Failing rotation-class count vectors of size `16n-4-d`, where `n=k+2`. -/
+theorem family_stability_failure_count (k d : ℕ) (hk : 1 ≤ k) (hd : d ≤ 2*k) :
+    Nat.card {x : Inventory // total x + d = 16*k+28 ∧ FrameFails k x} =
+      2 * (d+15).choose 15 := by
+  rw [← stability_failure_count k d hk hd]
+  exact Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [frameFails_iff])
+
+/-- Inclusion-maximal failing rotation-class count vectors of size `16n-4-d`. -/
+theorem family_stability_maximal_count (k d : ℕ) (hk : 1 ≤ k) (hd : d ≤ 2*k) :
+    Nat.card {x : Inventory // total x + d = 16*k+28 ∧ MaximalFrameFails k x} =
+      2 * (d+11).choose 11 := by
+  rw [← stability_maximal_count k d hk hd]
+  exact Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [maximalFrameFails_iff])
+
 end ThreeColour

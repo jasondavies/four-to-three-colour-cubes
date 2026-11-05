@@ -5,6 +5,8 @@ public import ThreeColour.RestrictedCatalogue
 public import ThreeColour.FrameResults
 public import ThreeColour.NearResults
 public import ThreeColour.StabilityCounting
+public import ThreeColour.ClassCount
+public import ThreeColour.OrdinaryGeometry
 
 @[expose] public section
 
@@ -202,3 +204,27 @@ public import ThreeColour.StabilityCounting
 /-- info: 'ThreeColour.stability_maximal_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.stability_maximal_count
+
+/-- info: 'ThreeColour.ordinary_geometry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.ordinary_geometry
+
+/-- info: 'ThreeColour.bucket_geometry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.bucket_geometry
+
+/-- info: 'ThreeColour.family_stability_failure_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_stability_failure_count
+
+/-- info: 'ThreeColour.family_stability_maximal_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_stability_maximal_count
+
+/-- info: 'ThreeColour.family_near_failure_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_near_failure_count
+
+/-- info: 'ThreeColour.family_near_pair_maximal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_near_pair_maximal

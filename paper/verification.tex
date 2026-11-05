@@ -1,9 +1,12 @@
 \section{Verification details}\label{app:verification}
-Thirty-five results and the required definitions are restated in a
+Forty-five results and the required definitions are restated in a
 standalone verification file (the comparator challenge) importing only
-mathlib. The stability and near-extremal classifications, their counts and the forty-target extension are
-additional library theorems, with physical-family interfaces where appropriate
-and explicit axiom audits; they are not yet added to that challenge. Automated checks compare
+mathlib. These include the stability and near-extremal classifications,
+their counts and the forty-target extension. Failures are counted as
+vectors of rotation-class multiplicities, and a vector fails when some
+physical family with those multiplicities has no frame. The tables of
+ordinary classes and buckets are identified with their corner-type
+definitions in Lemma~\ref{lem:geometry}. Automated checks compare
 the challenge statements with the proof library
 and replay the proofs through the Lean, NanoDa and con-ron kernels.
 

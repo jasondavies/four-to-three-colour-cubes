@@ -66,12 +66,21 @@ hypotheses; entries for invalid parameter combinations are placeholders.
          'def fits (t : Target) (k : Slot) (i : Source) : Bool := decide (targetCorner t k ∈ sourceCorners i)',
          'def Solvable (a : Inventory) : Prop := ∃ t : Target, Builds a (fits t)',
          'def total (a : Inventory) : ℕ := mass a Finset.univ']
+# Pools restated in Challenge.lean use a named literal bound, so their
+# elaborated terms do not depend on module-local auxiliary proof names.
+named_bound = {'triple', 'bucket', 'ordinary', 'allPairs'}
+lines.append('/-- Named nonzero witness for source literals in the pools below. -/\n'
+             'theorem sourceFinBound : NeZero 68 := by infer_instance')
+def pool(name, ty, value):
+    if name in named_bound:
+        return f'def {name} : {ty} :=\n  letI : NeZero 68 := sourceFinBound\n  {value}'
+    return f'def {name} : {ty} := {value}'
 for name, xs in G.items():
     shape = f'Fin {len(xs)} → '
     if isinstance(xs[0], list): shape += f'Fin {len(xs[0])} → '
-    lines.append(f'def {name} : {shape}SourceSet := '+nested(xs))
+    lines.append(pool(name, shape+'SourceSet', nested(xs)))
 for name, tag in [('allTriples','T'),('allPairs','P'),('allCheckers','C')]:
-    lines.append(f'def {name} : SourceSet := '+group({i for i in range(68) if typ[i] == tag}))
+    lines.append(pool(name, 'SourceSet', group({i for i in range(68) if typ[i] == tag})))
 q, r = [], []
 for a in range(4):
     qq, rr = [], []

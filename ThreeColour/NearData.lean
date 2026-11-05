@@ -6,10 +6,17 @@ open scoped BigOperators
 set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 
-/-- One parameter for each of the eight T and twenty-four P varieties. -/
-abbrev NearParameter := {i : Source // i ∈ ordinary 0 ∪ ordinary 1}
+/-- The eight T and twenty-four P varieties. -/
+def nearSupport : SourceSet :=
+  letI : NeZero 2 := frameFinTwo
+  ordinary 0 ∪ ordinary 1
 
-def nearOrientation (p : NearParameter) : Fin 2 := if p.val ∈ ordinary 0 then 0 else 1
+/-- One parameter for each of the eight T and twenty-four P varieties. -/
+abbrev NearParameter := {i : Source // i ∈ nearSupport}
+
+def nearOrientation (p : NearParameter) : Fin 2 :=
+  letI : NeZero 2 := frameFinTwo
+  if p.val ∈ ordinary 0 then 0 else 1
 
 /-- A T parameter deletes that T; a P parameter lowers its two T buckets
 and inserts the parameter itself. This is the twenty-seven-cube case. -/

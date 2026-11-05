@@ -40,7 +40,13 @@ bucket slacks encode and decode the inventories exactly.
 $2\binom{d+15}{15}$ and the maximal-failure count $2\binom{d+11}{11}$,
 for $d\le2n-4$. Here `FrameMaximalFailure` quantifies over every pointwise
 larger inventory, rather than just a prescribed family of additions.
-These library results are outside the original comparator challenge.
+`ClassCount.lean` defines `classCount`, the rotation-class counts of a physical
+family, and `FrameFails`, which says that some family of four-colour cubes with
+given counts has no frame. It proves that this agrees with inventory failure.
+`family_stability_failure_count` and `family_stability_maximal_count` restate
+both counts in these physical terms. `OrdinaryGeometry.lean` proves that the
+`ordinary` and `bucket` tables are BES's universal-corner orientation classes
+and the corner-type buckets (`ordinary_geometry`, `bucket_geometry`).
 
 `NearPurity.lean` strengthens the purity argument to size $16n-5$.
 For the 27-cube endpoint, `RMajority0.lean` through `RMajority3.lean`
@@ -49,14 +55,17 @@ verify the R construction with an arbitrary supported minority corner.
 24 P parameters) and proves their count for every `k`. `NearLower.lean`
 proves that all these templates fail, and `NearClassification.lean` proves
 that no others fail at that size and that the pair cases are inclusion-maximal.
-`NearResults.lean` transports the classification to arbitrary physical families.
+`NearResults.lean` transports the classification to arbitrary physical families,
+and proves `family_near_failure_count` (exactly 32 failing count vectors) and
+`family_near_pair_maximal` (each pair case is inclusion-maximal) for every `k`.
 
-`FrameRestrictedDefs.lean` retains the Q/D/U target witness and checks the
-count of forty. The frame constructions and counting argument now preserve
+`FrameRestrictedDefs.lean` defines U targets geometrically (`IsU`: one colour on
+three faces at a corner, two others on the opposite faces), retains the Q/D/U
+target witness and checks the count of forty. The frame constructions and counting argument now preserve
 that witness, giving `family_restricted_frame_of_le` for `k ≥ 1`. The source
 families and rotations are physical; the permitted target set is specified
-using the checked catalogue. These extensions are built and axiom-audited
-by the default target but are not yet in the 35-statement comparator challenge.
+using the checked catalogue. These extensions are axiom-audited and included
+in the 45-statement comparator challenge.
 
 `scripts/generate_frame_data.py` generates `FrameData.lean`; every tag and
 rotation in it is checked by Lean. `scripts/check_frames.py` separately checks
@@ -141,7 +150,7 @@ including the comparator results, the stability criterion and counts, both
 obstruction classifications, the
 forty-target extension, and both forms of the corner–rotation lemma;
 only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
-proof holes or uses of `native_decide` in the proof library. The thirty-five intentional
+proof holes or uses of `native_decide` in the proof library. The forty-five intentional
 statement holes in `Challenge.lean` are isolated comparator targets.
 
 The separate Python geometry checker also compares both printed tables with
@@ -170,7 +179,7 @@ Full kernel replay is a separate command:
 make comparator
 ```
 
-The comparator replays the 35 challenge results through the toolchain's bundled
+The comparator replays the 45 challenge results through the toolchain's bundled
 Lean, NanoDa and con-ron kernels after checking their statements and definitions.
 Replay requires `bwrap` and support for its sandbox. On memory-limited machines,
 use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes

@@ -36,7 +36,17 @@
     "ThreeColour.family_frame_classification",
     "ThreeColour.full_iff_frame_and_size",
     "ThreeColour.fullSlot_card",
-    "ThreeColour.frameSlot_card"
+    "ThreeColour.frameSlot_card",
+    "ThreeColour.ordinary_geometry",
+    "ThreeColour.bucket_geometry",
+    "ThreeColour.family_frame_stability",
+    "ThreeColour.family_stability_failure_count",
+    "ThreeColour.family_stability_maximal_count",
+    "ThreeColour.family_near_frame_classification",
+    "ThreeColour.family_near_failure_count",
+    "ThreeColour.family_near_pair_maximal",
+    "ThreeColour.frame_target_count",
+    "ThreeColour.family_restricted_frame_of_le"
   ],
   "definition_names": [],
   "permitted_axioms": [

@@ -94,6 +94,10 @@ automation:
         incorporated these contributions into the manuscript and package.
         Claude Code also added the initial obstruction figure and scripts/generate_figure.py;
         Codex later expanded the figure to explain both parts of the obstruction.
+        On November 5, 2026 Claude Code extended the comparator challenge to the
+        stability, near-extremal and forty-target results, adding physical
+        restatements of the counts and corner-type characterisations of the
+        ordinary and bucket tables.
   spend_usd: "not tracked"
   notes: >-
     GPT-6-Astra (OpenAI), used through Codex, developed the original research
@@ -102,7 +106,7 @@ automation:
     reviews supplied by the author; these were incorporated in subsequent
     Codex revisions. The human author initiated and directed
     the research and accepts responsibility for the paper's content and the
-    accuracy of its disclosure. The thirty-five intentional statement holes in
+    accuracy of its disclosure. The forty-five intentional statement holes in
     Challenge.lean are excluded from proof-development counts. No native_decide
     is used.
 fidelity:
@@ -127,9 +131,14 @@ fidelity:
     with geometric definitions of Q, R and D, their catalogue coverage,
     target uniqueness and the counts 12, 12, 4 and 28 in total. Geometry
     checks cover 68 sources, 120 targets and all 4096 four-palette face assignments.
-    The stability, near-extremal and forty-target extensions are checked library theorems,
-    outside the original 35-statement comparator challenge. The near-extremal
-    physical statement specifies rotation-class counts. The forty-target
+    The stability, near-extremal and forty-target extensions are in the
+    comparator challenge. Failures are counted as vectors of rotation-class
+    multiplicities, with FrameFails asserting that some physical family with
+    those counts has no frame. The stability criterion uses tables of the two
+    ordinary classes and four buckets; separate compared theorems identify
+    them with BES's universal-corner orientation classes and corner-type
+    buckets. The near-extremal classification specifies rotation-class
+    counts by 32 explicit templates. The forty-target
     statement uses canonical target indices and physical proper-rotation
     placements for arbitrary source families. The thin checkerboard-cuboid
     observation is a written result with finite audit controls, not a Lean theorem.
@@ -159,10 +168,13 @@ review:
     classification, forty-target reduction and checkerboard cuboid observation.
     Codex checked and integrated these arguments, formalised the first two,
     and added a separate C++ geometry audit. These additions have not received
-    a separate human review or an extended comparator challenge.
+    a separate human review.
     A further user-supplied review proposed the stability theorem and binomial
     counts. Codex checked and integrated that argument, formalised the criterion,
     parametrisation and inclusion-maximality, and extended the raw-geometry audit.
+    On November 5, 2026 Claude Opus 5.5 added these extensions to the
+    comparator challenge, at the author's request. That work restated
+    definitions and statements; it did not review the underlying arguments.
     Reproduce current checks with make check and
     make comparator. Push/PR CI runs make check; a separate manually triggered
     workflow runs all three comparator kernels and records the checked commit.
@@ -184,12 +196,20 @@ alignment:
       lean: ThreeColour.family_frame_stability
       module: ThreeColour.Stability
       status: proved
+    - source: "Paper, finite geometry lemma (orientation classes)"
+      lean: ThreeColour.ordinary_geometry
+      module: ThreeColour.OrdinaryGeometry
+      status: proved
+    - source: "Paper, finite geometry lemma (bucket incidences)"
+      lean: ThreeColour.bucket_geometry
+      module: ThreeColour.OrdinaryGeometry
+      status: proved
     - source: "Paper, number of failing collections in the stability band"
-      lean: ThreeColour.stability_failure_count
+      lean: ThreeColour.family_stability_failure_count
       module: ThreeColour.StabilityCounting
       status: proved
     - source: "Paper, number of inclusion-maximal failures in the stability band"
-      lean: ThreeColour.stability_maximal_count
+      lean: ThreeColour.family_stability_maximal_count
       module: ThreeColour.StabilityCounting
       status: proved
     - source: "Paper, one cube below the extremal size"
@@ -197,12 +217,12 @@ alignment:
       module: ThreeColour.NearResults
       status: proved
     - source: "Paper, count of 32 failing multisets"
-      lean: ThreeColour.near_inventories_card
-      module: ThreeColour.NearData
+      lean: ThreeColour.family_near_failure_count
+      module: ThreeColour.NearResults
       status: proved
     - source: "Paper, inclusion-maximal pair cases"
-      lean: ThreeColour.near_pair_maximal
-      module: ThreeColour.NearClassification
+      lean: ThreeColour.family_near_pair_maximal
+      module: ThreeColour.NearResults
       status: proved
     - source: "Paper, forty targets suffice for guaranteed larger frames"
       lean: ThreeColour.family_restricted_frame_of_le

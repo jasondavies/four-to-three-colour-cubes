@@ -295,4 +295,163 @@ theorem fullSlot_card (k : ℕ) : Fintype.card (FullSlot k) = (k+2)^3 := by sorr
 
 theorem frameSlot_card (k : ℕ) : Fintype.card (FrameSlot k) = 12 * k + 8 := by sorry
 
+/-! ### Stability, near-extremal failures and forty targets
+
+`ordinary s` lists the sixteen T and P varieties of orientation class `s`, and
+`bucket a` the T and P varieties in colour bucket `a`; `ordinary_geometry` and
+`bucket_geometry` characterise both tables by corner types. `triple a` lists the
+two T varieties with repeated colour `a`, and `allPairs` the 24 P varieties. -/
+
+theorem sourceFinBound : NeZero 68 := by infer_instance
+theorem colourFinBound : NeZero 4 := by infer_instance
+
+def triple : Fin 4 → SourceSet :=
+  letI : NeZero 68 := sourceFinBound
+  ![{10, 13}, {23, 25}, {45, 47}, {66, 67}]
+def bucket : Fin 4 → SourceSet :=
+  letI : NeZero 68 := sourceFinBound
+  ![{10, 11, 12, 13, 14, 15, 17, 18, 20, 21, 37, 38, 39, 40}, {11, 14, 17, 18, 23, 24, 25, 26, 29, 30, 44, 46, 59, 62}, {12, 15, 24, 26, 37, 39, 44, 45, 46, 47, 51, 52, 61, 63}, {20, 21, 29, 30, 38, 40, 51, 52, 59, 61, 62, 63, 66, 67}]
+def ordinary : Fin 2 → SourceSet :=
+  letI : NeZero 68 := sourceFinBound
+  ![{10, 11, 12, 18, 20, 23, 24, 29, 39, 40, 44, 45, 51, 59, 61, 66}, {13, 14, 15, 17, 21, 25, 26, 30, 37, 38, 46, 47, 52, 62, 63, 67}]
+def allPairs : SourceSet :=
+  letI : NeZero 68 := sourceFinBound
+  {11, 12, 14, 15, 17, 18, 20, 21, 24, 26, 29, 30, 37, 38, 39, 40, 44, 46, 51, 52, 59, 61, 62, 63}
+
+/-- BES's universal corners `012, 031, 023, 132`, closed under cyclic rotation. -/
+def universalCorners : Finset (Colour × Colour × Colour) :=
+  letI : NeZero 4 := colourFinBound
+  {(0,1,2), (1,2,0), (2,0,1), (0,3,1), (3,1,0), (1,0,3),
+   (0,2,3), (2,3,0), (3,0,2), (1,3,2), (3,2,1), (2,1,3)}
+
+/-- Corner colours in a fixed cyclic orientation: the order of `exposedFaces k`
+when its face indices have even sum, and the reverse cyclic order otherwise. -/
+def cornerRead (c : Fin 6 → Colour) (k : Slot) : Colour × Colour × Colour :=
+  if ((ColourCubes.exposedFaces k 0).val + (ColourCubes.exposedFaces k 1).val +
+      (ColourCubes.exposedFaces k 2).val) % 2 = 0 then
+    (c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 1),
+      c (ColourCubes.exposedFaces k 2))
+  else
+    (c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 2),
+      c (ColourCubes.exposedFaces k 1))
+
+def Trichromatic (t : Colour × Colour × Colour) : Prop :=
+  t.1 ≠ t.2.1 ∧ t.1 ≠ t.2.2 ∧ t.2.1 ≠ t.2.2
+
+/-- Class `0` reads corners as given; class `1` reverses them. -/
+def classRead (s : Fin 2) (t : Colour × Colour × Colour) : Colour × Colour × Colour :=
+  letI : NeZero 2 := frameFinTwo
+  if s = 0 then t else (t.1, t.2.2, t.2.1)
+
+/-- Orientation class `s`: every trichromatic corner is a universal corner after
+`classRead s`, and every set of three colours occurs at some corner. -/
+def OrdinaryClass (s : Fin 2) (c : Fin 6 → Colour) : Prop :=
+  (∀ k, Trichromatic (cornerRead c k) → classRead s (cornerRead c k) ∈ universalCorners) ∧
+  ∀ d : Colour, ∃ k, Trichromatic (cornerRead c k) ∧
+    (cornerRead c k).1 ≠ d ∧ (cornerRead c k).2.1 ≠ d ∧ (cornerRead c k).2.2 ≠ d
+
+/-- Bucket `a`: at least two of the three corner types `aab`, with `b ≠ a`. -/
+def InBucket (a : Colour) (c : Fin 6 → Colour) : Prop :=
+  2 ≤ (Finset.univ.filter fun b : Colour => b ≠ a ∧ ∃ k : Slot,
+    ({c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 1),
+      c (ColourCubes.exposedFaces k 2)} : Multiset Colour) = {a, a, b}).card
+
+theorem ordinary_geometry : ∀ s : Fin 2, ∀ i : Source,
+    i ∈ ordinary s ↔ OrdinaryClass s (sourceFaces i) := by sorry
+
+theorem bucket_geometry : ∀ a : Colour, ∀ i ∈ ordinary 0 ∪ ordinary 1,
+    i ∈ bucket a ↔ InBucket a (sourceFaces i) := by sorry
+
+/-- Copies of source variety `i`, up to proper rotation, in an indexed family. -/
+def classCount {m : ℕ} (cubes : Fin m → Fin 6 → Colour) (i : Source) : ℕ :=
+  Fintype.card {j // ∃ r : Fin 24, ∀ f, cubes j f = sourceFaces i (ColourCubes.rotations r f)}
+
+/-- Some family of four-colour cubes with these rotation-class counts has no frame. -/
+def FrameFails (k : ℕ) (x : Inventory) : Prop :=
+  ∃ m, ∃ cubes : Fin m → Fin 6 → Colour,
+    (∀ j, Uses 4 (cubes j)) ∧ classCount cubes = x ∧ ¬ FamilyFrameSolvable k cubes
+
+/-- A failure to which no further cube can be added without creating a frame. -/
+def MaximalFrameFails (k : ℕ) (x : Inventory) : Prop :=
+  FrameFails k x ∧ ∀ y : Inventory, x ≤ y → FrameFails k y → y = x
+
+/-- The structural obstruction: one ordinary orientation and four bounded buckets. -/
+def PureBuckets (k : ℕ) (x : Inventory) : Prop :=
+  ∃ s : Fin 2, (∀ i, 0 < x i → i ∈ ordinary s) ∧
+    ∀ a, mass x (bucket a) ≤ 4*k+7
+
+theorem family_frame_stability {m : ℕ} (n : ℕ) (hn : 3 ≤ n)
+    (cubes : Fin m → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j))
+    (hm : 14*n ≤ m) :
+    ¬ FamilyFrameSolvable (n-2) cubes ↔ PureBuckets (n-2) (classCount cubes) := by sorry
+
+/-- Sizes `16n-4-d` with `n=k+2`, `0 ≤ d ≤ 2n-4`. -/
+theorem family_stability_failure_count (k d : ℕ) (hk : 1 ≤ k) (hd : d ≤ 2*k) :
+    Nat.card {x : Inventory // total x + d = 16*k+28 ∧ FrameFails k x} =
+      2 * (d+15).choose 15 := by sorry
+
+theorem family_stability_maximal_count (k d : ℕ) (hk : 1 ≤ k) (hd : d ≤ 2*k) :
+    Nat.card {x : Inventory // total x + d = 16*k+28 ∧ MaximalFrameFails k x} =
+      2 * (d+11).choose 11 := by sorry
+
+/-- The eight T and twenty-four P varieties. -/
+def nearSupport : SourceSet :=
+  letI : NeZero 2 := frameFinTwo
+  ordinary 0 ∪ ordinary 1
+
+/-- One parameter for each of the eight T and twenty-four P varieties. -/
+abbrev NearParameter := {i : Source // i ∈ nearSupport}
+
+def nearOrientation (p : NearParameter) : Fin 2 :=
+  letI : NeZero 2 := frameFinTwo
+  if p.val ∈ ordinary 0 then 0 else 1
+
+/-- A T parameter deletes that T; a P parameter lowers its two T buckets
+and inserts the parameter itself. This is the twenty-seven-cube case. -/
+def nearBase (p : NearParameter) : Inventory := fun i =>
+  if i ∈ extremalSupport (nearOrientation p) then
+    7 - if ∃ a : Colour, i ∈ triple a ∧ p.val ∈ bucket a then 1 else 0
+  else if p.val ∈ allPairs ∧ i = p.val then 1 else 0
+
+/-- Increase each of the four T multiplicities by `4k`, where `n=k+2`. -/
+def nearInventory (k : ℕ) (p : NearParameter) : Inventory := fun i =>
+  nearBase p i + if i ∈ extremalSupport (nearOrientation p) then 4*k else 0
+
+theorem family_near_frame_classification (k : ℕ)
+    (cubes : Fin (16*k+27) → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j)) :
+    ¬ FamilyFrameSolvable k cubes ↔ ∃ p : NearParameter, ∀ i : Source,
+      Fintype.card {j // ∃ r : Fin 24, ∀ f,
+        cubes j f = sourceFaces i (ColourCubes.rotations r f)} = nearInventory k p i := by sorry
+
+theorem family_near_failure_count (k : ℕ) :
+    Nat.card {x : Inventory // total x = 16*k+27 ∧ FrameFails k x} = 32 := by sorry
+
+theorem family_near_pair_maximal (k : ℕ) (p : NearParameter) (hp : p.val ∈ allPairs) :
+    MaximalFrameFails k (nearInventory k p) := by sorry
+
+/-- Three faces at a corner have one colour; their opposite faces use two others. -/
+def IsU (t : Fin 6 → Colour) : Prop :=
+  Uses 3 t ∧ ∃ a : Colour,
+    (Finset.univ.filter (fun f => t f = a)).card = 3 ∧
+    ∀ f, t f = a → t (ColourCubes.opposite f) ≠ a
+
+instance (t : Fin 6 → Colour) : Decidable (IsU t) := by unfold IsU; infer_instance
+
+/-- The Q, D and U targets used by the larger-frame constructions. -/
+def FrameTarget (t : Target) : Prop :=
+  IsQ (targetFaces t) ∨ IsD (targetFaces t) ∨ IsU (targetFaces t)
+
+instance (t : Target) : Decidable (FrameTarget t) := by
+  unfold FrameTarget; infer_instance
+
+theorem frame_target_count :
+    (Finset.univ.filter FrameTarget).card = 40 := by sorry
+
+theorem family_restricted_frame_of_le {m : ℕ} (k : ℕ) (hk : 1 ≤ k)
+    (cubes : Fin m → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j))
+    (hm : 16*k+29 ≤ m) :
+    ∃ t : Target, FrameTarget t ∧ Uses 3 (targetFaces t) ∧
+      ∃ p : FrameSlot k ↪ Fin m,
+        ∀ q, FacesFit (cubes (p q)) (targetFaces t) (frameExposed k q) := by sorry
+
 end ThreeColour

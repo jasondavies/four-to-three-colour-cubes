@@ -133,23 +133,27 @@ The public Lean results include:
 | --- | --- |
 | `frame_threshold_n` | For every $n\ge2$, the least frame guarantee is $16n-3$. |
 | `family_frame_classification` | Exactly the two scaled obstructions fail at size $16n-4$, for arbitrary oriented input cubes. |
-| `family_near_frame_classification` / `near_inventories_card` | Exactly 32 failures of size $16n-5$, for every $n\ge2$. |
+| `family_near_frame_classification` / `family_near_failure_count` | Exactly 32 failures of size $16n-5$, for every $n\ge2$. |
 | `family_frame_stability` | For $n\ge3$ and $N\ge14n$, failure is equivalent to one ordinary orientation class and bounded buckets. |
-| `stability_failure_count` / `stability_maximal_count` | The two binomial formulas, using $k=n-2$ and $d\le2k$. |
-| `near_pair_maximal` | Adding any cube solves each of the 24 pair cases. |
+| `ordinary_geometry` / `bucket_geometry` | The orientation-class and bucket tables are exactly the corner-type definitions. |
+| `family_stability_failure_count` / `family_stability_maximal_count` | The two binomial formulas, using $k=n-2$ and $d\le2k$. |
+| `family_near_pair_maximal` | Adding any cube solves each of the 24 pair cases. |
 | `family_restricted_frame_of_le` / `frame_target_count` | For $n\ge3$, 40 targets suffice in the guaranteed range. |
 | `full_threshold_n` | The least complete-cube guarantee is $\max\{n^3,16n-3\}$. |
 | `full_cube_of_four_le` | Any $n^3$ source cubes suffice for $n\ge4$. |
 | `family_restricted_threshold29` / `family_restricted_of_solvable28` | At $n=2$, every 29-cube family and every solvable 28-cube family builds a $Q$, $R$, or $D$ target. |
 
-The original 35 statements in [Challenge.lean](Challenge.lean) cover
-catalogue coverage, uniqueness, geometry and the earlier restricted-target counts.
-The stability, near-extremal and forty-target results are checked library theorems
-in [Stability.lean](ThreeColour/Stability.lean),
-[StabilityCounting.lean](ThreeColour/StabilityCounting.lean), and
-[NearResults.lean](ThreeColour/NearResults.lean), with axiom guards in
-[ThreeColour.lean](ThreeColour.lean); they are not yet part of the comparator
-challenge. The forty-target statement retains a canonical target index, with
+All results in this table are among the 45 statements in
+[Challenge.lean](Challenge.lean), which imports only mathlib; the comparator
+checks them against the proof library. The challenge also covers catalogue
+coverage, uniqueness and geometry. Failures are counted as vectors of
+rotation-class multiplicities: `FrameFails` says that some family of
+four-colour cubes with those counts has no frame. Since failure depends only
+on the counts, every such family then fails. The
+stability criterion uses the library's `ordinary` and `bucket` tables, which
+`ordinary_geometry` and `bucket_geometry` identify with BES's universal-corner
+orientation classes and corner-type buckets. The forty-target statement retains
+a canonical target index, with Q, D and U defined geometrically and
 proper-rotation placements proved for arbitrary physical source families.
 
 `Family.lean` and `FrameFamily.lean` work with arbitrary indexed face colourings;

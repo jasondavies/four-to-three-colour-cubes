@@ -44,7 +44,7 @@ lemma frame_u (k : ℕ) (x : Inventory) (a b c d : Colour) (s : Fin 2)
     (hb : k+2 ≤ mass x (tripleClass b s))
     (hm : 1 ≤ mass x (minorityPool s d))
     (ho : 12*k+7 ≤ mass x (ordinary s)) : RestrictedFrameSolvable k x := by
-  refine ⟨uTarget a b c, Or.inr (Or.inr ⟨a,b,c,hab,hac,hbc,rfl⟩), ?_⟩
+  refine ⟨uTarget a b c, Or.inr (Or.inr (uTarget_isU a b c hab hac hbc)), ?_⟩
   apply frame_at_of_pools k x (uTarget a b c) (uFramePools a b d s)
     (uCornerTag a b c s) (uEdgeTag a b c)
     (u_frame_corners a b c d hab hac hbc hda hdb hdc s)

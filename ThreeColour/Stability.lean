@@ -1,6 +1,7 @@
 module
 public import ThreeColour.NearClassification
 public import ThreeColour.FrameFamily
+public import ThreeColour.ClassCount
 @[expose] public section
 namespace ThreeColour
 open scoped BigOperators
@@ -26,8 +27,8 @@ are used only to state the structural classification. -/
 theorem family_frame_stability {m : ℕ} (n : ℕ) (hn : 3 ≤ n)
     (cubes : Fin m → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j))
     (hm : 14*n ≤ m) :
-    ¬ FamilyFrameSolvable (n-2) cubes ↔ PureBuckets (n-2) (familyInventory cubes) := by
-  rw [familyFrame_iff (n-2) cubes hc]
+    ¬ FamilyFrameSolvable (n-2) cubes ↔ PureBuckets (n-2) (classCount cubes) := by
+  rw [familyFrame_iff (n-2) cubes hc, classCount_eq cubes hc]
   apply frame_stability (n-2) (by omega)
   rw [familyInventory_total]
   omega
