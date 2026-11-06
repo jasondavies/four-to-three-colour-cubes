@@ -30,8 +30,8 @@ class with bounded buckets; a weak-composition parametrisation counts all
 failures and inclusion-maximal failures in this range. The corner threshold
 $29$ answers Problem 2 of Berkove, Eickemeyer and Schulman (2018).
 The proofs use corner containment, orientation constraints, double counting
-and Hall's theorem. The cube and thin-cuboid results also have Lean
-formalisations; the general cuboid extension is a written proof.
+and Hall's theorem. All threshold statements, together with the cube
+stability and counting results, are formalised in Lean.
 \end{abstract}
 
 \section{Introduction}
@@ -695,7 +695,7 @@ cubes complete the assembly whenever at least $n^3$ pieces are available.
 \input{cuboids}
 
 \section{Formal verification and computation}
-The cube-frame and complete-cube thresholds and restricted-target corollaries
+The cube and cuboid thresholds and the restricted-target corollaries
 are formalised in Lean~4 and mathlib~\cite{Lean4,mathlib}, both at
 \texttt{v4.35.0}, for arbitrary indexed families of four-colour cubes.
 Solutions select distinct copies and proper rotations matching the exposed
@@ -713,15 +713,14 @@ multiplicities with four bucket slacks, then applies stars and bars.
 Inclusion-maximality is formalised using the pointwise order on all source
 multiplicities. The comparator challenge covers all of these results,
 including the stability, near-extremal and forty-target extensions.
-The thin-cuboid thresholds also have physical-family statements, proving
-both the universal upper bounds and sharpness. They use the project's
-exposed-face box model and proper-rotation bridges, and remain outside the
-original comparator challenge. The general formulas of
-Theorem~\ref{thm:cuboids} have not yet been formalised: their proof in
-Section~\ref{sec:cuboids} is mathematical, with separate geometry audits
-and symbolic arithmetic checks. Those checks do not constitute a formal
-proof of the cuboid theorem. Appendix~\ref{app:verification} describes
-the verification scope.
+The cuboid thresholds also have physical-family statements, proving both
+universal upper bounds and sharpness. They use the project's exposed-face
+box model and proper-rotation bridges, and remain outside the original
+comparator challenge. The weighted-triangle lemma, directional reservations
+and inventory exhaustion are symbolic in the dimensions. Sharpness reuses
+the cube and rod obstructions through explicit restriction maps. The
+exact-cardinality frame region and complete-box exception criterion are
+also formalised. Appendix~\ref{app:verification} describes the scope.
 
 The Lean proof uses counting and finite Hall certificates. Its corner-case
 proof of the extremal classification treats checkerboards and the smaller

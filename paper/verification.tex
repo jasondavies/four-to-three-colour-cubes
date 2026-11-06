@@ -19,23 +19,21 @@ The physical model and palette-independent geometry come from the shared
 definitions locally.
 
 
-For thin cuboids, \texttt{ThinResults} proves the four sharp thresholds in
-Corollary~\ref{thm:thin} for arbitrary physical source families.
+For cuboids, \texttt{CuboidResults} proves both sharp thresholds in
+Theorem~\ref{thm:cuboids} for arbitrary physical source families, together
+with the no-spare criteria in Corollary~\ref{cor:cuboid-volume}.
 \texttt{BoxModel} specifies exposed faces, counts positions and proves
 completion. Grouped Hall matching supplies distinct copies and proper
-rotations. Rods inherit the strip construction; a balanced checkerboard
-family proves the lower bound at every length. These theorems have axiom
-guards but remain outside the comparator challenge.
+rotations. The general upper proof follows the weighted-triangle and
+$Q,H$ construction in Section~\ref{sec:cuboids}. For the lower bounds,
+an equal-sided box-to-cube bridge permits reuse of the formal cube
+obstruction; restricting to the longest rod permits reuse of the balanced
+checkerboard obstruction. These proofs include all target orientations.
+
+The \texttt{Cuboid} module guards nine theorem axiom reports and is imported
+by the default library. The rod and strip results in \texttt{ThinResults}
+retain their earlier construction, while the paper derives their formulas
+as corollaries. Neither extension is in the comparator challenge.
 Independent rotation-based audits check the local geometry, lower witnesses
 and constructive controls. The sampled inventories supplement the written
 and formal proofs; they are not an exhaustive upper-bound computation.
-
-
-The all-cuboid extension in Theorem~\ref{thm:cuboids} is not yet a theorem
-of the Lean library. Its weighted-triangle selection and directional
-reservations have independent physical-geometry audits; seven numerical
-interfaces also have standalone Mathlib proofs with unrestricted dimension
-variables. These check the arithmetic used by the written argument, not
-its full geometric and matching deductions. The existing rod and strip
-formalisations retain their earlier proof route, while the manuscript now
-derives their formulas as corollaries of the cuboid theorem.

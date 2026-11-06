@@ -169,4 +169,7 @@ No production-paper integration, full cuboid Lean proof, external kernel
 replay, publication-priority check, or external refereeing is claimed.
 
 Integration note: this dated review preceded the manuscript integration.
-The publication draft is now paper/cuboids.tex; full formalisation remains open.
+The publication draft is now paper/cuboids.tex. A subsequent development
+formalised the thresholds and no-spare criteria in ThreeColour/CuboidResults.lean;
+see README.txt for its validation record. This review remains the earlier
+mathematical self-review, not a report of external refereeing.

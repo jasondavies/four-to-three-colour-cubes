@@ -2,7 +2,7 @@ Sharp four-to-three thresholds for all cuboids
 ============================================
 Working mathematical proof, 6 November 2026
 
-Status: working argument integrated in paper/cuboids.tex; not yet formalised in Lean.
+Status: integrated in paper/cuboids.tex and formalised in ThreeColour/CuboidResults.lean.
 The proof uses the established elementary corner geometry. It does not
 assume the corner threshold or the previously proved rod/strip thresholds.
 The accompanying programs check local geometry, lower witnesses,
@@ -345,7 +345,8 @@ exhaustive inventory computation.
 The focused review found no mathematical gap; see REVIEW.txt for its
 reasoning and limitations. Seven arithmetic interfaces have standalone
 Mathlib proofs in ArithmeticReview.lean. The full geometric threshold
-argument has not been formalised in Lean or externally refereed. The manuscript version is paper/cuboids.tex. The existing thin-box
+argument now has Lean proofs in ThreeColour/CuboidResults.lean; it has not
+received external mathematical refereeing. The manuscript version is paper/cuboids.tex. The existing thin-box
 formalisation retains its earlier proof route. The focused review covered
 (4.1), the directional H demands, extra-majority reservation, and the
 two-high-colour case; see REVIEW.txt for the dated review record.

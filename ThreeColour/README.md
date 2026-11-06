@@ -5,7 +5,7 @@ v4.35.0. The default `lake build` also builds the independent comparator challen
 Finite geometry checks are split across modules so Lake can build them in
 parallel. The first build is substantially slower than a cached build.
 
-The general results are in `FrameResults.lean`: `frame_threshold_n` proves the
+The cube results are in `FrameResults.lean`: `frame_threshold_n` proves the
 sharp frame threshold $16n-3$ for $n\ge2$, `full_threshold_n` proves the sharp
 complete-cube threshold $\max\{n^3,16n-3\}$, and `full_cube_of_four_le` gives
 the consequence for $n\ge4$. `FrameFamily.lean` proves the extremal classification
@@ -241,3 +241,41 @@ than independently restated definitions in the original 35-statement
 comparator challenge. A comparator replay of that challenge does not cover
 the thin-cuboid extension. Use `make check-thin` for the focused kernel build
 and independent geometry controls, or `make check` for the full library.
+
+
+## All cuboids
+
+`CuboidResults.lean` exports the general ordered-side statements for
+`2 ≤ a ≤ b ≤ c`:
+
+- `cuboid_frame_threshold`: the sharp threshold
+  `max (max (16*a-3) (4*(a+b+c)-16)) ((24*c-1)/5)`;
+- `cuboid_full_threshold`: the sharp threshold
+  `max (a*b*c) (max (16*a-3) ((24*c-1)/5))`;
+- `cuboid_frame_exact_cardinality`: equality with the number of positions
+  exactly when `3*a+4 ≤ b+c` and `c ≤ 5*(a+b)-19`;
+- `cuboid_full_exact_volume`: equality with volume exactly when
+  `3 ≤ b` and either `4 ≤ b` or `5 ≤ c`;
+- `family_cuboid_full_of_volume`: the physical exact-volume guarantee
+  whenever both geometric lower bounds fit inside the volume.
+
+Both thresholds are `IsLeast` statements over arbitrary indexed source
+families. `CuboidUpper` first proves a guarantee for inventories of all 68
+original varieties, then transports to physical families using BoxAssignment.
+The pool definitions already incorporate the corner-containment reduction.
+
+`CuboidBounds` handles arithmetic. `CuboidSelection` proves three-direction
+selection for arbitrary K4 weights and a physically interpreted good-vertex
+predicate. `CuboidGeometry` counts every corner and directional edge demand
+of D, Q and H and connects grouped Hall matchings to proper rotations.
+`CuboidConstructions` supplies those matchings. `CuboidCounting` and
+`CuboidUpper` prove the majority-bucket and two-high-colour exhaustion.
+`CuboidLower` restricts to the existing cube and rod obstructions and proves
+the equal-sided box-to-cube model bridge and cardinality bounds.
+
+`Cuboid.lean` guards nine public theorem axiom reports. Its default-root
+import makes these proofs part of `lake build` and `make check`. Run
+`make check-cuboids` for the focused build and independent geometry audit.
+All endpoints use the existing project BoxModel; they are not additions
+to the 35-statement comparator challenge. No fresh external-kernel replay
+or external mathematical refereeing of the extension is implied.

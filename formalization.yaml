@@ -19,8 +19,8 @@ project:
     strips have threshold max(29,6*l), in their stated length ranges.
     The manuscript additionally proves the all-cuboid formulas, for ordered
     sides 2 <= a <= b <= c: F=max(16a-3,4(a+b+c)-16,floor((24c-1)/5))
-    and G=max(abc,16a-3,floor((24c-1)/5)). This general extension is not yet
-    formalised; standalone arithmetic lemmas check only numerical interfaces.
+    and G=max(abc,16a-3,floor((24c-1)/5)). CuboidResults formalises both sharp
+    thresholds and the no-spare criteria for arbitrary physical families.
     The original n=2 threshold of 29 and its
     restricted-target corollary are retained. Internal faces are unrestricted.
   authors: ["Jason Davies"]
@@ -75,9 +75,15 @@ status:
     symbolic balanced-checkerboard obstruction. Thin guards the public
     endpoints. These statements use project definitions and remain outside
     the original comparator challenge.
-    The full cuboid classification in paper/cuboids.tex remains a written proof,
-    outside the formal scope. research/cuboids/ArithmeticReview.lean checks
-    seven arithmetic implications, not the full geometric theorem.
+    The full cuboid classification in paper/cuboids.tex is formalised by
+    CuboidResults: two IsLeast thresholds over arbitrary indexed physical
+    families, the exact-cardinality frame region and the complete-box
+    exception criterion. CuboidSelection proves the weighted triangle lemma;
+    CuboidGeometry, CuboidConstructions, CuboidCounting and CuboidUpper
+    supply physical placements. CuboidLower uses explicit model restriction
+    bridges to the existing cube and checkerboard-rod obstructions.
+    Cuboid guards nine public axiom reports; the default library imports it.
+    These statements use BoxModel and are outside the comparator challenge.
     No priority claim, classification below this band, higher-dimensional theorem,
     or general five-colour threshold is formalised.
   sorry_count: 0
@@ -196,8 +202,9 @@ review:
     performed a focused second review with separately reconstructed physical
     geometry and seven symbolic arithmetic checks, and integrated it into
     the manuscript. This was self-review, not external refereeing. The
-    full cuboid extension has not yet been formalised or included in the
-    comparator; its research audits are separate from make check.
+    subsequent formalisation proves the full cuboid extension with nine new
+    axiom guards and default-library coverage. It is not in the comparator
+    challenge; the optional large research audits remain separate from make check.
     Reproduce current checks with make check and
     make comparator. Push/PR CI runs make check; a separate manually triggered
     workflow runs all three comparator kernels and records the checked commit.
@@ -255,6 +262,26 @@ alignment:
       lean: ThreeColour.frame_target_count
       module: ThreeColour.FrameRestrictedDefs
       status: proved
+    - source: "Paper, sharp all-cuboid frame threshold"
+      lean: ThreeColour.cuboid_frame_threshold
+      module: ThreeColour.CuboidResults
+      status: proved
+      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+    - source: "Paper, sharp all-cuboid complete-box threshold"
+      lean: ThreeColour.cuboid_full_threshold
+      module: ThreeColour.CuboidResults
+      status: proved
+      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+    - source: "Paper, exact-cardinality cuboid frame region"
+      lean: ThreeColour.cuboid_frame_exact_cardinality
+      module: ThreeColour.CuboidResults
+      status: proved
+      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+    - source: "Paper, complete-box exceptions"
+      lean: ThreeColour.cuboid_full_exact_volume
+      module: ThreeColour.CuboidResults
+      status: proved
+      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
     - source: "Paper, thin-cuboid rod frame threshold"
       lean: ThreeColour.rod_frame_threshold
       module: ThreeColour.ThinResults

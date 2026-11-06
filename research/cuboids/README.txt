@@ -20,9 +20,10 @@ Status
 This is a new working proof, with self-review and independent physical
 geometry audits. The focused second-pass review found no mathematical gap. It has not
 received external mathematical refereeing. Seven arithmetic interfaces
-have standalone Lean proofs; the full geometric threshold theorem has
-not been formalised. The written argument is now integrated in
-paper/cuboids.tex; the thin-cuboid Lean development retains its earlier route.
+were first checked in standalone Lean proofs. The full geometric threshold
+is now formalised in ThreeColour/CuboidResults.lean, with default-library
+coverage and nine axiom guards. The written argument is in paper/cuboids.tex;
+the thin-cuboid Lean development retains its earlier route.
 No literature-priority claim is made.
 
 Review the proof rather than interpreting a successful program as an
@@ -107,3 +108,26 @@ inventory and weighted-vector audit records are from the preceding
 mathematical review; they were not rerun for the manuscript-only edits.
 No new full Lean build, external referee review, commit or publication is
 claimed by this integration record.
+
+Full formalisation update, 6 November 2026
+------------------------------------------
+ThreeColour/CuboidResults.lean proves the sharp frame and complete-box
+thresholds and both no-spare criteria. See ThreeColour/README.md for the
+module and statement map. make check-cuboids runs the independent geometry
+reconstruction and the complete Cuboid kernel target. The dated focused
+review and original ArithmeticReview file remain historical development
+records; their earlier limited scope does not describe the new library.
+The new library results remain outside the independent comparator challenge.
+
+Formal validation, 6 November 2026
+---------------------------------
+The Cuboid library and all nine axiom guards passed. LEAN_NUM_THREADS=1
+make check passed the source and package audits, metadata validation,
+regeneration checks, independent corner/frame/near-extremal/thin-box
+checks, and all default Lean targets including Solution (9,214 jobs).
+make check-cuboids passed the independent geometry reconstruction and
+focused Cuboid kernel target. The retained standalone arithmetic checks
+also passed. make paper rebuilt the 17-page manuscript without unresolved
+references or box warnings; TeX labels and relative documentation links
+were checked. These checks cover the working changes after 7cd3a4b, not a
+newly committed release. No external comparator replay is claimed.

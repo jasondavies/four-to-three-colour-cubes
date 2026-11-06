@@ -1,4 +1,8 @@
-import Mathlib
+module
+
+public import Mathlib
+
+@[expose] public section
 
 /-! Symbolic checks of the arithmetic interfaces in cuboid-theorem.txt.
 This file does not formalise the geometric cuboid threshold theorem. -/

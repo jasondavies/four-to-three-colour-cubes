@@ -8,6 +8,7 @@ public import ThreeColour.StabilityCounting
 public import ThreeColour.ClassCount
 public import ThreeColour.OrdinaryGeometry
 public import ThreeColour.Thin
+public import ThreeColour.Cuboid
 
 @[expose] public section
 

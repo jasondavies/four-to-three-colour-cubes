@@ -1,7 +1,7 @@
 # Three-colour solutions from four-colour cubes
 
 - [Paper (PDF)](paper/four-to-three-colour-cubes.pdf) and [LaTeX](paper/four-to-three-colour-cubes.tex).
-- [Cube Lean results](ThreeColour/FrameResults.lean), [thin-cuboid results](ThreeColour/ThinResults.lean), [physical model](ThreeColour/FramePhysical.lean), and [formalisation guide](ThreeColour/README.md).
+- [Cube Lean results](ThreeColour/FrameResults.lean), [cuboid results](ThreeColour/CuboidResults.lean), [physical model](ThreeColour/FramePhysical.lean), and [formalisation guide](ThreeColour/README.md).
 - [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
 - [Provenance, scope and AI disclosure](formalization.yaml).
 
@@ -75,25 +75,32 @@ $2\times3\times4$, $3\times3\times3$, $3\times3\times4$ can require spare
 sources for a complete box. Every other shape with sides at least two
 works with exactly its volume.
 
-**Verification boundary:** the general cuboid classification is a written
-proof in [cuboids.tex](paper/cuboids.tex), not yet a theorem of the Lean
-library. [Research and reproduction notes](research/cuboids/README.txt)
-provide the constructive and independent geometry audits and seven
-standalone Lean arithmetic lemmas. These do not formalise the full theorem.
-The [focused review](research/cuboids/REVIEW.txt) was a second pass by the
-same assistant, not external mathematical refereeing.
+**Formal verification:** [CuboidResults.lean](ThreeColour/CuboidResults.lean)
+proves both sharp thresholds as `IsLeast` statements over arbitrary indexed
+physical source families. It also proves the exact-cardinality frame region
+and the complete-box exception criterion. The statements require exactly
+three target colours, distinct selected copies and proper rotations.
+[Cuboid.lean](ThreeColour/Cuboid.lean) guards nine theorem axiom reports and
+is imported by the default library target.
 
-The cube results and all four sharp rod/strip thresholds remain formalised.
-[ThinResults.lean](ThreeColour/ThinResults.lean) proves the thin-box results
-for arbitrary indexed physical source families, with exactly three target
-colours, distinct selected copies and proper rotations. It retains its
-strip-to-rod proof route. These endpoints use the project's
-[box model](ThreeColour/BoxModel.lean), have axiom guards, and are outside
-the original 35-statement comparator challenge.
+The upper proof formalises the weighted-triangle selection and the
+shortest-axis Q/H constructions. The lower proof reuses the established
+cube obstruction through a model bridge and the balanced checkerboard
+rod obstruction through frame restriction. The existing cube and thin-box
+APIs retain their earlier proofs.
 
-Run `make check-thin` for the existing thin-box audits and Lean modules,
-and `make paper` to rebuild the manuscript. The broader cuboid audits are
-listed separately in the research notes and are not part of `make check`.
+These results use the project's [box model](ThreeColour/BoxModel.lean)
+and its proved placement bridges. They remain outside the original
+35-statement comparator challenge; replaying that challenge does not
+independently replay the cuboid extension.
+
+[Research and reproduction notes](research/cuboids/README.txt) retain the
+written proof and independent geometry audits. The [focused mathematical
+review](research/cuboids/REVIEW.txt) was a second pass by the same assistant,
+not external refereeing. Run `make check-cuboids` for the focused geometry
+audit and kernel build, `make check` for the full repository checks, and
+`make paper` for the manuscript. Larger inventory and weighted-vector
+audits remain separate optional commands in the research notes.
 
 ## Proof idea
 
