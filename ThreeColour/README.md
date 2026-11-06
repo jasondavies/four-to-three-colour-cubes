@@ -5,8 +5,8 @@ v4.35.0. The default `lake build` also builds the independent comparator challen
 Finite geometry checks are split across modules so Lake can build them in
 parallel. The first build is substantially slower than a cached build.
 
-For the general v2 results, start with [All cuboids](#all-cuboids).
-The earlier cube and thin-cuboid proofs are retained below, followed by
+Start with [All cuboids](#all-cuboids) for the general threshold theorems.
+The sections below describe the cube and thin-cuboid proofs, followed by
 [independent audits and optional search](#independent-audits-and-optional-search).
 
 The cube results are in `FrameResults.lean`: `frame_threshold_n` proves the
@@ -33,11 +33,11 @@ reduction, so the proof applies to all 68 original varieties.
 `FrameLower.lean` verifies the orientation-or-monochromatic-edge deficiency
 for every target and proves the obstruction for all `k`, rather than checking
 a bounded range of side lengths. `FrameTheorems.lean` supplies the inventory
-threshold and classification; the original 28-cube classification supplies `k=0`.
+threshold and classification; the 28-cube classification supplies `k=0`.
 
 `Stability.lean` gives the failure criterion at total at least $14n$, for
-$n\ge3$, including an arbitrary physical-family statement. The strengthened
-`frame_checker_many` construction supplies the sharper D-extension bound.
+$n\ge3$, including an arbitrary physical-family statement. The
+`frame_checker_many` construction supplies the D-extension bound.
 `StabilityParameters.lean` proves that twelve pair multiplicities and four
 bucket slacks encode and decode the inventories exactly.
 `StabilityCounting.lean` gives the bijection, the stars-and-bars count
@@ -65,10 +65,10 @@ and proves `family_near_failure_count` (exactly 32 failing count vectors) and
 
 `FrameRestrictedDefs.lean` defines U targets geometrically (`IsU`: one colour on
 three faces at a corner, two others on the opposite faces), retains the Q/D/U
-target witness and checks the count of forty. The frame constructions and counting argument now preserve
+target witness and checks the count of forty. The frame constructions and counting argument preserve
 that witness, giving `family_restricted_frame_of_le` for `k ≥ 1`. The source
 families and rotations are physical; the permitted target set is specified
-using the checked catalogue. These extensions are axiom-audited and included
+using the checked catalogue. These results are axiom-audited and included
 in the 45-statement comparator challenge.
 
 `scripts/generate_frame_data.py` generates `FrameData.lean`; every tag and
@@ -222,9 +222,9 @@ No registry submission or acceptance is claimed.
 
 The four threshold statements are `IsLeast` assertions over universal
 assembly guarantees for arbitrary indexed source families. They prove both
-sufficiency and failure below the stated bound. `Thin.lean` retains the ten
-combinatorial axiom guards and adds nine guards for the physical results
-and their main bridges; the default root imports it.
+sufficiency and failure below the stated bound. `Thin.lean` checks ten
+combinatorial axiom reports and nine reports for physical results and their
+main bridges; the default root imports it.
 
 `BoxModel.lean` represents corners, geometric edges, face interiors and
 interior positions, with their exposed faces and cardinalities. Its
@@ -238,13 +238,12 @@ oriented D/Q/H constructions. `ThinGeometry`, `ThinConstructions` and
 physical strip placements. The rod upper bound follows by restriction.
 `ThinLowerGeometry` and `ThinLower` prove the balanced-checkerboard
 obstruction symbolically in the length, including all target orientations.
-The existing twenty-eight-source corner obstruction gives the other bound.
+The twenty-eight-source corner obstruction gives the other bound.
 
-These results depend on the project's box definitions and bridges, rather
-than independently restated definitions in the 45-statement
-comparator challenge. A comparator replay of that challenge does not cover
-the thin-cuboid extension. Use `make check-thin` for the focused kernel build
-and independent geometry controls, or `make check` for the full library.
+These results use the project's box definitions and bridges. They are checked
+by the library build and axiom guards, but are outside the 45-statement
+comparator challenge. Use `make check-thin` for the focused kernel build and
+independent geometry controls, or `make check` for the full library.
 
 
 ## All cuboids
@@ -274,15 +273,14 @@ predicate. `CuboidGeometry` counts every corner and directional edge demand
 of D, Q and H and connects grouped Hall matchings to proper rotations.
 `CuboidConstructions` supplies those matchings. `CuboidCounting` and
 `CuboidUpper` prove the majority-bucket and two-high-colour exhaustion.
-`CuboidLower` restricts to the existing cube and rod obstructions and proves
+`CuboidLower` restricts to the cube and rod obstructions and proves
 the equal-sided box-to-cube model bridge and cardinality bounds.
 
 `Cuboid.lean` guards nine public theorem axiom reports. Its default-root
 import makes these proofs part of `lake build` and `make check`. Run
 `make check-cuboids` for the focused build and independent geometry audit.
-All endpoints use the existing project BoxModel; they are not additions
-to the 45-statement comparator challenge. No fresh external-kernel replay
-or external mathematical refereeing of the extension is implied.
+These results use `BoxModel` and are checked by the library build and axiom
+guards. They are outside the 45-statement comparator challenge.
 
 ## Independent audits and optional search
 

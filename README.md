@@ -1,7 +1,7 @@
 # Three-colour cuboids from four-colour cubes
 
-This v2 draft extends the [cube results in v1](https://hexagonmath.org/2611.00070v1)
-to sharp thresholds for every cuboid with side lengths at least two.
+This repository proves sharp thresholds for assembling three-colour cuboids
+from four-colour cubes, for every cuboid with side lengths at least two.
 
 [Paper (PDF)](paper/four-to-three-colour-cubes.pdf) ·
 [LaTeX](paper/four-to-three-colour-cubes.tex) ·
@@ -71,8 +71,8 @@ At the claimed threshold, the cuboid construction has two cases:
 
 1. **A target with three monochromatic opposite face pairs ($D$) has a corner
    solution.** Index checkerboards by their missing colour pairs, as weights
-   on the edges of $K_4$. A weighted
-   triangle lemma chooses a supported three-colour target and assigns its
+   on the edges of $K_4$. A weighted triangle lemma chooses a supported
+   three-colour target and assigns its
    pairs to the three box directions. Hall's theorem fills the edge positions.
 2. **No $D$ corner solution exists.** Orientation counts leave at most six
    cubes outside the larger ordinary class. A large colour bucket, or two
@@ -133,7 +133,7 @@ regenerated geometry and figures, runs the independent cube and cuboid
 checks, and builds all Lean targets and axiom guards.
 [CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
 For the focused all-cuboid geometry audit and kernel build, use
-`make check-cuboids`; for the earlier rod and strip proofs, use `make check-thin`.
+`make check-cuboids`; for rod and strip results, use `make check-thin`.
 
 ## Formal verification
 
@@ -145,7 +145,7 @@ and their targets use exactly three colours.
 | --- | --- |
 | `cuboid_frame_threshold` / `cuboid_full_threshold` | Both all-cuboid thresholds, as `IsLeast` statements. |
 | `cuboid_frame_exact_cardinality` / `cuboid_full_exact_volume` | The exact conditions for needing no spares. |
-| `frame_threshold_n` / `full_threshold_n` | The cube thresholds, with their earlier proofs. |
+| `frame_threshold_n` / `full_threshold_n` | Sharp cube frame and complete-cube thresholds. |
 | `family_frame_classification` / `family_near_frame_classification` | The two largest and 32 next-largest cube obstructions. |
 | `family_frame_stability` | The failure criterion for $n\ge3$, $N\ge14n$. |
 | `family_stability_failure_count` / `family_stability_maximal_count` | The two binomial counts. |
@@ -156,9 +156,10 @@ See [CuboidResults.lean](ThreeColour/CuboidResults.lean),
 [formalisation guide](ThreeColour/README.md) for definitions, module maps
 and the remaining endpoints.
 
-The 45 corner and cubic statements, including stability, near-extremal and
-forty-target results, are restated in [Challenge.lean](Challenge.lean),
-with proofs supplied by [Solution.lean](Solution.lean). Run
+The [comparator challenge](Challenge.lean) restates 45 corner and cubic
+results, including stability, near-extremal classification and counting,
+and the forty-target theorem. [Solution.lean](Solution.lean) supplies their
+proofs. Run
 
 ```sh
 make comparator
@@ -166,17 +167,10 @@ make comparator
 
 to compare their statements and definitions with the library, then replay
 through Lean, NanoDa and con-ron. This requires `bwrap` and is separate from
-`make check`. The challenge copies model definitions and tables; it is not
-an independently devised model. **The rod, strip and general cuboid
-extensions have library proofs and axiom guards, but are outside this
-comparator challenge.**
-
-Failures are counted as vectors of rotation-class multiplicities;
-`FrameFails` asserts failure of a physical family with those counts.
-Failure depends only on the counts. `ordinary_geometry` and `bucket_geometry`
-identify the library tables with the corner-type definitions. The forty-target
-statement retains a canonical target index, with Q, D and U defined
-geometrically and proper-rotation placements for arbitrary physical families.
+`make check`. The challenge copies the library's model definitions and tables;
+it does not provide an independently devised model. **Rod, strip and general
+cuboid results are checked by the library build and axiom guards, but are
+outside the comparator challenge.**
 
 ## Computation and repository guide
 
@@ -188,13 +182,11 @@ corner search uses OR-Tools and is not required by `make check` or Lean.
 - [Formalisation and maintenance guide](ThreeColour/README.md): proof structure,
   [audit and search commands](ThreeColour/README.md#independent-audits-and-optional-search),
   comparator scope and release checks.
-- [Cuboid research notes](research/cuboids/README.txt) and
-  [thin-cuboid notes](research/thin-cuboids/README.txt): constructive algorithms,
-  additional audits and dated development records.
+- [Cuboid construction](research/cuboids/cuboids.py) and
+  [physical-rotation audit](research/cuboids/audit.py): a constructive algorithm,
+  lower-witness checks and additional inventory controls.
 - `paper/`: LaTeX and PDF; `ThreeColour/`: Lean proofs and generated geometry;
   `scripts/`: generation, validation and optional search;
   `data/lower-obstruction.json`: the 28-cube witness and 120 Hall certificates.
 
-[formalization.yaml](formalization.yaml) records attribution and review
-scope. The recorded AI reviews are not external human refereeing.
 Code and manuscript are distributed under the [Apache-2.0 licence](LICENSE).
