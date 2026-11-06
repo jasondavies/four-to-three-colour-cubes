@@ -61,6 +61,11 @@ status:
     and bucket capacities. At size 16n-4-d, for 0 <= d <= 2n-4, the exact
     counts are 2*choose(d+15,15) failures and 2*choose(d+11,11) inclusion-maximal
     failures, proved by explicit bijections and stars and bars.
+    The thin-cuboid extension has written rod/strip threshold proofs and
+    physical-rotation audits. ThinBounds and ThinSelection formalise only
+    numerical and weighted-K4 ingredients, with axiom guards in Thin.
+    Physical cuboid threshold statements and placement bridges are not yet
+    formalised and are outside the comparator challenge.
     No priority claim, classification below this band, higher-dimensional theorem,
     or general five-colour threshold is formalised.
   sorry_count: 0
@@ -232,6 +237,16 @@ alignment:
       lean: ThreeColour.frame_target_count
       module: ThreeColour.FrameRestrictedDefs
       status: proved
+    - source: "Paper, thin-cuboid numerical and reservation bounds (partial coverage)"
+      lean: ThreeColour.Thin.strip_residual_bounds
+      module: ThreeColour.ThinBounds
+      status: proved
+      note: "Numerical ingredient only; no physical cuboid threshold endpoint."
+    - source: "Paper, choosing directions for a D target (abstract weighted graph)"
+      lean: ThreeColour.Thin.strip_pairs
+      module: ThreeColour.ThinSelection
+      status: proved
+      note: "Good-vertex interpretation is a hypothesis; physical transport remains unformalised."
     - source: "Paper, sharp frame threshold for every n >= 2"
       lean: ThreeColour.frame_threshold_n
       module: ThreeColour.FrameResults

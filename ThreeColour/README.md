@@ -207,3 +207,20 @@ SHA. A green routine CI run alone does not certify kernel replay.
 The repository also includes a manually triggered
 [Palomar preflight workflow](../.github/workflows/palomar-preflight.yml).
 No registry submission or acceptance is claimed.
+
+## Thin cuboids: partial formal coverage
+
+`ThinBounds.lean` verifies the threshold arithmetic, balanced-checkerboard
+shortage, residual supplies, majority counts and reservation dichotomy.
+`ThinSelection.lean` proves long-pair and simultaneous long/short-pair
+selection on a weighted K4. Its `good` predicate is abstract: the physical
+D-target interpretation remains a hypothesis. `Thin.lean` imports both
+modules and guards all ten public theorem axiom reports; the default root
+imports it.
+
+These are combinatorial ingredients, **not** full physical rod/strip
+threshold theorems. The cuboid position model, physical geometry bridges,
+Hall placements, lower-obstruction transport and completion remain to be
+formalised. The manuscript and main README state this boundary explicitly.
+The new ingredients are outside the 35-statement comparator challenge.
+Use `make check-thin` for the focused kernel build and geometric controls.

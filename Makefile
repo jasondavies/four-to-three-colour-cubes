@@ -6,6 +6,11 @@ lean:
 check:
 	bash scripts/check.sh
 
+check-thin:
+	python3 -S research/thin-cuboids/audit.py
+	python3 -S research/thin-cuboids/strip_audit.py
+	lake build ThreeColour.Thin
+
 comparator:
 	bash scripts/verify-comparator.sh
 
@@ -19,4 +24,4 @@ regenerate:
 figure:
 	python3 scripts/generate_figure.py
 
-.PHONY: all lean check comparator paper regenerate figure
+.PHONY: all lean check check-thin comparator paper regenerate figure

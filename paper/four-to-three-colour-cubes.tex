@@ -11,7 +11,7 @@
 \newtheorem*{remark}{Remark}
 \title{Three-colour solutions from four-colour cubes}
 \author{Jason Davies}
-\date{November 3, 2026}
+\date{November 6, 2026}
 \begin{document}
 \maketitle
 
@@ -27,8 +27,11 @@ of which $2\binom{d+11}{11}$ are inclusion-maximal.
 The threshold for a complete cube is $\max\{n^3,16n-3\}$; in particular,
 any $n^3$ source cubes suffice when $n\ge4$. The case $n=2$ answers the
 threshold question in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
-The proof combines their corner-containment reduction with orientation
-constraints and double counting.
+For thin cuboids, the sharp frame thresholds for both $2\times2\times\ell$
+and $2\times3\times\ell$ are $\max\{29,\lfloor(24\ell-1)/5\rfloor\}$,
+although their complete-box thresholds differ.
+The proofs combine corner containment, orientation constraints, double counting
+and Hall's theorem.
 \end{abstract}
 
 \section{Introduction}
@@ -67,6 +70,13 @@ exactly three colours. Four is the smallest side length for which this
 guarantee holds without spare cubes; it holds for every larger side length
 as well.
 
+The same geometry also determines the thresholds for the two thinnest
+cuboid families (Theorem~\ref{thm:thin}). Rods of size $2\times2\times\ell$
+can require spare cubes at every length, whereas complete
+$2\times3\times\ell$ strips require none for $\ell\ge5$. Their frame
+thresholds nevertheless agree. A weighted graph on the four colours selects
+suitable edge directions, and a common Hall argument supplies both families.
+
 For comparison, BES~\cite[Theorem 5]{BES} show that any $12n-16$
 four-colour cubes build a four-colour $n$-frame when $n\ge3$. Requiring
 exactly three exterior colours raises the sharp threshold to
@@ -85,8 +95,8 @@ multiplicities to be equal. We first prove the corner case, including its
 restricted-target corollary, and then extend the argument to frames.
 
 \section{Model and geometric facts}
-Reflections are not allowed as moves. Only exterior faces must match the
-target; internal faces are unrestricted.
+Only proper rotations are allowed. Exterior faces must match the target;
+interior faces are unrestricted.
 
 A corner type is a cyclically ordered triple of face colours, read
 counterclockwise when viewed from outside along the corner's body diagonal.
@@ -663,8 +673,10 @@ source cube has; interior positions prescribe none. Thus arbitrary unused
 cubes complete the assembly whenever at least $n^3$ pieces are available.
 \end{proof}
 
+\input{thin-cuboids}
+
 \section{Formal verification and computation}
-The frame and complete-cube thresholds and restricted-target corollaries
+The cube-frame and complete-cube thresholds and restricted-target corollaries
 are formalised in Lean~4 and mathlib~\cite{Lean4,mathlib}, both at
 \texttt{v4.35.0}, for arbitrary indexed families of four-colour cubes.
 Solutions select distinct copies and proper rotations matching the exposed
@@ -682,7 +694,11 @@ multiplicities with four bucket slacks, then applies stars and bars.
 Inclusion-maximality is formalised using the pointwise order on all source
 multiplicities. The comparator challenge covers all of these results,
 including the stability, near-extremal and forty-target extensions.
-Appendix~\ref{app:verification} describes the verification scope.
+The new thin-cuboid theorem has a written proof and independent
+physical-rotation audits. Its numerical bounds and weighted-graph selection
+lemmas are additionally checked in Lean; the physical rod and strip threshold
+statements are not yet formalised. Appendix~\ref{app:verification} describes
+ the verification scope.
 
 The Lean proof uses counting and finite Hall certificates. Its corner-case
 proof of the extremal classification treats checkerboards and the smaller
@@ -714,15 +730,11 @@ $n^3$ pieces are available.
 
 \section*{Further questions}
 Classifying failures below the stability range would extend
-Theorem~\ref{thm:stability}. Cuboids pose a separate problem: for each
-$k\ge1$, take $2k$ copies of each of the six checkerboards. These $12k$
-cubes cannot fill a $2\times2\times3k$ box in exactly three colours.
-Every target corner must be trichromatic, forcing a $D$ target. Every
-position then demands the same bichromatic edge type along the long
-axis, including the corners. One checkerboard lacks that type, so only
-$10k$ cubes are usable for $12k$ positions. Thus assembly from exactly the
-volume fails for arbitrarily large cuboids, even though it holds for
-cubes of side length at least four.
+Theorem~\ref{thm:stability}. Theorem~\ref{thm:thin} settles rods and strips;
+the next cuboid families include $2\times b\times c$ with $b\ge4$ and
+boxes with all three sides at least three. The different thresholds of
+frames with the same cardinality show that a general classification must
+account for their directional demands.
 
 \Needspace{12\baselineskip}
 \section*{Declaration of AI-generated research and review}

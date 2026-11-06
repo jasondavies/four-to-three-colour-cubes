@@ -18,3 +18,14 @@ The physical model and palette-independent geometry come from the shared
 \texttt{colour-cubes-core} library~\cite{ColourCubes}. The challenge restates its
 definitions locally.
 
+
+For the thin-cuboid extension, \texttt{ThinBounds} checks the threshold and
+reservation arithmetic, and \texttt{ThinSelection} proves the weighted
+$K_4$ selection lemma. These modules assume the relevant numerical supplies
+and the criterion for a good vertex. They do not yet connect those
+hypotheses to arbitrary physical cuboid inventories or prove the full
+statements of Theorem~\ref{thm:thin}. Separate audits construct the proper
+rotations directly and check all local compatibility incidences, the displayed
+lower obstructions, and constructive controls. The controls are not an
+exhaustive inventory proof; the universal upper bounds follow from the
+written argument in Section~\ref{sec:thin}.

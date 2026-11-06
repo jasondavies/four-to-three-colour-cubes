@@ -57,6 +57,32 @@ copies of each variety by $4n-1$ copies.
 the target have equal colours, so its hidden bottom face has colour 2.
 In panel C, $a,b,c$ are distinct colours.*
 
+## Thin-cuboid extension
+
+The new manuscript section proves, with
+$K_\ell=\max\{29,\lfloor(24\ell-1)/5\rfloor\}$,
+
+- $F(2,2,\ell)=G(2,2,\ell)=K_\ell$ for $\ell\ge2$;
+- $F(2,3,\ell)=K_\ell$ and $G(2,3,\ell)=\max\{29,6\ell\}$ for $\ell\ge3$.
+
+The strip upper bound also supplies the rod upper bound by deleting four
+edge positions. A balanced collection of checkerboards gives the new lower
+bound. Any thirty sources form a complete $2\times3\times5$ box; rods can
+require spare sources at every length.
+
+**Verification boundary:** these cuboid formulas have written proofs and
+independent physical-rotation audits. Lean verifies the numerical bounds,
+reservation counts and weighted-$K_4$ selection lemmas in
+[Thin.lean](ThreeColour/Thin.lean), with explicit axiom guards. The full
+physical cuboid thresholds and their placement bridges are **not yet
+formalised**, and are outside the comparator challenge. Existing cube and
+stability results retain their prior formalisation.
+
+See the [shared proof](paper/thin-cuboids.tex) and
+[review and reproduction notes](research/thin-cuboids/README.txt).
+Run `make check-thin` for the focused audits and new Lean modules, and
+`make paper` to rebuild the manuscript.
+
 ## Proof idea
 
 The proof reduces the 68 varieties to 38 by replacing cubes with varieties

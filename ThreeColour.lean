@@ -7,6 +7,7 @@ public import ThreeColour.NearResults
 public import ThreeColour.StabilityCounting
 public import ThreeColour.ClassCount
 public import ThreeColour.OrdinaryGeometry
+public import ThreeColour.Thin
 
 @[expose] public section
 

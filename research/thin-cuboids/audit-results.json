@@ -1,0 +1,190 @@
+{
+  "status": "passed",
+  "proper_rotations": 24,
+  "physical_sources": 68,
+  "reduced_sources": 38,
+  "oriented_targets": 336,
+  "local_compatibility_checks": 274176,
+  "positive_inventory_controls": 986,
+  "construction_branches": {
+    "H": 260,
+    "Q": 101,
+    "D": 625
+  },
+  "balanced_checkerboard_lower_controls": [
+    {
+      "length": 2,
+      "failing_inventory": 8
+    },
+    {
+      "length": 3,
+      "failing_inventory": 13
+    },
+    {
+      "length": 4,
+      "failing_inventory": 18
+    },
+    {
+      "length": 5,
+      "failing_inventory": 22
+    },
+    {
+      "length": 6,
+      "failing_inventory": 27
+    },
+    {
+      "length": 7,
+      "failing_inventory": 32
+    },
+    {
+      "length": 8,
+      "failing_inventory": 37
+    },
+    {
+      "length": 9,
+      "failing_inventory": 42
+    },
+    {
+      "length": 10,
+      "failing_inventory": 46
+    },
+    {
+      "length": 11,
+      "failing_inventory": 51
+    },
+    {
+      "length": 12,
+      "failing_inventory": 56
+    },
+    {
+      "length": 13,
+      "failing_inventory": 61
+    },
+    {
+      "length": 14,
+      "failing_inventory": 66
+    },
+    {
+      "length": 15,
+      "failing_inventory": 70
+    },
+    {
+      "length": 16,
+      "failing_inventory": 75
+    },
+    {
+      "length": 17,
+      "failing_inventory": 80
+    },
+    {
+      "length": 18,
+      "failing_inventory": 85
+    },
+    {
+      "length": 19,
+      "failing_inventory": 90
+    },
+    {
+      "length": 20,
+      "failing_inventory": 94
+    }
+  ],
+  "thresholds": [
+    {
+      "length": 2,
+      "volume": 8,
+      "threshold": 29
+    },
+    {
+      "length": 3,
+      "volume": 12,
+      "threshold": 29
+    },
+    {
+      "length": 4,
+      "volume": 16,
+      "threshold": 29
+    },
+    {
+      "length": 5,
+      "volume": 20,
+      "threshold": 29
+    },
+    {
+      "length": 6,
+      "volume": 24,
+      "threshold": 29
+    },
+    {
+      "length": 7,
+      "volume": 28,
+      "threshold": 33
+    },
+    {
+      "length": 8,
+      "volume": 32,
+      "threshold": 38
+    },
+    {
+      "length": 9,
+      "volume": 36,
+      "threshold": 43
+    },
+    {
+      "length": 10,
+      "volume": 40,
+      "threshold": 47
+    },
+    {
+      "length": 11,
+      "volume": 44,
+      "threshold": 52
+    },
+    {
+      "length": 12,
+      "volume": 48,
+      "threshold": 57
+    },
+    {
+      "length": 13,
+      "volume": 52,
+      "threshold": 62
+    },
+    {
+      "length": 14,
+      "volume": 56,
+      "threshold": 67
+    },
+    {
+      "length": 15,
+      "volume": 60,
+      "threshold": 71
+    },
+    {
+      "length": 16,
+      "volume": 64,
+      "threshold": 76
+    },
+    {
+      "length": 17,
+      "volume": 68,
+      "threshold": 81
+    },
+    {
+      "length": 18,
+      "volume": 72,
+      "threshold": 86
+    },
+    {
+      "length": 19,
+      "volume": 76,
+      "threshold": 91
+    },
+    {
+      "length": 20,
+      "volume": 80,
+      "threshold": 95
+    }
+  ],
+  "scope": "Independent physical-rotation audit of geometry, displayed obstructions, and constructive controls. The universal upper bound is the written proof; random controls are not exhaustive. This audit does not execute Lean or establish priority."
+}
