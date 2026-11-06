@@ -96,7 +96,7 @@ produced the fourteen-page PDF without unresolved references or box
 warnings; the final page was rendered and inspected.
 
 This record describes the thin-box validation before the subsequent
-all-cuboid manuscript integration; the current PDF is seventeen pages. No
+all-cuboid manuscript integration. No
 fresh external Lean/NanoDa/con-ron comparator replay or upload is claimed.
 
 Reproduce from the repository root

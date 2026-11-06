@@ -131,3 +131,10 @@ also passed. make paper rebuilt the 17-page manuscript without unresolved
 references or box warnings; TeX labels and relative documentation links
 were checked. These checks cover the working changes after 7cd3a4b, not a
 newly committed release. No external comparator replay is claimed.
+
+V2 clarity integration, 6 November 2026
+---------------------------------------
+The supplied review patch has been integrated. See v2-review/README.txt
+for provenance, the retained independent checker and the local validation
+record. The rebuilt paper has 16 pages, and the simplified upper-bound
+argument leaves the Lean sources unchanged.

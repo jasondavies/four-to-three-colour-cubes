@@ -212,53 +212,37 @@ prescribed colour. An ordinary minority source supplies the opposite
 orientation; a checkerboard supplies both.
 
 \subsection{Completing the upper bound}
-First let $a\ge3$. Since $L\le N\le16a+2$, integrality gives
+Since $L\le N\le16a+2$, integrality gives
 \begin{equation}\label{eq:cuboid-width}
  b+c\le3a+4,\qquad 2b\le3a+4.
 \end{equation}
-Some $t_u\ge2a$, because $n_T\ge16a-14>4(2a-1)$.
-At most one colour has fewer than $b$ copies of its $T$ variety: two such
-colours would give
+Some $t_u\ge2a$, because $n_T\ge16a-14>4(2a-1)$ for every $a\ge2$.
+If at most one colour has fewer than $b$ copies of its $T$ variety, a
+minority triple containing $u$ has another colour $v$ with $t_v\ge b$.
+These provide the $T_u$ and $T_v$ sources for $H$.
+
+Otherwise two colours have fewer than $b$ copies, giving
 \[
- n_T\le2(b-1)+2h=8a+2b-4\le11a<16a-14.
+ n_T\le2(b-1)+2h=8a+2b-4\le11a.
 \]
-Choose $u$ with $t_u\ge2a$. A minority source supports a triple containing
-$u$, and one of its other colours $v$ has $t_v\ge b$.
-The $H$ reservation is available, including an extra majority copy since
-$A\ge16a-9\ge2a+b+1$ by~\eqref{eq:cuboid-width}.
-Equation~\eqref{eq:cuboid-budget} completes the frame.
-
-Now let $a=2$. Equations~\eqref{eq:cuboid-buckets} give
-$N\le34$, $h=7$ and $n_T\ge18$. Cardinality implies $b+c\le10$, so
-$b\le5$. If $b=5$, then $N\ge L\ge32$ and
-$n_T\ge2(N-6)-28\ge24$. At most one colour has fewer than five $T$
-sources, since two would give $n_T\le4+4+7+7=22$.
-A largest count is at least six. A minority triple containing that colour
-has another colour with at least five copies, giving the $H$ reservation.
-
-For $b\le4$, call a colour \emph{high} if $t_u\ge b$.
-There are at least two high colours, since otherwise
-$n_T\le7+3(b-1)\le16$. A largest count is at least five.
-If at least three colours are high, a minority triple through a
-largest-count colour contains another high colour, again supplying $H$.
-
-If exactly two colours are high, then
+For $a\ge3$ this contradicts $n_T\ge16a-14$, so necessarily $a=2$.
+Now $h=7$, $n_T\ge18$ and $L=4(b+c)-8\ge8b-8$. Hence
 \[
- n_T\le14+2(b-1)\le20,\qquad
- n_T\ge2(N-M)-28\ge30-2M,
+ 16b-56\le2L-40\le2N-40\le n_T\le2b+12,
 \]
-so $M\ge5$. Both high colours have at least four $T$ sources: otherwise
-$n_T\le7+3+2(b-1)\le16$. A minority ordinary source supports a triple
-containing both high colours. If no such source exists, all $M\ge5$
-minority sources are checkerboards. At most three miss the pair of high
-colours, by~\eqref{eq:cuboid-minority}. Any other checkerboard supports
-a triple containing that pair: a checkerboard missing $ij$ supports
-precisely the triples omitting $i$ or $j$.
-Thus the high colours can serve as $u,v$ in $H$, with $t_u\ge4=2a$ and
-$t_v\ge b$.
+which forces $b\le4$. Thus $n_T\le20$, while
+$n_T\ge2(N-M)-28\ge30-2M$ forces $M\ge5$.
+Since every $t_i\le7$, at least two colours $u,v$ have $t_u,t_v\ge4$;
+otherwise $n_T\le7+3\cdot3=16$. They satisfy $t_u\ge2a$ and $t_v\ge b$.
+An ordinary minority source supports a triple containing both colours.
+If all minority sources are checkerboards, at most three miss the pair
+$uv$, by~\eqref{eq:cuboid-minority}. Since $M\ge5$, another checkerboard
+supports a triple containing $u,v$: one missing $ij$ supports precisely
+the triples omitting $i$ or $j$. Again the $H$ reservation is available.
 
-In every $a=2$ case, $A\ge23>2a+b$ supplies the extra majority copy.
-The residual Hall matching completes the frame. Together with
+In both cases, $A\ge16a-9>2a+b$, by~\eqref{eq:cuboid-width}, supplies the
+extra majority copy. Equation~\eqref{eq:cuboid-budget} and the residual
+Hall matching complete the frame. Together with
 Corollary~\ref{cor:cuboid-D} and the three lower bounds, this proves the
 frame formula in Theorem~\ref{thm:cuboids}.
 
@@ -274,7 +258,7 @@ A side of length one would let a source expose opposite exterior faces
 simultaneously and is outside this completion argument.
 
 \subsection{Consequences}
-The ordinary-cube thresholds follow by setting $a=b=c=n$:
+The cube thresholds follow by setting $a=b=c=n$:
 $F(n,n,n)=16n-3$ and $G(n,n,n)=\max\{n^3,16n-3\}$.
 The earlier cube argument additionally classifies failures in its stability
 range. The two thinnest families also follow immediately.

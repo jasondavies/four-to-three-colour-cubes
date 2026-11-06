@@ -1,0 +1,101 @@
+{
+  "base_commit": "659b2f9795ffcdf977294260b3c7a8355c50f9e2",
+  "date": "2026-11-06",
+  "local_branch": "review/v2-clarity",
+  "mathematical_defect_found": false,
+  "lean_sources_modified": false,
+  "pdf_pages": 16,
+  "pdf_visual_qa": "all pages reviewed; pages 5 and 6 rechecked after orphan fix",
+  "pdf_final_latex_warnings": 0,
+  "pdf_embedded_type1_fonts": 24,
+  "hosted_original_commit_ci": {
+    "conclusion": "success",
+    "url": "https://github.com/jasondavies/four-to-three-colour-cubes/actions/runs/42230163325",
+    "applies_to_new_commit": false
+  },
+  "fresh_local_lean": [
+    {
+      "label": "cuboid-selection",
+      "command": [
+        "/workspace/scratch/cf35029f607f/review-work/elan/bin/lake",
+        "build",
+        "ThreeColour.CuboidSelection"
+      ],
+      "return_code": 0,
+      "elapsed_s": 27.5,
+      "minimum_system_available_mib": 8236.8,
+      "stopped_for_memory": false
+    },
+    {
+      "label": "cuboid-arithmetic",
+      "command": [
+        "/workspace/scratch/cf35029f607f/review-work/elan/bin/lake",
+        "env",
+        "lean",
+        "research/cuboids/ArithmeticReview.lean"
+      ],
+      "return_code": 0,
+      "elapsed_s": 12.5,
+      "minimum_system_available_mib": 8412.4,
+      "stopped_for_memory": false
+    },
+    {
+      "label": "cuboid-kernel",
+      "command": [
+        "/workspace/scratch/cf35029f607f/review-work/elan/bin/lake",
+        "build",
+        "ThreeColour.Cuboid"
+      ],
+      "status": "interrupted",
+      "complete": false,
+      "reason": "Stopped deliberately after independent hosted CI success was verified for the original exact commit; no Lean source files changed in the review. Not a theorem failure.",
+      "supervisor_session_exit_code": 130
+    }
+  ],
+  "fresh_repository_audits": {
+    "source_pins_regeneration": "passed",
+    "corner": "passed",
+    "frame": "passed",
+    "near_extremal_and_stability": "passed",
+    "rod": "passed",
+    "strip": "passed",
+    "cuboid_geometry": "passed",
+    "cuboid_construction": "passed"
+  },
+  "metadata_check": "Python reproduction of Ruby validator plus all 35 module/declaration references; Ruby unavailable locally",
+  "extra_independent_audit": {
+    "status": "passed",
+    "scope": "Finite independent geometry/arithmetic checks, not an exhaustive inventory theorem.",
+    "geometry": {
+      "proper_rotations": 24,
+      "source_varieties": 68,
+      "minimal_varieties": 38,
+      "ordinary_classes": [
+        16,
+        16
+      ],
+      "coordinate_shapes": 120,
+      "Q_H_coordinate_demand_checks": 5760
+    },
+    "arithmetic": {
+      "arithmetic_shapes": 70035,
+      "shortened_split_numerical_states": 78508,
+      "shortened_split_exceptional_states": 216
+    }
+  },
+  "not_rerun": [
+    "full local make check",
+    "three-kernel comparator",
+    "optional CP-SAT searches",
+    "large weighted-vector search"
+  ],
+  "remaining_author_decision": "v2 upload licence: repository Apache-2.0 versus Hexagon v1 CC BY 4.0",
+  "files": {
+    "v2-clarity.patch": "e81e78415ba31332c8b109f36c570147f292e1ea7fada7d39c78b4ea184f9c04",
+    "REVIEW.txt": "f3be59be6d519c9d4433bfb4cb400c318c617870ee636f48a75492a90dcc08eb",
+    "cuboid-independent-review.py": "069e1c79dab15e0284849de86505459290a7273ff97b5be3718a5d2a04c81f1a",
+    "README-revised.md": "dea526982318a69819c24bae23734959f50d9d6ae1b32990ec270ccf9500b71e",
+    "cuboid-independent-review-results.json": "bd632671339467428b7a1d5dee3f15636897af8f5600d160d411b18c97c98045",
+    "four-to-three-colour-cubes.pdf": "127f892aeb22b6c5cda6b2beb6b8f0a947001cf854bc9d30ce14081b7b399fba"
+  }
+}

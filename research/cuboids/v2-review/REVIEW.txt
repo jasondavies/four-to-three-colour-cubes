@@ -1,0 +1,234 @@
+REVIEW: THREE-COLOUR CUBOIDS FROM FOUR-COLOUR CUBES
+6 November 2026
+
+Reviewed repository: https://github.com/jasondavies/four-to-three-colour-cubes
+Requested branch: research/thin-cuboids
+Base commit: 659b2f9795ffcdf977294260b3c7a8355c50f9e2
+Local review branch: review/v2-clarity
+Published v1: https://hexagonmath.org/2611.00070v1
+
+ASSESSMENT
+
+No mathematical defect was found in the written cube, corner, stability,
+counting, thin-cuboid or all-cuboid results reviewed here. The main v2
+improvement is presentational: make the general cuboid theorem the organising
+result, and keep the stronger cube classification as a distinct contribution.
+The proof's finite geometry, physical interpretation, arithmetic endpoints and
+small-width cases were checked separately. This is an AI-assisted review and
+fresh computational audit, not external human refereeing or a new priority
+search.
+
+The local revision changes documentation, the presentation of one proof,
+two CI settings, and an audit-scope sentence. No Lean theorem or proof source
+was changed. The revised manuscript compiles to 16 pages, down from 17. Its
+final LaTeX pass has no warnings, unresolved references or box problems; all
+16 pages were rendered and visually checked. The README is approximately
+39% shorter (about 2,100 to 1,300 whitespace-delimited words).
+
+FILES IN THIS PACKAGE
+
+v2-clarity.patch
+  Full Git patch against the base commit, including the rebuilt PDF.
+four-to-three-colour-cubes.pdf
+  The complete revised manuscript, supplied separately for immediate reading.
+README-revised.md
+  The complete revised README. Its relative links resolve in the repository.
+cuboid-independent-review.py
+  An additional independent audit written during this review. It imports no
+  repository code or tables and uses only the Python standard library.
+cuboid-independent-review-results.json
+  Deterministic results from that audit.
+validation-summary.json
+  Scope, completed checks, limits, and the successful original-commit CI URL.
+validation/
+  Fresh Lean selection/arithmetic logs and the final LaTeX log.
+
+APPLYING THE REVISION
+
+In a clean checkout of the repository, create a review branch at the exact
+base commit, then apply the patch using its actual extracted path:
+
+  git switch -c review/v2-clarity 659b2f9795ffcdf977294260b3c7a8355c50f9e2
+  git apply --check /path/to/v2-clarity.patch
+  git apply /path/to/v2-clarity.patch
+
+The patch includes the PDF. A normal complete TeX installation can rebuild it
+with make paper. The documented full checks are LEAN_NUM_THREADS=1 make check.
+The extra independent audit can be run from its extracted directory with:
+
+  python3 -S cuboid-independent-review.py
+
+PRINCIPAL EDITORIAL CHANGES
+
+1. The title is now 'Three-colour cuboids from four-colour cubes', including
+   PDF metadata and formalization.yaml. Filenames remain stable.
+
+2. The README starts with the v2 addition, links to the actual archived v1,
+   and defines sources, targets, F and G before presenting the formulas.
+   The source model specifies all four fixed-palette colours, repeated
+   varieties, proper rotations, monochromatic target faces in exactly three
+   colours, and unrestricted interior faces.
+
+3. A six-row table distinguishes frame size, volume, frame threshold and
+   complete-cuboid threshold. The examples with 28 frame positions but
+   thresholds 33 and 29 make the role of shape concrete.
+
+4. The README's proof overview now describes the cuboid construction: the
+   weighted-triangle D branch, then reservations and Hall matching in the
+   no-D branch. Its former overview described only cube stability.
+
+5. 'Ordinary cubes' is no longer used to mean equal-sided targets. 'Ordinary'
+   retains its technical meaning for the T/P source varieties; targets with
+   equal sides are called cubic targets or cubic frames.
+
+6. The all-cuboid no-D proof has one general case and one exceptional case,
+   replacing the previous a>=3, b=5, b<=4 and two-high-colour subdivisions.
+   The mathematical ingredients and theorem remain the same.
+
+7. Repeated discussion of verification scope was removed from the paper's
+   main text, while the verification appendix retains the comparator and
+   physical-model details. The abstract states the physical target condition
+   explicitly. The roadmap explains that the cuboid proof needs the shared
+   geometry, not the earlier threshold or classification theorems.
+
+8. Detailed audit and CP-SAT instructions were moved into ThreeColour/README.md.
+   The root README retains the primary build commands, theorem map and the
+   explicit distinction between library proofs and comparator replay.
+   Time-limited solver runs may return UNKNOWN; they are no longer described
+   as unconditionally reporting INFEASIBLE.
+
+9. formalization.yaml now says 'all-cuboid thresholds', replacing 'full cuboid
+   classification'. General cuboid extremal inventories are not classified;
+   the paper correctly leaves them as a further question.
+
+10. Theorem 2 is kept with the beginning of its proof rather than being left
+    alone at the bottom of a page. The figures, tables and all mathematical
+    labels remain intact.
+
+ENGINEERING CHANGES
+
+- scripts/check.sh now runs research/cuboids/review_geometry.py. That fast
+  independent geometry audit was previously available only through the
+  focused command and was omitted from routine push/PR checks.
+- The comparator workflow's main Check step now sets LEAN_NUM_THREADS=1,
+  matching the existing serial setting in routine CI and its own preliminary
+  RawChecks step. This is consistent with the repository's documented memory
+  requirements.
+- The all-cuboid audit and its deterministic JSON report now say that the
+  audit does not execute Lean or establish priority. The former sentence
+  'No Lean formalisation or priority claim' could misleadingly describe the
+  project, which now has the full cuboid formalisation.
+- A statement calling the historical 17-page PDF 'current' was removed from
+  the thin-cuboid development notes. Historical validation records were left
+  as dated records.
+
+MATHEMATICAL REVIEW
+
+For ordered integer dimensions 2 <= a <= b <= c, the reviewed formulas are
+
+  F = max(16a-3, 4(a+b+c)-16, floor((24c-1)/5)),
+  G = max(abc, 16a-3, floor((24c-1)/5)).
+
+The three lower bounds are sound. A one-orientation-class T inventory forces
+Q and falls one short of the 4a required copies in a bucket. The position
+count gives the cardinality bound. Balanced checkerboards force D; the eight
+corners and the four longest edges jointly require 4c sources containing one
+bichromatic pair. Counting the corners in that demand is essential, and the
+argument does so correctly for every axis assignment.
+
+The weighted-triangle lemma was checked under its actual weaker hypothesis
+N >= max(29,L,K(c)), without silently adding the shortest-side bound. The
+light-edge and heavy-edge cases work. Assigning the selected triangle's
+colour pairs to axes is legitimate because the target itself is chosen by
+the construction; source cubes still use proper rotations.
+
+The residual Hall argument is sufficient: each individual type has enough
+suppliers, and the union of any two distinct bichromatic-type supplier sets
+contains the entire residual inventory. Together with the total position
+bound, these are all the grouped Hall inequalities required.
+
+The Q and H directional demands and their reservations were verified from
+actual integer-coordinate cuboids. H reserves 2a majority T_u copies, b
+majority T_v copies, one supporting minority copy, and one further majority
+copy. The extra-copy budget and the inequality N >= 4a+2b+2c-5 are sufficient.
+
+In the shortened no-D argument, n_T >= 16a-14 guarantees some t_u >= 2a.
+If at most one colour has fewer than b T copies, a supported minority triple
+through u provides a second suitable colour. Otherwise n_T <= 11a forces
+a=2. Then
+
+  16b-56 <= 2L-40 <= 2N-40 <= n_T <= 2b+12
+
+forces b<=4. The bounds n_T<=20 and n_T>=30-2M force M>=5. Two colours have
+at least four T copies each, and a minority source supports their pair,
+supplying the same H construction. This retains the original proof's
+physical reservations while shortening the case split.
+
+Completion is valid because every position outside the frame exposes at
+most one face when all sides are at least two. The exact-cardinality
+inequalities and the four non-rod volume exceptions have the correct integer
+endpoints. The side-one case remains outside the theorem.
+
+The cube review checked orientation balance, the 28-cube classification,
+the 29-cube swap argument, D-frame extension, the U reservation, the stability
+criterion, the weak-composition bijection, inclusion-maximality, and the
+n=2 endpoint of the 32-case near-extremal classification. In particular,
+t_a >= h-d > 0 prevents hidden feasibility restrictions in the counting
+parametrisation. No correction to these results was needed.
+
+The original BES paper was checked: its Problem 2, Theorem 5 and bucket
+attribution support the manuscript's claims. The archived v1 already contains
+the cube stability and counting results, so the all-cuboid thresholds are the
+precise new v2 contribution.
+
+VALIDATION ACTUALLY COMPLETED
+
+- Source audits, dependency pins, comparator separation, regeneration of
+  geometry and figures, shell syntax, workflow YAML, local documentation
+  links/anchors, TeX labels/references, and README table arithmetic passed.
+- The independent corner, frame and compiled near-extremal/stability suites
+  passed. The deficit-two audit covers all 272 listed failures and 10,608
+  one-cube extensions of maximal cases for each of n=3 and n=4.
+- Rod and strip audits passed 274,176 and 705,024 local compatibility checks,
+  respectively, with 986 and 1,140 positive inventory controls.
+- The all-cuboid construction audit passed 4,730 controls over 562 shapes,
+  432 explicit boundary controls, 48 directional tables, 2,112 H reservation
+  incidences, 15,552 lower-witness checks and 261,040 arithmetic shapes.
+- The additional independent audit reconstructs 24 rotations, 68 source
+  varieties, 38 minimal varieties and the two 16-variety orientation classes.
+  It passes 5,760 coordinate-demand checks, 70,035 endpoint/weighted-bound
+  shapes, and 78,508 states of the shortened split, including 216 exceptional
+  states. These are finite checks, not an exhaustive upper-bound proof.
+- Fresh Lean 4.35.0 build of ThreeColour.CuboidSelection passed, including
+  CuboidBounds and ThinSelection. All seven standalone unbounded arithmetic
+  proofs passed with only the standard allowed axiom subset.
+- make paper passed after configuring the local TeX environment. The final
+  16-page PDF has all 24 fonts embedded as Type 1, with Unicode maps.
+
+LIMITS AND PUBLICATION DETAILS
+
+The full cold local Cuboid build was deliberately interrupted after some
+inherited certificates completed. It did not fail a theorem, and this review
+does not claim a completed local full make check. The original exact commit
+659b2f9 completed hosted CI successfully:
+
+  https://github.com/jasondavies/four-to-three-colour-cubes/actions/runs/42230163325
+
+That run checks the unchanged Lean sources. It does not certify a new commit
+containing the edits. Ruby was unavailable locally; the metadata validator's
+logic was reproduced in Python, with extra checks of all 35 statement/module
+references. The exact Ruby command was exercised by the original hosted CI.
+The optional CP-SAT and large weighted-vector searches were not rerun.
+
+No fresh three-kernel comparator replay was performed here. The original
+35-statement challenge does not contain the cuboid, stability, near-extremal
+or forty-target extensions. A successful replay of it must not be described
+as independent comparator coverage of those extensions. The repository's
+existing release policy calls for replay of the final exact commit.
+
+The repository says Apache-2.0 for code and manuscript, whereas the archived
+Hexagon v1 is labelled CC BY 4.0. The terms were not changed in this revision;
+confirm the intended v2 upload licence and describe the arrangement explicitly.
+
+The reviewed changes are local review material. No publication or external
+human review is claimed.

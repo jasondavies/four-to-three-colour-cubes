@@ -5,6 +5,10 @@ v4.35.0. The default `lake build` also builds the independent comparator challen
 Finite geometry checks are split across modules so Lake can build them in
 parallel. The first build is substantially slower than a cached build.
 
+For the general v2 results, start with [All cuboids](#all-cuboids).
+The earlier cube and thin-cuboid proofs are retained below, followed by
+[independent audits and optional search](#independent-audits-and-optional-search).
+
 The cube results are in `FrameResults.lean`: `frame_threshold_n` proves the
 sharp frame threshold $16n-3$ for $n\ge2$, `full_threshold_n` proves the sharp
 complete-cube threshold $\max\{n^3,16n-3\}$, and `full_cube_of_four_le` gives
@@ -237,7 +241,7 @@ obstruction symbolically in the length, including all target orientations.
 The existing twenty-eight-source corner obstruction gives the other bound.
 
 These results depend on the project's box definitions and bridges, rather
-than independently restated definitions in the original 35-statement
+than independently restated definitions in the 45-statement
 comparator challenge. A comparator replay of that challenge does not cover
 the thin-cuboid extension. Use `make check-thin` for the focused kernel build
 and independent geometry controls, or `make check` for the full library.
@@ -277,5 +281,60 @@ the equal-sided box-to-cube model bridge and cardinality bounds.
 import makes these proofs part of `lake build` and `make check`. Run
 `make check-cuboids` for the focused build and independent geometry audit.
 All endpoints use the existing project BoxModel; they are not additions
-to the 35-statement comparator challenge. No fresh external-kernel replay
+to the 45-statement comparator challenge. No fresh external-kernel replay
 or external mathematical refereeing of the extension is implied.
+
+## Independent audits and optional search
+
+These checks regenerate geometry independently of the Lean tables. They
+supplement the symbolic proofs; sampled inventories are not an exhaustive
+upper-bound computation. The checks below, except the OR-Tools search,
+run as part of `make check`.
+
+- [Corner checker](../scripts/check_three_colour_threshold.py): the 68-to-38
+  reduction, both printed geometric tables, both lower obstructions and the
+  fixture's 120 Hall certificates, all 68 one-cube extensions of the first obstruction,
+  and 1,000 sampled inventories at each of sizes 28 and 29. It also checks
+  the restricted 28-target guarantee on those samples.
+- [Frame checker](../scripts/check_frames.py): edge availability, reduction
+  transport and the $U$ demands. For $n=2,\ldots,6$, it tests both obstructions
+  against all 120 targets and all 136 one-cube extensions.
+- [Compiled near-extremal audit](../scripts/check_near_frames.cpp): all 32
+  listed failures and 1,632 one-cube extensions of the pair cases for
+  $n=2,\ldots,6$. It also checks all 272 deficit-two failures for $n=3,4$,
+  all 10,608 one-cube extensions of the 156 saturated cases in each dimension,
+  and one slack-preserving extension of each nonsaturated case. Run it
+  separately with `bash scripts/check-near-frames.sh`.
+- [Rod](../research/thin-cuboids/audit.py) and
+  [strip](../research/thin-cuboids/strip_audit.py) audits: physical rotations,
+  reduction transport, lower witnesses and constructive controls.
+- [All-cuboid geometry audit](../research/cuboids/review_geometry.py): proper
+  rotations, source reduction, edge and corner availability, and the
+  three-colour target restrictions. Larger optional inventory and weighted-vector audits
+  are documented in the [research notes](../research/cuboids/README.txt).
+
+The optional corner search uses OR-Tools CP-SAT. From the repository root:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install -r requirements.txt
+python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
+  --minimal --seconds 60 --workers 8 \
+  --hint data/lower-obstruction.json --output /tmp/four-to-three-search.json
+```
+
+That command searches for a largest obstruction. To test size 29 and
+exclude the known size-28 obstructions among the 38 reduced varieties:
+
+```sh
+python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
+  --minimal --size 29 --seconds 60 --workers 8 \
+  --output /tmp/four-to-three-size29.json
+python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
+  --minimal --size 28 --exclude-colour-orbit data/lower-obstruction.json \
+  --seconds 60 --workers 8 --output /tmp/four-to-three-exclude-extrema.json
+```
+
+A completed search reports `INFEASIBLE` for these two tests. A time-limited
+run may instead return `UNKNOWN`; the Lean proof does not depend on the solver.

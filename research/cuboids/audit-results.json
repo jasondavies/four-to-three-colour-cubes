@@ -18,5 +18,5 @@
   "oriented_targets": 648,
   "physical_lower_checks": 15552,
   "arithmetic_shapes": 261040,
-  "scope": "Controls and geometry audit, not an exhaustive inventory proof. The upper bound is the written argument. No Lean formalisation or priority claim."
+  "scope": "Controls and geometry audit, not an exhaustive inventory proof. The upper bound is the written argument. This audit does not execute Lean or establish priority."
 }

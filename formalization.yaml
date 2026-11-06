@@ -1,28 +1,23 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
 version: "v0.4"
 project:
-  name: "Three-colour solutions from four-colour cubes"
+  name: "Three-colour cuboids from four-colour cubes"
   description: >-
-    For every side length n >= 2, the sharp threshold for a three-colour frame
-    from four-colour source cubes is 16n-3. Exactly two collections of size
-    16n-4 fail: 4n-1 copies of each of four T varieties in one orientation class,
-    or their reflections. Exactly 32 collections of size 16n-5 fail for every n >= 2,
-    including 24 inclusion-maximal pair cases. For n >= 3, failures of size
-    at least 14n are exactly the pure ordinary collections with every bucket
-    at most 4n-1. A bijective parametrisation counts all failures and all
-    inclusion-maximal failures in this band by binomial coefficients.
-    Forty Q/D/U targets suffice for
-    guaranteed frames when n >= 3. The sharp complete-cube threshold is max(n^3,16n-3).
-    Arbitrary indexed face colourings, geometric proper rotations, and distinct
-    physical copies are formalised. Rod and strip frames have sharp threshold
-    max(29,floor((24*l-1)/5)); complete rods have the same threshold and complete
-    strips have threshold max(29,6*l), in their stated length ranges.
-    The manuscript additionally proves the all-cuboid formulas, for ordered
-    sides 2 <= a <= b <= c: F=max(16a-3,4(a+b+c)-16,floor((24c-1)/5))
-    and G=max(abc,16a-3,floor((24c-1)/5)). CuboidResults formalises both sharp
-    thresholds and the no-spare criteria for arbitrary physical families.
-    The original n=2 threshold of 29 and its
-    restricted-target corollary are retained. Internal faces are unrestricted.
+    Sharp thresholds for assembling cuboids with monochromatic exterior faces
+    using exactly three colours from source cubes using all four colours of
+    a fixed palette. For ordered integer sides 2 <= a <= b <= c,
+    F=max(16a-3,4(a+b+c)-16,floor((24c-1)/5)) is the frame threshold and
+    G=max(abc,16a-3,floor((24c-1)/5)) the complete-cuboid threshold.
+    Both thresholds and the exact conditions for needing no spare sources
+    are formalised for arbitrary indexed physical families, distinct copies
+    and proper rotations. Internal faces are unrestricted.
+    For cubic frames, F(n,n,n)=16n-3. Exactly two collections of size 16n-4
+    fail, and exactly 32 of size 16n-5 fail, including 24 inclusion-maximal
+    pair cases. For n >= 3, failures of size at least 14n are exactly the
+    ordinary collections in one orientation class with every bucket at most
+    4n-1; explicit bijections give the two binomial counts. Forty Q/D/U
+    targets suffice for guaranteed cubic frames when n >= 3. The earlier
+    corner, cube, rod and strip proofs and restricted-target results are retained.
   authors: ["Jason Davies"]
   responsible_maintainers: ["Jason Davies"]
   license: "Apache-2.0"
@@ -32,7 +27,7 @@ classification:
   arxiv: ["math.CO", "cs.LO"]
   msc2020: ["05C70", "68V15", "00A08"]
 sources:
-  - title: "Three-colour solutions from four-colour cubes"
+  - title: "Three-colour cuboids from four-colour cubes"
     authors: ["Jason Davies"]
     type: original-proof
     relationship: other
@@ -75,7 +70,7 @@ status:
     symbolic balanced-checkerboard obstruction. Thin guards the public
     endpoints. These statements use project definitions and remain outside
     the original comparator challenge.
-    The full cuboid classification in paper/cuboids.tex is formalised by
+    The all-cuboid thresholds in paper/cuboids.tex are formalised by
     CuboidResults: two IsLeast thresholds over arbitrary indexed physical
     families, the exact-cardinality frame region and the complete-box
     exception criterion. CuboidSelection proves the weighted triangle lemma;

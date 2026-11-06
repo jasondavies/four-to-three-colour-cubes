@@ -1,164 +1,125 @@
-# Three-colour solutions from four-colour cubes
+# Three-colour cuboids from four-colour cubes
 
-- [Paper (PDF)](paper/four-to-three-colour-cubes.pdf) and [LaTeX](paper/four-to-three-colour-cubes.tex).
-- [Cube Lean results](ThreeColour/FrameResults.lean), [cuboid results](ThreeColour/CuboidResults.lean), [physical model](ThreeColour/FramePhysical.lean), and [formalisation guide](ThreeColour/README.md).
-- [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
-- [Provenance, scope and AI disclosure](formalization.yaml).
+This v2 draft extends the [cube results in v1](https://hexagonmath.org/2611.00070v1)
+to sharp thresholds for every cuboid with side lengths at least two.
 
-**For every $n\ge4$, any $n^3$ cubes, each painted with all four colours of a
-fixed palette, build an $n\times n\times n$ cube with solid faces in exactly
-three colours. For $n=2$ and $n=3$ the sharp numbers are 29 and 45.**
+[Paper (PDF)](paper/four-to-three-colour-cubes.pdf) ·
+[LaTeX](paper/four-to-three-colour-cubes.tex) ·
+[Lean results](ThreeColour/CuboidResults.lean) ·
+[Formalisation guide](ThreeColour/README.md) ·
+[Provenance and AI disclosure](formalization.yaml)
 
-In particular, **any 64 such cubes can all form a $4\times4\times4$ cube
-with solid faces in exactly three colours. No spare cubes are needed.**
-Four is the smallest side length for which this universal guarantee holds;
-it holds for every larger side length as well.
-
-These guarantees follow from a frame theorem. A frame is the $12n-16$ corner and edge
-pieces of an $n\times n\times n$ cube. For every $n\ge2$, any $16n-3$
-four-colour cubes contain a three-colour frame. For a fixed palette, exactly
-two collections of $16n-4$ cubes fail: $4n-1$ copies of each of four
-varieties in one orientation class, and the mirror image of that collection.
-One cube below the extremal size, **exactly 32 collections of $16n-5$ cubes
-fail**, for every $n\ge2$: eight deletions from the two largest obstructions
-and twenty-four cases containing one $P$ cube. Each pair case is
-inclusion-maximal: adding any cube makes it solvable.
-
-For $n\ge3$, the stronger **stability theorem** classifies every failure with
-at least $14n$ sources: all cubes lie in one ordinary orientation class and
-each colour bucket contains at most $4n-1$ cubes. Consequently, for
-$0\le d\le2n-4$, the number of failures at size $16n-4-d$ is
-$2\binom{d+15}{15}$, of which $2\binom{d+11}{11}$ are inclusion-maximal.
-For deficits $0,1,2$, these counts are $2,32,272$, with $2,24,156$ maximal.
-The criterion, bijection and both formulas are proved in Lean.
-
-The remaining pieces of a complete cube are easy, since every cube shows
-every colour, so the complete-cube threshold is $\max\{n^3,16n-3\}$.
-
-The exterior faces must be monochromatic and use exactly three colours;
-internal faces need not match. Collections may repeat varieties, and only
-proper rotations are allowed.
-
-| Side length | Frame pieces | Frame threshold | Complete-cube threshold |
-| --- | --- | --- | --- |
-| 2 | 8 | 29 | 29 |
-| 3 | 20 | 45 | 45 |
-| 4 | 32 | 61 | 64 |
-| 5 | 44 | 77 | 125 |
-
-The case $n=2$ answers the threshold question in Problem 2 of
-[Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
-The figure shows this first case; the general obstruction replaces seven
-copies of each variety by $4n-1$ copies.
-
-![Why the exceptional 28 cubes fail: missing corner orientations, or eight required cubes with only seven available](paper/obstruction-figure.svg)
-
-*Marked vertices are monochromatic corners. In panel B, opposite faces of
-the target have equal colours, so its hidden bottom face has colour 2.
-In panel C, $a,b,c$ are distinct colours.*
+Each source is a unit cube with one colour on each face and **all four colours
+of a fixed palette present**. The assembled cuboid must have monochromatic
+exterior faces using **exactly three colours**. Internal faces need not match.
+Repeated varieties are allowed, and pieces may be moved by proper rotations.
+A *variety* is a face colouring up to proper rotation.
 
 ## Sharp thresholds for all cuboids
 
-The manuscript now proves, for ordered dimensions $2\le a\le b\le c$,
+A *frame* consists of the eight corners and the noncorner positions on the
+twelve edges. For ordered integer dimensions $2\le a\le b\le c$, it has
+$4(a+b+c)-16$ positions. Let $F(a,b,c)$ be the least number of source cubes
+that guarantees a frame, and $G(a,b,c)$ the corresponding threshold for a
+complete cuboid. The target colouring may depend on the inventory. Then
 
 $$F(a,b,c)=\max\{16a-3,\;4(a+b+c)-16,\;\lfloor(24c-1)/5\rfloor\},$$
+
 $$G(a,b,c)=\max\{abc,\;16a-3,\;\lfloor(24c-1)/5\rfloor\}.$$
 
-The three frame obstructions are bucket capacity, the number of positions,
-and balanced checkerboards. A weighted triangle lemma and directional
-reservations supply a matching in every shape. The ordinary-cube and
-thin-cuboid formulas follow as special cases; the cube stability theorem
-additionally classifies failing inventories.
+The three frame bounds come from colour-bucket capacity, the number of
+positions, and balanced checkerboards. They are all sharp.
 
-Only rods $2\times2\times c$ and the four boxes $2\times3\times3$,
-$2\times3\times4$, $3\times3\times3$, $3\times3\times4$ can require spare
-sources for a complete box. Every other shape with sides at least two
-works with exactly its volume.
+**A complete cuboid needs no spare cubes for the universal guarantee except
+for rods $2\times2\times c$ and the four shapes $2\times3\times3$,
+$2\times3\times4$, $3\times3\times3$, $3\times3\times4$.**
+In particular, any $n^3$ sources build a complete $n\times n\times n$ cube
+when $n\ge4$, starting with any 64 sources for a $4\times4\times4$ cube.
 
-**Formal verification:** [CuboidResults.lean](ThreeColour/CuboidResults.lean)
-proves both sharp thresholds as `IsLeast` statements over arbitrary indexed
-physical source families. It also proves the exact-cardinality frame region
-and the complete-box exception criterion. The statements require exactly
-three target colours, distinct selected copies and proper rotations.
-[Cuboid.lean](ThreeColour/Cuboid.lean) guards nine theorem axiom reports and
-is imported by the default library target.
+A frame needs no spares precisely when
+$b+c\ge3a+4$ and $c\le5(a+b)-19$. Shape matters even for frames with the
+same number of positions:
 
-The upper proof formalises the weighted-triangle selection and the
-shortest-axis Q/H constructions. The lower proof reuses the established
-cube obstruction through a model bridge and the balanced checkerboard
-rod obstruction through frame restriction. The existing cube and thin-box
-APIs retain their earlier proofs.
+| Dimensions | Frame positions | Frame threshold $F$ | Volume | Complete threshold $G$ |
+| --- | ---: | ---: | ---: | ---: |
+| $2\times2\times2$ | 8 | 29 | 8 | 29 |
+| $3\times3\times3$ | 20 | 45 | 27 | 45 |
+| $4\times4\times4$ | 32 | 61 | 64 | 64 |
+| $2\times2\times7$ | 28 | 33 | 28 | 33 |
+| $2\times3\times6$ | 28 | 29 | 36 | 36 |
+| $2\times4\times6$ | 32 | 32 | 48 | 48 |
 
-These results use the project's [box model](ThreeColour/BoxModel.lean)
-and its proved placement bridges. They remain outside the original
-35-statement comparator challenge; replaying that challenge does not
-independently replay the cuboid extension.
-
-[Research and reproduction notes](research/cuboids/README.txt) retain the
-written proof and independent geometry audits. The [focused mathematical
-review](research/cuboids/REVIEW.txt) was a second pass by the same assistant,
-not external refereeing. Run `make check-cuboids` for the focused geometry
-audit and kernel build, `make check` for the full repository checks, and
-`make paper` for the manuscript. Larger inventory and weighted-vector
-audits remain separate optional commands in the research notes.
+The threshold 29 for $2\times2\times2$ answers Problem 2 of
+[Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
 
 ## Proof idea
 
-The proof reduces the 68 varieties to 38 by replacing cubes with varieties
-whose corner types are contained in theirs. This preserves unsolvability.
-The retained types are monochromatic-corner ($T$), pair-type ($P$), and checkerboard ($C$).
-A cube belongs to colour bucket $a$ if it has at least two of the three
-corner types $aab$, with $b\ne a$. The examples show one cube of each type;
-colour permutations give the other bucket memberships.
+BES's corner-containment reduction replaces the 68 source varieties by 38
+whose corner types are contained in theirs. Every solution after reduction
+lifts to the original copies; edge availability is preserved too. The
+retained types are monochromatic-corner ($T$), pair-type ($P$), and
+checkerboard ($C$). A cube belongs to colour bucket $u$ if it has at least
+two of the three corner types $uuv$, with $v\ne u$.
 
 ![A T cube links to one colour bucket, a P cube to two, and a checkerboard to none](paper/bucket-figure.svg)
 
-Corner containment also preserves edges, so the reduction works for frames.
-Every ordinary cube ($T$ or $P$) has all six two-colour edge types, and a
-checkerboard lacks only one. The ordinary varieties form two orientation
-classes, each with one trichromatic orientation on every triple of colours.
-For a failing reduced collection of at least $14n$ cubes ($n\ge3$), call the larger class the
-majority and all other cubes the minority. The argument has four steps:
+The ordinary varieties ($T$ and $P$) form two orientation classes, each
+supplying one cyclic orientation on every triple of colours. They have all
+six bichromatic edge types; each checkerboard lacks just one.
 
-1. **At most six minority cubes.** Targets with three monochromatic opposite
-   face pairs ($D$) need both orientations of one colour triple. Hall's theorem
-   extends any $D$ corner solution to a frame, using the edge facts above, so
-   counting $D$ corner solutions leaves at most six minority cubes.
-2. **Bucket capacity $4n-1$.** A majority bucket with $4n$ cubes builds a frame
-   with four faces of one colour and two opposite faces of others ($Q$).
-   Counting memberships by cube type and by bucket, which is
-   [BES's equation (1)](https://math.colgate.edu/~integers/s68/s68.pdf), gives
-   $$n_T+2n_P\le 4(4n-1),$$
-   where $n_T,n_P$ count majority $T$ and $P$ cubes, including repeats.
-3. **No minority cubes.** If one remains, the target with face tuple
-   $(a,b,a,b,a,c)$ can be built from $3n-2$ cubes of one $T$ variety, $n$ of
-   another, the minority cube and ordinary cubes for the edges: a contradiction.
-   For $n=2$, the original corner argument with targets of type $R$ (four faces
-   of one colour, two adjacent faces of others) does this step.
-4. **Classify and count.** At size $16n-4$, the bucket count excludes $P$
-   cubes and each $T$ variety occurs exactly $4n-1$ times. Below that size,
-   the twelve $P$ multiplicities and four bucket slacks parametrise the
-   failures; stars and bars gives the two binomial formulas.
+At the claimed threshold, the cuboid construction has two cases:
 
-## Repository layout
+1. **A target with three monochromatic opposite face pairs ($D$) has a corner
+   solution.** Index checkerboards by their missing colour pairs, as weights
+   on the edges of $K_4$. A weighted
+   triangle lemma chooses a supported three-colour target and assigns its
+   pairs to the three box directions. Hall's theorem fills the edge positions.
+2. **No $D$ corner solution exists.** Orientation counts leave at most six
+   cubes outside the larger ordinary class. A large colour bucket, or two
+   sufficiently frequent $T$ varieties together with a minority cube,
+   supplies the corners and monochromatic edges. Hall's theorem fills
+   the remaining edges.
 
-- `paper/`: manuscript source and PDF.
-- `ThreeColour/`: Lean proofs, generated geometry and formalisation guide.
-- `scripts/`: geometry generation, validation, comparator and optional search.
-- `data/lower-obstruction.json`: the 28-cube witness and its 120 Hall certificates.
-- Root Lean files and configuration: build entry points, independent challenge,
-  comparator configuration and formalisation metadata.
+Every position outside the frame exposes at most one face. Since every
+source has every palette colour, arbitrary unused copies complete the
+cuboid once the inventory reaches its volume.
 
-## Lean dependency
+## Cubes: classification and stability
 
-The project uses Lean and mathlib **v4.35.0** and pins
-release [v1.0.0 of colour-cubes-core](https://github.com/jasondavies/colour-cubes-core/tree/v1.0.0) for the physical model, proper rotations and
-corner geometry. Lake fetches this shared library automatically.
+For $n\times n\times n$ frames, $F(n,n,n)=16n-3$. Exactly two collections
+of $16n-4$ sources fail: $4n-1$ copies of each of the four $T$ varieties in
+one ordinary orientation class, or the mirror image of that collection.
+The figure shows $n=2$; replace seven copies by $4n-1$ for larger frames.
+
+![Why the exceptional 28 cubes fail: missing corner orientations, or eight required cubes with only seven available](paper/obstruction-figure.svg)
+
+*Marked vertices are monochromatic corners. In panel B, opposite target
+faces have equal colours, so the hidden bottom face has colour 2.
+In panel C, $a,b,c$ are distinct colours.*
+
+The **stability theorem** classifies every failing cube inventory of size
+at least $14n$, for $n\ge3$: all sources lie in one ordinary orientation
+class, and every colour bucket contains at most $4n-1$ cubes. Consequently,
+for $0\le d\le2n-4$, the numbers of failures and inclusion-maximal failures
+at size $16n-4-d$ are
+
+$$2\binom{d+15}{15}\qquad\text{and}\qquad2\binom{d+11}{11},$$
+
+respectively. Inclusion-maximal means that adding any source cube makes
+the inventory solvable. For deficits $0,1,2$, the counts are $2,32,272$,
+with $2,24,156$ maximal. The 32-case result at deficit one also holds for
+$n=2$: eight deletions from the two largest obstructions and twenty-four
+cases containing one $P$ cube.
 
 ## Reproduce
 
-Install [elan](https://github.com/leanprover/elan), Python 3.11 or later,
-Ruby and a C++20 compiler. For a clean build using CI's single-worker setting, run:
+The project pins Lean and mathlib **v4.35.0**, together with
+[colour-cubes-core v1.0.0](https://github.com/jasondavies/colour-cubes-core/tree/v1.0.0)
+for the physical model and palette-independent geometry. Install
+[elan](https://github.com/leanprover/elan), Python 3.11 or later, Ruby and a
+C++20 compiler. Lake fetches the Lean dependencies automatically.
+
+For a clean build with CI's single-worker setting:
 
 ```sh
 lake exe cache get
@@ -167,122 +128,73 @@ LEAN_NUM_THREADS=1 make check
 make paper  # requires latexmk and a LaTeX installation
 ```
 
-`make check` audits proof sources, validates metadata and dependency pins,
-regenerates geometry and figures, runs the separate Python geometry checks and compiled near-extremal audit, and builds
-all Lean targets, including the axiom guards.
+`make check` audits proof sources, metadata and dependency pins, checks
+regenerated geometry and figures, runs the independent cube and cuboid
+checks, and builds all Lean targets and axiom guards.
 [CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
+For the focused all-cuboid geometry audit and kernel build, use
+`make check-cuboids`; for the earlier rod and strip proofs, use `make check-thin`.
 
-The public Lean results include:
+## Formal verification
 
-| Theorem | Claim |
+The public threshold statements quantify over arbitrary indexed families
+of physical sources. Solutions select distinct copies and proper rotations,
+and their targets use exactly three colours.
+
+| Public result | Claim |
 | --- | --- |
-| `frame_threshold_n` | For every $n\ge2$, the least frame guarantee is $16n-3$. |
-| `family_frame_classification` | Exactly the two scaled obstructions fail at size $16n-4$, for arbitrary oriented input cubes. |
-| `family_near_frame_classification` / `family_near_failure_count` | Exactly 32 failures of size $16n-5$, for every $n\ge2$. |
-| `family_frame_stability` | For $n\ge3$ and $N\ge14n$, failure is equivalent to one ordinary orientation class and bounded buckets. |
-| `ordinary_geometry` / `bucket_geometry` | The orientation-class and bucket tables are exactly the corner-type definitions. |
-| `family_stability_failure_count` / `family_stability_maximal_count` | The two binomial formulas, using $k=n-2$ and $d\le2k$. |
-| `family_near_pair_maximal` | Adding any cube solves each of the 24 pair cases. |
-| `family_restricted_frame_of_le` / `frame_target_count` | For $n\ge3$, 40 targets suffice in the guaranteed range. |
-| `full_threshold_n` | The least complete-cube guarantee is $\max\{n^3,16n-3\}$. |
-| `full_cube_of_four_le` | Any $n^3$ source cubes suffice for $n\ge4$. |
-| `family_restricted_threshold29` / `family_restricted_of_solvable28` | At $n=2$, every 29-cube family and every solvable 28-cube family builds a $Q$, $R$, or $D$ target. |
+| `cuboid_frame_threshold` / `cuboid_full_threshold` | Both all-cuboid thresholds, as `IsLeast` statements. |
+| `cuboid_frame_exact_cardinality` / `cuboid_full_exact_volume` | The exact conditions for needing no spares. |
+| `frame_threshold_n` / `full_threshold_n` | The cube thresholds, with their earlier proofs. |
+| `family_frame_classification` / `family_near_frame_classification` | The two largest and 32 next-largest cube obstructions. |
+| `family_frame_stability` | The failure criterion for $n\ge3$, $N\ge14n$. |
+| `family_stability_failure_count` / `family_stability_maximal_count` | The two binomial counts. |
+| `family_restricted_frame_of_le` / `frame_target_count` | Forty targets suffice for guaranteed cube frames when $n\ge3$. |
 
-All results in this table are among the 45 statements in
-[Challenge.lean](Challenge.lean), which imports only mathlib; the comparator
-checks them against the proof library. The challenge also covers catalogue
-coverage, uniqueness and geometry. Failures are counted as vectors of
-rotation-class multiplicities: `FrameFails` says that some family of
-four-colour cubes with those counts has no frame. Since failure depends only
-on the counts, every such family then fails. The
-stability criterion uses the library's `ordinary` and `bucket` tables, which
-`ordinary_geometry` and `bucket_geometry` identify with BES's universal-corner
-orientation classes and corner-type buckets. The forty-target statement retains
-a canonical target index, with Q, D and U defined geometrically and
-proper-rotation placements proved for arbitrary physical source families.
+See [CuboidResults.lean](ThreeColour/CuboidResults.lean),
+[FrameResults.lean](ThreeColour/FrameResults.lean), and the
+[formalisation guide](ThreeColour/README.md) for definitions, module maps
+and the remaining endpoints.
 
-`Family.lean` and `FrameFamily.lean` work with arbitrary indexed face colourings;
-solutions select distinct copies and proper rotations. Transport lemmas connect these
-families to inventories of the 68 canonical varieties. A
-[corner–rotation theorem](https://github.com/jasondavies/colour-cubes-core/blob/v1.0.0/ColourCubes/Corners.lean), valid for any
-palette, equates cyclic corner matching with matching the three exposed faces
-by a proper rotation. The proof does not enumerate all collections.
-
-## Kernel replay
+The 45 corner and cubic statements, including stability, near-extremal and
+forty-target results, are restated in [Challenge.lean](Challenge.lean),
+with proofs supplied by [Solution.lean](Solution.lean). Run
 
 ```sh
 make comparator
 ```
 
-This checks the statements and referenced definitions in `Challenge.lean`
-against the proof library, then replays the proofs through Lean, NanoDa and
-con-ron. The challenge copies model definitions and tables; it does not
-constitute an independently devised model. Replay requires `bwrap`, can take
-tens of minutes, and is separate from `make check`.
+to compare their statements and definitions with the library, then replay
+through Lean, NanoDa and con-ron. This requires `bwrap` and is separate from
+`make check`. The challenge copies model definitions and tables; it is not
+an independently devised model. **The rod, strip and general cuboid
+extensions have library proofs and axiom guards, but are outside this
+comparator challenge.**
 
-The [Comparator workflow](.github/workflows/comparator.yml) runs only on manual
-request. See the [formalisation guide](ThreeColour/README.md#verification-and-maintenance)
-for resource settings, release checks and the Palomar preflight.
+Failures are counted as vectors of rotation-class multiplicities;
+`FrameFails` asserts failure of a physical family with those counts.
+Failure depends only on the counts. `ordinary_geometry` and `bucket_geometry`
+identify the library tables with the corner-type definitions. The forty-target
+statement retains a canonical target index, with Q, D and U defined
+geometrically and proper-rotation placements for arbitrary physical families.
 
-## Computation and review
+## Computation and repository guide
 
-The [separate checker](scripts/check_three_colour_threshold.py) uses Python's
-standard library and generates rotations from quarter-turns. It checks the
-68-to-38 corner reduction, the printed entries in both geometric tables,
-both exhibited lower obstructions, all 120 targets,
-68 one-cube extensions of the first obstruction and 1,000 sampled 29-cube
-collections. The extension and sample checks use only the 28 targets of
-types $Q,R,D$ in the paper's restricted-target corollary. It also checks this
-restriction on 1,000 sampled 28-cube collections. These finite samples do not
-prove the general statements, which are established by the paper and the
-Lean proofs in [RestrictedFamily.lean](ThreeColour/RestrictedFamily.lean).
+Independent rotation-based audits check the finite geometry, lower
+witnesses and constructive controls. Sampled inventories supplement the
+symbolic proofs; they do not prove the universal upper bounds. The optional
+corner search uses OR-Tools and is not required by `make check` or Lean.
 
-A second checker, [check_frames.py](scripts/check_frames.py), covers frames.
-It checks the edge facts used in the proof, that the reduction preserves edges,
-and the corners and edges of every $(a,b,a,b,a,c)$ target. For $n=2,\dots,6$
-it matches against all 120 targets to confirm that both obstructions fail and
-that all 136 one-cube extensions succeed. These are again finite checks; the
-general statements are proved in [FrameResults.lean](ThreeColour/FrameResults.lean).
+- [Formalisation and maintenance guide](ThreeColour/README.md): proof structure,
+  [audit and search commands](ThreeColour/README.md#independent-audits-and-optional-search),
+  comparator scope and release checks.
+- [Cuboid research notes](research/cuboids/README.txt) and
+  [thin-cuboid notes](research/thin-cuboids/README.txt): constructive algorithms,
+  additional audits and dated development records.
+- `paper/`: LaTeX and PDF; `ThreeColour/`: Lean proofs and generated geometry;
+  `scripts/`: generation, validation and optional search;
+  `data/lower-obstruction.json`: the 28-cube witness and 120 Hall certificates.
 
-The compiled [near-extremal audit](scripts/check_near_frames.cpp) independently
-regenerates the rotation group and catalogues from raw face colourings.
-For $n=2,\dots,6$ it checks all 32 listed failures against all 120 targets
-and all 1,632 one-cube extensions of the pair cases, using 28 or 40 targets.
-It also checks the target counts and thin checkerboard-box controls. The
-audit now checks all 272 deficit-two failures for $n=3,4$, the 10,608
-one-cube extensions of the 156 saturated cases in each dimension, and
-one slack-preserving extension for each of the 116 nonsaturated cases. These
-checks run with `bash scripts/check-near-frames.sh`; they supplement the
-symbolic classification rather than enumerate all collections.
-
-The optional search, for the case $n=2$, uses OR-Tools CP-SAT:
-
-```sh
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
-  --minimal --seconds 60 --workers 8 \
-  --hint data/lower-obstruction.json --output /tmp/four-to-three-search.json
-```
-
-That command searches for the largest obstruction. To test size 29 and
-exclude the known 28-cube obstructions among the 38 reduced varieties, run:
-
-```sh
-python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
-  --minimal --size 29 --seconds 60 --workers 8 \
-  --output /tmp/four-to-three-size29.json
-python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
-  --minimal --size 28 --exclude-colour-orbit data/lower-obstruction.json \
-  --seconds 60 --workers 8 --output /tmp/four-to-three-exclude-extrema.json
-```
-
-Both should report `INFEASIBLE`. The checked-in fixture contains the 28-cube
-witness and Hall certificates for every target; the geometric checker validates
-them on each run. The Lean proof does not depend on the solver.
-
-See [formalization.yaml](formalization.yaml) for AI contributions, review scope
-and the literature comparison, and the paper for the author's disclosure.
-
+[formalization.yaml](formalization.yaml) records attribution and review
+scope. The recorded AI reviews are not external human refereeing.
 Code and manuscript are distributed under the [Apache-2.0 licence](LICENSE).

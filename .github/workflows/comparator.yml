@@ -72,6 +72,8 @@ jobs:
           LEAN_NUM_THREADS: "1"
         run: lake build ThreeColour.RawChecks
       - name: Check
+        env:
+          LEAN_NUM_THREADS: "1"
         run: bash scripts/check.sh
       # Save before replay so a timeout does not discard the completed build.
       - name: Save project build

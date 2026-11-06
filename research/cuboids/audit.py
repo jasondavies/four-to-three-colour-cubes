@@ -181,6 +181,6 @@ def main():
                         assert 16*a-14>11*a
                         assert 16*a-9>=2*a+b+1
                 numeric+=1
-    result=dict(status='passed',shapes=len(covered_shapes),initial_shapes=len(shapes),constructive_controls=tested,branches=dict(branches),forced_noQ_controls=dict(forced),explicit_boundary_controls=len(explicit),directional_tables=directional,H_reservation_incidences=reservation_checks,oriented_targets=len(targets),physical_lower_checks=lower_checks,arithmetic_shapes=numeric,scope='Controls and geometry audit, not an exhaustive inventory proof. The upper bound is the written argument. No Lean formalisation or priority claim.')
+    result=dict(status='passed',shapes=len(covered_shapes),initial_shapes=len(shapes),constructive_controls=tested,branches=dict(branches),forced_noQ_controls=dict(forced),explicit_boundary_controls=len(explicit),directional_tables=directional,H_reservation_incidences=reservation_checks,oriented_targets=len(targets),physical_lower_checks=lower_checks,arithmetic_shapes=numeric,scope='Controls and geometry audit, not an exhaustive inventory proof. The upper bound is the written argument. This audit does not execute Lean or establish priority.')
     Path(__file__).with_name('audit-results.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 if __name__=='__main__':main()

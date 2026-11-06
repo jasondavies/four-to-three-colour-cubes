@@ -11,4 +11,5 @@ python3 -S scripts/check_frames.py
 bash scripts/check-near-frames.sh
 python3 -S research/thin-cuboids/audit.py
 python3 -S research/thin-cuboids/strip_audit.py
+python3 -S research/cuboids/review_geometry.py
 lake build
