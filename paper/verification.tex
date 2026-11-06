@@ -19,13 +19,23 @@ The physical model and palette-independent geometry come from the shared
 definitions locally.
 
 
-For the thin-cuboid extension, \texttt{ThinBounds} checks the threshold and
-reservation arithmetic, and \texttt{ThinSelection} proves the weighted
-$K_4$ selection lemma. These modules assume the relevant numerical supplies
-and the criterion for a good vertex. They do not yet connect those
-hypotheses to arbitrary physical cuboid inventories or prove the full
-statements of Theorem~\ref{thm:thin}. Separate audits construct the proper
-rotations directly and check all local compatibility incidences, the displayed
-lower obstructions, and constructive controls. The controls are not an
-exhaustive inventory proof; the universal upper bounds follow from the
-written argument in Section~\ref{sec:thin}.
+For thin cuboids, \texttt{ThinResults} proves the four sharp thresholds in
+Corollary~\ref{thm:thin} for arbitrary physical source families.
+\texttt{BoxModel} specifies exposed faces, counts positions and proves
+completion. Grouped Hall matching supplies distinct copies and proper
+rotations. Rods inherit the strip construction; a balanced checkerboard
+family proves the lower bound at every length. These theorems have axiom
+guards but remain outside the comparator challenge.
+Independent rotation-based audits check the local geometry, lower witnesses
+and constructive controls. The sampled inventories supplement the written
+and formal proofs; they are not an exhaustive upper-bound computation.
+
+
+The all-cuboid extension in Theorem~\ref{thm:cuboids} is not yet a theorem
+of the Lean library. Its weighted-triangle selection and directional
+reservations have independent physical-geometry audits; seven numerical
+interfaces also have standalone Mathlib proofs with unrestricted dimension
+variables. These check the arithmetic used by the written argument, not
+its full geometric and matching deductions. The existing rod and strip
+formalisations retain their earlier proof route, while the manuscript now
+derives their formulas as corollaries of the cuboid theorem.

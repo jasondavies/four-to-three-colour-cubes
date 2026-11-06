@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "rotations": 24,
+  "physical_source_colourings": 1560,
+  "source_varieties": 68,
+  "reduced_varieties": 38,
+  "ordinary_classes": 2,
+  "bucket_incidence_checks": 56,
+  "physical_target_colourings": 2160,
+  "orientation_balance_checks": 8640,
+  "no_tricoloured_corner_targets": 72,
+  "all_tricoloured_corner_targets": 24,
+  "scope": "Fresh finite geometry audit, independent of the construction and prior audit implementations; no exhaustive inventory theorem."
+}

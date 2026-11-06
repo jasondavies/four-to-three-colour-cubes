@@ -1,0 +1,172 @@
+Focused mathematical review of the all-cuboid argument
+======================================================
+6 November 2026
+
+Conclusion
+----------
+No mathematical gap was found in the proof of
+
+  F(a,b,c)=max{16a-3,4(a+b+c)-16,floor((24c-1)/5)},
+  G(a,b,c)=max{abc,16a-3,floor((24c-1)/5)}
+
+for 2<=a<=b<=c. The universal conclusion follows from the written proof,
+not from extrapolating finite inventory tests. The research draft is ready
+for manuscript integration and full formalisation after any desired
+external review.
+
+This is a focused second pass by the same assistant, with a fresh geometry
+implementation and a standalone symbolic arithmetic check. It is NOT an
+independent human or external-agent referee report. No novelty/priority
+assessment or full geometric Lean proof was performed in this review.
+
+1. Model and inherited geometric inputs
+---------------------------------------
+The proof uses the four-colour palette throughout, with exactly three
+exterior colours. Reducing individual source varieties by corner containment
+preserves edge availability as well. Each original copy remains distinct;
+a solution of the reduced inventory lifts position by position.
+
+The source-set/target-multiplicity distinction is respected. In particular,
+a checkerboard that possesses both cyclic corner types of a D target fits
+any one of its eight positions, but still supplies only one physical copy.
+The D corner matching is exactly a two-pool Hall problem, giving all three
+inequalities in (2.1).
+
+The bucket lemma needs only presence of at least two of the three uuv types
+on each bucket source. Eight sources have at least sixteen incidences, so
+two types have at least four suppliers each; their union sees all eight.
+This proves the required Q corner matching. That justification has been
+added explicitly to the draft.
+
+A fresh program reconstructs all proper rotations and source colourings,
+without importing the construction's geometry. It confirms the 68-to-38
+reduction, both sixteen-variety orientation classes, all four T varieties
+per class, the twelve P varieties per class, all six distinct checkerboard
+missing pairs, and the bucket and corner properties used above.
+
+2. All three lower bounds apply to every target orientation
+-----------------------------------------------------------
+The one-orientation obstruction can use only Q targets. Its repeated-colour
+bucket supplies every corner and the four monochromatic edges, giving
+4d demands along some axis d>=a. The capacity 4a-1 therefore fails in every
+orientation, not just the displayed shortest-axis orientation.
+
+Checkerboard sources force every target corner to be tricoloured. Adjacent
+equal-coloured target faces would violate that condition, so the target
+has opposite equal face pairs. Every corner and every longest-edge position
+then requires the pair on the transverse axes. The demand is 4c.
+The balanced pool of K(c)-1 sources has at most
+ceil(5(K(c)-1)/6)<=4c-1 suppliers of EVERY pair. Both the corners and the
+long edges must be counted; omitting either would weaken the obstruction.
+
+The fresh geometry program checks the target restrictions and orientation
+balance on all 2,160 physical three-colour face assignments. The earlier
+physical audit also checks both lower families against all 648 target axis
+configurations on twelve representative shapes.
+
+3. Weighted triangle selection
+--------------------------------
+The six numerical bounds in (4.1) are sufficient; no unstated bound on
+aspect ratio is used. They now also have a Mathlib-only proof for arbitrary
+natural-number dimensions and inventory size (weighted_bounds).
+
+In the light-edge branch, assuming every good complementary triangle has
+all edges above s_c makes the other three vertices good, regardless of
+whether the original good vertex owed its status to ordinary sources.
+Then every edge is above s_c, contradicting N<=6s_c+5.
+
+In the heavy-edge branch, choosing an endpoint ensures goodness and excludes
+the heavy edge from the complementary triangle. The other five edges have
+total weight at most 4b-1. The smallest, middle and largest complementary
+weights are bounded by one third, one half and all of that total. Sorting
+these three weights is enough; it imposes no impossible axis assignment.
+Every permutation of the three triangle edges is realised by a D target.
+This axis-realisation explanation has been added to the draft.
+
+The selected target may differ from the first corner-solvable D target.
+After choosing it, reserve an actual matching of its eight corners. Those
+sources possess all three required pairs. Each remaining edge pool has
+its stated supply, any two pools cover every residual source, and the total
+demand is at most N-8. This is precisely the required Hall argument.
+
+4. Q and H reservations and residual Hall conditions
+----------------------------------------------------
+For H=(v,w,u,u,u,v), the corner and directional multisets in Section 5 are
+correct. Four T_u and two T_v fill the six bicoloured corners; one additional
+ordinary majority copy and the selected minority copy fill opposite cyclic
+orientations of the tricoloured triple. Adding 2(a-2) T_u and b-2 T_v fills
+all monochromatic edges. Thus the reservations total r=2a+b+2.
+
+The largest bichromatic demand is 2a+b+2c-10. Adding r and the worst-case
+three missing suppliers gives 4a+2b+2c-5. For Q, r=4a and the largest demand
+is 2b+2c-8, giving exactly the same budget. The total demands are L-r.
+Thus the displayed common bound controls all singleton-type and total
+Hall inequalities. Sets meeting at least two bichromatic types see every
+remaining source. Zero-demand directions cause no additional constraint.
+
+The extra majority copy is not counted among the T reservations. Its
+availability follows from A>=16a-9>=2a+b+1 in the wide case and A>=23>2a+b
+when a=2. These explicit inequalities prevent reuse of a physical copy.
+The research draft now spells out the disjoint reservations.
+
+The independent physical audit checks 2,112 H pool-to-position incidences,
+as well as the direction counts and whole-frame controls. ArithmeticReview
+checks the common residual budget and extra-source inequalities without a
+finite dimension bound.
+
+5. Exhaustion of the no-D/no-Q branch
+--------------------------------------
+No D implies 4B+2C<=12, M=B+C<=6, and A>=N-6. No Q bounds each majority
+bucket by h=4a-1 and yields N<=16a+2, n_T>=16a-14, and M>0.
+These deductions do not assume that ordinary majority and checkerboard
+supplies are disjoint after any earlier reservation: no reservations have
+yet been made at this stage.
+
+For a>=3, N>=L gives b+c<=3a+4. Two T counts below b would imply
+n_T<=8a+2b-4<=11a<16a-14. A largest T count is at least 2a. Every minority
+source supports a triple containing that colour, and at least one of its
+other colours has the required b copies. This covers all wide boxes.
+
+For a=2, b<=5 is forced. At b=5, the sharper n_T>=24 gives the same partner
+argument. At b<=4, at least two colours have T count at least b. If there
+are at least three, a triple through a largest-count colour has a suitable
+partner. If there are exactly two, n_T<=20 forces M>=5, and both high
+colours actually have at least four copies. A minority ordinary cube
+supports their pair. If all minority cubes are checkerboards, at most
+three can miss that pair, so at least one supports it. This resolves the
+last case without a second H orientation or a hidden corner theorem.
+
+The arithmetic in the minority, bucket, wide-box and two-high-colour steps
+has separate universally quantified Lean proofs. These are arithmetic
+checks only; the geometric upper theorem remains a written argument.
+
+6. Completion and corollaries
+------------------------------
+The side-length restriction is essential. With every side at least two,
+off-frame positions expose at most one face, so any unused source can fill
+their prescribed colour. The volume exceeds L, by the displayed polynomial
+identity, yielding G=max{abc,16a-3,K(c)}.
+
+The four non-rod complete-box exceptions and the exact-cardinality region
+follow with the stated integer endpoints. In particular the frame region
+uses c<=5(a+b)-19, including equality; the standalone exact_cardinality
+lemma checks this rounding for arbitrary dimensions.
+
+7. Verification record and limits
+----------------------------------
+Passed in this review:
+
+* review_geometry.py: 1,560 physical source assignments, 68 source varieties,
+  38 minimal varieties, 56 bucket incidences, and all 2,160 physical target
+  assignments with 8,640 orientation-balance checks.
+* ArithmeticReview.lean: seven universally quantified arithmetic theorems,
+  checked with the project's pinned Lean/Mathlib toolchain. Axiom reports
+  contain only propext, Classical.choice and Quot.sound (some use fewer).
+
+The existing constructive, reservation, lower-witness and weighted-graph
+reports remain supporting checks; their scope is recorded in README.txt.
+No production-paper integration, full cuboid Lean proof, external kernel
+replay, publication-priority check, or external refereeing is claimed.
+
+Integration note: this dated review preceded the manuscript integration.
+The publication draft is now paper/cuboids.tex; full formalisation remains open.

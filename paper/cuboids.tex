@@ -1,0 +1,330 @@
+\section{Sharp thresholds for all cuboids}\label{sec:cuboids}
+For ordered side lengths $2\le a\le b\le c$, let $F(a,b,c)$ be the least
+inventory size guaranteeing a frame, and $G(a,b,c)$ the corresponding
+complete-box threshold. These extend the cube notation: $F(n,n,n)=F(n)$.
+A frame has eight corners and the noncorner positions on its twelve edges,
+so its cardinality is
+\[
+ L=4(a+b+c)-16.
+\]
+The target may depend on the inventory. Every target has exactly three
+exterior colours, and internal faces remain unrestricted.
+
+\begin{theorem}[Cuboid thresholds]\label{thm:cuboids}
+For integers $2\le a\le b\le c$, put $K(c)=\lfloor(24c-1)/5\rfloor$. Then
+\begin{align*}
+ F(a,b,c)&=\max\{16a-3,\;4(a+b+c)-16,\;K(c)\},\\
+ G(a,b,c)&=\max\{abc,\;16a-3,\;K(c)\}.
+\end{align*}
+\end{theorem}
+The three frame bounds come from a colour bucket, the number of positions,
+and a balanced checkerboard collection. The shortest and longest sides
+control different obstructions. For the upper bound, a weighted graph
+chooses directions for a $D$ target whenever such a corner solution exists.
+Otherwise the same bucket constraints provide a $Q$ or $H$ target.
+This proof uses the geometry of Section~\ref{sec:geometry}, including the bucket lemma,
+and the edge facts in Section~\ref{sec:frames}; it does not assume any of
+the earlier sharp thresholds.
+
+\subsection{Three lower bounds}
+Cardinality gives $F(a,b,c)\ge L$. Fix one ordinary orientation class and
+take $4a-1$ copies of each of its four $T$ varieties. By
+Lemma~\ref{lem:balance}, these $16a-4$ sources can only assemble a $Q$
+target. Its eight corners and four monochromatic edges parallel to an
+axis of length $d$ require $8+4(d-2)=4d\ge4a$ sources from one bucket.
+That bucket has only $4a-1$ copies. Hence $F(a,b,c)\ge16a-3$.
+
+For the third bound, distribute $N_0=K(c)-1$ sources as evenly as possible
+among the six checkerboards. Each bichromatic type then has at most
+\[
+ N_0-\lfloor N_0/6\rfloor=\lceil5N_0/6\rceil\le4c-1
+\]
+suppliers, since $5N_0\le24c-6$. All source corners are trichromatic.
+Thus every supported target must have equal-coloured opposite faces,
+of type $D$: equal colours on adjacent faces would produce a bicoloured
+corner. In every axis assignment, the eight corners and $4(c-2)$ positions
+on the longest edges require one common bichromatic pair. Their demand
+is $4c$, exceeding its supply. Therefore $F(a,b,c)\ge K(c)$.
+
+\subsection{Extending an opposite-face corner solution}
+Reduce the sources by corner containment. As in Section~\ref{sec:frames},
+this preserves edge availability and lifts every assembly to distinct
+original copies. Index the checkerboards by their missing colour pairs,
+viewing their multiplicities $x_e$ as edge weights on $K_4$.
+The incident weight $z_v=\sum_{e\ni v}x_e$ counts checkerboards supporting
+both orientations of the triple omitting $v$.
+If $A_0,A_1$ count the two ordinary classes, that triple has a $D$ corner
+solution exactly when
+\begin{equation}\label{eq:cuboid-good}
+ A_0+z_v\ge4,\qquad A_1+z_v\ge4,\qquad A_0+A_1+z_v\ge8.
+\end{equation}
+These are Hall's three inequalities for the two corner types, each with
+four occurrences. Call such a vertex $v$ \emph{good}; in particular,
+$z_v\ge8$ makes $v$ good.
+
+\begin{lemma}[Weighted triangle]\label{lem:weighted-triangle}
+Let $N\ge\max\{29,L,K(c)\}$ and $s_d=N-4d$ for $d\in\{a,b,c\}$.
+Give the edges of $K_4$ nonnegative integer weights with sum at most $N$.
+Suppose a nonempty set of vertices is designated good and includes every
+vertex of incident weight at least eight. Some good vertex has a
+complementary triangle whose edge weights, in increasing order, are at
+most $s_c,s_b,s_a$, respectively.
+\end{lemma}
+\begin{proof}
+We first record the numerical bounds
+\begin{equation}\label{eq:cuboid-slack}
+\begin{gathered}
+ s_c\ge5,\qquad N\le6s_c+5,\qquad
+ s_b\ge\max\{7,2b-1\},\\
+ s_a\ge4b-1,\qquad s_c\ge\lfloor(4b-1)/3\rfloor.
+\end{gathered}
+\end{equation}
+For $c\le6$, the first follows from $N\ge29$; for $c\ge7$, use
+$K(c)=4c+\lfloor(4c-1)/5\rfloor\ge4c+5$.
+The inequality $5K(c)\ge24c-5$ gives the second.
+For $b\le3$, $s_b\ge17$; for $b\ge4$,
+$s_b\ge4(a+c)-16\ge4b-8\ge\max\{7,2b-1\}$.
+If $c\ge4$, then $s_a\ge4(b+c)-16\ge4b$; otherwise
+$s_a\ge17\ge4b-1$.
+Finally, for $b\le3$ the last floor is at most three; for $b\ge4$,
+$s_c\ge4(a+b)-16\ge4b-8\ge\lfloor(4b-1)/3\rfloor$.
+
+Suppose first that every edge weight is at most $s_b$. If no good vertex
+has a complementary edge of weight at most $s_c$, all three complementary
+edges of any good vertex have weight at least $s_c+1$. Each other vertex
+then has incident weight at least $2(s_c+1)\ge12$, so all four vertices
+are good. Every edge is complementary to one of them, forcing total
+weight at least $6s_c+6>N$. This contradiction gives the required light
+edge; the other two already fit $s_b$ and $s_a$.
+
+Otherwise an edge has weight at least $s_b+1\ge8$. Either endpoint $v$
+is good. The other five edges have total weight at most $4b-1$.
+Writing $y_1\le y_2\le y_3$ for the weights complementary to $v$, we have
+\[
+ y_1\le\lfloor(4b-1)/3\rfloor\le s_c,\qquad
+ y_2\le2b-1\le s_b,\qquad y_3\le4b-1\le s_a.
+\]
+\end{proof}
+
+\begin{corollary}\label{cor:cuboid-D}
+If $N\ge\max\{29,L,K(c)\}$ reduced sources have any $D$ corner solution,
+they have an $a\times b\times c$ frame.
+\end{corollary}
+\begin{proof}
+Apply Lemma~\ref{lem:weighted-triangle} with goodness defined
+by~\eqref{eq:cuboid-good}. Assign the complementary colour pairs to the
+three edge directions according to the lemma. Every such assignment is
+realised by a $D$ face colouring: permutations of the triangle's vertices
+induce all permutations of its edges. This chooses a target; each source
+is still placed by a proper rotation.
+
+Reserve eight sources for its corners. Each possesses all three target
+pairs, so the residual supply for the pair assigned to a direction of
+length $d$ is at least
+\[
+ N-x_e-8\ge4(d-2).
+\]
+Any two distinct pair neighbourhoods together contain every residual
+source, since no reduced source lacks two bichromatic types. The total
+edge demand is $L-8\le N-8$. Thus Hall's theorem fills the remaining
+positions. The chosen target and axes may differ from those of the
+initial corner solution.
+\end{proof}
+
+\subsection{Reservations when no \texorpdfstring{$D$}{D} corner solution exists}
+Take
+\[
+ N=\max\{16a-3,L,K(c)\},
+\]
+and suppose no $D$ corner solution exists. Let $A\ge B$ count the ordinary
+classes and $C$ the checkerboards. Equation~\eqref{eq:cuboid-good} gives
+$z_v\le7$, hence $C\le14$ and $A\ge8$. It then gives $B+z_v\le3$ for
+every $v$. Consequently
+\begin{equation}\label{eq:cuboid-minority}
+ 4B+2C\le12,\qquad M:=B+C\le6,\qquad A=N-M\ge N-6\ge23.
+\end{equation}
+Each individual checkerboard multiplicity is at most three.
+After reserving $r$ sources, each bichromatic type has at least $N-r-3$
+suppliers; any two distinct types together see all $N-r$ remaining
+sources. Hall therefore completes any residual bichromatic requirements
+whose individual demands are at most $N-r-3$ and whose total is at most
+$N-r$.
+
+Use distinct colours $u,v,w$ and put $m=a-2$, $t=b-2$, $q=c-2$.
+Table~\ref{tab:cuboid-demands} gives two targets, with face tuples in the
+usual order and axis lengths $(a,b,c)$.
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{llll}
+\toprule
+Target and face tuple & Monochromatic demand & Bichromatic demands & $r$\\
+\midrule
+$Q:(v,w,u,u,u,u)$ & $uu:4m$ & $uv,uw:2t+2q$ & $4a$\\
+$H:(v,w,u,u,u,v)$ & $uu:2m,\ vv:t$ &
+$uv:2m+t+2q$ & $2a+b+2$\\
+ & & $uw:t+2q,\ vw:t$ & \\
+\bottomrule
+\end{tabular}
+\caption{Noncorner cuboid demands. The reservation $r$ supplies all
+corners and monochromatic edge positions.}
+\label{tab:cuboid-demands}
+\end{table}
+
+A majority bucket with $4a$ sources supplies $Q$: use eight for its
+corners by Lemma~\ref{lem:bucket}, and the remaining $4a-8$ for its
+monochromatic edges.
+For $H$, the corner multiset is
+\[
+ 2uuv+2uuw+2uvv+uvw+uwv.
+\]
+It suffices to have $2a$ majority $T_u$ sources, $b$ majority $T_v$ sources,
+a minority source supporting $\{u,v,w\}$, and one further majority source.
+Four $T_u$ copies supply the $uuv,uuw$ corners and $2(a-2)$ fill the $uu$
+edges; two $T_v$ copies supply $uvv$ and $b-2$ fill the $vv$ edges.
+The minority and extra majority copies supply the two trichromatic
+orientations. The $T_u$, $T_v$ and minority supplies are disjoint; the
+extra majority copy is chosen outside the reservations.
+
+For either row, the largest bichromatic demand plus $r+3$ is
+$4a+2b+2c-5$. We have
+\begin{equation}\label{eq:cuboid-budget}
+ N\ge4a+2b+2c-5:
+\end{equation}
+if $b+c\ge6$ this follows from $N\ge L$, since the difference is
+$2b+2c-11\ge1$; the remaining shapes have $a=b=2$, $c\le3$, and
+$N\ge29$ suffices. Total demand is $L\le N$. Thus both constructions
+extend to frames whenever the reserved sources are available.
+
+Suppose no majority bucket has size $4a$. Put $h=4a-1$, and write
+$t_u,p_u$ for the $T$ count and $P$ incidence in bucket $u$.
+With $n_T,n_P$ the majority totals, double counting gives
+\begin{equation}\label{eq:cuboid-buckets}
+\begin{gathered}
+ t_u+p_u\le h,\qquad n_T+2n_P\le4h,\qquad A=n_T+n_P\le4h,\\
+ N\le16a+2,\qquad n_T\ge2A-4h\ge16a-14.
+\end{gathered}
+\end{equation}
+There is a minority source, since otherwise $N=A\le4h$ contradicts
+$N\ge16a-3=4h+1$. Every minority source supports a triple containing any
+prescribed colour. An ordinary minority source supplies the opposite
+orientation; a checkerboard supplies both.
+
+\subsection{Completing the upper bound}
+First let $a\ge3$. Since $L\le N\le16a+2$, integrality gives
+\begin{equation}\label{eq:cuboid-width}
+ b+c\le3a+4,\qquad 2b\le3a+4.
+\end{equation}
+Some $t_u\ge2a$, because $n_T\ge16a-14>4(2a-1)$.
+At most one colour has fewer than $b$ copies of its $T$ variety: two such
+colours would give
+\[
+ n_T\le2(b-1)+2h=8a+2b-4\le11a<16a-14.
+\]
+Choose $u$ with $t_u\ge2a$. A minority source supports a triple containing
+$u$, and one of its other colours $v$ has $t_v\ge b$.
+The $H$ reservation is available, including an extra majority copy since
+$A\ge16a-9\ge2a+b+1$ by~\eqref{eq:cuboid-width}.
+Equation~\eqref{eq:cuboid-budget} completes the frame.
+
+Now let $a=2$. Equations~\eqref{eq:cuboid-buckets} give
+$N\le34$, $h=7$ and $n_T\ge18$. Cardinality implies $b+c\le10$, so
+$b\le5$. If $b=5$, then $N\ge L\ge32$ and
+$n_T\ge2(N-6)-28\ge24$. At most one colour has fewer than five $T$
+sources, since two would give $n_T\le4+4+7+7=22$.
+A largest count is at least six. A minority triple containing that colour
+has another colour with at least five copies, giving the $H$ reservation.
+
+For $b\le4$, call a colour \emph{high} if $t_u\ge b$.
+There are at least two high colours, since otherwise
+$n_T\le7+3(b-1)\le16$. A largest count is at least five.
+If at least three colours are high, a minority triple through a
+largest-count colour contains another high colour, again supplying $H$.
+
+If exactly two colours are high, then
+\[
+ n_T\le14+2(b-1)\le20,\qquad
+ n_T\ge2(N-M)-28\ge30-2M,
+\]
+so $M\ge5$. Both high colours have at least four $T$ sources: otherwise
+$n_T\le7+3+2(b-1)\le16$. A minority ordinary source supports a triple
+containing both high colours. If no such source exists, all $M\ge5$
+minority sources are checkerboards. At most three miss the pair of high
+colours, by~\eqref{eq:cuboid-minority}. Any other checkerboard supports
+a triple containing that pair: a checkerboard missing $ij$ supports
+precisely the triples omitting $i$ or $j$.
+Thus the high colours can serve as $u,v$ in $H$, with $t_u\ge4=2a$ and
+$t_v\ge b$.
+
+In every $a=2$ case, $A\ge23>2a+b$ supplies the extra majority copy.
+The residual Hall matching completes the frame. Together with
+Corollary~\ref{cor:cuboid-D} and the three lower bounds, this proves the
+frame formula in Theorem~\ref{thm:cuboids}.
+
+Every position outside the frame exposes at most one face when all sides
+are at least two. Every unused source contains every palette colour,
+so it can fill any such position. Therefore $G=\max\{abc,F\}$.
+Writing $a=x+2$, $b=y+2$, $c=z+2$ gives
+\[
+ abc-L=xyz+2(xy+xz+yz)\ge0,
+\]
+proving the complete-box formula and finishing Theorem~\ref{thm:cuboids}.
+A side of length one would let a source expose opposite exterior faces
+simultaneously and is outside this completion argument.
+
+\subsection{Consequences}
+The ordinary-cube thresholds follow by setting $a=b=c=n$:
+$F(n,n,n)=16n-3$ and $G(n,n,n)=\max\{n^3,16n-3\}$.
+The earlier cube argument additionally classifies failures in its stability
+range. The two thinnest families also follow immediately.
+
+\begin{corollary}[Rods and strips]\label{thm:thin}
+Put $K_\ell=\max\{29,\lfloor(24\ell-1)/5\rfloor\}$. Then
+\[
+ F(2,2,\ell)=G(2,2,\ell)=K_\ell \qquad(\ell\ge2),
+\]
+and
+\[
+ F(2,3,\ell)=K_\ell,\qquad G(2,3,\ell)=\max\{29,6\ell\}
+ \qquad(\ell\ge3).
+\]
+\end{corollary}
+Despite their four extra frame positions, strips have the same frame
+thresholds as rods. Shape matters even at fixed cardinality:
+$2\times2\times7$ and $2\times3\times6$ both have twenty-eight frame
+positions, but their thresholds are thirty-three and twenty-nine.
+
+\begin{corollary}[No spare sources]\label{cor:cuboid-volume}
+A frame has threshold equal to its cardinality if and only if
+\[
+ b+c\ge3a+4\qquad\hbox{and}\qquad c\le5(a+b)-19.
+\]
+Every complete cuboid can be assembled from any collection of exactly
+its volume, except for all rods $2\times2\times c$ and the four shapes
+\[
+ 2\times3\times3,\quad2\times3\times4,\quad
+ 3\times3\times3,\quad3\times3\times4.
+\]
+The latter thresholds are $29,29,45,45$, respectively.
+\end{corollary}
+\begin{proof}
+The frame conditions are precisely $L\ge16a-3$ and $L\ge K(c)$ after
+integer rounding. For the second,
+$24c-1<5(L+1)$ is equivalent to $c\le5(a+b)-19$.
+Rods satisfy $K(c)>4c$. For every other ordered shape, $ab\ge6$, so
+$abc\ge6c>K(c)$. The only remaining volume deficit is $abc<16a-3$.
+For $a\ge4$, already $a^3\ge16a-3$. For $a=3$ it leaves
+$(b,c)=(3,3),(3,4)$; for $a=2$, $b\ge3$, it leaves the same two pairs.
+\end{proof}
+
+For example, the next family after strips satisfies
+\[
+ F(2,4,c)=
+ \begin{cases}
+ 29,&c=4,5,\\
+ 4c+8,&6\le c\le11,\\
+ \lfloor(24c-1)/5\rfloor,&c\ge12.
+ \end{cases}
+\]
+Every complete $2\times4\times c$ box uses exactly its volume $8c$.

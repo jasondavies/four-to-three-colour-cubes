@@ -9,7 +9,7 @@ check:
 check-thin:
 	python3 -S research/thin-cuboids/audit.py
 	python3 -S research/thin-cuboids/strip_audit.py
-	lake build ThreeColour.Thin
+	LEAN_NUM_THREADS=1 lake build ThreeColour.Thin
 
 comparator:
 	bash scripts/verify-comparator.sh

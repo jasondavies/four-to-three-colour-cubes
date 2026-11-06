@@ -2,8 +2,9 @@ module
 
 public import ThreeColour.ThinBounds
 public import ThreeColour.ThinSelection
+public import ThreeColour.ThinResults
 
-/-! Verified combinatorial ingredients for thin cuboids; no physical threshold endpoint yet. -/
+/-! Sharp thin-cuboid thresholds and the shared combinatorial ingredients. -/
 /-- info: 'ThreeColour.Thin.threshold_bounds' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ThreeColour.Thin.threshold_bounds
@@ -44,3 +45,39 @@ public import ThreeColour.ThinSelection
 #guard_msgs in
 #print axioms ThreeColour.Thin.strip_pairs
 
+
+/-- info: 'ThreeColour.boxFull_iff_frame_and_size' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.boxFull_iff_frame_and_size
+
+/-- info: 'ThreeColour.family_rod_upper' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_rod_upper
+
+/-- info: 'ThreeColour.family_strip_upper' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.family_strip_upper
+
+/-- info: 'ThreeColour.checker_rod_obstruction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.checker_rod_obstruction
+
+/-- info: 'ThreeColour.rod_frame_threshold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.rod_frame_threshold
+
+/-- info: 'ThreeColour.strip_frame_threshold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.strip_frame_threshold
+
+/-- info: 'ThreeColour.rod_full_threshold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.rod_full_threshold
+
+/-- info: 'ThreeColour.strip_full_threshold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.strip_full_threshold
+
+/-- info: 'ThreeColour.strip_full_of_five_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ThreeColour.strip_full_of_five_le

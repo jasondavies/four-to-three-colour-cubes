@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "shapes": 562,
+  "initial_shapes": 292,
+  "constructive_controls": 4730,
+  "branches": {
+    "D": 4192,
+    "Q": 75,
+    "H-short": 463
+  },
+  "forced_noQ_controls": {
+    "D": 471,
+    "H-short": 31
+  },
+  "explicit_boundary_controls": 432,
+  "directional_tables": 48,
+  "H_reservation_incidences": 2112,
+  "oriented_targets": 648,
+  "physical_lower_checks": 15552,
+  "arithmetic_shapes": 261040,
+  "scope": "Controls and geometry audit, not an exhaustive inventory proof. The upper bound is the written argument. No Lean formalisation or priority claim."
+}

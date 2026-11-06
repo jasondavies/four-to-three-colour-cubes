@@ -1,0 +1,7 @@
+'CuboidReview.weighted_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CuboidReview.residual_budget' depends on axioms: [propext, Quot.sound]
+'CuboidReview.minority_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CuboidReview.bucket_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CuboidReview.wide_supply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CuboidReview.two_high' depends on axioms: [propext, Quot.sound]
+'CuboidReview.exact_cardinality' depends on axioms: [propext, Classical.choice, Quot.sound]

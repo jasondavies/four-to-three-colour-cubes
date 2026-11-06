@@ -1,7 +1,7 @@
 # Three-colour solutions from four-colour cubes
 
 - [Paper (PDF)](paper/four-to-three-colour-cubes.pdf) and [LaTeX](paper/four-to-three-colour-cubes.tex).
-- [Main Lean results](ThreeColour/FrameResults.lean), [physical model](ThreeColour/FramePhysical.lean), and [formalisation guide](ThreeColour/README.md).
+- [Cube Lean results](ThreeColour/FrameResults.lean), [thin-cuboid results](ThreeColour/ThinResults.lean), [physical model](ThreeColour/FramePhysical.lean), and [formalisation guide](ThreeColour/README.md).
 - [Independent theorem statements](Challenge.lean) and [completed proof entry point](Solution.lean).
 - [Provenance, scope and AI disclosure](formalization.yaml).
 
@@ -57,31 +57,43 @@ copies of each variety by $4n-1$ copies.
 the target have equal colours, so its hidden bottom face has colour 2.
 In panel C, $a,b,c$ are distinct colours.*
 
-## Thin-cuboid extension
+## Sharp thresholds for all cuboids
 
-The new manuscript section proves, with
-$K_\ell=\max\{29,\lfloor(24\ell-1)/5\rfloor\}$,
+The manuscript now proves, for ordered dimensions $2\le a\le b\le c$,
 
-- $F(2,2,\ell)=G(2,2,\ell)=K_\ell$ for $\ell\ge2$;
-- $F(2,3,\ell)=K_\ell$ and $G(2,3,\ell)=\max\{29,6\ell\}$ for $\ell\ge3$.
+$$F(a,b,c)=\max\{16a-3,\;4(a+b+c)-16,\;\lfloor(24c-1)/5\rfloor\},$$
+$$G(a,b,c)=\max\{abc,\;16a-3,\;\lfloor(24c-1)/5\rfloor\}.$$
 
-The strip upper bound also supplies the rod upper bound by deleting four
-edge positions. A balanced collection of checkerboards gives the new lower
-bound. Any thirty sources form a complete $2\times3\times5$ box; rods can
-require spare sources at every length.
+The three frame obstructions are bucket capacity, the number of positions,
+and balanced checkerboards. A weighted triangle lemma and directional
+reservations supply a matching in every shape. The ordinary-cube and
+thin-cuboid formulas follow as special cases; the cube stability theorem
+additionally classifies failing inventories.
 
-**Verification boundary:** these cuboid formulas have written proofs and
-independent physical-rotation audits. Lean verifies the numerical bounds,
-reservation counts and weighted-$K_4$ selection lemmas in
-[Thin.lean](ThreeColour/Thin.lean), with explicit axiom guards. The full
-physical cuboid thresholds and their placement bridges are **not yet
-formalised**, and are outside the comparator challenge. Existing cube and
-stability results retain their prior formalisation.
+Only rods $2\times2\times c$ and the four boxes $2\times3\times3$,
+$2\times3\times4$, $3\times3\times3$, $3\times3\times4$ can require spare
+sources for a complete box. Every other shape with sides at least two
+works with exactly its volume.
 
-See the [shared proof](paper/thin-cuboids.tex) and
-[review and reproduction notes](research/thin-cuboids/README.txt).
-Run `make check-thin` for the focused audits and new Lean modules, and
-`make paper` to rebuild the manuscript.
+**Verification boundary:** the general cuboid classification is a written
+proof in [cuboids.tex](paper/cuboids.tex), not yet a theorem of the Lean
+library. [Research and reproduction notes](research/cuboids/README.txt)
+provide the constructive and independent geometry audits and seven
+standalone Lean arithmetic lemmas. These do not formalise the full theorem.
+The [focused review](research/cuboids/REVIEW.txt) was a second pass by the
+same assistant, not external mathematical refereeing.
+
+The cube results and all four sharp rod/strip thresholds remain formalised.
+[ThinResults.lean](ThreeColour/ThinResults.lean) proves the thin-box results
+for arbitrary indexed physical source families, with exactly three target
+colours, distinct selected copies and proper rotations. It retains its
+strip-to-rod proof route. These endpoints use the project's
+[box model](ThreeColour/BoxModel.lean), have axiom guards, and are outside
+the original 35-statement comparator challenge.
+
+Run `make check-thin` for the existing thin-box audits and Lean modules,
+and `make paper` to rebuild the manuscript. The broader cuboid audits are
+listed separately in the research notes and are not part of `make check`.
 
 ## Proof idea
 

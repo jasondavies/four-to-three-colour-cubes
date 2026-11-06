@@ -14,7 +14,14 @@ project:
     Forty Q/D/U targets suffice for
     guaranteed frames when n >= 3. The sharp complete-cube threshold is max(n^3,16n-3).
     Arbitrary indexed face colourings, geometric proper rotations, and distinct
-    physical copies are formalised. The original n=2 threshold of 29 and its
+    physical copies are formalised. Rod and strip frames have sharp threshold
+    max(29,floor((24*l-1)/5)); complete rods have the same threshold and complete
+    strips have threshold max(29,6*l), in their stated length ranges.
+    The manuscript additionally proves the all-cuboid formulas, for ordered
+    sides 2 <= a <= b <= c: F=max(16a-3,4(a+b+c)-16,floor((24c-1)/5))
+    and G=max(abc,16a-3,floor((24c-1)/5)). This general extension is not yet
+    formalised; standalone arithmetic lemmas check only numerical interfaces.
+    The original n=2 threshold of 29 and its
     restricted-target corollary are retained. Internal faces are unrestricted.
   authors: ["Jason Davies"]
   responsible_maintainers: ["Jason Davies"]
@@ -61,11 +68,16 @@ status:
     and bucket capacities. At size 16n-4-d, for 0 <= d <= 2n-4, the exact
     counts are 2*choose(d+15,15) failures and 2*choose(d+11,11) inclusion-maximal
     failures, proved by explicit bijections and stars and bars.
-    The thin-cuboid extension has written rod/strip threshold proofs and
-    physical-rotation audits. ThinBounds and ThinSelection formalise only
-    numerical and weighted-K4 ingredients, with axiom guards in Thin.
-    Physical cuboid threshold statements and placement bridges are not yet
-    formalised and are outside the comparator challenge.
+    The thin-cuboid extension has sharp rod and strip frame and complete-box
+    threshold theorems for arbitrary indexed physical source families.
+    ThinResults proves IsLeast statements using BoxModel exposed-face
+    positions, proper-rotation transport, grouped Hall matching, and a
+    symbolic balanced-checkerboard obstruction. Thin guards the public
+    endpoints. These statements use project definitions and remain outside
+    the original comparator challenge.
+    The full cuboid classification in paper/cuboids.tex remains a written proof,
+    outside the formal scope. research/cuboids/ArithmeticReview.lean checks
+    seven arithmetic implications, not the full geometric theorem.
     No priority claim, classification below this band, higher-dimensional theorem,
     or general five-colour threshold is formalised.
   sorry_count: 0
@@ -180,6 +192,12 @@ review:
     On November 5, 2026 Claude Opus 5.5 added these extensions to the
     comparator challenge, at the author's request. That work restated
     definitions and statements; it did not review the underlying arguments.
+    On November 6, 2026 Codex developed the all-cuboid threshold argument,
+    performed a focused second review with separately reconstructed physical
+    geometry and seven symbolic arithmetic checks, and integrated it into
+    the manuscript. This was self-review, not external refereeing. The
+    full cuboid extension has not yet been formalised or included in the
+    comparator; its research audits are separate from make check.
     Reproduce current checks with make check and
     make comparator. Push/PR CI runs make check; a separate manually triggered
     workflow runs all three comparator kernels and records the checked commit.
@@ -237,16 +255,36 @@ alignment:
       lean: ThreeColour.frame_target_count
       module: ThreeColour.FrameRestrictedDefs
       status: proved
-    - source: "Paper, thin-cuboid numerical and reservation bounds (partial coverage)"
+    - source: "Paper, thin-cuboid rod frame threshold"
+      lean: ThreeColour.rod_frame_threshold
+      module: ThreeColour.ThinResults
+      status: proved
+      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+    - source: "Paper, thin-cuboid strip frame threshold"
+      lean: ThreeColour.strip_frame_threshold
+      module: ThreeColour.ThinResults
+      status: proved
+      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+    - source: "Paper, thin-cuboid rod complete-box threshold"
+      lean: ThreeColour.rod_full_threshold
+      module: ThreeColour.ThinResults
+      status: proved
+      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+    - source: "Paper, thin-cuboid strip complete-box threshold"
+      lean: ThreeColour.strip_full_threshold
+      module: ThreeColour.ThinResults
+      status: proved
+      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+    - source: "Paper, thin-cuboid numerical and reservation bounds"
       lean: ThreeColour.Thin.strip_residual_bounds
       module: ThreeColour.ThinBounds
       status: proved
-      note: "Numerical ingredient only; no physical cuboid threshold endpoint."
+      note: "Numerical ingredient used by the physical thin-cuboid threshold theorems."
     - source: "Paper, choosing directions for a D target (abstract weighted graph)"
       lean: ThreeColour.Thin.strip_pairs
       module: ThreeColour.ThinSelection
       status: proved
-      note: "Good-vertex interpretation is a hypothesis; physical transport remains unformalised."
+      note: "Abstract selection lemma; ThinConstructions supplies its physical interpretation."
     - source: "Paper, sharp frame threshold for every n >= 2"
       lean: ThreeColour.frame_threshold_n
       module: ThreeColour.FrameResults

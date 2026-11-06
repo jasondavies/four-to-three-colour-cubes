@@ -16,22 +16,22 @@
 \maketitle
 
 \begin{abstract}
-For every $n\ge2$, any $16n-3$ cubes, each using all four colours of a
-fixed palette, contain an $n\times n\times n$ frame whose exterior faces are
-monochromatic in exactly three colours; this bound is sharp. For a fixed palette,
-exactly two collections of $16n-4$ cubes fail, and reflection exchanges them.
-For $n\ge3$, every failure of size at least $14n$ lies in one ordinary
-orientation class with four bounded colour buckets. This gives
-$2\binom{d+15}{15}$ failures at size $16n-4-d$, for $0\le d\le2n-4$,
-of which $2\binom{d+11}{11}$ are inclusion-maximal.
-The threshold for a complete cube is $\max\{n^3,16n-3\}$; in particular,
-any $n^3$ source cubes suffice when $n\ge4$. The case $n=2$ answers the
-threshold question in Problem 2 of Berkove, Eickemeyer and Schulman (2018).
-For thin cuboids, the sharp frame thresholds for both $2\times2\times\ell$
-and $2\times3\times\ell$ are $\max\{29,\lfloor(24\ell-1)/5\rfloor\}$,
-although their complete-box thresholds differ.
-The proofs combine corner containment, orientation constraints, double counting
-and Hall's theorem.
+We determine the sharp inventory sizes for assembling three-colour cuboids
+from cubes using all four colours of a fixed palette. For ordered side
+lengths $2\le a\le b\le c$, the frame threshold is
+$\max\{16a-3,4(a+b+c)-16,\lfloor(24c-1)/5\rfloor\}$, and the complete-box
+threshold is $\max\{abc,16a-3,\lfloor(24c-1)/5\rfloor\}$.
+The three frame bounds arise from colour-bucket capacity, cardinality and
+balanced checkerboards. A weighted graph selects edge directions for the
+matching construction. For ordinary cubes the frame threshold is $16n-3$,
+and exactly two collections of $16n-4$ sources fail. More generally, for
+$n\ge3$ every failure of size at least $14n$ lies in one ordinary orientation
+class with bounded buckets; a weak-composition parametrisation counts all
+failures and inclusion-maximal failures in this range. The corner threshold
+$29$ answers Problem 2 of Berkove, Eickemeyer and Schulman (2018).
+The proofs use corner containment, orientation constraints, double counting
+and Hall's theorem. The cube and thin-cuboid results also have Lean
+formalisations; the general cuboid extension is a written proof.
 \end{abstract}
 
 \section{Introduction}
@@ -46,10 +46,24 @@ of one fixed palette; every target uses exactly three of them. A
 Collections are multisets of varieties, so repeated copies
 are allowed.
 
-We prove a sharp threshold for every side length. An $n$-frame consists
-of the corners and edges of an $n\times n\times n$ cube, using $12n-16$
-pieces. The least number of source cubes guaranteeing a three-colour
-$n$-frame is $16n-3$ (Theorem~\ref{thm:frames}). Exactly two collections of
+We determine the thresholds for every cuboid with sides at least two.
+A frame consists of the corner and edge pieces, including each corner once.
+For ordered sides $2\le a\le b\le c$, its cardinality is $4(a+b+c)-16$.
+Writing $F$ and $G$ for the least inventory sizes guaranteeing a frame and
+a complete box, respectively, our general result is
+\begin{align*}
+ F(a,b,c)&=\max\{16a-3,\;4(a+b+c)-16,\;\lfloor(24c-1)/5\rfloor\},\\
+ G(a,b,c)&=\max\{abc,\;16a-3,\;\lfloor(24c-1)/5\rfloor\}
+ \qquad\text{(Theorem~\ref{thm:cuboids}).}
+\end{align*}
+The target may depend on the inventory. Three obstructions explain the
+frame formula: the shortest side controls a repeated-colour demand,
+the sum of the sides counts positions, and the longest side controls a
+checkerboard shortage. A frame needs no spare sources precisely when
+$b+c\ge3a+4$ and $c\le5(a+b)-19$.
+
+Ordinary cubes admit a stronger structural description. Their frame
+threshold is $F(n,n,n)=16n-3$ (Theorem~\ref{thm:frames}). Exactly two collections of
 $16n-4$ cubes fail: $4n-1$ copies of each of four varieties, one with a
 monochromatic corner of each colour, all in the same orientation class.
 Reflection or any odd colour permutation exchanges these collections.
@@ -70,12 +84,13 @@ exactly three colours. Four is the smallest side length for which this
 guarantee holds without spare cubes; it holds for every larger side length
 as well.
 
-The same geometry also determines the thresholds for the two thinnest
-cuboid families (Theorem~\ref{thm:thin}). Rods of size $2\times2\times\ell$
-can require spare cubes at every length, whereas complete
-$2\times3\times\ell$ strips require none for $\ell\ge5$. Their frame
-thresholds nevertheless agree. A weighted graph on the four colours selects
-suitable edge directions, and a common Hall argument supplies both families.
+For general complete boxes, the only shapes that can require spare cubes
+are rods $2\times2\times c$ and the four boxes
+$2\times3\times3$, $2\times3\times4$, $3\times3\times3$ and
+$3\times3\times4$ (Corollary~\ref{cor:cuboid-volume}). Rods and strips
+$2\times3\times c$ have the same frame threshold, despite their different
+cardinalities (Corollary~\ref{thm:thin}). Every complete $2\times4\times c$
+box can be assembled from exactly its volume.
 
 For comparison, BES~\cite[Theorem 5]{BES} show that any $12n-16$
 four-colour cubes build a four-colour $n$-frame when $n\ge3$. Requiring
@@ -92,9 +107,11 @@ classes allows new corner matches, while repeated-colour demands limit
 the capacity of each colour bucket. Together these restrictions force an
 extremal collection into one orientation class and then force the four
 multiplicities to be equal. We first prove the corner case, including its
-restricted-target corollary, and then extend the argument to frames.
+restricted-target corollary, then prove the cube stability and counting theorems, and finally establish
+the general cuboid thresholds. The cuboid proof uses the common geometry
+but does not require the earlier sharp thresholds.
 
-\section{Model and geometric facts}
+\section{Model and geometric facts}\label{sec:geometry}
 Only proper rotations are allowed. Exterior faces must match the target;
 interior faces are unrestricted.
 
@@ -123,7 +140,8 @@ adjacent; its corners are
 \]
 Finally, write $D(a,b,c)$ for the target with opposite pairs $aa,bb,cc$;
 it has four corners of each orientation on $\{a,b,c\}$. These three families suffice for the corner argument. Section~\ref{sec:frames}
-introduces one further target for larger frames.
+introduces $U$ for cube stability; Section~\ref{sec:cuboids} uses a different
+target $H$ for directional cuboid demands.
 
 \begin{lemma}\label{lem:balance}
 In a cube using exactly three colours, the two orientations of a
@@ -161,7 +179,8 @@ Target & Role\\
 $D$ & Detects the availability of both orientations\\
 $Q$ & Bounds the capacity of a colour bucket\\
 $R$ & Eliminates minority cubes in the corner case\\
-$U$ & Eliminates minority cubes in larger frames\\
+$U$ & Eliminates minority cubes in the cube stability proof\\
+$H$ & Supplies directional demands in cuboids\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -673,7 +692,7 @@ source cube has; interior positions prescribe none. Thus arbitrary unused
 cubes complete the assembly whenever at least $n^3$ pieces are available.
 \end{proof}
 
-\input{thin-cuboids}
+\input{cuboids}
 
 \section{Formal verification and computation}
 The cube-frame and complete-cube thresholds and restricted-target corollaries
@@ -694,19 +713,23 @@ multiplicities with four bucket slacks, then applies stars and bars.
 Inclusion-maximality is formalised using the pointwise order on all source
 multiplicities. The comparator challenge covers all of these results,
 including the stability, near-extremal and forty-target extensions.
-The new thin-cuboid theorem has a written proof and independent
-physical-rotation audits. Its numerical bounds and weighted-graph selection
-lemmas are additionally checked in Lean; the physical rod and strip threshold
-statements are not yet formalised. Appendix~\ref{app:verification} describes
- the verification scope.
+The thin-cuboid thresholds also have physical-family statements, proving
+both the universal upper bounds and sharpness. They use the project's
+exposed-face box model and proper-rotation bridges, and remain outside the
+original comparator challenge. The general formulas of
+Theorem~\ref{thm:cuboids} have not yet been formalised: their proof in
+Section~\ref{sec:cuboids} is mathematical, with separate geometry audits
+and symbolic arithmetic checks. Those checks do not constitute a formal
+proof of the cuboid theorem. Appendix~\ref{app:verification} describes
+the verification scope.
 
 The Lean proof uses counting and finite Hall certificates. Its corner-case
 proof of the extremal classification treats checkerboards and the smaller
 ordinary class separately. The stability proof combines them and supplies the
 larger-frame and near-extremal classifications. Finite checks establish each target's corner and
 edge requirements, while the allocation and counting proofs are symbolic in
-the side length. Neither the written proof nor the formalisation
-enumerates all source collections.
+the side length. Neither the written proofs nor the formalisations
+enumerate all source collections.
 
 A computational search found the corner obstruction and agreed with the
 corner threshold; separate scripts check the geometric tables, incidences,
@@ -728,14 +751,21 @@ flow meeting all demands determines a frame, and compatible proper rotations
 can then be chosen. Unused cubes complete the assembly whenever at least
 $n^3$ pieces are available.
 
-\section*{Further questions}
-Classifying failures below the stability range would extend
-Theorem~\ref{thm:stability}. Theorem~\ref{thm:thin} settles rods and strips;
-the next cuboid families include $2\times b\times c$ with $b\ge4$ and
-boxes with all three sides at least three. The different thresholds of
-frames with the same cardinality show that a general classification must
-account for their directional demands.
+For a general cuboid, testing all 120 target varieties with at most six
+assignments of their axes to the box directions likewise decides frame
+feasibility. Every proper rotation induces a permutation of the three
+unoriented axes, so these assignments cover all possible targets.
+There are at most eight corner and twelve edge requirement nodes; only
+edge demands change with the dimensions. The same integral flow therefore
+constructs an assembly in the range of Theorem~\ref{thm:cuboids}, and the
+remaining positions can be filled when at least $abc$ sources are available.
 
+\section*{Further questions}
+The cuboid thresholds are determined, but their extremal inventories
+remain to be classified. In particular, the interaction between the
+bucket and checkerboard obstructions may give a cuboid counterpart of
+Theorem~\ref{thm:stability}. For cubes, classifying failures below the
+stability range remains open.
 \Needspace{12\baselineskip}
 \section*{Declaration of AI-generated research and review}
 GPT-6-Astra (OpenAI), used through Codex, developed the original research

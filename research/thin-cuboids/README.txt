@@ -4,9 +4,10 @@ Thin-cuboid integration and proof review
 
 Scope
 -----
-This branch integrates sharp thresholds for 2 x 2 x l rods (l>=2) and
-2 x 3 x l strips (l>=3). The canonical shared proof is
-paper/thin-cuboids.tex. The strip upper bound implies the rod upper bound
+This record describes the earlier integration of sharp thresholds for
+2 x 2 x l rods (l>=2) and 2 x 3 x l strips (l>=3). The manuscript now
+derives both from paper/cuboids.tex. The original strip-to-rod route
+remains in Lean and in the construction scripts. The strip upper bound implies the rod upper bound
 by deleting four short-edge positions; only the l=2 corner case is separate.
 
 The worktree was created from clean commit 4dd7941, on branch
@@ -72,17 +73,31 @@ ThreeColour/ThinBounds.lean proves the numerical inequalities, including
 natural subtraction/division, and the majority/reservation counting.
 ThreeColour/ThinSelection.lean proves long-edge propagation and the strip
 pair-selection lemma for arbitrary nonnegative K4 edge weights.
-ThreeColour/Thin.lean guards the axiom reports of all ten public theorems.
-Both ingredients compile with the pinned Lean 4.35.0 toolchain; only the
-usual propext, Classical.choice and Quot.sound axioms occur (some results
-need fewer). No unlimited heartbeat setting or native_decide is used.
+ThreeColour/ThinResults.lean proves the sharp physical rod/strip frame and
+complete-box thresholds as IsLeast statements. BoxModel counts all exposed
+positions and proves completion; BoxMatching/BoxAssignment build distinct
+physical placements. ThinGeometryChecks supplies local finite geometry,
+ThinConstructions/ThinUpper prove the symbolic upper bound, and
+ThinLowerGeometry/ThinLower prove the balanced-checkerboard obstruction at
+every length. The rod upper bound restricts the strip construction.
 
-This does NOT yet formalise the physical thin-cuboid threshold statements.
-Outstanding formal work is the cuboid position model, geometry bridges,
-Hall placements, lower-bound transport and complete-box filling. The new
-modules are imported by the default library but are outside the comparator
-challenge. No fresh full-project build or external comparator replay is
-claimed by this focused review.
+ThreeColour/Thin.lean guards ten combinatorial and nine physical theorem
+axiom reports. The new files use no unlimited heartbeat setting or
+native_decide. They are imported by the default library. Their definitions
+and endpoints are outside the original comparator challenge, so a replay
+of that challenge does not cover the new extension.
+
+Local validation, 6 November 2026
+--------------------------------
+The physical Thin target and all nineteen axiom guards passed with the
+pinned toolchain. LEAN_NUM_THREADS=1 make check then passed the complete
+repository checks and default Lean targets, including Solution. make paper
+produced the fourteen-page PDF without unresolved references or box
+warnings; the final page was rendered and inspected.
+
+This record describes the thin-box validation before the subsequent
+all-cuboid manuscript integration; the current PDF is seventeen pages. No
+fresh external Lean/NanoDa/con-ron comparator replay or upload is claimed.
 
 Reproduce from the repository root
 ----------------------------------
@@ -90,10 +105,11 @@ Reproduce from the repository root
   make check-thin
   make paper
 
-check-thin runs only Python standard-library scripts plus the new Lean
-modules. The regular make check also runs these geometry audits and imports
-the new modules via the library root. A submission release still needs its
-usual full-project checks and exact-commit comparator replay.
+check-thin runs Python standard-library scripts and builds the new Lean
+modules with serial Lean scheduling. Its first build also checks the
+existing corner-theorem dependencies. The regular make check also runs these geometry audits and imports
+the new modules via the library root. Before a release, freeze the submitted
+commit and perform the usual exact-commit comparator replay.
 
 Files
 -----
@@ -105,4 +121,4 @@ strip_audit.py     independent physical strip audit
 *-results.json     deterministic audit reports
 
 The separate rod construction is retained as an additional computational
-control; the manuscript uses the shorter strip-to-rod deduction.
+control; the manuscript now uses the general cuboid deduction.

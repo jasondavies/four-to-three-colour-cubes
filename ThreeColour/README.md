@@ -208,19 +208,36 @@ The repository also includes a manually triggered
 [Palomar preflight workflow](../.github/workflows/palomar-preflight.yml).
 No registry submission or acceptance is claimed.
 
-## Thin cuboids: partial formal coverage
+## Thin cuboids
 
-`ThinBounds.lean` verifies the threshold arithmetic, balanced-checkerboard
-shortage, residual supplies, majority counts and reservation dichotomy.
-`ThinSelection.lean` proves long-pair and simultaneous long/short-pair
-selection on a weighted K4. Its `good` predicate is abstract: the physical
-D-target interpretation remains a hypothesis. `Thin.lean` imports both
-modules and guards all ten public theorem axiom reports; the default root
-imports it.
+`ThinResults.lean` exports sharp physical thresholds:
 
-These are combinatorial ingredients, **not** full physical rod/strip
-threshold theorems. The cuboid position model, physical geometry bridges,
-Hall placements, lower-obstruction transport and completion remain to be
-formalised. The manuscript and main README state this boundary explicitly.
-The new ingredients are outside the 35-statement comparator challenge.
-Use `make check-thin` for the focused kernel build and geometric controls.
+- `rod_frame_threshold` and `rod_full_threshold`: lengths at least two;
+- `strip_frame_threshold` and `strip_full_threshold`: lengths at least three;
+- `strip_full_of_five_le`: every exact-volume strip inventory works from length five.
+
+The four threshold statements are `IsLeast` assertions over universal
+assembly guarantees for arbitrary indexed source families. They prove both
+sufficiency and failure below the stated bound. `Thin.lean` retains the ten
+combinatorial axiom guards and adds nine guards for the physical results
+and their main bridges; the default root imports it.
+
+`BoxModel.lean` represents corners, geometric edges, face interiors and
+interior positions, with their exposed faces and cardinalities. Its
+`boxFull_iff_frame_and_size` proves the general completion principle.
+`BoxMatching.lean` groups Hall demands, and `BoxAssignment.lean` transports
+those matchings to distinct original cubes using proper rotations.
+
+`ThinGeometryDefs` and `ThinGeometryChecks` describe and check the four
+oriented D/Q/H constructions. `ThinGeometry`, `ThinConstructions` and
+`ThinUpper` connect the weighted-K4 selection and reservation lemmas to
+physical strip placements. The rod upper bound follows by restriction.
+`ThinLowerGeometry` and `ThinLower` prove the balanced-checkerboard
+obstruction symbolically in the length, including all target orientations.
+The existing twenty-eight-source corner obstruction gives the other bound.
+
+These results depend on the project's box definitions and bridges, rather
+than independently restated definitions in the original 35-statement
+comparator challenge. A comparator replay of that challenge does not cover
+the thin-cuboid extension. Use `make check-thin` for the focused kernel build
+and independent geometry controls, or `make check` for the full library.
