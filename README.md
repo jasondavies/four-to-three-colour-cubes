@@ -49,7 +49,7 @@ same number of positions:
 | $2\times3\times6$ | 28 | 29 | 36 | 36 |
 | $2\times4\times6$ | 32 | 32 | 48 | 48 |
 
-The threshold 29 for $2\times2\times2$ answers Problem 2 of
+The threshold 29 for $2\times2\times2$ answers the threshold question in Problem 2 of
 [Berkove, Eickemeyer and Schulman, *The 4-Color Cubes Puzzle* (2018)](https://math.colgate.edu/~integers/s68/s68.pdf).
 
 ## Proof idea
