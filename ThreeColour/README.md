@@ -107,7 +107,12 @@ LEAN_NUM_THREADS=1 make check
 make paper
 ```
 
-The serial catalogue prebuild limits memory consumption. `make check`
+The serial catalogue prebuild limits memory consumption. The library also
+uses one Lean worker per compiler process and splits the largest finite
+checks into individual cases before kernel reduction. These settings apply
+to a direct cold `lake build Solution`, including Palomar's build, which
+does not run the CI prebuild. `LEAN_NUM_THREADS=1` additionally serialises
+Lake's module builds on memory-constrained machines. `make check`
 audits proof sources and pins, validates metadata, regenerates geometry
 and figures, runs the independent audits, and builds every library target
 and axiom guard. The PDF requires latexmk, a LaTeX installation and

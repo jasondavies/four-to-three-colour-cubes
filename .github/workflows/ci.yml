@@ -52,14 +52,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ruby
-      # Local tests exceeded 16 GB with two heavy RawChecks blocks in parallel.
+      # Keep a conservative single-worker catalogue prebuild on shared runners.
       - name: Build raw catalogue checks one at a time
         timeout-minutes: 120
         env:
           LEAN_NUM_THREADS: "1"
         run: lake build ThreeColour.RawChecks
-      # Keep the remaining finite kernel checks serial too: several independent
-      # certificate modules become ready together after FrameCertificates.
+      # Serial module scheduling provides additional memory headroom in CI.
       - name: Check
         env:
           LEAN_NUM_THREADS: "1"

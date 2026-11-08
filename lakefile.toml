@@ -14,6 +14,9 @@ rev = "994ec9af4f44881819aea63e96b25e54afba5dec"
 
 [[lean_lib]]
 name = "ThreeColour"
+# Lake can build several modules concurrently. Avoid multiplying that parallelism
+# inside each module's finite kernel checks, including on cold comparator builds.
+moreLeanArgs = ["-j1"]
 
 [[lean_lib]]
 name = "Challenge"

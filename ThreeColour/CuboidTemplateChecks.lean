@@ -20,19 +20,24 @@ lemma cuboid_edge_cover : ∀ a b c, a ≠ b → a ≠ c → b ≠ c → ∀ j k
 set_option maxRecDepth 100000 in
 lemma cuboid_checker_eligible : ∀ j, ∃ d, checkerPair j ⊆ eligible d := by decide +kernel
 
+-- Splitting the colour cases bounds kernel-reduction memory; assembling those
+-- cases requires a larger, still bounded, elaboration budget.
+set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 100000 in
 lemma cuboid_corners (kind : Fin 3) : ∀ a b c d, DistinctColours a b c d → ∀ s p i,
     i ∈ Sum.elim (cuboidBasePools kind a b c d s) (cuboidEdgePools a b c)
       (cuboidCornerTag kind a b c s p) → boxCornerFits (cuboidTarget kind a b c) p i := by
-  fin_cases kind <;> decide +kernel
+  intro a
+  fin_cases kind <;> fin_cases a <;> decide +kernel
 
-set_option maxHeartbeats 1000000 in
+set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 100000 in
 lemma cuboid_edges (kind : Fin 3) : ∀ a b c d, DistinctColours a b c d → ∀ s p i,
     i ∈ Sum.elim (cuboidBasePools kind a b c d s) (cuboidEdgePools a b c)
       (cuboidEdgeTag kind a b c p) →
     HasEdge (sourceFaces i) (cuboidTarget kind a b c (edgeFaces p 0))
       (cuboidTarget kind a b c (edgeFaces p 1)) := by
-  fin_cases kind <;> decide +kernel
+  intro a
+  fin_cases kind <;> fin_cases a <;> decide +kernel
 
 end ThreeColour
