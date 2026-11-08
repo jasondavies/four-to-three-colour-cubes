@@ -12,7 +12,7 @@ noncomputable def edgeEquiv (r : Fin 24) : Equiv.Perm (Fin 12) :=
   Equiv.ofBijective (edgeRotation r) (edgeRotation_bijective r)
 
 noncomputable def frameSlotEquiv (k : ℕ) (r : Fin 24) : Equiv.Perm (FrameSlot k) :=
-  Equiv.sumCongr (ColourCubes.Geometry.slotEquiv r) (Equiv.prodCongr (edgeEquiv r) (Equiv.refl _))
+  Equiv.sumCongr (ColourCubes.Geometry.slotEquiv r) (Equiv.sigmaCongr (edgeEquiv r) (fun _ => Equiv.refl (Fin k)))
 
 lemma corner_exposed_rotate : ∀ r p,
     Finset.univ.image (ColourCubes.exposedFaces (ColourCubes.Geometry.slotEquiv r p)) =
@@ -64,12 +64,6 @@ lemma familyFrame_iff {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
     (hc : ∀ j, Uses 4 (cubes j)) :
     FamilyFrameSolvable k cubes ↔ FrameSolvable k (familyInventory cubes) :=
   ⟨inventoryFrame_of_family k cubes hc,familyFrame_of_inventory k cubes hc⟩
-
-/-- Catalogue-free geometric threshold, with `n=k+2`. -/
-theorem family_frame_threshold {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour)
-    (hc : ∀ j, Uses 4 (cubes j)) (hm : 16*k+29 ≤ m) : FamilyFrameSolvable k cubes :=
-  familyFrame_of_inventory k cubes hc (frame_solvable_of_le k _ (by
-    simpa only [familyInventory_total] using hm))
 
 /-- Classification by rotation classes for arbitrary oriented source families. -/
 theorem family_frame_classification (k : ℕ) (cubes : Fin (16*k+28) → Fin 6 → Colour)

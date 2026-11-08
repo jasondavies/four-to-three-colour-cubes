@@ -12,9 +12,9 @@ theorem cuboid_inventory_upper (m t q : ℕ) (hmt : m ≤ t) (htq : t ≤ q) (x 
   by_contra hn
   obtain ⟨hshort,hL,hK⟩ := Cuboid.threshold_le.mp hN
   have h29 : 29 ≤ total x := by omega
-  have hno : ¬ ∃ d, ThinGood x d := fun h => hn (cuboid_d m t q hmt htq x hN h)
+  have hno : ¬ ∃ d, OppositeCornerSupply x d := fun h => hn (cuboid_d m t q hmt htq x hN h)
   obtain ⟨s,hs⟩ := exists_major_orientation x
-  obtain ⟨hm,_,hx⟩ := thin_nogood_bounds x h29 hno s hs
+  obtain ⟨hm,_,hx⟩ := cuboid_nogood_bounds x h29 hno s hs
   have htotal := ordered_totals x s
   have hel := eligible_totals x
   have hM : mass x (ordinary (flip s)) + mass x allCheckers ≤ 6 := by
@@ -49,8 +49,8 @@ theorem cuboid_inventory_upper (m t q : ℕ) (hmt : m ≤ t) (htq : t ≤ q) (x 
         ⟨hac,hab,hbc.symm,hda,hdc,hdb⟩ s (by rwa [major_triple] at ha)
         (by rwa [major_triple] at hc) hd hextra)
   · obtain ⟨d,hda,hdb,hd⟩ := cuboid_minority_pair x s a b hab hm5 hx
-    have hc : ∃ c, ThinDistinct a b c d := by
-      have hf : ∀ a b d : Colour, a ≠ b → d ≠ a → d ≠ b → ∃ c, ThinDistinct a b c d := by decide
+    have hc : ∃ c, DistinctColours a b c d := by
+      have hf : ∀ a b d : Colour, a ≠ b → d ≠ a → d ≠ b → ∃ c, DistinctColours a b c d := by decide
       exact hf a b d hab hda hdb
     obtain ⟨c,hc⟩ := hc
     exact hn (cuboid_h m t q hmt htq x hN hx a b c d hc s

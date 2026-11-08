@@ -1,338 +1,171 @@
-# Four-colour cubes and three-colour targets
+# Formalisation guide
 
-From the repository root, run `lake build ThreeColour` with the pinned Lean and mathlib
-v4.35.0. The default `lake build` also builds the independent comparator challenge and solution entry point.
-Finite geometry checks are split across modules so Lake can build them in
-parallel. The first build is substantially slower than a cached build.
-
-Start with [All cuboids](#all-cuboids) for the general threshold theorems.
-The sections below describe the cube and thin-cuboid proofs, followed by
-[independent audits and optional search](#independent-audits-and-optional-search).
-
-The cube results are in `FrameResults.lean`: `frame_threshold_n` proves the
-sharp frame threshold $16n-3$ for $n\ge2$, `full_threshold_n` proves the sharp
-complete-cube threshold $\max\{n^3,16n-3\}$, and `full_cube_of_four_le` gives
-the consequence for $n\ge4$. `FrameFamily.lean` proves the extremal classification
-for arbitrary indexed face colourings. Internally, `k=n-2` avoids truncated
-subtraction in position counts.
-
-`FrameDefs.lean` indexes frame positions by eight corners and twelve copies
-of `Fin k`. `FramePhysical.lean` proves that corner and edge eligibility is
-equivalent to proper-rotation matching on the specified exterior faces.
-`FrameFamily.lean` transports these placements in both directions between
-catalogue inventories and arbitrary oriented input families, including target
-rotation and edge-position permutation. `FullCube.lean` adds six face interiors
-of size $k^2$ and an interior of size $k^3$, proves that the total is $(k+2)^3$,
-and fills the remaining positions with unused copies. No internal faces are constrained.
-
-`FrameMatching.lean` groups interchangeable positions without losing distinct
-copy use. The $Q,D,U$ constructions are checked in `FrameCertificates.lean`,
-`FrameDGeometry.lean` and `FrameConstructions.lean`; `FrameCounting.lean`
-scales the minority and bucket argument. These pools remain preimages of the
-reduction, so the proof applies to all 68 original varieties.
-`FrameLower.lean` verifies the orientation-or-monochromatic-edge deficiency
-for every target and proves the obstruction for all `k`, rather than checking
-a bounded range of side lengths. `FrameTheorems.lean` supplies the inventory
-threshold and classification; the 28-cube classification supplies `k=0`.
-
-`Stability.lean` gives the failure criterion at total at least $14n$, for
-$n\ge3$, including an arbitrary physical-family statement. The
-`frame_checker_many` construction supplies the D-extension bound.
-`StabilityParameters.lean` proves that twelve pair multiplicities and four
-bucket slacks encode and decode the inventories exactly.
-`StabilityCounting.lean` gives the bijection, the stars-and-bars count
-$2\binom{d+15}{15}$ and the maximal-failure count $2\binom{d+11}{11}$,
-for $d\le2n-4$. Here `FrameMaximalFailure` quantifies over every pointwise
-larger inventory, rather than just a prescribed family of additions.
-`ClassCount.lean` defines `classCount`, the rotation-class counts of a physical
-family, and `FrameFails`, which says that some family of four-colour cubes with
-given counts has no frame. It proves that this agrees with inventory failure.
-`family_stability_failure_count` and `family_stability_maximal_count` restate
-both counts in these physical terms. `OrdinaryGeometry.lean` proves that the
-`ordinary` and `bucket` tables are BES's universal-corner orientation classes
-and the corner-type buckets (`ordinary_geometry`, `bucket_geometry`).
-
-`NearPurity.lean` strengthens the purity argument to size $16n-5$.
-For the 27-cube endpoint, `RMajority0.lean` through `RMajority3.lean`
-verify the R construction with an arbitrary supported minority corner.
-`NearData.lean` defines 32 explicit templates (eight T parameters and
-24 P parameters) and proves their count for every `k`. `NearLower.lean`
-proves that all these templates fail, and `NearClassification.lean` proves
-that no others fail at that size and that the pair cases are inclusion-maximal.
-`NearResults.lean` transports the classification to arbitrary physical families,
-and proves `family_near_failure_count` (exactly 32 failing count vectors) and
-`family_near_pair_maximal` (each pair case is inclusion-maximal) for every `k`.
-
-`FrameRestrictedDefs.lean` defines U targets geometrically (`IsU`: one colour on
-three faces at a corner, two others on the opposite faces), retains the Q/D/U
-target witness and checks the count of forty. The frame constructions and counting argument preserve
-that witness, giving `family_restricted_frame_of_le` for `k ≥ 1`. The source
-families and rotations are physical; the permitted target set is specified
-using the checked catalogue. These results are axiom-audited and included
-in the 45-statement comparator challenge.
-
-`scripts/generate_frame_data.py` generates `FrameData.lean`; every tag and
-rotation in it is checked by Lean. `scripts/check_frames.py` separately checks
-the edge facts, reduction, $U$ multisets, both obstructions for $2\le n\le6$,
-and all 136 one-cube extensions at each tested side length. Those finite tests
-supplement the symbolic Lean proofs.
-
-The public results in `Theorems.lean` are:
-
-- `physical_threshold29`: every collection of size 29 has a solution.
-- `physical_classify28`: a collection of size 28 fails exactly when it is one
-  of the two specified extremal collections.
-- `sharp_threshold29`: the upper bound and a size-28 counterexample together.
-- `least_guaranteed_size`: 29 is the least size guaranteeing a solution for
-  every collection at least that large.
-
-`Inventory` is a function from the 68 canonical source varieties to natural
-number multiplicities. `Stock` labels each individual copy. `PhysicalSolvable`
-embeds the eight target positions into this stock and provides one of the 24
-proper rotations for each selected copy, matching its three exposed faces.
-Internal faces are unrestricted. Targets are the 120 proper-rotation classes
-using exactly three of the four fixed colours.
-
-`Catalogue.lean` proves that every four-colour source and every exactly-three-
-colour target face assignment occurs up to a proper rotation. `Encoder.lean`
-checks that all listed representatives use the required number of colours;
-`Uniqueness.lean` proves that distinct source and target indices are distinct rotation
-varieties. `Family.lean` transports solutions in both directions between inventories
-and arbitrary indexed face assignments. Its `family_threshold29`,
-`family_sharp_threshold29`, and `family_least_guaranteed_size` statements
-use no source or target catalogue tables: sources use exactly four colours, the existential
-target uses exactly three, and distinct selected copies match its exterior
-faces by geometric proper rotations. `family_classify28_geometric` extends the
-classification to arbitrary families using geometric rotation-class counts,
-and is included in the comparator challenge. `family_classify28` is the
-internal inventory formulation.
-`restricted_classify28` in `Classification.lean` proves the stronger statement used in the paper:
-avoiding $Q,R,D$ at size 28 already forces an extremal collection.
-`RestrictedDefs.lean` defines the target families geometrically: four faces of
-one colour and two differently coloured opposite faces ($Q$) or adjacent faces
-($R$), or three monochromatic opposite pairs ($D$). The counting proof retains
-these target witnesses. `RestrictedFamily.lean` proves
-`family_restricted_of_29_le`, `family_restricted_threshold29`, and
-`family_restricted_of_solvable28` for arbitrary indexed families.
-`RestrictedGeometry.lean` proves the counts 12, 12, 4, and 28 in total;
-`RestrictedCatalogue.lean` proves that these representatives exhaust the
-geometric families. These results and target uniqueness are comparator targets.
-
-`ColourCubes.RotationAction` checks how rotations permute the eight positions. `Reflection.lean` proves that physical reflection
-exchanges the two extremal collections.
-
-`Core.lean` derives the Hall criterion from mathlib. `Stats.lean` verifies the
-source-pool counting identities. These pools are preimages under the corner
-reduction: `allCheckers` contains 36 original varieties mapping to six
-checkerboards, while the other two pools have sizes 8 and 24. `Counting.lean` and `Classification.lean` prove
-the threshold and classification by a related counting argument with named
-lemmas. They treat checkerboards and the smaller ordinary class separately;
-the written proof combines them as minority cubes. `Certificates/` checks finite Hall
-certificates for the sufficient constructions; `Lower.lean` checks a Hall
-deficiency for each target and each extremal collection.
-
-`ColourCubes.Corners` proves the corner–rotation correspondence for an arbitrary
-palette, allowing repeated colours. The proof checks only the finite geometry
-of the 24 rotations and eight oriented frames, then reasons symbolically about
-colours. `CornerCoding.lean` checks that the base-four canonical code identifies
-exactly cyclically equivalent triples; `CornerData.lean` checks the stored
-source and target corners against their face colours. `Physical.lean` combines
-these results, replacing 65,280 separate compatibility checks.
-
-`RawChecks/` checks all 4,096 face assignments for catalogue
-coverage. This is finite geometry verification, not an exhaustive search over
-collections of cubes.
-
-`scripts/generate_three_colour_lean.py` generates six data modules:
-`Data.lean`, `LowerData.lean`, `PhysicalDefs.lean`, `RawData.lean`,
-`ReflectionData.lean`, and `RData.lean`. Generation is not trusted: the Lean
-kernel checks the stated finite properties. The catalogue checks in
-`RawChecks/` and the certificate modules are checked-in Lean proofs.
-No external solver result is imported as an axiom.
-The root `ThreeColour.lean` contains explicit axiom guards for the public results,
-including the comparator results, the stability criterion and counts, both
-obstruction classifications, the
-forty-target extension, and both forms of the corner–rotation lemma;
-only `propext`, `Classical.choice`, and `Quot.sound` are permitted. There are no
-proof holes or uses of `native_decide` in the proof library. The forty-five intentional
-statement holes in `Challenge.lean` are isolated comparator targets.
-
-The separate Python geometry checker also compares both printed tables with
-the computed geometry. Attribution and review scope are recorded in
-[formalization.yaml](../formalization.yaml).
-
-The shared dependency is `colour_cubes_core`, pinned in `lakefile.toml` and
-`lake-manifest.json`. It supplies the palette-independent physical model,
-rotations, corner matching and rotation transport; it imports no paper-specific
-catalogues or classifications. `FamilySolvable` specialises
-`ColourCubes.HasSolution` to targets using exactly three colours.
-The standalone challenge imports only mathlib and locally restates the required
-core definitions and catalogue data. The comparator checks agreement with the
-proof library, then replays the proofs; sharing definitions is not independent
-mathematical modelling.
-
-## Verification and maintenance
-
-Follow the [clean-build sequence](../README.md#reproduce) for a first build
-with CI's single-worker setting. `make check` runs source and metadata audits,
-generated-file checks, the Python geometry checkers, the compiled C++
-near-extremal audit, and the Lean build.
-Full kernel replay is a separate command:
-
-```sh
-make comparator
-```
-
-The comparator replays the 45 challenge results through the toolchain's bundled
-Lean, NanoDa and con-ron kernels after checking their statements and definitions.
-Replay requires `bwrap` and support for its sandbox. On memory-limited machines,
-use `CON_RON_JOBS=1 make comparator` to limit con-ron's workers; this changes
-resource use, not the checks performed.
-
-[Routine CI](../.github/workflows/ci.yml) runs on pushes and pull requests.
-It builds the memory-heavy `RawChecks` modules serially, and also sets
-`LEAN_NUM_THREADS=1` for the main check step. The step reports peak memory
-with `/usr/bin/time -v`. Local builds retain their usual parallelism. The first
-build can take substantially longer than a cached build;
-new pushes cancel superseded routine checks.
-
-The separate [Comparator workflow](../.github/workflows/comparator.yml) runs
-only on manual request, with serial `RawChecks` builds and `CON_RON_JOBS=1`.
-It saves the build cache before replay and allows up to three hours for replay
-within a five-hour job. Routine pushes cannot cancel an active replay.
-These settings were informed by local tests with 16 GB; they do not establish
-that an 8 GB runner can build the project.
-
-Before releasing or archiving a version, require a successful full replay of
-that exact commit. Start the Comparator workflow with its `ref` input set to
-the full commit SHA, then confirm the successful run summary records the same
-SHA. A green routine CI run alone does not certify kernel replay.
-
-The repository also includes a manually triggered
-[Palomar preflight workflow](../.github/workflows/palomar-preflight.yml).
-No registry submission or acceptance is claimed.
-
-## Thin cuboids
-
-`ThinResults.lean` exports sharp physical thresholds:
-
-- `rod_frame_threshold` and `rod_full_threshold`: lengths at least two;
-- `strip_frame_threshold` and `strip_full_threshold`: lengths at least three;
-- `strip_full_of_five_le`: every exact-volume strip inventory works from length five.
-
-The four threshold statements are `IsLeast` assertions over universal
-assembly guarantees for arbitrary indexed source families. They prove both
-sufficiency and failure below the stated bound. `Thin.lean` checks ten
-combinatorial axiom reports and nine reports for physical results and their
-main bridges; the default root imports it.
-
-`BoxModel.lean` represents corners, geometric edges, face interiors and
-interior positions, with their exposed faces and cardinalities. Its
-`boxFull_iff_frame_and_size` proves the general completion principle.
-`BoxMatching.lean` groups Hall demands, and `BoxAssignment.lean` transports
-those matchings to distinct original cubes using proper rotations.
-
-`ThinGeometryDefs` and `ThinGeometryChecks` describe and check the four
-oriented D/Q/H constructions. `ThinGeometry`, `ThinConstructions` and
-`ThinUpper` connect the weighted-K4 selection and reservation lemmas to
-physical strip placements. The rod upper bound follows by restriction.
-`ThinLowerGeometry` and `ThinLower` prove the balanced-checkerboard
-obstruction symbolically in the length, including all target orientations.
-The twenty-eight-source corner obstruction gives the other bound.
-
-These results use the project's box definitions and bridges. They are checked
-by the library build and axiom guards, but are outside the 45-statement
-comparator challenge. Use `make check-thin` for the focused kernel build and
-independent geometry controls, or `make check` for the full library.
-
+The default `lake build` builds the proof library, the Mathlib-only
+`Challenge.lean`, and the `Solution.lean` entry point. All thresholds
+quantify over arbitrary indexed source families, distinct selected copies,
+proper rotations and exactly three exterior colours. Internal faces are
+unrestricted.
 
 ## All cuboids
 
-`CuboidResults.lean` exports the general ordered-side statements for
-`2 ≤ a ≤ b ≤ c`:
+The dependency chain follows the general theorem:
 
-- `cuboid_frame_threshold`: the sharp threshold
-  `max (max (16*a-3) (4*(a+b+c)-16)) ((24*c-1)/5)`;
-- `cuboid_full_threshold`: the sharp threshold
-  `max (a*b*c) (max (16*a-3) ((24*c-1)/5))`;
-- `cuboid_frame_exact_cardinality`: equality with the number of positions
-  exactly when `3*a+4 ≤ b+c` and `c ≤ 5*(a+b)-19`;
-- `cuboid_full_exact_volume`: equality with volume exactly when
-  `3 ≤ b` and either `4 ≤ b` or `5 ≤ c`;
-- `family_cuboid_full_of_volume`: the physical exact-volume guarantee
-  whenever both geometric lower bounds fit inside the volume.
+1. [BoxDefs.lean](BoxDefs.lean) defines exposed-face positions for a frame
+   and complete cuboid. Cubes are equal-sided instances of these types.
+2. [BoxModel.lean](BoxModel.lean) proves position counts, restriction to
+   smaller dimensions, and completion using arbitrary unused sources.
+3. [BoxAssignment.lean](BoxAssignment.lean) connects grouped Hall matching
+   on catalogue inventories to physical placements.
+4. [CheckerboardGraph.lean](CheckerboardGraph.lean) and
+   [CuboidSelection.lean](CuboidSelection.lean) prove weighted graph
+   selection. [CuboidTemplates.lean](CuboidTemplates.lean) and
+   [CuboidTemplateChecks.lean](CuboidTemplateChecks.lean) specify and check
+   the D/Q/H targets, source pools and corner/edge tags.
+5. [CuboidSupply.lean](CuboidSupply.lean),
+   [CuboidCornerSelection.lean](CuboidCornerSelection.lean),
+   [CuboidGeometry.lean](CuboidGeometry.lean),
+   [CuboidConstructions.lean](CuboidConstructions.lean),
+   [CuboidCounting.lean](CuboidCounting.lean) and
+   [CuboidUpper.lean](CuboidUpper.lean) prove the upper bound.
+6. [CuboidLower.lean](CuboidLower.lean) gives the three lower bounds:
+   frame cardinality, a bucket obstruction on the shortest-side cube,
+   and balanced checkerboards on the longest rod. The checkerboard
+   obstruction is proved in [CheckerboardLower.lean](CheckerboardLower.lean).
+7. [CuboidResults.lean](CuboidResults.lean) gives both `IsLeast` thresholds
+   and the no-spare criteria. [FrameResults.lean](FrameResults.lean) and
+   [CuboidCorollaries.lean](CuboidCorollaries.lean) specialise them to
+   cubes, rods and strips.
 
-Both thresholds are `IsLeast` statements over arbitrary indexed source
-families. `CuboidUpper` first proves a guarantee for inventories of all 68
-original varieties, then transports to physical families using BoxAssignment.
-The pool definitions already incorporate the corner-containment reduction.
+The position model uses side lengths minus two for edge-interior counts.
+It has eight corners, four edge groups per axis, six face interiors and
+one interior. Off-frame positions expose at most one face. `FullCube.lean`
+specialises the cuboid completion theorem; there is one completion
+construction.
 
-`CuboidBounds` handles arithmetic. `CuboidSelection` proves three-direction
-selection for arbitrary K4 weights and a physically interpreted good-vertex
-predicate. `CuboidGeometry` counts every corner and directional edge demand
-of D, Q and H and connects grouped Hall matchings to proper rotations.
-`CuboidConstructions` supplies those matchings. `CuboidCounting` and
-`CuboidUpper` prove the majority-bucket and two-high-colour exhaustion.
-`CuboidLower` restricts to the cube and rod obstructions and proves
-the equal-sided box-to-cube model bridge and cardinality bounds.
+## Cube classification and stability
 
-`Cuboid.lean` guards nine public theorem axiom reports. Its default-root
-import makes these proofs part of `lake build` and `make check`. Run
-`make check-cuboids` for the focused build and independent geometry audit.
-These results use `BoxModel` and are checked by the library build and axiom
-guards. They are outside the 45-statement comparator challenge.
+The threshold corollaries do not classify failing inventories. These
+additional results use the orientation and bucket counting machinery:
+
+- [FrameLower.lean](FrameLower.lean) proves the scaled extremal obstructions
+  symbolically in the side length.
+- `FrameMatching`, `FrameCertificates`, `FrameDGeometry`,
+  `FrameConstructions`, `FrameCounting` and `FrameTheorems` provide
+  constructions and counting for the cube classification. `FrameFamily`
+  transports the classification to arbitrary physical source families.
+- [Stability.lean](Stability.lean) proves the failure criterion for
+  $n\ge3$, $N\ge14n$. [StabilityParameters.lean](StabilityParameters.lean)
+  encodes twelve pair multiplicities and four bucket slacks.
+  [StabilityCounting.lean](StabilityCounting.lean) proves the bijection,
+  both binomial counts, and inclusion-maximality among all larger inventories.
+- `NearData`, `NearLower`, `NearPurity`, `NearClassification` and
+  [NearResults.lean](NearResults.lean) classify the 32 failures at size
+  $16n-5$, including the separate $n=2$ endpoint.
+- `FrameRestrictedDefs` defines Q/D/U targets and checks their count of
+  forty. `family_restricted_frame_of_le` retains a canonical target index
+  while proving proper-rotation placements for arbitrary physical sources.
+- [ClassCount.lean](ClassCount.lean) expresses failure counts in terms of
+  physical rotation classes. [OrdinaryGeometry.lean](OrdinaryGeometry.lean)
+  identifies the ordinary-class and bucket tables with their corner-type
+  definitions.
+
+## Corner geometry and catalogue
+
+`Inventory` records multiplicities of 68 source varieties. `Stock` labels
+individual copies. There are 120 target varieties using exactly three
+colours. Source compatibility records presence of a corner; target
+occurrences remain distinct positions.
+
+`Core` derives Hall's criterion from Mathlib. `Stats`, `Counting` and
+`Classification` establish the corner obstruction classification and
+restricted Q/R/D constructions. `Certificates/` checks their finite Hall
+certificates, and `Lower` checks deficiencies against every target.
+These constructions also supply the $n=2$ classification endpoints.
+
+`Catalogue`, `Encoder`, `Uniqueness` and `RawChecks/` check coverage and
+uniqueness over all 4096 face colourings. `CornerCoding`, `CornerData` and
+`Physical` connect cyclic corner codes to proper rotations through the
+shared ColourCubes geometry library. `Family` and `FrameFamily` transport
+between catalogue inventories and arbitrary oriented physical sources.
+These representation theorems are needed to state the results without
+assuming that input cubes arrive in canonical orientations.
+
+`RestrictedDefs`, `RestrictedGeometry`, `RestrictedCatalogue` and
+`RestrictedFamily` give geometric definitions of Q/R/D, catalogue
+completeness, and the 28-target corner results. `Reflection` exchanges
+the two extremal inventories.
+
+## Reproduction and comparator
+
+Install the pinned Lean toolchain through elan, Python 3.11+, Ruby and a
+C++20 compiler. From the repository root:
+
+```sh
+lake exe cache get
+LEAN_NUM_THREADS=1 lake build ThreeColour.RawChecks
+LEAN_NUM_THREADS=1 make check
+make paper
+```
+
+The serial catalogue prebuild limits memory consumption. `make check`
+audits proof sources and pins, validates metadata, regenerates geometry
+and figures, runs the independent audits, and builds every library target
+and axiom guard. The PDF requires latexmk, a LaTeX installation and
+CM-Super outline fonts.
+
+[comparator.json](../comparator.json) lists 58 statements covering the
+cuboid thresholds and corollaries, completion and cardinality, corner
+results, cube classifications, stability, counts and restricted targets.
+[Challenge.lean](../Challenge.lean) imports only Mathlib and restates the
+required model definitions. [Solution.lean](../Solution.lean) imports the
+proof library, which does not import the challenge. Its intentional
+statement holes are not proofs and are excluded from proof-source audits.
+
+```sh
+LEAN_NUM_THREADS=1 CON_RON_JOBS=1 make comparator
+```
+
+The comparator compares statements and definitions, then replays through
+Lean, NanoDa and con-ron from the pinned toolchain. It requires `bwrap`.
+Only `propext`, `Classical.choice` and `Quot.sound` are permitted.
+Definition agreement does not constitute independent conception of the
+physical model. No proof library uses `sorry`, custom axioms or
+`native_decide`.
+
+Routine CI runs `make check`. The separate comparator workflow accepts an
+exact commit SHA and records the checked revision. Before release, run
+both checks on the submitted commit and retain their successful records;
+a run against a different revision is not a release verification.
 
 ## Independent audits and optional search
 
-These checks regenerate geometry independently of the Lean tables. They
-supplement the symbolic proofs; sampled inventories are not an exhaustive
-upper-bound computation. The checks below, except the OR-Tools search,
-run as part of `make check`.
+- `scripts/check_three_colour_threshold.py` independently reconstructs
+  corner geometry, the reduction, finite tables, and lower obstructions.
+- `scripts/check_frames.py` checks edge geometry, U-target demands,
+  both cube obstructions and all one-cube extensions for $n=2,\ldots,6$.
+- `scripts/check-near-frames.sh` builds the C++20 audit of all 32
+  near-extremal failures and pair-case extensions for $n=2,\ldots,6$.
+  At $n=3,4$ it also checks all 272 deficit-two failures, all 10,608
+  saturated-case extensions, and one slack-preserving extension for
+  each of the 116 nonsaturated cases.
+- [scripts/cuboids](../scripts/cuboids/README.md) contains the general
+  constructor and independent geometry, coordinate and inventory audits.
+  `make check-cuboids` runs those audits and the focused Lean build.
 
-- [Corner checker](../scripts/check_three_colour_threshold.py): the 68-to-38
-  reduction, both printed geometric tables, both lower obstructions and the
-  fixture's 120 Hall certificates, all 68 one-cube extensions of the first obstruction,
-  and 1,000 sampled inventories at each of sizes 28 and 29. It also checks
-  the restricted 28-target guarantee on those samples.
-- [Frame checker](../scripts/check_frames.py): edge availability, reduction
-  transport and the $U$ demands. For $n=2,\ldots,6$, it tests both obstructions
-  against all 120 targets and all 136 one-cube extensions.
-- [Compiled near-extremal audit](../scripts/check_near_frames.cpp): all 32
-  listed failures and 1,632 one-cube extensions of the pair cases for
-  $n=2,\ldots,6$. It also checks all 272 deficit-two failures for $n=3,4$,
-  all 10,608 one-cube extensions of the 156 saturated cases in each dimension,
-  and one slack-preserving extension of each nonsaturated case. Run it
-  separately with `bash scripts/check-near-frames.sh`.
-- [Rod](../research/thin-cuboids/audit.py) and
-  [strip](../research/thin-cuboids/strip_audit.py) audits: physical rotations,
-  reduction transport, lower witnesses and constructive controls.
-- [All-cuboid geometry audit](../research/cuboids/review_geometry.py): proper
-  rotations, source reduction, edge and corner availability, and the
-  three-colour target restrictions. Larger optional inventory and weighted-vector audits
-  are documented in the [research notes](../research/cuboids/README.txt).
+The symbolic proofs establish the universal results. Sampled inventories
+and bounded grids are supplementary tests.
 
-The optional corner search uses OR-Tools CP-SAT. From the repository root:
-
-```sh
-python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
-  --minimal --seconds 60 --workers 8 \
-  --hint data/lower-obstruction.json --output /tmp/four-to-three-search.json
-```
-
-That command searches for a largest obstruction. To test size 29 and
-exclude the known size-28 obstructions among the 38 reduced varieties:
+For optional corner searches, install OR-Tools and run:
 
 ```sh
 python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
-  --minimal --size 29 --seconds 60 --workers 8 \
-  --output /tmp/four-to-three-size29.json
-python3 scripts/cube_frame_search.py --palette 4 --target-colours 3 \
-  --minimal --size 28 --exclude-colour-orbit data/lower-obstruction.json \
-  --seconds 60 --workers 8 --output /tmp/four-to-three-exclude-extrema.json
+  --minimal --size 29 --seconds 60 --output /tmp/three-colour-search.json
 ```
 
-A completed search reports `INFEASIBLE` for these two tests. A time-limited
-run may instead return `UNKNOWN`; the Lean proof does not depend on the solver.
+Solver time limits can yield `UNKNOWN`; an unfinished search is not a
+proof of infeasibility. Search output is not trusted by the Lean proof.
+
+`make regenerate` reproduces the finite catalogue and frame data.
+`make figure` reproduces the obstruction and bucket illustrations.
+The Lean kernel checks the generated geometry; generators are not proof
+oracles.

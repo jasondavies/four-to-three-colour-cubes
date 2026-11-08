@@ -1,13 +1,9 @@
-"""Constructive candidate for all four-to-three cuboid thresholds.
+"""Constructive algorithm for the sharp four-to-three cuboid thresholds.
 The written proof, not the tests, supplies the universal guarantee.
 """
-from pathlib import Path
-import sys
 from itertools import combinations, permutations
 from collections import Counter
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'thin-cuboids'))
-from geometry import SOURCES, MINIMAL, CS, ES, corners, REDUCTION, ROT, cyclic
-from construct import TYPES, reduced
+from geometry import SOURCES, MINIMAL, CS, ES, corners, REDUCTION, ROT, cyclic, TYPES, reduced
 
 
 def threshold(a,b,c):

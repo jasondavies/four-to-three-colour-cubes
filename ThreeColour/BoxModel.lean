@@ -1,27 +1,43 @@
 module
 
-public import ThreeColour.FullCube
+public import ThreeColour.FramePhysical
 
 @[expose] public section
 namespace ThreeColour
 open scoped BigOperators
 
-/-- Coordinate direction parallel to each geometric edge. -/
-def boxEdgeAxis : Fin 12 → Fin 3 := ![2,2,1,1,2,2,1,1,0,0,0,0]
+/-- Extend a placement by assigning the new positions to unused copies. -/
+lemma embedding_extend_sum {A B C : Type*} [Fintype A] [Fintype B] [Fintype C]
+    (p : A ↪ C) (h : Fintype.card A + Fintype.card B ≤ Fintype.card C) :
+    ∃ q : A ⊕ B ↪ C, ∀ a, q (.inl a) = p a := by
+  classical
+  let R := {c : C // c ∉ Set.range p}
+  have hR : Fintype.card B ≤ Fintype.card R := by
+    rw [Fintype.card_subtype_compl, Fintype.card_range]
+    omega
+  obtain ⟨r⟩ := Function.Embedding.nonempty_of_card_le hR
+  refine ⟨⟨Sum.elim p (fun b => (r b).val), ?_⟩, fun _ => rfl⟩
+  exact p.injective.sumElim (Subtype.val_injective.comp r.injective)
+    (fun a b heq => (r b).property ⟨a, heq⟩)
 
-/-- `l i` counts the positions strictly between corners along axis `i`. -/
-abbrev BoxFrameSlot (l : Fin 3 → ℕ) := Slot ⊕ (Σ e : Fin 12, Fin (l (boxEdgeAxis e)))
+lemma uses_four_surjective (c : Fin 6 → Colour) (hc : Uses 4 c) : Function.Surjective c := by
+  have hi : Finset.univ.image c = Finset.univ := (Finset.card_eq_iff_eq_univ _).mp hc
+  intro a
+  have ha : a ∈ Finset.univ.image c := by rw [hi]; exact Finset.mem_univ _
+  obtain ⟨f,_,hf⟩ := Finset.mem_image.mp ha
+  exact ⟨f,hf⟩
 
-def boxFrameExposed (l : Fin 3 → ℕ) : BoxFrameSlot l → Finset (Fin 6)
-  | .inl p => Finset.univ.image (ColourCubes.exposedFaces p)
-  | .inr p => {edgeFaces p.1 0, edgeFaces p.1 1}
+lemma rotations_face_transitive : ∀ f g : Fin 6,
+    ∃ r : Fin 24, ColourCubes.rotations r f = g := by decide +kernel
 
-/-- A physical frame in a fixed coordinate system. The target is arbitrary, so
-all assignments of colours and opposite face pairs to the axes are permitted. -/
-def FamilyBoxFrameSolvable {m : ℕ} (l : Fin 3 → ℕ)
-    (cubes : Fin m → Fin 6 → Colour) : Prop :=
-  ∃ t : Fin 6 → Colour, Uses 3 t ∧ ∃ p : BoxFrameSlot l ↪ Fin m,
-    ∀ q, FacesFit (cubes (p q)) t (boxFrameExposed l q)
+lemma fits_one_face (c t : Fin 6 → Colour) (hc : Uses 4 c) (f : Fin 6) :
+    FacesFit c t {f} := by
+  obtain ⟨g,hg⟩ := uses_four_surjective c hc (t f)
+  obtain ⟨r,hr⟩ := rotations_face_transitive f g
+  refine ⟨ColourCubes.rotations r,(ColourCubes.proper_rotation_iff _).mpr ⟨r,rfl⟩,?_⟩
+  intro h hh
+  rcases Finset.mem_singleton.mp hh with rfl
+  simpa only [hr] using hg
 
 lemma boxFrameSlot_card (l : Fin 3 → ℕ) :
     Fintype.card (BoxFrameSlot l) = 8 + 4 * (l 0 + l 1 + l 2) := by
@@ -50,24 +66,6 @@ lemma boxFrame_corners {m : ℕ} (l : Fin 3 → ℕ) (cubes : Fin m → Fin 6 �
   intro q
   obtain ⟨r, hr, hf⟩ := hp (.inl q)
   exact ⟨r, hr, fun a => hf _ (Finset.mem_image.mpr ⟨a, Finset.mem_univ _, rfl⟩)⟩
-
-/-- The free axes of a face interior. -/
-def boxFaceAxis₁ : Fin 6 → Fin 3 := ![1,1,0,0,0,0]
-def boxFaceAxis₂ : Fin 6 → Fin 3 := ![2,2,2,2,1,1]
-abbrev BoxFillerSlot (l : Fin 3 → ℕ) :=
-  (Σ f : Fin 6, Fin (l (boxFaceAxis₁ f)) × Fin (l (boxFaceAxis₂ f))) ⊕
-    (Fin (l 0) × Fin (l 1) × Fin (l 2))
-abbrev BoxFullSlot (l : Fin 3 → ℕ) := BoxFrameSlot l ⊕ BoxFillerSlot l
-
-def boxFullExposed (l : Fin 3 → ℕ) : BoxFullSlot l → Finset (Fin 6)
-  | .inl p => boxFrameExposed l p
-  | .inr (.inl p) => {p.1}
-  | .inr (.inr _) => ∅
-
-def FamilyBoxFullSolvable {m : ℕ} (l : Fin 3 → ℕ)
-    (cubes : Fin m → Fin 6 → Colour) : Prop :=
-  ∃ t : Fin 6 → Colour, Uses 3 t ∧ ∃ p : BoxFullSlot l ↪ Fin m,
-    ∀ q, FacesFit (cubes (p q)) t (boxFullExposed l q)
 
 lemma boxFullSlot_card (l : Fin 3 → ℕ) :
     Fintype.card (BoxFullSlot l) = (l 0 + 2) * (l 1 + 2) * (l 2 + 2) := by

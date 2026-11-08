@@ -16,8 +16,7 @@ project:
     pair cases. For n >= 3, failures of size at least 14n are exactly the
     ordinary collections in one orientation class with every bucket at most
     4n-1; explicit bijections give the two binomial counts. Forty Q/D/U
-    targets suffice for guaranteed cubic frames when n >= 3. The earlier
-    corner, cube, rod and strip proofs and restricted-target results are retained.
+    targets suffice for guaranteed cubic frames when n >= 3. Cube, rod and strip thresholds specialise the cuboid theorem in one position model.
   authors: ["Jason Davies"]
   responsible_maintainers: ["Jason Davies"]
   license: "Apache-2.0"
@@ -51,36 +50,17 @@ related_formalizations:
       definitions and imports only mathlib. The core imports no paper-specific catalogue.
 status:
   scope: >-
-    Sharp frame threshold 16n-3 for every n >= 2, classification of the two
-    size-(16n-4) obstructions and their reflection, sharp complete-cube threshold
-    max(n^3,16n-3), and the n >= 4 volume-only consequence. Source and target
-    catalogue coverage and uniqueness, corner and edge matching by proper
-    rotations, and transport to arbitrary indexed face colourings are checked.
-    The n=2 restricted-target corollary and its count of 28 targets remain proved.
-    The complete size-(16n-5) band is classified into 32 templates; the 24 pair
-    cases are inclusion-maximal. Forty Q/D/U targets suffice when n >= 3.
-    For n >= 3, all failures of size at least 14n are characterised by purity
-    and bucket capacities. At size 16n-4-d, for 0 <= d <= 2n-4, the exact
-    counts are 2*choose(d+15,15) failures and 2*choose(d+11,11) inclusion-maximal
-    failures, proved by explicit bijections and stars and bars.
-    The thin-cuboid extension has sharp rod and strip frame and complete-box
-    threshold theorems for arbitrary indexed physical source families.
-    ThinResults proves IsLeast statements using BoxModel exposed-face
-    positions, proper-rotation transport, grouped Hall matching, and a
-    symbolic balanced-checkerboard obstruction. Thin guards the public
-    endpoints. These statements use project definitions and remain outside
-    the original comparator challenge.
-    The all-cuboid thresholds in paper/cuboids.tex are formalised by
-    CuboidResults: two IsLeast thresholds over arbitrary indexed physical
-    families, the exact-cardinality frame region and the complete-box
-    exception criterion. CuboidSelection proves the weighted triangle lemma;
-    CuboidGeometry, CuboidConstructions, CuboidCounting and CuboidUpper
-    supply physical placements. CuboidLower uses explicit model restriction
-    bridges to the existing cube and checkerboard-rod obstructions.
-    Cuboid guards nine public axiom reports; the default library imports it.
-    These statements use BoxModel and are outside the comparator challenge.
-    No priority claim, classification below this band, higher-dimensional theorem,
-    or general five-colour threshold is formalised.
+    Sharp frame and complete-box thresholds for every ordered cuboid with
+    sides at least two, and exact criteria for needing no spare sources.
+    Cube, rod and strip thresholds are corollaries in one exposed-face model.
+    The cube stability theorem characterises all failures of size at least
+    14n for n >= 3. Explicit bijections give the two binomial counts, and the
+    largest and next-largest failures are classified for every n >= 2.
+    Catalogue completeness, uniqueness, proper-rotation matching, target
+    restrictions, and transport to arbitrary physical source families are proved.
+    The Mathlib-only comparator challenge contains 58 statements, including
+    the cuboid endpoints and their specialisations. Public results have
+    standard-axiom guards. General cuboid extremal inventories are not classified.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: []
@@ -90,11 +70,9 @@ automation:
       models: ["GPT-6-Astra (OpenAI)"]
       framework: "Codex"
       tool_setup: >-
-        Under the author's direction, investigated the open problem, developed
-        a multicore CP-SAT search and separate geometric checker, derived the
-        counting and classification argument, wrote the Lean proof and manuscript,
-        and prepared this package. A separate AI reviewer checked an earlier
-        version of the argument, finite geometry, formal theorem scope and axiom reports.
+        Under the author's direction, developed search and geometry checks,
+        structural counting and cuboid constructions, Lean proofs, the manuscript,
+        independent audits and comparator statements.
       cost:
         wall_time: "not tracked"
         spend_usd: "not tracked"
@@ -105,27 +83,16 @@ automation:
       framework: "Claude Code, run in this repository"
       tool_setup: >-
         Contributed the minority-cube counting argument, edge-count balance
-        proof, degree remark, shorter bucket and threshold proofs, and
-        exposition and release-review comments, with tool runs in this
-        repository. Solver and audit scripts from the later review were
-        run from a temporary scratchpad and are not checked in. Subsequent Codex revisions
-        incorporated these contributions into the manuscript and package.
-        Claude Code also added the initial obstruction figure and scripts/generate_figure.py;
-        Codex later expanded the figure to explain both parts of the obstruction.
-        On November 5, 2026 Claude Code extended the comparator challenge to the
-        stability, near-extremal and forty-target results, adding physical
-        restatements of the counts and corner-type characterisations of the
-        ordinary and bucket tables.
+        proof, degree remark, shorter bucket and threshold proofs, exposition,
+        figures, release review, and comparator statements for stability,
+        near-extremal classification and restricted targets.
   spend_usd: "not tracked"
   notes: >-
-    GPT-6-Astra (OpenAI), used through Codex, developed the original research
-    and package under the human author's direction. Claude Opus 5.5 (Anthropic), used through Claude Code in this repository,
-    contributed mathematical simplifications and editorial review through
-    reviews supplied by the author; these were incorporated in subsequent
-    Codex revisions. The human author initiated and directed
-    the research and accepts responsibility for the paper's content and the
-    accuracy of its disclosure. The forty-five intentional statement holes in
-    Challenge.lean are excluded from proof-development counts. No native_decide
+    The human author initiated and directed the research and accepts responsibility
+    for the paper and its disclosure. GPT-6-Astra through Codex developed the
+    research and package; Claude Opus 5.5 through Claude Code contributed the
+    simplifications and review listed above. The 58 intentional statement holes
+    in Challenge.lean are excluded from proof-development counts. No native_decide
     is used.
 fidelity:
   divergences: >-
@@ -135,7 +102,7 @@ fidelity:
     The Lean proof uses a related counting argument with finite Hall certificates
     for the constructions. Its n=2 proof treats checkerboards and the smaller ordinary
     class separately; the written proof combines them as minority cubes.
-    The new 27-cube purity proof and the frame proof combine them; the frame
+    The 27-cube purity proof and the frame stability proof combine them; the frame
     proof is symbolic in k=n-2. Frame positions
     consist of eight corners and twelve groups of k edge positions; complete
     cube positions additionally include six groups of k^2 face interiors and
@@ -158,61 +125,27 @@ fidelity:
     buckets. The near-extremal classification specifies rotation-class
     counts by 32 explicit templates. The forty-target
     statement uses canonical target indices and physical proper-rotation
-    placements for arbitrary source families. The thin checkerboard-cuboid
-    observation is a written result with finite audit controls, not a Lean theorem.
+    placements for arbitrary source families. Cuboids use BoxDefs and BoxModel;
+    cube positions are equal-sided specialisations. The cuboid thresholds and
+    corollaries are included in the comparator challenge, whose definitions
+    are restated from the library rather than independently conceived.
 review:
   status: "AI-reviewed; not independently reviewed by a human expert"
   reviewers:
-    - "GPT-6-Astra (OpenAI), used through Codex: separate AI review of the earlier argument and formalisation"
-    - "Claude Opus 5.5 (Anthropic; claude-opus-5-5): Claude Code reviews and tool runs in this repository, supplied by the author"
+    - "GPT-6-Astra (OpenAI): mathematical and formalisation reviews"
+    - "Claude Opus 5.5 (Anthropic): mathematical and formalisation reviews"
   notes: >-
-    The original GPT-6-Astra review predates extraction into this package and
-    the manuscript rewrites; it does not cover the current manuscript.
-    Later Claude reviews contributed the mathematical simplifications listed
-    above and identified comparator definition mismatches, corrected with a
-    reviewer-supplied patch. An additional external review supplied by the author
-    suggested the restricted-target corollary and revisions to the introduction,
-    finite geometry, pair-support step and disclosure. The reviewer was not
-    identified in the supplied text. Historical review notes remain in Git history.
-    On November 2, 2026 the author supplied the frame-extension argument and
-    complete-cube consequence, produced by GPT-6-Astra (OpenAI) through ChatGPT.
-    Claude Opus 5.5 checked it independently, step by step and with finite
-    computations (obstructions and one-cube extensions for n = 2 to 6, and
-    perturbed and adversarial collections for n = 2 to 4); those scripts are not
-    checked in. Codex also checked the argument, wrote the general Lean proofs,
-    added a separate finite frame audit, and revised the manuscript. This does
-    not imply that earlier external reviews covered the frame extension.
-    On November 3, 2026 the author supplied the proposed 32-case near-extremal
-    classification, forty-target reduction and checkerboard cuboid observation.
-    Codex checked and integrated these arguments, formalised the first two,
-    and added a separate C++ geometry audit. These additions have not received
-    a separate human review.
-    A further user-supplied review proposed the stability theorem and binomial
-    counts. Codex checked and integrated that argument, formalised the criterion,
-    parametrisation and inclusion-maximality, and extended the raw-geometry audit.
-    On November 5, 2026 Claude Opus 5.5 added these extensions to the
-    comparator challenge, at the author's request. That work restated
-    definitions and statements; it did not review the underlying arguments.
-    On November 6, 2026 Codex developed the all-cuboid threshold argument,
-    performed a focused second review with separately reconstructed physical
-    geometry and seven symbolic arithmetic checks, and integrated it into
-    the manuscript. This was self-review, not external refereeing. The
-    subsequent formalisation proves the full cuboid extension with nine new
-    axiom guards and default-library coverage. It is not in the comparator
-    challenge; the optional large research audits remain separate from make check.
-    Reproduce current checks with make check and
-    make comparator. Push/PR CI runs make check; a separate manually triggered
-    workflow runs all three comparator kernels and records the checked commit.
-    A successful replay of the exact commit is required before release.
-    CI and preflight logs identify the checked revision; no
-    stale machine-specific validation logs are committed. The literature check
-    on November 1, 2026 found no prior answer. Sources examined included BES
-    (2018), Berkove and Schettler (2022), Johnson and Roldan (2024), and Beeler's
-    survey, together with citation and title searches. Search coverage is
-    incomplete. Rosenfeld's October 2026 article (pp. 78-82) was examined
-    in full on November 3 using the supplied scan. It presents an eight-cube
-    six-colour puzzle and does not state the four-to-three thresholds. No authors
-    or editors were contacted. No priority, publication or Palomar acceptance
+    AI review and computational audits are not human refereeing. Reproduce the
+    current source, metadata, geometry and Lean checks with make check, and the
+    statement comparison and three-kernel replay with make comparator. The
+    workflows record their checked revision; a successful replay of the exact
+    submitted commit is required before release.
+    The literature comparison examined BES (2018), Berkove and Schettler (2022),
+    Johnson and Roldan (2024), Beeler's survey, and citation and title searches.
+    Search coverage is incomplete. Rosenfeld's October 2026 article (pp. 78-82)
+    was examined in full from a supplied scan: it presents an eight-cube
+    six-colour puzzle and does not state the four-to-three thresholds.
+    No authors or editors were contacted; no priority or Palomar acceptance
     is asserted.
 alignment:
   namespace: ThreeColour
@@ -261,52 +194,47 @@ alignment:
       lean: ThreeColour.cuboid_frame_threshold
       module: ThreeColour.CuboidResults
       status: proved
-      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+      note: "Physical cuboid model; included in the comparator challenge."
     - source: "Paper, sharp all-cuboid complete-box threshold"
       lean: ThreeColour.cuboid_full_threshold
       module: ThreeColour.CuboidResults
       status: proved
-      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+      note: "Physical cuboid model; included in the comparator challenge."
     - source: "Paper, exact-cardinality cuboid frame region"
       lean: ThreeColour.cuboid_frame_exact_cardinality
       module: ThreeColour.CuboidResults
       status: proved
-      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+      note: "Physical cuboid model; included in the comparator challenge."
     - source: "Paper, complete-box exceptions"
       lean: ThreeColour.cuboid_full_exact_volume
       module: ThreeColour.CuboidResults
       status: proved
-      note: "Project BoxModel; default-library proof and axiom guard, outside the comparator challenge."
+      note: "Physical cuboid model; included in the comparator challenge."
     - source: "Paper, thin-cuboid rod frame threshold"
       lean: ThreeColour.rod_frame_threshold
-      module: ThreeColour.ThinResults
+      module: ThreeColour.CuboidCorollaries
       status: proved
-      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+      note: "IsLeast universal guarantee over arbitrary physical source families; included in the comparator challenge."
     - source: "Paper, thin-cuboid strip frame threshold"
       lean: ThreeColour.strip_frame_threshold
-      module: ThreeColour.ThinResults
+      module: ThreeColour.CuboidCorollaries
       status: proved
-      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+      note: "IsLeast universal guarantee over arbitrary physical source families; included in the comparator challenge."
     - source: "Paper, thin-cuboid rod complete-box threshold"
       lean: ThreeColour.rod_full_threshold
-      module: ThreeColour.ThinResults
+      module: ThreeColour.CuboidCorollaries
       status: proved
-      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
+      note: "IsLeast universal guarantee over arbitrary physical source families; included in the comparator challenge."
     - source: "Paper, thin-cuboid strip complete-box threshold"
       lean: ThreeColour.strip_full_threshold
-      module: ThreeColour.ThinResults
+      module: ThreeColour.CuboidCorollaries
       status: proved
-      note: "IsLeast universal guarantee over arbitrary physical source families; project BoxModel definitions, outside the comparator challenge."
-    - source: "Paper, thin-cuboid numerical and reservation bounds"
-      lean: ThreeColour.Thin.strip_residual_bounds
-      module: ThreeColour.ThinBounds
+      note: "IsLeast universal guarantee over arbitrary physical source families; included in the comparator challenge."
+    - source: "Paper, weighted triangle selection"
+      lean: ThreeColour.Cuboid.triangle_selection
+      module: ThreeColour.CuboidSelection
       status: proved
-      note: "Numerical ingredient used by the physical thin-cuboid threshold theorems."
-    - source: "Paper, choosing directions for a D target (abstract weighted graph)"
-      lean: ThreeColour.Thin.strip_pairs
-      module: ThreeColour.ThinSelection
-      status: proved
-      note: "Abstract selection lemma; ThinConstructions supplies its physical interpretation."
+      note: "Abstract weighted graph lemma used by CuboidConstructions."
     - source: "Paper, sharp frame threshold for every n >= 2"
       lean: ThreeColour.frame_threshold_n
       module: ThreeColour.FrameResults

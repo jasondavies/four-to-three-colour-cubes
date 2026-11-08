@@ -1,39 +1,40 @@
 \section{Verification details}\label{app:verification}
-Forty-five results and the required definitions are restated in a
+Fifty-eight results and their required definitions are restated in a
 standalone verification file (the comparator challenge) importing only
-mathlib. These include the stability and near-extremal classifications,
-their counts and the forty-target extension. Failures are counted as
-vectors of rotation-class multiplicities, and a vector fails when some
-physical family with those multiplicities has no frame. The tables of
-ordinary classes and buckets are identified with their corner-type
-definitions in Lemma~\ref{lem:geometry}. Automated checks compare
-the challenge statements with the proof library
-and replay the proofs through the Lean, NanoDa and con-ron kernels.
+mathlib. They include both cuboid thresholds, the no-spare criteria,
+the cube, rod and strip corollaries, position counts and frame completion,
+the stability and near-extremal classifications, their counts and the
+forty-target theorem. Failures are counted as vectors of rotation-class
+multiplicities, and a vector fails when some physical family with those
+multiplicities has no frame. The tables of ordinary classes and buckets
+are identified with their corner-type definitions in
+Lemma~\ref{lem:geometry}. The comparator checks statements and their
+underlying definitions against the proof library, then replays proofs
+through the Lean, NanoDa and con-ron kernels.
 
-The audit reports three standard axioms: \texttt{propext},
+The library's axiom guards permit only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound}. No proof uses holes or
-\texttt{native\_decide}. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes}.}
-provides sources, reproduction commands and details of the statement checks.
-The physical model and palette-independent geometry come from the shared
-\texttt{colour-cubes-core} library~\cite{ColourCubes}. The challenge restates its
-definitions locally.
+\texttt{native\_decide}; the challenge contains statement placeholders,
+which the proof library does not import. The repository\footnote{\url{https://github.com/jasondavies/four-to-three-colour-cubes}.}
+provides sources, reproduction commands and the comparator configuration.
+The physical model and palette-independent geometry come from
+\texttt{colour-cubes-core}~\cite{ColourCubes}. The challenge restates its
+definitions locally; this checks agreement, not independent conception
+of the model.
 
+\texttt{BoxDefs} gives one exposed-face position model for every cuboid.
+\texttt{BoxModel} proves its cardinalities and completion theorem.
+Cubes are equal-sided instances of that model.
+\texttt{CuboidResults} proves Theorem~\ref{thm:cuboids} and the no-spare
+criteria in Corollary~\ref{cor:cuboid-volume}. The upper proof follows the
+weighted-triangle and $Q,H$ constructions in Section~\ref{sec:cuboids}.
+The lower bounds use bucket obstructions on an inscribed cube and
+balanced checkerboards on the longest rod. The cube, rod and strip
+thresholds are specialisations of this general theorem.
+The cube stability and obstruction classifications have their own
+counting arguments, since they describe failures below the threshold.
 
-For cuboids, \texttt{CuboidResults} proves both sharp thresholds in
-Theorem~\ref{thm:cuboids} for arbitrary physical source families, together
-with the no-spare criteria in Corollary~\ref{cor:cuboid-volume}.
-\texttt{BoxModel} specifies exposed faces, counts positions and proves
-completion. Grouped Hall matching supplies distinct copies and proper
-rotations. The general upper proof follows the weighted-triangle and
-$Q,H$ construction in Section~\ref{sec:cuboids}. For the lower bounds,
-an equal-sided box-to-cube bridge permits reuse of the formal cube
-obstruction; restricting to the longest rod permits reuse of the balanced
-checkerboard obstruction. These proofs include all target orientations.
-
-The \texttt{Cuboid} module guards nine theorem axiom reports and is imported
-by the default library. The rod and strip results in \texttt{ThinResults}
-retain their earlier construction, while the paper derives their formulas
-as corollaries. Neither extension is in the comparator challenge.
-Independent rotation-based audits check the local geometry, lower witnesses
-and constructive controls. The sampled inventories supplement the written
-and formal proofs; they are not an exhaustive upper-bound computation.
+Independent rotation-based audits check the local geometry, coordinate
+positions, lower witnesses and constructive controls. Sampled inventories
+supplement the written and formal proofs; they are not an exhaustive
+upper-bound computation.

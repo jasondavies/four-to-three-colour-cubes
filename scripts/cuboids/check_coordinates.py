@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent coordinate and arithmetic review of the cuboid paper.
+"""Independent coordinate and arithmetic audit of the cuboid paper.
 
 No repository modules, generated tables, Lean artifacts or third-party packages
 are imported. These finite checks audit the proof's interfaces; they are not an
@@ -45,7 +45,7 @@ def edges(t):
     }
 
 
-def geometry_review():
+def check_geometry():
     vectors = ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1))
     rotations = []
     for x in vectors:
@@ -146,7 +146,7 @@ def geometry_review():
     }
 
 
-def numerical_review():
+def check_arithmetic():
     shape_count = 0
     for a in range(2, 31):
         for b in range(a, 51):
@@ -195,8 +195,8 @@ def numerical_review():
                             assert sum(t >= 4 for t in counts) >= 2
     return {
         "arithmetic_shapes": shape_count,
-        "shortened_split_numerical_states": states,
-        "shortened_split_exceptional_states": exceptional,
+        "reservation_split_numerical_states": states,
+        "reservation_split_exceptional_states": exceptional,
     }
 
 
@@ -204,6 +204,6 @@ if __name__ == "__main__":
     print(json.dumps({
         "status": "passed",
         "scope": "Finite independent geometry/arithmetic checks, not an exhaustive inventory theorem.",
-        "geometry": geometry_review(),
-        "arithmetic": numerical_review(),
+        "geometry": check_geometry(),
+        "arithmetic": check_arithmetic(),
     }, indent=2))

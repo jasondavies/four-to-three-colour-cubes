@@ -64,9 +64,9 @@ lemma frameExtremal_not_solvable (k : ℕ) (s : Fin 2) :
     exact hq _ (frameExtremal_member k s (p (.inl q))) (hp (.inl q))
   · let E := {e : Fin 12 //
         targetFaces t (edgeFaces e 0) = a ∧ targetFaces t (edgeFaces e 1) = a}
-    let pos : (Slot ⊕ (E × Fin k)) ↪ FrameSlot k :=
+    let pos : (Slot ⊕ (Σ _ : E, Fin k)) ↪ FrameSlot k :=
       Function.Embedding.sumMap (Function.Embedding.refl _)
-        (Function.Embedding.prodMap (Function.Embedding.subtype _) (Function.Embedding.refl _))
+        (Function.Embedding.sigmaMap (Function.Embedding.subtype _) (fun _ => Function.Embedding.refl _))
     have hh := embedding_pool_bound (frameExtremal k s) (triple a) (pos.trans p) (by
       intro q
       cases q with
@@ -79,7 +79,7 @@ lemma frameExtremal_not_solvable (k : ℕ) (s : Fin 2) :
         simpa only [q.1.property.1,q.1.property.2] using h)
     have hE : Fintype.card E = 4 := by rw [Fintype.card_subtype]; exact hcount
     rw [frameExtremal_triple] at hh
-    simp only [Fintype.card_sum, Fintype.card_prod, Fintype.card_fin, hE] at hh
+    simp only [Fintype.card_sum, Fintype.card_sigma, Fintype.card_fin, Finset.sum_const, Finset.card_univ, smul_eq_mul, hE] at hh
     change 8 + 4*k ≤ 4*k+7 at hh
     omega
 

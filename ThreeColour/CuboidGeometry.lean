@@ -1,12 +1,11 @@
 module
 
-public import ThreeColour.ThinConstructions
+public import ThreeColour.CuboidCornerSelection
 
 @[expose] public section
 namespace ThreeColour
 open scoped BigOperators
 
-def cuboidKind : Fin 3 → Fin 4 := ![0,1,3]
 def cuboidBaseConst : Fin 3 → Fin 4 → ℕ := ![![4,4,0,0],![4,4,0,0],![4,2,1,1]]
 def cuboidBaseAxis : Fin 3 → Fin 3 → Fin 4 → ℕ :=
   ![![![0,0,0,0],![0,0,0,0],![0,0,0,0]],
@@ -25,9 +24,9 @@ def cuboidAxisEdges : Fin 3 → Fin 4 → Fin 12 := ![![8,9,10,11],![2,3,6,7],![
 
 set_option maxRecDepth 100000 in
 lemma cuboid_counts (k : Fin 3) : ∀ a b c, a ≠ b → a ≠ c → b ≠ c → ∀ s j,
-    boxCount (thinCornerTag (cuboidKind k) a b c s) j =
+    boxCount (cuboidCornerTag k a b c s) j =
       Sum.elim (cuboidBaseConst k) (fun _ => 0) j ∧
-    ∀ axis, boxCount (fun e => thinEdgeTag (cuboidKind k) a b c (cuboidAxisEdges axis e)) j =
+    ∀ axis, boxCount (fun e => cuboidEdgeTag k a b c (cuboidAxisEdges axis e)) j =
       Sum.elim (cuboidBaseAxis k axis) (cuboidEdgeAxis k axis) j := by
   fin_cases k <;> decide +kernel
 
@@ -43,14 +42,14 @@ lemma cuboidTag_count {I : Type*} [DecidableEq I] (l : Fin 3 → ℕ)
   rfl
 
 lemma cuboid_at_of_hall (l : Fin 3 → ℕ) (x : Inventory) (k : Fin 3)
-    (a b c d : Colour) (h : ThinDistinct a b c d) (s : Fin 2)
-    (hh : GroupHall x (Sum.elim (thinBasePools (cuboidKind k) a b c d s) (thinEdgePools a b c))
+    (a b c d : Colour) (h : DistinctColours a b c d) (s : Fin 2)
+    (hh : GroupHall x (Sum.elim (cuboidBasePools k a b c d s) (cuboidEdgePools a b c))
       (Sum.elim (cuboidBaseDemand k l) (cuboidEdgeDemand k l))) :
     BoxInventorySolvable l x := by
-  refine ⟨thinTarget (cuboidKind k) a b c, thin_target_uses _ _ _ _ h.1 h.2.1 h.2.2.1, ?_⟩
-  apply box_at_of_pools l x _ _ (thinCornerTag (cuboidKind k) a b c s)
-    (thinEdgeTag (cuboidKind k) a b c) _
-    (thin_corners _ a b c d h s) (thin_edges _ a b c d h s) _ hh
+  refine ⟨cuboidTarget k a b c, cuboid_target_uses _ _ _ _ h.1 h.2.1 h.2.2.1, ?_⟩
+  apply box_at_of_pools l x _ _ (cuboidCornerTag k a b c s)
+    (cuboidEdgeTag k a b c) _
+    (cuboid_corners _ a b c d h s) (cuboid_edges _ a b c d h s) _ hh
   intro j
   rw [cuboidTag_count]
   obtain ⟨hc,he⟩ := cuboid_counts k a b c h.1 h.2.1 h.2.2.1 s j
@@ -59,9 +58,9 @@ lemma cuboid_at_of_hall (l : Fin 3 → ℕ) (x : Inventory) (k : Fin 3)
   cases j <;> simp [cuboidBaseDemand,cuboidEdgeDemand]
 
 set_option maxRecDepth 100000 in
-lemma cuboid_selection_colours : ∀ v e f g, e ∈ Thin.triangle v → f ∈ Thin.triangle v →
-    g ∈ Thin.triangle v → e ≠ f → e ≠ g → f ≠ g →
-    ∃ a b c, ThinDistinct a b c v ∧ thinPairIndex a b = e ∧
-      thinPairIndex a c = f ∧ thinPairIndex b c = g := by decide +kernel
+lemma cuboid_selection_colours : ∀ v e f g, e ∈ Checkerboard.triangle v → f ∈ Checkerboard.triangle v →
+    g ∈ Checkerboard.triangle v → e ≠ f → e ≠ g → f ≠ g →
+    ∃ a b c, DistinctColours a b c v ∧ colourPairIndex a b = e ∧
+      colourPairIndex a c = f ∧ colourPairIndex b c = g := by decide +kernel
 
 end ThreeColour

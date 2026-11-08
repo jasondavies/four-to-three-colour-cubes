@@ -6,14 +6,11 @@ lean:
 check:
 	bash scripts/check.sh
 
-check-thin:
-	python3 -S research/thin-cuboids/audit.py
-	python3 -S research/thin-cuboids/strip_audit.py
-	LEAN_NUM_THREADS=1 lake build ThreeColour.Thin
-
 check-cuboids:
-	python3 -S research/cuboids/review_geometry.py
-	LEAN_NUM_THREADS=1 lake build ThreeColour.Cuboid
+	python3 -S scripts/cuboids/check_geometry.py
+	python3 -S scripts/cuboids/check_coordinates.py
+	python3 -S scripts/cuboids/check_construction.py
+	LEAN_NUM_THREADS=1 lake build ThreeColour.Cuboid ThreeColour.CuboidCorollaryChecks
 
 comparator:
 	bash scripts/verify-comparator.sh
@@ -28,4 +25,4 @@ regenerate:
 figure:
 	python3 scripts/generate_figure.py
 
-.PHONY: all lean check check-thin check-cuboids comparator paper regenerate figure
+.PHONY: all lean check check-cuboids comparator paper regenerate figure

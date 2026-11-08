@@ -1,21 +1,21 @@
 module
 
-public import ThreeColour.ThinGeometryDefs
+public import ThreeColour.CuboidTemplates
 
 @[expose] public section
 namespace ThreeColour
 
 /-- Six actual checkerboards, indexed by their missing pair in K4 edge order. -/
-def thinCheckerSource : Fin 6 → Source := ![32,43,56,6,7,3]
+def checkerSource : Fin 6 → Source := ![32,43,56,6,7,3]
 
 set_option maxRecDepth 100000 in
 lemma checker_corner_tricoloured : ∀ (j : Fin 6) (c : Fin 3 → Colour),
-    cornerCode c ∈ sourceCorners (thinCheckerSource j) → Function.Injective c := by
+    cornerCode c ∈ sourceCorners (checkerSource j) → Function.Injective c := by
   decide +kernel
 
 set_option maxRecDepth 100000 in
 lemma checker_edge_iff : ∀ j a b, a ≠ b →
-    (HasEdge (sourceFaces (thinCheckerSource j)) a b ↔ j ≠ thinPairIndex a b) := by
+    (HasEdge (sourceFaces (checkerSource j)) a b ↔ j ≠ colourPairIndex a b) := by
   decide +kernel
 
 set_option maxRecDepth 100000 in

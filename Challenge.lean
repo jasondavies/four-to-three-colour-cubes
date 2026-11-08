@@ -224,33 +224,54 @@ def edgeFaces : Fin 12 → Fin 2 → Fin 6 :=
   ![![0,2], ![0,3], ![0,4], ![0,5], ![1,2], ![1,3],
     ![1,4], ![1,5], ![2,4], ![2,5], ![3,4], ![3,5]]
 
-abbrev FrameSlot (k : ℕ) := Slot ⊕ (Fin 12 × Fin k)
-
-def frameExposed (k : ℕ) (q : FrameSlot k) : Finset (Fin 6) :=
-  letI : NeZero 2 := frameFinTwo
-  match q with
-  | .inl p => Finset.univ.image (ColourCubes.exposedFaces p)
-  | .inr p => {edgeFaces p.1 0, edgeFaces p.1 1}
-
 def FacesFit (c t : Fin 6 → Colour) (faces : Finset (Fin 6)) : Prop :=
   ∃ r : Fin 6 → Fin 6, ColourCubes.ProperRotation r ∧ ∀ f ∈ faces, c (r f) = t f
 
-def FamilyFrameSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) : Prop :=
-  ∃ target : Fin 6 → Colour, Uses 3 target ∧
-    ∃ p : FrameSlot k ↪ Fin m, ∀ q, FacesFit (cubes (p q)) target (frameExposed k q)
+/-- Coordinate direction parallel to each geometric edge. -/
+def boxEdgeAxis : Fin 12 → Fin 3 := ![2,2,1,1,2,2,1,1,0,0,0,0]
 
-abbrev FillerSlot (k : ℕ) := (Fin 6 × Fin k × Fin k) ⊕ (Fin k × Fin k × Fin k)
+/-- `l i` counts the positions strictly between corners along axis `i`. -/
+abbrev BoxFrameSlot (l : Fin 3 → ℕ) := Slot ⊕ (Σ e : Fin 12, Fin (l (boxEdgeAxis e)))
 
-abbrev FullSlot (k : ℕ) := FrameSlot k ⊕ FillerSlot k
+def boxFrameExposed (l : Fin 3 → ℕ) : BoxFrameSlot l → Finset (Fin 6)
+  | .inl p => Finset.univ.image (ColourCubes.exposedFaces p)
+  | .inr p =>
+    letI : NeZero 2 := frameFinTwo
+    {edgeFaces p.1 0, edgeFaces p.1 1}
 
-def fullExposed (k : ℕ) : FullSlot k → Finset (Fin 6)
-  | .inl q => frameExposed k q
-  | .inr (.inl q) => {q.1}
+/-- A physical frame in a fixed coordinate system. The target is arbitrary, so
+all assignments of colours and opposite face pairs to the axes are permitted. -/
+def FamilyBoxFrameSolvable {m : ℕ} (l : Fin 3 → ℕ)
+    (cubes : Fin m → Fin 6 → Colour) : Prop :=
+  ∃ t : Fin 6 → Colour, Uses 3 t ∧ ∃ p : BoxFrameSlot l ↪ Fin m,
+    ∀ q, FacesFit (cubes (p q)) t (boxFrameExposed l q)
+
+/-- The free axes of a face interior. -/
+def boxFaceAxis₁ : Fin 6 → Fin 3 := ![1,1,0,0,0,0]
+def boxFaceAxis₂ : Fin 6 → Fin 3 := ![2,2,2,2,1,1]
+abbrev BoxFillerSlot (l : Fin 3 → ℕ) :=
+  (Σ f : Fin 6, Fin (l (boxFaceAxis₁ f)) × Fin (l (boxFaceAxis₂ f))) ⊕
+    (Fin (l 0) × Fin (l 1) × Fin (l 2))
+abbrev BoxFullSlot (l : Fin 3 → ℕ) := BoxFrameSlot l ⊕ BoxFillerSlot l
+
+def boxFullExposed (l : Fin 3 → ℕ) : BoxFullSlot l → Finset (Fin 6)
+  | .inl p => boxFrameExposed l p
+  | .inr (.inl p) => {p.1}
   | .inr (.inr _) => ∅
 
-def FamilyFullSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) : Prop :=
-  ∃ target : Fin 6 → Colour, Uses 3 target ∧
-    ∃ p : FullSlot k ↪ Fin m, ∀ q, FacesFit (cubes (p q)) target (fullExposed k q)
+def FamilyBoxFullSolvable {m : ℕ} (l : Fin 3 → ℕ)
+    (cubes : Fin m → Fin 6 → Colour) : Prop :=
+  ∃ t : Fin 6 → Colour, Uses 3 t ∧ ∃ p : BoxFullSlot l ↪ Fin m,
+    ∀ q, FacesFit (cubes (p q)) t (boxFullExposed l q)
+
+
+abbrev FrameSlot (k : ℕ) := BoxFrameSlot (fun _ => k)
+abbrev frameExposed (k : ℕ) := boxFrameExposed (fun _ => k)
+abbrev FamilyFrameSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) :=
+  FamilyBoxFrameSolvable (fun _ => k) cubes
+abbrev FullSlot (k : ℕ) := BoxFullSlot (fun _ => k)
+abbrev FamilyFullSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) :=
+  FamilyBoxFullSolvable (fun _ => k) cubes
 
 def extremalSupport (s : Fin 2) : SourceSet := Finset.univ.filter (fun i => extremal s i = 7)
 
@@ -304,6 +325,7 @@ two T varieties with repeated colour `a`, and `allPairs` the 24 P varieties. -/
 
 theorem sourceFinBound : NeZero 68 := by infer_instance
 theorem colourFinBound : NeZero 4 := by infer_instance
+theorem cornerFinBound : NeZero 3 := by infer_instance
 
 def triple : Fin 4 → SourceSet :=
   letI : NeZero 68 := sourceFinBound
@@ -327,6 +349,7 @@ def universalCorners : Finset (Colour × Colour × Colour) :=
 /-- Corner colours in a fixed cyclic orientation: the order of `exposedFaces k`
 when its face indices have even sum, and the reverse cyclic order otherwise. -/
 def cornerRead (c : Fin 6 → Colour) (k : Slot) : Colour × Colour × Colour :=
+  letI : NeZero 3 := cornerFinBound
   if ((ColourCubes.exposedFaces k 0).val + (ColourCubes.exposedFaces k 1).val +
       (ColourCubes.exposedFaces k 2).val) % 2 = 0 then
     (c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 1),
@@ -352,6 +375,7 @@ def OrdinaryClass (s : Fin 2) (c : Fin 6 → Colour) : Prop :=
 
 /-- Bucket `a`: at least two of the three corner types `aab`, with `b ≠ a`. -/
 def InBucket (a : Colour) (c : Fin 6 → Colour) : Prop :=
+  letI : NeZero 3 := cornerFinBound
   2 ≤ (Finset.univ.filter fun b : Colour => b ≠ a ∧ ∃ k : Slot,
     ({c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 1),
       c (ColourCubes.exposedFaces k 2)} : Multiset Colour) = {a, a, b}).card
@@ -453,5 +477,67 @@ theorem family_restricted_frame_of_le {m : ℕ} (k : ℕ) (hk : 1 ≤ k)
     ∃ t : Target, FrameTarget t ∧ Uses 3 (targetFaces t) ∧
       ∃ p : FrameSlot k ↪ Fin m,
         ∀ q, FacesFit (cubes (p q)) (targetFaces t) (frameExposed k q) := by sorry
+
+
+namespace Cuboid
+def threshold (a b c : ℕ) : ℕ := max (max (16*a-3) (4*(a+b+c)-16)) ((24*c-1)/5)
+end Cuboid
+
+theorem cuboid_frame_threshold (a b c : ℕ) (ha : 2 ≤ a) (hab : a ≤ b) (hbc : b ≤ c) :
+    IsLeast {v : ℕ | ∀ n, ∀ cubes : Fin n → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ n → FamilyBoxFrameSolvable ![a-2,b-2,c-2] cubes}
+      (max (max (16*a-3) (4*(a+b+c)-16)) ((24*c-1)/5)) := by sorry
+
+theorem cuboid_full_threshold (a b c : ℕ) (ha : 2 ≤ a) (hab : a ≤ b) (hbc : b ≤ c) :
+    IsLeast {v : ℕ | ∀ n, ∀ cubes : Fin n → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ n → FamilyBoxFullSolvable ![a-2,b-2,c-2] cubes}
+      (max (a*b*c) (max (16*a-3) ((24*c-1)/5))) := by sorry
+
+theorem cuboid_frame_exact_cardinality (a b c : ℕ) (ha : 2 ≤ a) (hab : a ≤ b) (hbc : b ≤ c) :
+    Cuboid.threshold a b c = 4*(a+b+c)-16 ↔ 3*a+4 ≤ b+c ∧ c ≤ 5*(a+b)-19 := by sorry
+
+theorem family_cuboid_full_of_volume (a b c : ℕ) (ha : 2 ≤ a) (hab : a ≤ b) (hbc : b ≤ c)
+    (hshort : 16*a-3 ≤ a*b*c) (hlong : (24*c-1)/5 ≤ a*b*c)
+    (cubes : Fin (a*b*c) → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j)) :
+    FamilyBoxFullSolvable ![a-2,b-2,c-2] cubes := by sorry
+
+theorem cuboid_full_exact_volume (a b c : ℕ) (ha : 2 ≤ a) (hab : a ≤ b) (hbc : b ≤ c) :
+    max (a*b*c) (max (16*a-3) ((24*c-1)/5)) = a*b*c ↔
+      3 ≤ b ∧ (4 ≤ b ∨ 5 ≤ c) := by sorry
+
+lemma boxFrameSlot_card (l : Fin 3 → ℕ) :
+    Fintype.card (BoxFrameSlot l) = 8 + 4 * (l 0 + l 1 + l 2) := by sorry
+
+lemma boxFullSlot_card (l : Fin 3 → ℕ) :
+    Fintype.card (BoxFullSlot l) = (l 0 + 2) * (l 1 + 2) * (l 2 + 2) := by sorry
+
+theorem boxFull_iff_frame_and_size {m : ℕ} (l : Fin 3 → ℕ)
+    (cubes : Fin m → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j)) :
+    FamilyBoxFullSolvable l cubes ↔ FamilyBoxFrameSolvable l cubes ∧
+      (l 0 + 2) * (l 1 + 2) * (l 2 + 2) ≤ m := by sorry
+
+theorem rod_frame_threshold (l : ℕ) (hl : 2 ≤ l) :
+    IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyBoxFrameSolvable ![0,0,l-2] cubes}
+      (max 29 ((24*l-1)/5)) := by sorry
+
+theorem strip_frame_threshold (l : ℕ) (hl : 3 ≤ l) :
+    IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyBoxFrameSolvable ![0,1,l-2] cubes}
+      (max 29 ((24*l-1)/5)) := by sorry
+
+theorem rod_full_threshold (l : ℕ) (hl : 2 ≤ l) :
+    IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyBoxFullSolvable ![0,0,l-2] cubes}
+      (max 29 ((24*l-1)/5)) := by sorry
+
+theorem strip_full_threshold (l : ℕ) (hl : 3 ≤ l) :
+    IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
+      (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyBoxFullSolvable ![0,1,l-2] cubes}
+      (max 29 (6*l)) := by sorry
+
+theorem strip_full_of_five_le (l : ℕ) (hl : 5 ≤ l)
+    (cubes : Fin (6*l) → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j)) :
+    FamilyBoxFullSolvable ![0,1,l-2] cubes := by sorry
 
 end ThreeColour

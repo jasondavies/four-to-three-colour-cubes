@@ -56,7 +56,8 @@ config.pop("enable_nanoda", None)
 jobs = os.environ.get("CON_RON_JOBS")
 config["external_kernels"] = {
     "nanoda": [f"{prefix}/bin/nanoda_bin"],
-    "con-ron": [f"{prefix}/bin/con-ron", *([f"--jobs={jobs}"] if jobs else [])],
+    "con-ron": [f"{prefix}/bin/con-ron", "--progress=1000",
+                *([f"--jobs={jobs}"] if jobs else [])],
 }
 pathlib.Path(destination).write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
 PY

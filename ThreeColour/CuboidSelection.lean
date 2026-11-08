@@ -1,11 +1,11 @@
 module
 
-public import ThreeColour.ThinSelection
+public import ThreeColour.CheckerboardGraph
 public import ThreeColour.CuboidBounds
 
 @[expose] public section
 namespace ThreeColour.Cuboid
-open Thin
+open Checkerboard
 
 private def edges : Fin 4 → Fin 3 → Fin 6 :=
   ![![3,4,5], ![1,2,5], ![0,2,4], ![0,1,3]]
@@ -37,7 +37,7 @@ theorem triangle_selection (x : Fin 6 → ℕ) (good : Fin 4 → Prop)
       e ≠ f ∧ e ≠ g ∧ f ≠ g ∧ x e ≤ N-4*c ∧ x f ≤ N-4*b ∧ x g ≤ N-4*a := by
   obtain ⟨hsc,hns,hsb,hb2,ha4,hc3⟩ := weighted_bounds a b c N ha hab hbc h29 hL hK
   by_cases hall : ∀ e, x e ≤ N-4*b
-  · obtain ⟨v,e,hv,he,hxe⟩ := Thin.long_pair x good (by omega) (hw.trans hns) hg hex
+  · obtain ⟨v,e,hv,he,hxe⟩ := Checkerboard.long_pair x good (by omega) (hw.trans hns) hg hex
     have ht : ∀ v e, e ∈ triangle v → ∃ f g, f ∈ triangle v ∧ g ∈ triangle v ∧
         e ≠ f ∧ e ≠ g ∧ f ≠ g := by decide
     obtain ⟨f,g,hf,hg',hef,heg,hfg⟩ := ht v e he

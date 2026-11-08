@@ -6,20 +6,10 @@ set_option maxRecDepth 100000
 set_option maxHeartbeats 0
 namespace ThreeColour
 
-/-- Exterior faces prescribed at a frame position. -/
-def frameExposed (k : ℕ) (q : FrameSlot k) : Finset (Fin 6) :=
-  letI : NeZero 2 := frameFinTwo
-  match q with
-  | .inl p => Finset.univ.image (ColourCubes.exposedFaces p)
-  | .inr p => {edgeFaces p.1 0, edgeFaces p.1 1}
-
-def FacesFit (c t : Fin 6 → Colour) (faces : Finset (Fin 6)) : Prop :=
-  ∃ r : Fin 6 → Fin 6, ColourCubes.ProperRotation r ∧ ∀ f ∈ faces, c (r f) = t f
-
-/-- An arbitrary indexed family builds a frame using real proper rotations. -/
-def FamilyFrameSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) : Prop :=
-  ∃ target : Fin 6 → Colour, Uses 3 target ∧
-    ∃ p : FrameSlot k ↪ Fin m, ∀ q, FacesFit (cubes (p q)) target (frameExposed k q)
+/-- Cubic frames are equal-sided instances of the cuboid model. -/
+abbrev frameExposed (k : ℕ) := boxFrameExposed (fun _ => k)
+abbrev FamilyFrameSolvable {m : ℕ} (k : ℕ) (cubes : Fin m → Fin 6 → Colour) :=
+  FamilyBoxFrameSolvable (fun _ => k) cubes
 
 lemma edge_rotation_complete : ∀ e : Fin 12, ∀ f g : Fin 6,
     f.val / 2 ≠ g.val / 2 → ∃ r : Fin 24,

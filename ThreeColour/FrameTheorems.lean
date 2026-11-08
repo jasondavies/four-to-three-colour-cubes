@@ -81,27 +81,4 @@ theorem frame_classification (k : ℕ) (x : Inventory) (ht : total x = 16*k+28) 
   · rintro ⟨s,rfl⟩
     exact frameExtremal_not_solvable k s
 
-/-- Every inventory of at least `16n-3` cubes has an `n`-frame. -/
-theorem frame_solvable_of_le (k : ℕ) (x : Inventory) (ht : 16*k+29 ≤ total x) :
-    FrameSolvable k x := by
-  by_cases hk : k = 0
-  · subst k
-    rw [frame_zero_iff]
-    exact solvable_of_29_le x (by simpa using ht)
-  · by_contra hn
-    obtain ⟨s,hs⟩ := exists_major_orientation x
-    obtain ⟨ho, hc, hb⟩ := frame_failure_bounds k (by omega) x hn (by omega) s hs
-    have hsum := frame_bucket_sum k x hb
-    have htot := totals x
-    omega
-
-theorem frame_least_guaranteed_size (k : ℕ) :
-    IsLeast {m : ℕ | ∀ x : Inventory, m ≤ total x → FrameSolvable k x} (16*k+29) := by
-  constructor
-  · exact frame_solvable_of_le k
-  · intro m hm
-    by_contra h
-    exact frameExtremal_not_solvable k 0 (hm (frameExtremal k 0) (by
-      rw [frameExtremal_total]; omega))
-
 end ThreeColour

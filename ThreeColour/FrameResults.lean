@@ -1,5 +1,7 @@
 module
-public import ThreeColour.FrameThresholds
+public import ThreeColour.CuboidResults
+public import ThreeColour.FullCube
+public import ThreeColour.FrameFamily
 public import ThreeColour.Reflection
 @[expose] public section
 namespace ThreeColour
@@ -30,24 +32,31 @@ lemma reflect_frame_extremal (k : ℕ) (s : Fin 2) :
 theorem frame_threshold_n (n : ℕ) (hn : 2 ≤ n) :
     IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
       (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyFrameSolvable (n-2) cubes} (16*n-3) := by
-  have h : 16*(n-2)+29 = 16*n-3 := by omega
-  simpa only [h] using family_frame_least_guaranteed_size (n-2)
+  have he : (![n-2,n-2,n-2] : Fin 3 → ℕ) = fun _ => n-2 := by
+    funext i; fin_cases i <;> rfl
+  have hb : max (max (16*n-3) (4*(n+n+n)-16)) ((24*n-1)/5) = 16*n-3 := by omega
+  simpa only [he, hb] using cuboid_frame_threshold n n n hn le_rfl le_rfl
 
 /-- The sharp complete-cube threshold in terms of the actual side length. -/
 theorem full_threshold_n (n : ℕ) (hn : 2 ≤ n) :
     IsLeast {v : ℕ | ∀ m, ∀ cubes : Fin m → Fin 6 → Colour,
       (∀ j, Uses 4 (cubes j)) → v ≤ m → FamilyFullSolvable (n-2) cubes}
       (max (n^3) (16*n-3)) := by
-  have h : 16*(n-2)+29 = 16*n-3 := by omega
-  have hn' : n-2+2 = n := by omega
-  simpa only [h,hn'] using family_full_least_guaranteed_size (n-2)
+  have he : (![n-2,n-2,n-2] : Fin 3 → ℕ) = fun _ => n-2 := by
+    funext i; fin_cases i <;> rfl
+  have hb : max (16*n-3) ((24*n-1)/5) = 16*n-3 := by omega
+  simpa only [he, hb, pow_succ, pow_zero, Nat.one_mul] using
+    cuboid_full_threshold n n n hn le_rfl le_rfl
 
 theorem full_cube_of_four_le (n : ℕ) (hn : 4 ≤ n)
     (cubes : Fin (n^3) → Fin 6 → Colour) (hc : ∀ j, Uses 4 (cubes j)) :
     FamilyFullSolvable (n-2) cubes := by
-  have hn' : n-2+2 = n := by omega
-  have h := family_full_of_side_ge_four (n-2) (by omega)
-  rw [hn'] at h
-  exact h cubes hc
+  apply (full_threshold_n n (by omega)).1 _ cubes hc
+  have hb : 16*n-3 ≤ n^3 := by
+    have hs : 16 ≤ n*n := by nlinarith
+    have hp := Nat.mul_le_mul_left n hs
+    have hb : 16*n ≤ n^3 := by nlinarith
+    exact (Nat.sub_le _ _).trans hb
+  exact max_le le_rfl hb
 
 end ThreeColour

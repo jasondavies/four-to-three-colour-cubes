@@ -7,6 +7,7 @@ namespace ThreeColour
 
 /-- Named nonzero witness for colour literals below. -/
 theorem colourFinBound : NeZero 4 := by infer_instance
+theorem cornerFinBound : NeZero 3 := by infer_instance
 
 /-- BES's universal corners `012, 031, 023, 132`, closed under cyclic rotation. -/
 def universalCorners : Finset (Colour × Colour × Colour) :=
@@ -17,6 +18,7 @@ def universalCorners : Finset (Colour × Colour × Colour) :=
 /-- Corner colours in a fixed cyclic orientation: the order of `exposedFaces k`
 when its face indices have even sum, and the reverse cyclic order otherwise. -/
 def cornerRead (c : Fin 6 → Colour) (k : Slot) : Colour × Colour × Colour :=
+  letI : NeZero 3 := cornerFinBound
   if ((ColourCubes.exposedFaces k 0).val + (ColourCubes.exposedFaces k 1).val +
       (ColourCubes.exposedFaces k 2).val) % 2 = 0 then
     (c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 1),
@@ -42,6 +44,7 @@ def OrdinaryClass (s : Fin 2) (c : Fin 6 → Colour) : Prop :=
 
 /-- Bucket `a`: at least two of the three corner types `aab`, with `b ≠ a`. -/
 def InBucket (a : Colour) (c : Fin 6 → Colour) : Prop :=
+  letI : NeZero 3 := cornerFinBound
   2 ≤ (Finset.univ.filter fun b : Colour => b ≠ a ∧ ∃ k : Slot,
     ({c (ColourCubes.exposedFaces k 0), c (ColourCubes.exposedFaces k 1),
       c (ColourCubes.exposedFaces k 2)} : Multiset Colour) = {a, a, b}).card

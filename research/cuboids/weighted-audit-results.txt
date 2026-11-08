@@ -1,6 +1,0 @@
-2x4x5 N=29 weight vectors=1623160 passed
-2x4x6 N=32 weight vectors=2760681 passed
-2x5x5 N=32 weight vectors=2760681 passed
-3x3x9 N=45 weight vectors=18009460 passed
-3x3x10 N=48 weight vectors=25827165 passed
-Total: 50981147 weighted configurations; all allowed good sets checked.

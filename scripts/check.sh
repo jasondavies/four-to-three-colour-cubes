@@ -9,7 +9,6 @@ python3 scripts/check-generated.py
 python3 -S scripts/check_three_colour_threshold.py
 python3 -S scripts/check_frames.py
 bash scripts/check-near-frames.sh
-python3 -S research/thin-cuboids/audit.py
-python3 -S research/thin-cuboids/strip_audit.py
-python3 -S research/cuboids/review_geometry.py
+python3 -S scripts/cuboids/check_geometry.py
+python3 -S scripts/cuboids/check_coordinates.py
 lake build

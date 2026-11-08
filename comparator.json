@@ -46,7 +46,20 @@
     "ThreeColour.family_near_failure_count",
     "ThreeColour.family_near_pair_maximal",
     "ThreeColour.frame_target_count",
-    "ThreeColour.family_restricted_frame_of_le"
+    "ThreeColour.family_restricted_frame_of_le",
+    "ThreeColour.cuboid_frame_threshold",
+    "ThreeColour.cuboid_full_threshold",
+    "ThreeColour.cuboid_frame_exact_cardinality",
+    "ThreeColour.family_cuboid_full_of_volume",
+    "ThreeColour.cuboid_full_exact_volume",
+    "ThreeColour.boxFrameSlot_card",
+    "ThreeColour.boxFullSlot_card",
+    "ThreeColour.boxFull_iff_frame_and_size",
+    "ThreeColour.rod_frame_threshold",
+    "ThreeColour.strip_frame_threshold",
+    "ThreeColour.rod_full_threshold",
+    "ThreeColour.strip_full_threshold",
+    "ThreeColour.strip_full_of_five_le"
   ],
   "definition_names": [],
   "permitted_axioms": [

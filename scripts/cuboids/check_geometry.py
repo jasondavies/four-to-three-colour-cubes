@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Fresh geometry review: no imports from the construction or previous audits.
+"""Independent geometry audit: no imports from the construction or generated tables.
 Enumerates physical face colourings under determinant-one signed permutations.
 This is an audit of established finite geometry, not a replacement for the proof.
 """
 from itertools import product, permutations, combinations
 from collections import Counter
-from pathlib import Path
 import json
 
 rots=[]
@@ -93,6 +92,5 @@ for t in raw_targets:
         assert all(t[2*j]==t[2*j+1] for j in range(3))
         assert sorted(cc.values())==[4,4]
 
-out=dict(status='passed',rotations=24,physical_source_colourings=len(raw),source_varieties=68,reduced_varieties=38,ordinary_classes=2,bucket_incidence_checks=bucket_checks,physical_target_colourings=len(raw_targets),orientation_balance_checks=balance_checks,no_tricoloured_corner_targets=no_tri,all_tricoloured_corner_targets=all_tri,scope='Fresh finite geometry audit, independent of the construction and prior audit implementations; no exhaustive inventory theorem.')
-Path(__file__).with_name('review-geometry-results.json').write_text(json.dumps(out,indent=2)+'\n')
+out=dict(status='passed',rotations=24,physical_source_colourings=len(raw),source_varieties=68,reduced_varieties=38,ordinary_classes=2,bucket_incidence_checks=bucket_checks,physical_target_colourings=len(raw_targets),orientation_balance_checks=balance_checks,no_tricoloured_corner_targets=no_tri,all_tricoloured_corner_targets=all_tri,scope='Finite geometry audit independent of the construction; no exhaustive inventory theorem.')
 print(json.dumps(out,indent=2))

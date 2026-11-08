@@ -82,20 +82,6 @@ lemma boxTag_count {I : Type*} [DecidableEq I] (l : Fin 3 → ℕ)
   intro p hp
   split_ifs <;> simp_all
 
-lemma stripTag_count {I : Type*} [DecidableEq I] (q : ℕ)
-    (c : Slot → I) (e : Fin 12 → I) (j : I) :
-    Fintype.card {p // boxTag ![0,1,q] c e p = j} = boxCount c j +
-      boxCount (fun k : Fin 4 => e (![2,3,6,7] k)) j +
-      q * boxCount (fun k : Fin 4 => e (![0,1,4,5] k)) j := by
-  rw [boxTag_count, Nat.add_assoc]
-  congr 1
-  let w : Fin 12 → ℕ := fun k => if e k = j then 1 else 0
-  simp only [boxCount, Fin.sum_univ_succ, Fin.sum_univ_zero]
-  change q*w 0 + (q*w 1 + (1*w 2 + (1*w 3 + (q*w 4 + (q*w 5 +
-    (1*w 6 + (1*w 7 + (0*w 8 + (0*w 9 + (0*w 10 + (0*w 11 + 0))))))))))) =
-    (w 2 + (w 3 + (w 6 + (w 7 + 0)))) + q * (w 0 + (w 1 + (w 4 + (w 5 + 0))))
-  ring
-
 lemma box_at_of_pools {I : Type*} [Fintype I] [DecidableEq I]
     (l : Fin 3 → ℕ) (x : Inventory) (t : Fin 6 → Colour)
     (g : I → SourceSet) (c : Slot → I) (e : Fin 12 → I) (d : I → ℕ)

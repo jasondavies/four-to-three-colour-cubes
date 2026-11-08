@@ -24,7 +24,7 @@ lemma frameTag_count {m : ℕ} (k : ℕ) (c : Slot → Fin m) (e : Fin 12 → Fi
       tagCount c j + k * tagCount e j := by
   classical
   rw [Fintype.card_subtype, Finset.card_eq_sum_ones, Finset.sum_filter]
-  simp only [Fintype.sum_sum_type, Fintype.sum_prod_type, frameTag,
+  simp only [Fintype.sum_sum_type, Fintype.sum_sigma, frameTag,
     Sum.elim_inl, Sum.elim_inr, tagCount, Finset.mul_sum]
   congr 1
   apply Finset.sum_congr rfl

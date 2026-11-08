@@ -7,7 +7,7 @@ public import ThreeColour.NearResults
 public import ThreeColour.StabilityCounting
 public import ThreeColour.ClassCount
 public import ThreeColour.OrdinaryGeometry
-public import ThreeColour.Thin
+public import ThreeColour.CuboidCorollaryChecks
 public import ThreeColour.Cuboid
 
 @[expose] public section

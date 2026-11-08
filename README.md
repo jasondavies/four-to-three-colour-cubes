@@ -133,7 +133,7 @@ regenerated geometry and figures, runs the independent cube and cuboid
 checks, and builds all Lean targets and axiom guards.
 [CI](.github/workflows/ci.yml) runs these checks on pushes and pull requests.
 For the focused all-cuboid geometry audit and kernel build, use
-`make check-cuboids`; for rod and strip results, use `make check-thin`.
+`make check-cuboids`.
 
 ## Formal verification
 
@@ -156,9 +156,10 @@ See [CuboidResults.lean](ThreeColour/CuboidResults.lean),
 [formalisation guide](ThreeColour/README.md) for definitions, module maps
 and the remaining endpoints.
 
-The [comparator challenge](Challenge.lean) restates 45 corner and cubic
-results, including stability, near-extremal classification and counting,
-and the forty-target theorem. [Solution.lean](Solution.lean) supplies their
+The [comparator challenge](Challenge.lean) restates 58 results covering the cuboid
+thresholds, their cube, rod and strip corollaries, completion and position
+counts, stability, near-extremal classification and counting, and the
+forty-target theorem. [Solution.lean](Solution.lean) supplies their
 proofs. Run
 
 ```sh
@@ -168,9 +169,9 @@ make comparator
 to compare their statements and definitions with the library, then replay
 through Lean, NanoDa and con-ron. This requires `bwrap` and is separate from
 `make check`. The challenge copies the library's model definitions and tables;
-it does not provide an independently devised model. **Rod, strip and general
-cuboid results are checked by the library build and axiom guards, but are
-outside the comparator challenge.**
+it does not provide an independently devised model. Cube, rod and strip
+thresholds specialise the general cuboid theorem in one shared position
+model. The library also guards the public results’ axiom dependencies.
 
 ## Computation and repository guide
 
@@ -182,8 +183,8 @@ corner search uses OR-Tools and is not required by `make check` or Lean.
 - [Formalisation and maintenance guide](ThreeColour/README.md): proof structure,
   [audit and search commands](ThreeColour/README.md#independent-audits-and-optional-search),
   comparator scope and release checks.
-- [Cuboid construction](research/cuboids/cuboids.py) and
-  [physical-rotation audit](research/cuboids/audit.py): a constructive algorithm,
+- [Cuboid construction](scripts/cuboids/construct.py) and
+  [physical-rotation audit](scripts/cuboids/check_construction.py): a constructive algorithm,
   lower-witness checks and additional inventory controls.
 - `paper/`: LaTeX and PDF; `ThreeColour/`: Lean proofs and generated geometry;
   `scripts/`: generation, validation and optional search;
